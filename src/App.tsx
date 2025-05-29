@@ -5,15 +5,15 @@ import './assets/common.css'
 
 import Router from './routes/Router'
 import { appConfig } from './config/appCinfig'
-import { GoogleOAuthProvider } from '@react-oauth/google';
+// import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useFirebaseMessaging } from './hooks/useFirebaseMessaging'
-const clientId = import.meta.env.VITE_CLIENT_ID;
+// const clientId = import.meta.env.VITE_CLIENT_ID;
 
 
 
 function App() {
 
-  console.log("clientId", clientId)
+  // console.log("clientId", clientId)
   useFirebaseMessaging('123467');
 
   // console.log("token", token, error, permission)

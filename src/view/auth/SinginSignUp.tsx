@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { welcome } from '../../util/images.util'
 import { FaArrowRight, FaUser } from 'react-icons/fa';
-import { useAuth } from '../../context/AuthContext';
-import type { Biodata } from '../../types/Biodata';
+// import { useAuth } from '../../context/AuthContext';
+// import type { Biodata } from '../../types/Biodata';
 
 
 import './SinginSignUp.css'
 import { useNavigate } from 'react-router-dom';
-import { useGoogleLogin } from '@react-oauth/google';
+// import { useGoogleLogin } from '@react-oauth/google';
 import { useLoginMutation } from '../../features/auth/authApi';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
@@ -16,10 +16,9 @@ import GoogleLogin from './GoogleLogin';
 export default function SinginSignUp() {
     const [singUp, setSingUp] = useState(false)
     // const { login } = useAuth();
-    const [login, { isLoading }] = useLoginMutation();
+    const [login,] = useLoginMutation();
     const dispatch = useDispatch();
 
-    const [__, setData] = useState<Partial<Biodata> | null>(null);
     const [___, setLoading] = useState<boolean>(true);
     const [____r, setError] = useState<string | null>(null);
 

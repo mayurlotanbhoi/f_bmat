@@ -280,7 +280,6 @@ const MultiStepForm: React.FC = () => {
     const navigate = useNavigate();
 
     const isLastStep = step === steps.length - 1;
-    const isFirstStep = step === 0
     console.log("validationSchemas", validationSchemas[step])
 
     const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length - 1));
@@ -305,6 +304,7 @@ const MultiStepForm: React.FC = () => {
             "lifestyleDetails.drinking": ["Yes", "No"],
         };
 
+        // @ts-ignore
         return (optionsMap[name] || []).map((opt) => ({ label: opt, value: opt }));
     };
 
@@ -357,6 +357,7 @@ const MultiStepForm: React.FC = () => {
                                                 key={field.name}
                                                 name={field.name}
                                                 label={field.label}
+                                                // @ts-ignore
                                                 placeholder={field.placeholder}
                                                 required={field.required}
                                                 options={getOptionsForField(field.name)}
@@ -392,6 +393,7 @@ const MultiStepForm: React.FC = () => {
                                                 key={field.name}
                                                 name={field.name}
                                                 label={field.label}
+                                                // @ts-ignore
                                                 options={field.options}
                                                 required={field.required}
                                             />
