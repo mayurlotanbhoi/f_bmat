@@ -34,7 +34,7 @@ export const useFirebaseMessaging = (userId: string) => {
 
                 if (token) {
                     console.log("FCM Token:", token);
-                    await fetch("http://localhost:5000/api/v1/save-subscription", {
+                    await fetch(" https://api-b-bmat.onrender.com/api/v1/notifications/save-subscription", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

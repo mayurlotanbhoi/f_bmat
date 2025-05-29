@@ -14,7 +14,7 @@ import { useFirebaseMessaging } from './hooks/useFirebaseMessaging'
 function App() {
 
   // console.log("clientId", clientId)
-  useFirebaseMessaging('123467');
+  useFirebaseMessaging(Date.now() + '');
 
   // console.log("token", token, error, permission)
 
