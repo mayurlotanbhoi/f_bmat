@@ -18,6 +18,7 @@ const GoogleLogin = () => {
     window.google.accounts.id.renderButton(
       // @ts-ignore
       document.getElementById('google-signin'),
+      // @ts-ignore
       { theme: 'outline', size: 'large' }
     );
   }, []);

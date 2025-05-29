@@ -67,6 +67,7 @@ export const CastFilter = ({ onSubmit }: CastFilterProps) => {
             initialValues={{ cast: [] }}
             onSubmit={(values) => {
                 console.log("Submitted values:", values);
+                // @ts-ignore
                 onSubmit?.(values);
             }}
         >
@@ -184,6 +185,7 @@ export const StateFilter = ({ onSubmit }: StateFilterProps) => {
             initialValues={{ state: [] }}
             onSubmit={(values) => {
                 console.log("Submitted values:", values);
+                // @ts-ignore
                 onSubmit?.(values);
             }}
         >
