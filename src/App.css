@@ -1,0 +1,236 @@
+:root{
+
+    --_hue: 42;
+
+  --primary_color: linear-gradient(135deg, rgba(234, 73, 104, 1) 0%, rgba(241, 93, 85, 1) 50%, rgba(249, 102, 77, 1) 100%);
+--secondary_color : linear-gradient(45deg,rgba(234, 73, 104, 1) 0%, rgba(227, 229, 232, 1) 100%);
+--golden_color:linear-gradient(90deg,rgba(248, 164, 14, 1) 0%, rgba(243, 201, 8, 1) 50%, rgba(248, 164, 14, 1) 100%);
+--gray_color: #E1E1E1;
+
+ 
+
+    --bg_body: #EDF2F6;
+
+    --primary_hover_color: #111213;
+
+    /* --secondary_color: #122C6C; */
+
+    --secondary_hover_color: #111213;
+
+ 
+
+    --text_black: #2F363F;
+
+    --text_white: #ffffff;
+
+    --text_gray: #7B8087;
+
+    --text_gray2: #505258;
+
+    --text_darkblue: #173654;
+
+ 
+
+    --text_light: #F6F8FA;
+
+ 
+
+    --bg_light: #FAFBFC;
+
+    --bg_gray: #EBEEF4;
+
+    --bg_gray3: #F7F8F9;
+
+    --bg_white: #ffffff;
+
+    --bg_gray2: #F6F8FA;
+
+    --placeholder_color: #C4C4C4;
+
+ 
+
+    --gradient_color1: #522DA0;
+
+    --gradient_color2: #082B6D;
+
+ 
+
+    --bg_searchbar: #1B306C;
+
+    --bordercolor1: #199FFF;
+
+ 
+
+    --primary_link_color: #199FFF;
+
+    --primary_link_color_hover: #003e6b;
+
+ 
+
+    --round_btn_bg: #FBFBFB;
+
+ 
+
+    --border-color: #E0E1E1;
+
+    --transition : 0.5s all ease;
+
+    --fs_xs: 12px;
+
+    --fs_sm: 14px;
+
+    --fs_md: 16px;
+
+    --fs_lg: 18px;
+
+    --fs_xl: 20px;
+
+    --fs_xxl: 22px;
+
+    --fs_xxxl: 24px;
+
+    --fs_4xl: 26px;
+
+    --fs_5xl: 28px;
+
+    --fs_6xl: 30px;
+
+ 
+
+    --fw-regular: 400;
+
+    --fw-medium: 500;
+
+    --fw-semibold: 600;
+
+    --fw-bold: 700;
+
+    --fw-extrabold: 800;
+
+ 
+
+    --br_xs: 0.3125rem;  
+
+    --br_sm: 0.5rem;
+
+    --br_md: 0.625rem;
+
+    --br_xl: 1rem;
+
+    --box-shadow: 0 0 40px rgba(8, 21, 66, 0.05);
+
+    --transition: 0.5s all ease;
+
+}
+
+ 
+
+html {scroll-behavior: smooth;}
+
+html{height: 100%;}
+
+html body{font-family: "Roboto Flex", sans-serif;height: 100%;margin: 0;padding: 0 !important;width: 100%;background-color: var(--bg_body);overflow: auto !important;
+
+    scrollbar-width: thin;scrollbar-color: var(--primary_link_color) var(--bg_white);}
+
+body a{text-decoration: none;}
+
+body ul{list-style: none;padding: 0;margin: 0;}
+
+.bg_primary{
+     background: var(--primary_color);
+}
+.btn{
+  border: none;
+}
+/* Hide scrollbar but keep scroll functionality */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE/Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+.text-primary{
+  color: var(--primary_color);
+}
+.text-gold{
+color: var(--golden_color);
+}
+
+
+.primary-button {
+  background-color: var(--primary_color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  color: white;
+  border-radius: 1rem; /* or use 9999px for fully rounded */
+  padding: 0.75rem 1.5rem;
+  letter-spacing: 1.5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+}
+
+.primary-button:hover {
+  background-color: var(--primary_color); /* Optional: define hover variable */
+}
+
+.clasic-btn{
+  background-color: white;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  border-radius: 1rem; /* or use 9999px for fully rounded */
+  border:  2px solid #111213;
+  letter-spacing: 1.5px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+}
+.secondary-btn{
+  background: var(--golden_color);
+  color: #111213;
+  min-width: 10rem;
+  min-height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  font-size: 16px;
+  gap: 0.5rem;
+}
+.therd-btn{
+background: white;
+border: 2px #111213 solid;
+  color: #111213;
+  min-width: 10rem;
+  min-height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  font-size: 16px;
+  gap: 0.5rem;
+}
+
+.bg-secondary{
+ background: var(--secondary_color);
+}
+.bg-goldan{
+  background: #AE7109;
+  background: var(--golden_color);
+}
+
+.bg-gray{
+  background: var(--gray_color);
+}
+

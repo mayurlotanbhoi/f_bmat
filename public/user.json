@@ -1,0 +1,129 @@
+{
+  "personalDetails": {
+    "fullName": "Rahul Sharma",
+    "gender": "Male",
+    "dateOfBirth": "1992-07-15",
+    "age": 32,
+    "height": "5'9\"",
+    "weight": "70 kg",
+    "bloodGroup": "B+",
+    "complexion": "Fair",
+    "bodyType": "Athletic",
+    "disability": "None",
+    "maritalStatus": "Unmarried"
+  },
+  "religiousDetails": {
+    "religion": "Hindu",
+    "caste": "Brahmin",
+    "subCaste": "Gaur",
+    "gotra": "Vashishtha",
+    "manglik": "Non-Manglik",
+    "pujaPractices": "Regular",
+    "horoscopeRequired": true,
+    "nakshatra": "Rohini",
+    "rashi": "Vrishabha (Taurus)"
+  },
+  "contactDetails": {
+    "mobileNo": "+91-9876543210",
+    "whatsappNo": "+91-9876543210",
+    "email": "rahul.sharma@example.com",
+    "presentAddress": {
+      "addressLine": "C-12, Green Park",
+      "area": "South Delhi",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "country": "India",
+      "pinCode": "110016"
+    },
+    "permanentAddress": {
+      "addressLine": "Village Goyla, Near Dwarka",
+      "area": "Najafgarh",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "country": "India",
+      "pinCode": "110043"
+    }
+  },
+  "familyDetails": {
+    "fatherName": "Mr. Suresh Sharma",
+    "fatherOccupation": "Retired Govt Officer",
+    "motherName": "Mrs. Sunita Sharma",
+    "motherOccupation": "Homemaker",
+    "siblings": {
+      "brothers": [
+        {
+          "name": "Amit Sharma",
+          "married": true,
+          "occupation": "Software Engineer"
+        }
+      ],
+      "sisters": [
+        {
+          "name": "Pooja Sharma",
+          "married": false,
+          "occupation": "Teacher"
+        }
+      ]
+    },
+    "familyType": "Nuclear",
+    "familyStatus": "Upper Middle Class",
+    "nativePlace": "Mathura, Uttar Pradesh"
+  },
+  "educationDetails": {
+    "highestQualification": "B.Tech in Computer Science",
+    "education": [
+      {
+        "degree": "10th",
+        "board": "CBSE",
+        "yearOfPassing": 2008
+      },
+      {
+        "degree": "12th",
+        "board": "CBSE",
+        "yearOfPassing": 2010
+      },
+      {
+        "degree": "B.Tech",
+        "institute": "Delhi Technological University",
+        "yearOfPassing": 2014,
+        "specialization": "Computer Science"
+      }
+    ]
+  },
+  "professionalDetails": {
+    "occupation": "Software Developer",
+    "companyName": "Infosys Ltd.",
+    "income": "₹15,00,000 per annum",
+    "workingCity": "Bangalore",
+    "jobType": "Private",
+    "workFromHome": false
+  },
+  "lifestyleDetails": {
+    "diet": "Vegetarian",
+    "smoking": "No",
+    "drinking": "No",
+    "hobbies": ["Reading", "Travelling", "Yoga"],
+    "sports": ["Cricket", "Badminton"]
+  },
+  "expectation": {
+    "ageRange": "24-29",
+    "heightRange": "5'2\" - 5'8\"",
+    "religion": "Hindu",
+    "caste": "Brahmin",
+    "education": "Graduate or above",
+    "occupation": "Working professional preferred",
+    "locationPreference": "Delhi NCR, Bangalore"
+  },
+  "documents": {
+    "aadhaarNo": "XXXX-XXXX-XXXX",
+    "panNo": "XXXXX1234X",
+    "photo": "rahul_photo.jpg",
+    "horoscopeChart": "rahul_horoscope.pdf"
+  },
+  "profileMetadata": {
+    "createdBy": "Self",
+    "profileId": "MAT123456",
+    "createdAt": "2025-05-24T10:30:00Z",
+    "lastUpdated": "2025-05-24T10:30:00Z"
+  }
+}
