@@ -7,10 +7,12 @@ import { AppDownloading, AppInstall, FullFirework, Matches } from "../../compone
 import { profilesData } from "../../data/profiles";
 import Heading from "../../components/Headings/Heading";
 import CompletProfile from "./CompletProfile";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import Modal from "../../components/Common/Modal";
 import { usePwaPrompt } from "../../hooks";
 import { bioHeader1 } from "../../util/images.util";
+import { useFirebaseMessaging } from "../../hooks/useFirebaseMessaging";
+import { useAuth } from "../../hooks/useAuth";
 // import { usePwaPrompt } from "../../hooks";
 
 export default function Home() {
@@ -20,6 +22,15 @@ export default function Home() {
     const { mainMenu } = appConfig;
     const bios = profilesData;
     const Cartclores = ['#89A6F0', '#FFC969', '#FC72AA', '#47E76F',]
+    const { user } = useAuth();
+
+
+    // useEffect(() => {
+    console.log("user", user)
+    useFirebaseMessaging(user?._id);
+    // }, [])
+
+
 
     useEffect(() => {
         // if (isInstallable) {

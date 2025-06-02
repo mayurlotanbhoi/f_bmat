@@ -10,6 +10,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
+      devOptions: {
+        enabled: true, // 👈 enables service worker + manifest in dev
+      },
       manifest: {
         name: 'My App Name',
         short_name: 'MyApp',

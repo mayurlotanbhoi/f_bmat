@@ -26,6 +26,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
     const [field, meta] = useField(props.name);
     console.log("meta.touched", meta.touched, meta.error)
+    console.log("meta.error", props.name)
     const hasError = meta.touched && meta.error;
 
     // console.log("meta.touched", meta.touched)

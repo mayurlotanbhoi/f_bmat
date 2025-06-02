@@ -30,16 +30,24 @@ const GoogleLogin = () => {
     try {
       const res = await fetch('http://localhost:5000/api/v1/auth/google-login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          credentials: 'include',
+        },
         body: JSON.stringify({ token: idToken }),
       });
 
+
       const data = await res.json();
+      console.log(data?.data?.user);
+      // console.log(res.ok);
+
       if (!res.ok) throw new Error(data.message || 'Login failed');
 
-      dispatch(setCredentials(data)); // Save to Redux
+      dispatch(setCredentials({ user: data?.data?.user, token: data?.data?.accessToken })); // Save to Redux
       navigate('/lang');
     } catch (err) {
+      navigate('/auth');
       //@ts-ignore
       console.error('Google login failed:', err.message || err);
     }

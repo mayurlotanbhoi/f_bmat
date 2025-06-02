@@ -3,14 +3,13 @@
     "fullName": "Rahul Sharma",
     "gender": "Male",
     "dateOfBirth": "1992-07-15",
-    "age": 32,
     "height": "5'9\"",
     "weight": "70 kg",
     "bloodGroup": "B+",
     "complexion": "Fair",
-    "bodyType": "Athletic",
     "disability": "None",
-    "maritalStatus": "Unmarried"
+    "maritalStatus": "Unmarried",
+    "children": "No"
   },
   "religiousDetails": {
     "religion": "Hindu",
@@ -18,8 +17,6 @@
     "subCaste": "Gaur",
     "gotra": "Vashishtha",
     "manglik": "Non-Manglik",
-    "pujaPractices": "Regular",
-    "horoscopeRequired": true,
     "nakshatra": "Rohini",
     "rashi": "Vrishabha (Taurus)"
   },
@@ -64,31 +61,11 @@
           "occupation": "Teacher"
         }
       ]
-    },
-    "familyType": "Nuclear",
-    "familyStatus": "Upper Middle Class",
-    "nativePlace": "Mathura, Uttar Pradesh"
+    }
   },
   "educationDetails": {
-    "highestQualification": "B.Tech in Computer Science",
-    "education": [
-      {
-        "degree": "10th",
-        "board": "CBSE",
-        "yearOfPassing": 2008
-      },
-      {
-        "degree": "12th",
-        "board": "CBSE",
-        "yearOfPassing": 2010
-      },
-      {
-        "degree": "B.Tech",
-        "institute": "Delhi Technological University",
-        "yearOfPassing": 2014,
-        "specialization": "Computer Science"
-      }
-    ]
+    "highestQualification": "Bachelor",
+    "specialization": "B.Tech in Computer Science"
   },
   "professionalDetails": {
     "occupation": "Software Developer",
@@ -99,27 +76,34 @@
     "workFromHome": false
   },
   "lifestyleDetails": {
-    "diet": "Vegetarian",
     "smoking": "No",
     "drinking": "No",
-    "hobbies": ["Reading", "Travelling", "Yoga"],
-    "sports": ["Cricket", "Badminton"]
+    "eatingHabits": "Vegetarian"
   },
   "expectation": {
     "ageRange": "24-29",
     "heightRange": "5'2\" - 5'8\"",
     "religion": "Hindu",
     "caste": "Brahmin",
+    "subCaste": "Gaur",
     "education": "Graduate or above",
     "occupation": "Working professional preferred",
     "locationPreference": "Delhi NCR, Bangalore"
   },
   "documents": {
-    "aadhaarNo": "XXXX-XXXX-XXXX",
-    "panNo": "XXXXX1234X",
-    "photo": "rahul_photo.jpg",
-    "horoscopeChart": "rahul_horoscope.pdf"
+    "govermentId": "https://govermentId.com/images/rahul_sharma.jpg",
   },
+  "isVerified": true,
+  "profilePicture": ["https://example.com/images/rahul_sharma.jpg",
+    "https://example.com/images/rahul_sharma2.jpg"
+  ],
+
+  "profileStatus": "Active",
+  "organization": "Matrimony.com",
+  "organizationId": "mongodb123",
+  "userId": "mondoid",
+  "profileCreatedBy": "Self",
+  "profileId": "MAT123456",
   "profileMetadata": {
     "createdBy": "Self",
     "profileId": "MAT123456",

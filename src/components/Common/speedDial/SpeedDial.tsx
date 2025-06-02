@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 
 export default function SpeedDial() {
     const [isOpen, setIsOpen] = useState(false);
-
     return (
         <div className="fixed end-6 bottom-20 group z-50">
             {/* Speed Dial Menu */}
@@ -69,7 +68,7 @@ export default function SpeedDial() {
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex items-center justify-center bg_primary text-white  rounded-lg w-14 h-14   focus:outline-none "
             >
-                <RxCross2 className={`w-10 h-10 transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`} />
+                <RxCross2 className={`w-10 h-10 transition-transform duration-300 ${!isOpen ? 'rotate-45' : ''}`} />
                 <span className="sr-only">Open actions menu</span>
             </button>
         </div>
