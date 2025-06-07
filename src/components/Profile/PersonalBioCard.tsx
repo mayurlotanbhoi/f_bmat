@@ -1,119 +1,164 @@
-import React from 'react';
-import { FaUser, FaBook, FaHeart, FaMapMarkerAlt, FaLanguage, FaImage } from 'react-icons/fa';
-import Heading from '../Headings/Heading';
-
+import React, { useState } from 'react';
+import { FaLock } from 'react-icons/fa';
+import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
 
 interface Props {
-    user: { [key: string]: any; }
+    user: any; // replace `any` with actual type if available
 }
 
 export default function UserProfileCard({ user }: Props) {
-    console.log("user", user)
+    const [openSection, setOpenSection] = useState<string | null>(null);
+
+    const toggleSection = (section: string) => {
+        setOpenSection(openSection === section ? null : section);
+    };
+
     return (
-        <div className="w-full max-w-4xl mx-auto bg-white  rounded-2xl py-4 md:p-6 flex flex-col gap-6 transition-all hover:scale-[1.01]">
-            {/* Header */}
-            <div className="flex items-center gap-3">
-                <FaUser className="text-2xl " />
-                <Heading text="Profile Summary" className="text-xl font-bold " />
-            </div>
+        <div className="w-full max-w-md mx-auto py-4">
+            <ProfileSection
+                title="Personal Details"
+                isOpen={openSection === 'personal'}
+                onToggle={() => toggleSection('personal')}
+                data={[
+                    { label: 'Full Name', value: user.personalDetails?.fullName || '*****' },
+                    { label: 'Gender', value: user.personalDetails?.gender || '*****' },
+                    { label: 'DOB', value: formatDate(user.personalDetails?.dateOfBirth) },
+                    { label: 'Height', value: user.personalDetails?.height || '*****' },
+                    { label: 'Weight', value: user.personalDetails?.weight || '*****' },
+                    { label: 'Blood Group', value: user.personalDetails?.bloodGroup || '*****' },
+                    { label: 'Disability', value: user.personalDetails?.disability || '*****' },
+                    { label: 'Marital Status', value: user.personalDetails?.maritalStatus || '*****' },
+                ]}
+            />
 
-            <hr className="border-primary/40" />
+            <ProfileSection
+                title="Religious Details"
+                isOpen={openSection === 'religious'}
+                onToggle={() => toggleSection('religious')}
+                data={[
+                    { label: 'Religion', value: user.religiousDetails?.religion || '*****' },
+                    { label: 'Caste', value: user.religiousDetails?.caste || '*****' },
+                    { label: 'Sub Caste', value: user.religiousDetails?.subCaste || '*****' },
+                    { label: 'Gotra', value: user.religiousDetails?.gotra || '*****' },
+                    { label: 'Manglik', value: user.religiousDetails?.manglik || '*****' },
+                ]}
+            />
 
-            {/* Basic Info */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-6 shadow-2xl rounded-2xl">
-                <InfoRow label="Name" value={user.name} />
-                <InfoRow label="Gender" value={user.gender} />
-                <InfoRow label="Age" value={`${user.age} yrs`} />
-                <InfoRow label="Height" value={user.height} />
-                <InfoRow label="Religion" value={user.religion} />
-                <InfoRow label="Caste" value={`${user.caste} (${user.subCaste})`} />
-                <InfoRow label="Marital Status" value={user.maritalStatus} />
-                <InfoRow label="Manglik" value={user.manglik} badge badgeColor={user.manglik === 'No' ? 'red' : 'green'} />
-                <InfoRow label="Location" value={user.location} icon={<FaMapMarkerAlt className="text-primary" />} />
-            </div>
+            <ProfileSection
+                title="Education & Profession"
+                isOpen={openSection === 'education'}
+                onToggle={() => toggleSection('education')}
+                data={[
+                    { label: 'Education', value: user.educationDetails?.highestQualification || '*****' },
+                    { label: 'Occupation', value: user.professionalDetails?.occupation || '*****' },
+                    { label: 'Income', value: user.professionalDetails?.income || '*****' },
+                    { label: 'Company Name', value: user.professionalDetails?.companyName || '*****' },
+                    { label: 'Working City', value: user.professionalDetails?.workingCity || '*****' },
+                    { label: 'Work From Home', value: user.professionalDetails?.workFromHome || '*****' },
+                ]}
+            />
 
-            {/* Education & Profession */}
-            <div className="flex flex-col gap-2 mt-4 shadow-2xl rounded-2xl p-6">
-                <SectionTitle icon={<FaBook className="text-primary" />} title="Education & Profession" />
-                <InfoRow label="Education" value={user.education} />
-                <InfoRow label="Profession" value={user.profession} />
-                <InfoRow label="Income" value={user.income} />
-            </div>
+            <ProfileSection
+                title="Contact Details"
+                isOpen={openSection === 'contact'}
+                onToggle={() => toggleSection('contact')}
+                data={[
+                    { label: 'Mobile No', value: user.contactDetails?.mobileNo || '*****' },
+                    { label: 'WhatsApp No', value: user.contactDetails?.whatsappNo || '*****' },
+                    { label: 'Email', value: user.contactDetails?.email || '*****' },
+                    { label: 'Present Address', value: formatAddress(user.contactDetails?.presentAddress) },
+                    { label: 'Permanent Address', value: formatAddress(user.contactDetails?.permanentAddress) },
+                ]}
+            />
 
-            {/* Family Info */}
-            <div className="flex flex-col gap-2 mt-4 shadow-2xl rounded-2xl p-6">
-                <SectionTitle icon={<FaHeart className="text-primary" />} title="Family Details" />
-                <InfoRow label="Father" value={user.family?.father} />
-                <InfoRow label="Mother" value={user.family?.mother} />
-                <InfoRow label="Siblings" value={user.family?.siblings} />
-            </div>
+            <ProfileSection
+                title="Family Details"
+                isOpen={openSection === 'family'}
+                onToggle={() => toggleSection('family')}
+                data={[
+                    { label: 'Father Name', value: user.familyDetails?.fatherName || '*****' },
+                    { label: 'Mother Name', value: user.familyDetails?.motherName || '*****' },
+                    { label: 'Father Occupation', value: user.familyDetails?.fatherOccupation || '*****' },
+                    { label: 'Mother Occupation', value: user.familyDetails?.motherOccupation || '*****' },
+                    { label: 'Brothers', value: user.familyDetails?.brothers || '0' },
+                    { label: 'Sisters', value: user.familyDetails?.sisters || '0' },
+                    { label: 'Married Brothers', value: user.familyDetails?.marriedBrothers || '0' },
+                    { label: 'Married Sisters', value: user.familyDetails?.marriedSisters || '0' },
+                ]}
+            />
 
-            {/* Languages */}
-            <div className="flex flex-col gap-2 mt-4 shadow-2xl rounded-2xl p-6">
-                <SectionTitle icon={<FaLanguage className="text-primary" />} title="Languages Known" />
-                <div className="flex flex-wrap gap-2">
-                    {user?.languages?.map((lang: string, idx: number) => (
-                        <span key={idx} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
-                            {lang}
-                        </span>
-                    ))}
-                </div>
-            </div>
+            <ProfileSection
+                title="Lifestyle Details"
+                isOpen={openSection === 'lifestyle'}
+                onToggle={() => toggleSection('lifestyle')}
+                data={[
+                    { label: 'Smoking', value: user.lifestyleDetails?.smoking || '*****' },
+                    { label: 'Drinking', value: user.lifestyleDetails?.drinking || '*****' },
+                    { label: 'Eating Habits', value: user.lifestyleDetails?.eatingHabits || '*****' },
+                ]}
+            />
 
-            {/* Images */}
-            <div className="flex flex-col gap-2 mt-4 shadow-2xl rounded-2xl p-6">
-                <SectionTitle icon={<FaImage className="text-primary" />} title="Profile Images" />
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {user?.imges?.map((img: string, idx: number) => (
-                        <img
-                            key={idx}
-                            src={img}
-                            alt={`Profile ${idx + 1}`}
-                            className="rounded-xl object-cover w-full h-40 border border-gray-200 shadow"
-                        />
-                    ))}
-                </div>
-            </div>
+            <ProfileSection
+                title="Partner Preferences"
+                isOpen={openSection === 'expectation'}
+                onToggle={() => toggleSection('expectation')}
+                data={[
+                    { label: 'Age Range', value: user.expectation?.ageRange || '*****' },
+                    { label: 'Height Range', value: user.expectation?.heightRange || '*****' },
+                    { label: 'Caste', value: user.expectation?.caste || '*****' },
+                    { label: 'Religion', value: user.expectation?.religion || '*****' },
+                    { label: 'Sub Caste', value: user.expectation?.subCaste || '*****' },
+                    { label: 'Education', value: user.expectation?.education || '*****' },
+                    { label: 'Occupation', value: user.expectation?.occupation || '*****' },
+                    { label: 'Location Preference', value: user.expectation?.locationPreference || '*****' },
+                ]}
+            />
         </div>
     );
 }
 
-interface InfoRowProps {
-    label: string;
-    value: string | number;
-    icon?: React.ReactNode;
-    badge?: boolean;
-    badgeColor?: 'green' | 'red';
+interface SectionProps {
+    title: string;
+    data: { label: string; value: string }[];
+    isOpen: boolean;
+    onToggle: () => void;
 }
 
-function InfoRow({ label, value, icon, badge, badgeColor = 'green' }: InfoRowProps) {
+function ProfileSection({ title, data, isOpen, onToggle }: SectionProps) {
     return (
-        <div className="flex justify-between items-center border-b pb-2">
-            <span className="text-primary font-medium flex items-center gap-2">
-                {icon}
-                {label}:
-            </span>
-            {badge ? (
-                <span
-                    className={`px-2 py-1 rounded-md text-sm font-semibold ${badgeColor === 'green'
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
-                        }`}
-                >
-                    {value}
-                </span>
-            ) : (
-                <span className="text-gray-700">{value}</span>
+        <div className="bg-white rounded-2xl shadow-md mb-4 overflow-hidden">
+            <button
+                onClick={onToggle}
+                className="w-full flex justify-between items-center px-4 py-3 text-pink-600 font-semibold text-sm"
+            >
+                <div className="flex items-center gap-2">
+                    <FaLock className="text-pink-600" />
+                    {title}
+                </div>
+                {isOpen ? <IoIosArrowUp size={20} /> : <IoIosArrowDown size={20} />}
+            </button>
+            {isOpen && (
+                <div className="border-t">
+                    {data.map((item, idx) => (
+                        <div key={idx} className="flex justify-between text-black font-bold px-4 py-2 text-md border-b">
+                            <span className="">{item.label} :</span>
+                            <span className=" font-medium">{item.value}</span>
+                        </div>
+                    ))}
+                </div>
             )}
         </div>
     );
 }
 
-function SectionTitle({ title, icon }: { title: string; icon: React.ReactNode }) {
-    return (
-        <div className="flex items-center gap-2 text-lg font-semibold text-primary border-b pb-1">
-            {icon}
-            {title}
-        </div>
-    );
+// Format helpers
+function formatDate(dateObj: any) {
+    if (!dateObj?.$date) return '*****';
+    const date = new Date(dateObj.$date);
+    return date.toLocaleDateString('en-IN');
+}
+
+function formatAddress(addr: any) {
+    if (!addr) return '*****';
+    return `${addr.area}, ${addr.city}, ${addr.state}, ${addr.country} - ${addr.pinCode}`;
 }

@@ -12,11 +12,13 @@ import { useLoginMutation } from '../../features/auth/authApi';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
 import GoogleLogin from './GoogleLogin';
+import { useGetProfileByUserIdMutation } from '../../features/matrimony/matrimonyApi';
 
 export default function SinginSignUp() {
     const [singUp, setSingUp] = useState(false)
     // const { login } = useAuth();
     const [login,] = useLoginMutation();
+    const [getProfileByUserId,] = useGetProfileByUserIdMutation()
     const dispatch = useDispatch();
 
     const [___, setLoading] = useState<boolean>(true);
@@ -34,11 +36,14 @@ export default function SinginSignUp() {
             console.log('res', res);
 
             dispatch(setCredentials(res)); // Store login data in Redux
+
             navigate('/lang')
             // Navigate or do something after login success here
         } catch (error) {
             console.error('Login failed:', error);
             // Handle error UI here (show message, etc.)
+        } finally {
+            await getProfileByUserId('').unwrap();
         }
     };
 

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import { FaUpload } from "react-icons/fa";
-import { FileInput, Input, RangeInput, Select } from "../../components/forms/Inputs";
+import { DateTimeInput, FileInput, Input, MultiSelect, Select } from "../../components/forms/Inputs";
 import FormProgess from "./FormProgess";
 import { GoArrowLeft } from "react-icons/go";
 import ConfettiFireworks from "../../components/Common/Fireworks/FullFireworks";
@@ -11,8 +10,9 @@ import { Link, useNavigate, } from "react-router-dom";
 import { RadioGroup } from "../../components/forms/Inputs/RadioGroup";
 import { Textarea } from "../../components/forms/Inputs/Textarea";
 import { Checkbox } from "../../components/forms/Inputs/Checkbox";
-import { useCreateMatrimonyProfileMutation } from "../../features/matrimony/matrimonyApi";
-import { combineSlices } from "@reduxjs/toolkit";
+import { useCreateMatrimonyProfileMutation, useUpdateMatrimonyProfileMutation } from "../../features/matrimony/matrimonyApi";
+import { getMatrimony } from "../../features/matrimony/matrimonySlice";
+import { asyncHandlerWithSwal } from "../../util/asyncHandler";
 
 const steps = [
     {
@@ -21,21 +21,21 @@ const steps = [
             { name: "personalDetails.fullName", label: "Full Name", placeholder: "Rahul Sharma", type: "text", required: true },
             { name: "personalDetails.gender", label: "Gender", placeholder: "Male", type: "select", required: true },
             { name: "personalDetails.dateOfBirth", label: "Date of Birth", placeholder: "YYYY-MM-DD", type: "date", required: true },
+            { name: "personalDetails.maritalStatus", label: "Marital Status", placeholder: "Unmarried", type: "select", required: true },
             { name: "personalDetails.height", label: "Height", placeholder: "5'9\"", type: "select", required: true },
+            { name: "personalDetails.disability", label: "Disability", placeholder: "None", type: "select", required: true },
             { name: "personalDetails.weight", label: "Weight", placeholder: "70 kg", type: "select", required: true },
             { name: "personalDetails.bloodGroup", label: "Blood Group", placeholder: "B+", type: "select", required: false },
-            { name: "personalDetails.disability", label: "Disability", placeholder: "None", type: "select", required: false },
             { name: "personalDetails.complexion", label: "Complexion", placeholder: "None", type: "select", required: false },
-            { name: "personalDetails.maritalStatus", label: "Marital Status", placeholder: "None", type: "select", required: true },
         ],
     },
     {
         label: "Religious Details",
         fields: [
-            { name: "religiousDetails.caste", label: "Caste", placeholder: "Brahmin", type: "text", required: true },
+            { name: "religiousDetails.caste", label: "Caste", placeholder: "Brahmin", type: "select", required: true },
             { name: "religiousDetails.subCaste", label: "Sub Caste", placeholder: "Gaur", type: "text", required: true },
             { name: "religiousDetails.gotra", label: "Gotra", placeholder: "Vashishtha", type: "text", required: false },
-            { name: "religiousDetails.manglik", label: "Manglik", placeholder: "Non-Manglik", type: "select", required: false },
+            { name: "religiousDetails.manglik", label: "Manglik", placeholder: "Non-Manglik", type: "select", required: true },
             { name: "religiousDetails.nakshatra", label: "Nakshatra", placeholder: "Nakshatra", type: "select", required: false },
             { name: "religiousDetails.rashi", label: "Rashi", placeholder: "Rashi", type: "select", required: false },
         ],
@@ -56,7 +56,7 @@ const steps = [
     {
         label: "Education Details",
         fields: [
-            { name: "educationDetails.highestQualification", label: "Highest Qualification", placeholder: "B.Tech in Computer Science", type: "text", required: true },
+            { name: "educationDetails.highestQualification", label: "Highest Qualification", placeholder: "B.Tech in Computer Science", type: "select", required: true },
             { name: "educationDetails.specialization", label: "Specialization", placeholder: "B.Tech in Computer Science", type: "text", required: false },
 
         ],
@@ -65,7 +65,7 @@ const steps = [
         label: "Professional Details",
         fields: [
             { name: "professionalDetails.occupation", label: "Occupation", placeholder: "Software Developer", type: "select", required: true },
-            { name: "professionalDetails.companyName", label: "Company Name", placeholder: "Infosys Ltd.", type: "text", required: true },
+            { name: "professionalDetails.companyName", label: "Company Name", placeholder: "Infosys Ltd.", type: "text", required: false },
             { name: "professionalDetails.income", label: "Annual Income", placeholder: "₹15,00,000", type: "text", required: true },
             { name: "professionalDetails.workingCity", label: "Working City", placeholder: "Bangalore", type: "text", required: true },
             // { name: "professionalDetails.jobType", label: "Job Type", placeholder: "Private", type: "select", required: false },
@@ -100,11 +100,11 @@ const steps = [
         label: "Partner Expectations",
         fields: [
             { name: "expectation.ageRange", label: "Expected Age Range", placeholder: "24-29", type: "text", required: false },
-            { name: "expectation.heightRange", label: "Expected Height Range", placeholder: "5'2\" - 5'8\"", type: "text", required: false },
-            { name: "expectation.religion", label: "Expected Religion", placeholder: "Hindu", type: "text", required: false },
+            { name: "expectation.heightRange", label: "Expected Height Range", placeholder: "5'2\" - 5'8\"", type: "select", required: false },
+            { name: "expectation.income", label: "Expected Annual Min Income", placeholder: "₹1,00,000", type: "select", required: false }, // Add a placeholder for the expected annual income", label: "Expected Religion", placeholder: "Hindu", type: "text", required: false },
             { name: "expectation.caste", label: "Expected Caste", placeholder: "Brahmin", type: "text", required: false },
-            { name: "expectation.education", label: "Expected Education", placeholder: "Graduate or above", type: "text", required: false },
-            { name: "expectation.occupation", label: "Expected Occupation", placeholder: "Working professional preferred", type: "text", required: false },
+            { name: "expectation.education", label: "Expected Education", placeholder: "Graduate or above", type: "multiselect", required: false },
+            { name: "expectation.occupation", label: "Expected Occupation", placeholder: "Working professional preferred", type: "multiselect", required: false },
             { name: "expectation.locationPreference", label: "Location Preference", placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
         ],
     },
@@ -115,7 +115,7 @@ const steps = [
                 name: "documents.verificationImage",
                 label: "Document Verification ID",
                 type: "file",
-                required: false
+                required: true
             },
             {
                 name: "documents.profilePhotos[0]",
@@ -148,11 +148,20 @@ const validationSchemas = [
             gender: Yup.string().required("Gender is required"),
             dateOfBirth: Yup.string()
                 .required("Date of Birth is required")
-                .matches(/^\d{4}-\d{2}-\d{2}$/, "Date format should be YYYY-MM-DD"),
-
+                .test("is-valid-date", "Invalid date format", (value) => {
+                    return value ? !isNaN(Date.parse(value)) : false;
+                })
+                .test("age", "You must be at least 18 years old", function (value) {
+                    if (!value) return false;
+                    const dob = new Date(value);
+                    const today = new Date();
+                    const ageLimit = new Date(today.setFullYear(today.getFullYear() - 18));
+                    return dob <= ageLimit;
+                }),
+            maritalStatus: Yup.string().required("Marital Status is required"),
             height: Yup.string().required("Height is required"),
             weight: Yup.string().required("Weight is required"),
-            bloodGroup: Yup.string().required("Blood Group is required"),
+            bloodGroup: Yup.string().default("NA"),
             disability: Yup.string().required("Disability info is required"),
         })
     }),
@@ -160,21 +169,25 @@ const validationSchemas = [
     Yup.object({
         religiousDetails: Yup.object({
             caste: Yup.string().required("Caste is required"),
-            subCaste: Yup.string(),
-            gotra: Yup.string(),
+            subCaste: Yup.string().required("Caste is required"),
+            gotra: Yup.string().default("NA"),
             manglik: Yup.string().required("Manglik field is required"),
-            pujaPractices: Yup.string(),
-
+            rashi: Yup.string().default("NA"),
+            nakshatra: Yup.string().default("NA"),
         })
     }),
 
     Yup.object({
         familyDetails: Yup.object({
             fatherName: Yup.string().required("Father's Name is required"),
-            fatherOccupation: Yup.string(),
+            fatherOccupation: Yup.string().default("NA"),
             motherName: Yup.string().required("Mother's Name is required"),
-            motherOccupation: Yup.string(),
-            nativePlace: Yup.string(),
+            motherOccupation: Yup.string().default("NA"),
+            nativePlace: Yup.string().default("NA"),
+            sister: Yup.string().default("NA"),
+            brother: Yup.string().default("NA"),
+            marriedBrother: Yup.string().default("NA"),
+            marriedSister: Yup.string().default("NA"),
         })
     }),
 
@@ -192,7 +205,7 @@ const validationSchemas = [
             income: Yup.string().matches(
                 /^₹?[\d,]+$/,
                 "Enter a valid income format (e.g. ₹15,00,000)"
-            ),
+            ).required("Income is required"),
             workingCity: Yup.string().required("Working City is required"),
             workFromHome: Yup.string(),
         })
@@ -207,7 +220,6 @@ const validationSchemas = [
                 .required("WhatsApp Number is required")
                 .matches(/^[6-9]\d{9}$/, "Enter valid WhatsApp number"),
             email: Yup.string()
-                .required("Email is required")
                 .email("Invalid email format"),
             presentAddress: Yup.object({
                 area: Yup.string().required("Present Area is required"),
@@ -240,39 +252,55 @@ const validationSchemas = [
 
     Yup.object({
         expectation: Yup.object({
-            ageRange: Yup.string().required("Expected Age Range is required"),
-            heightRange: Yup.string().required("Expected Height Range is required"),
-            religion: Yup.string(),
+            ageRange: Yup.string(),
+            heightRange: Yup.string(),
+            income: Yup.string().nullable(),
+            religion: Yup.string().default("NA"),
+            subCaste: Yup.string().default("NA"),
             caste: Yup.string(),
-            education: Yup.string(),
-            occupation: Yup.string(),
+            education: Yup.array().nullable(),
+            occupation: Yup.array().nullable(),
             locationPreference: Yup.string(),
         })
     }),
 
     Yup.object({
-        documents: Yup.object({
-            aadhaarNo: Yup.string()
-                .required("Aadhaar Number is required")
-                .matches(/^\d{4}-\d{4}-\d{4}$/, "Aadhaar format: XXXX-XXXX-XXXX"),
+        // documents: Yup.object({
+        //     aadhaarNo: Yup.string()
+        //         .required("Aadhaar Number is required")
+        //         .matches(/^\d{4}-\d{4}-\d{4}$/, "Aadhaar format: XXXX-XXXX-XXXX"),
 
-            photo: Yup.string().required("Profile Photo is required"),
-        })
+        //     photo: Yup.string().required("Profile Photo is required"),
+        // })
+        documents: Yup.object({
+            verificationImage: Yup.mixed().nullable(),
+            profilePhotos: Yup.array()
+                .of(Yup.mixed())
+                .min(1, "At least one profile photo is required"),
+        }),
     }),
 ]
 
 const initialValues = {
     personalDetails: {
+
         fullName: '',
         gender: '',
         dateOfBirth: '',
-        age: '',
         height: '',
         weight: '',
         bloodGroup: '',
         complexion: '',
-        bodyType: '',
         disability: '',
+        maritalStatus: '',
+    },
+    religiousDetails: {
+        caste: '',
+        subCaste: '',
+        gotra: '',
+        manglik: '',
+        nakshatra: '',
+        rashi: ''
     },
     familyDetails: {
         fatherName: '',
@@ -280,21 +308,53 @@ const initialValues = {
         siblings: '',
     },
     educationDetails: {
-        qualification: '',
+        highestQualification: '',
+        specialization: '',
+
+    },
+    professionalDetails: {
         occupation: '',
-        annualIncome: '',
+        companyName: '',
+        income: '',
+        workingCity: '',
+        workFromHome: 'No',
     },
     contactDetails: {
-        mobile: '',
+        mobileNo: '',
+        whatsappNo: '',
         email: '',
-        address: '',
+        presentAddress: {
+            area: '',
+            city: '',
+            state: '',
+            pinCode: '',
+        },
+        permanentAddress: {
+            area: '',
+            city: '',
+            state: '',
+            pinCode: '',
+        },
     },
-    partnerPreferences: {
+    lifestyleDetails: {
+        eatingHabits: '',
+        smoking: '',
+        drinking: '',
+    },
+    expectation: {
         ageRange: '',
         heightRange: '',
+        subCaste: 'NA',
+        religion: "NA",
+        income: '',
         caste: '',
+        education: [],
+        occupation: [],
+        locationPreference: '',
     },
     documents: {
+        verificationImage: '',
+        profilePhotos: [],
     },
 };
 
@@ -305,11 +365,31 @@ const MultiStepForm: React.FC = () => {
     const [step, setStep] = useState(0);
     const [isFormComplet, seIsFormComplet] = useState(false);
     const [createProfile, { isLoading, isError, isSuccess, error }] = useCreateMatrimonyProfileMutation();
+    const [updateMatrimonyProfile,
+        {
+            isLoading: updateLoading,
+            isError: updateError,
+            isSuccess: updateSuccess,
+            error: updateErrorData,
+        },
+    ] = useUpdateMatrimonyProfileMutation();
+
 
     const navigate = useNavigate();
-
+    const profile = getMatrimony();
+    const today = new Date();
+    const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+    const isProfilePresent = Object.entries(profile).length !== 0
     const isLastStep = step === steps.length - 1;
     console.log("validationSchemas", validationSchemas[step])
+    console.log("profile", profile)
+
+    const { personalDetails, religiousDetails, familyDetails, educationDetails, professionalDetails, contactDetails, lifestyleDetails, expectation } = profile
+    const oldInitialValues = {
+        ...initialValues,
+        personalDetails, religiousDetails, familyDetails, educationDetails, professionalDetails, contactDetails, lifestyleDetails, expectation
+    }
+
 
     const handleNext = () => setStep((prev) => Math.min(prev + 1, steps.length - 1));
     const handleBack = () => {
@@ -331,9 +411,117 @@ const MultiStepForm: React.FC = () => {
             "personalDetails.weight": ["30-40 kg", "40-50 kg", "51-60 kg", "61-70 kg", "71-80 kg", "81-90 kg", "91+ kg",],
             "personalDetails.height": ["Below 4ft", "4ft - 4ft 5in", "4ft 6in - 5ft", "5ft 1in - 5ft 5in", "5ft 6in - 6ft", "Above 6ft",],
             "religiousDetails.manglik": ["Manglik", "Non-Manglik", "Don't Know"],
+            "religiousDetails.caste": ["Bhoi", "Raj Bhoi", "Jhinga Bhoi", "Pardeshi Bhoi", "Kahar Bhoi", "Godiya Kahar Bhoi", "Dhuriya Kahar Bhoi", "Maji Kahar Bhoi", "Kirat Bhoi", "Machhua Bhoi", "Maji Bhoi", "Jaliya Bhoi", "Kevat Bhoi", "Dhivar Bhoi", "Dhivar Bhoi", "Dhimar Bhoi", "Palewar Bhoi",
+                "Navadi Bhoi", "Machhedra Bhoi", "Malhar Bhoi", "Malhava Bhoi", "Boi (Bhujari)", "Gadhav Bhoi", "Khadi Bhoi", "Khare Bhoi", "Dhevra Bhoi"],
             "religiousDetails.rashi": ["Mesh (Aries)", "Vrishabh (Taurus)", "Mithun (Gemini)", "Karka (Cancer)", "Singh (Leo)", "Kanya (Virgo)", "Tula (Libra)", "Vrishchik (Scorpio)", "Dhanu (Sagittarius)", "Makar (Capricorn)", "Kumbh (Aquarius)", "Meen (Pisces)",],
             "religiousDetails.nakshatra": ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"],
+            "educationDetails.highestQualification": [
+                // Academic Qualifications
+                "Below 10th",
+                "10th Pass",
+                "12th Pass",
+                "Diploma",
+                "ITI",
+                "Graduate",
+                "B.E. / B.Tech",
+                "BCA",
+                "BBA",
+                "Post Graduate",
+                "MBA / PGDM",
+                "MCA",
+                "M.E. / M.Tech",
+                "CA / CS / ICWA",
+                "Ph.D",
+                "MBBS / BDS",
+                "M.D. / M.S.",
+                "LLB",
+                "LLM",
+
+                // Professional Roles
+                "Doctor",
+                "Engineer",
+                "Software Developer",
+                "Chartered Accountant",
+                "Professor / Lecturer",
+                "Government Officer",
+                "IAS / IPS / Civil Services",
+                "Teacher",
+                "Business Owner",
+                "Advocate / Lawyer",
+                "Banker",
+                "Architect",
+                "Pharmacist",
+                "Pilot",
+                "Scientist / Researcher",
+                "Fashion Designer",
+                "Journalist",
+                "Artist / Performer",
+                "Police / Defence Services",
+
+                // Flexible
+                "Other"
+            ],
+            "expectation.heightRange": ["Below 4ft", "4ft - 4ft 5in", "4ft 6in - 5ft", "5ft 1in - 5ft 5in", "5ft 6in - 6ft", "Above 6ft",],
+
+            "expectation.occupation": ["Government", "Private", "Business", "Freelance"],
+            "expectation.income": [
+                10000, 15000, 20000, 25000, 30000,
+                35000, 40000, 45000, 50000, 60000,
+                70000, 80000, 90000, 100000, 120000,
+                140000, 160000, 180000, 200000, 225000,
+                250000, 275000, 300000, 325000, 350000,
+                375000, 400000, 425000, 450000, 475000,
+                500000
+            ],
+            "expectation.education": [
+                // Academic Qualifications
+                "Below 10th",
+                "10th Pass",
+                "12th Pass",
+                "Diploma",
+                "ITI",
+                "Graduate",
+                "B.E. / B.Tech",
+                "BCA",
+                "BBA",
+                "Post Graduate",
+                "MBA / PGDM",
+                "MCA",
+                "M.E. / M.Tech",
+                "CA / CS / ICWA",
+                "Ph.D",
+                "MBBS / BDS",
+                "M.D. / M.S.",
+                "LLB",
+                "LLM",
+
+                // Professional Roles
+                "Doctor",
+                "Engineer",
+                "Software Developer",
+                "Chartered Accountant",
+                "Professor / Lecturer",
+                "Government Officer",
+                "IAS / IPS / Civil Services",
+                "Teacher",
+                "Business Owner",
+                "Advocate / Lawyer",
+                "Banker",
+                "Architect",
+                "Pharmacist",
+                "Pilot",
+                "Scientist / Researcher",
+                "Fashion Designer",
+                "Journalist",
+                "Artist / Performer",
+                "Police / Defence Services",
+
+                // Flexible
+                "Other"
+            ],
+
             "professionalDetails.occupation": ["Government", "Private", "Business", "Freelance"],
+
             "professionalDetails.workFromHome": ["Yes", "No"],
             "lifestyleDetails.eatingHabits": ["Vegetarian", "Non-Vegetarian", "Eggetarian"],
             "lifestyleDetails.smoking": ["Yes", "No"],
@@ -343,6 +531,8 @@ const MultiStepForm: React.FC = () => {
         // @ts-ignore
         return (optionsMap[name] || []).map((opt) => ({ label: opt, value: opt }));
     };
+
+    console.log('!isProfilePresent ? initialValues : oldInitialValues', !isProfilePresent ? initialValues : oldInitialValues)
 
     const handleSubmit = async (values) => {
         const formData = new FormData();
@@ -393,9 +583,17 @@ const MultiStepForm: React.FC = () => {
         for (const [key, val] of formData.entries()) {
             console.log("FormData >>", key, val);
         }
+        if (values?.personalDetails?.dateOfBirth) {
+            formData.append('personalDetails.dateOfBirth', values?.personalDetails?.dateOfBirth);
+        }
 
         try {
-            const res = await createProfile(formData).unwrap();
+            let res;
+            if (isProfilePresent) {
+                res = await updateMatrimonyProfile({ id: profile._id, formData }).unwrap();
+            } else {
+                res = await createProfile(formData).unwrap();
+            }
             console.log("✅ Success", res);
         } catch (err) {
             const message = err?.data?.message || "Something went wrong";
@@ -405,7 +603,77 @@ const MultiStepForm: React.FC = () => {
 
 
 
+    function getChangedFields(initial: any, current: any): any {
+        const changes: any = {};
 
+        for (const key in current) {
+            const curVal = current[key];
+            const initVal = initial?.[key];
+
+            // Handle File object
+            if (curVal instanceof File) {
+                changes[key] = curVal;
+                continue;
+            }
+
+            // Handle nested object (excluding Date, Array)
+            if (
+                typeof curVal === 'object' &&
+                curVal !== null &&
+                !Array.isArray(curVal)
+            ) {
+                // Handle Date objects (compare timestamps)
+                if (
+                    curVal instanceof Date ||
+                    (typeof initVal === 'string' && !isNaN(Date.parse(initVal)))
+                ) {
+                    const curDate = new Date(curVal);
+                    const initDate = new Date(initVal);
+                    if (curDate.getTime() !== initDate.getTime()) {
+                        changes[key] = curVal;
+                    }
+                } else {
+                    const nested = getChangedFields(initVal || {}, curVal);
+                    if (Object.keys(nested).length > 0) {
+                        changes[key] = nested;
+                    }
+                }
+                continue;
+            }
+
+            // Handle arrays (especially file arrays or value changed)
+            if (Array.isArray(curVal)) {
+                const hasFile = curVal.some((item) => item instanceof File);
+                if (
+                    hasFile ||
+                    JSON.stringify(curVal) !== JSON.stringify(initVal)
+                ) {
+                    changes[key] = curVal;
+                }
+                continue;
+            }
+
+            // Handle date strings
+            if (
+                typeof curVal === 'string' &&
+                typeof initVal === 'string' &&
+                !isNaN(Date.parse(curVal)) &&
+                !isNaN(Date.parse(initVal))
+            ) {
+                if (new Date(curVal).getTime() !== new Date(initVal).getTime()) {
+                    changes[key] = curVal;
+                }
+                continue;
+            }
+
+            // Fallback: direct primitive comparison
+            if (curVal !== initVal) {
+                changes[key] = curVal;
+            }
+        }
+
+        return changes;
+    }
 
 
     return (
@@ -427,19 +695,36 @@ const MultiStepForm: React.FC = () => {
 
 
                 <Formik
-                    initialValues={initialValues}
-                    // validationSchema={validationSchemas[step]}
-                    onSubmit={(values, actions) => {
+                    initialValues={!isProfilePresent ? initialValues : oldInitialValues}
+                    validationSchema={validationSchemas[step]}
+                    validateOnBlur={true}
+                    validateOnChange={true}
+                    onSubmit={async (values, actions) => {
 
+                        const errors = await actions.validateForm();
+                        console.log("Validation Errors:", errors); // 🛑 log this
+
+                        if (Object.keys(errors).length > 0) {
+                            actions.setTouched(errors); // show errors on UI
+                            return; // block submission
+                        }
+                        console.log("values", values);
 
                         if (!isLastStep) {
                             handleNext(); // move to next step
                             actions.setTouched({});
                         } else {
                             console.log("Final submit:", values);
-                            handleSubmit(values);
+                            const changes = getChangedFields(!isProfilePresent ? initialValues : oldInitialValues, values);
+                            // handleSubmit(values);
+                            console.log("changes", changes);
+                            await asyncHandlerWithSwal(() => handleSubmit(changes), {
+                                loadingHtml: "<b>Uploading your file...</b>",
+                                successHtml: "<b>Upload successful!</b>",
+                                errorHtml: "<b>Upload failed. Please try again.</b>",
+                            });
                             seIsFormComplet(true);
-                            alert(JSON.stringify(values, null, 2));
+                            // alert(JSON.stringify(values, null, 2));
                             ConfettiFireworks();
                         }
 
@@ -463,6 +748,29 @@ const MultiStepForm: React.FC = () => {
                                                 options={getOptionsForField(field.name)}
                                             />
                                         );
+                                    case "multiselect":
+                                        return (
+                                            <MultiSelect
+                                                key={field.name}
+                                                name={field.name}
+                                                label={field.label}
+                                                options={getOptionsForField(field.name)}
+                                            />
+                                        );
+
+                                    case "date":
+                                        return (
+                                            <DateTimeInput
+                                                key={field.name}
+                                                label={field.label}
+                                                name={field.name}
+                                                type="datetime"
+                                                placeholder={field.placeholder}
+                                                required={field.required}
+                                                minDate={new Date(1900, 0, 1)}
+                                                maxDate={eighteenYearsAgo}
+                                            />
+                                        )
 
                                     case "file":
                                         return (
@@ -486,17 +794,17 @@ const MultiStepForm: React.FC = () => {
                                             // />
                                         );
 
-                                    case "date":
-                                        return (
-                                            <Input
-                                                key={field.name}
-                                                type="date"
-                                                name={field.name}
-                                                label={field.label}
-                                                placeholder={field.placeholder}
-                                                required={field.required}
-                                            />
-                                        );
+                                    // case "date":
+                                    //     return (
+                                    //         <Input
+                                    //             key={field.name}
+                                    //             type="date"
+                                    //             name={field.name}
+                                    //             label={field.label}
+                                    //             placeholder={field.placeholder}
+                                    //             required={field.required}
+                                    //         />
+                                    //     );
 
                                     case "radio":
                                         return (
@@ -549,16 +857,16 @@ const MultiStepForm: React.FC = () => {
                             {isLastStep && (
                                 <div className=" w-full flex justify-between items-center flex-wrap gap-3">
 
-                                    {steps[step].fields.map((field) => {
-                                        switch (field.type) {
+                                    {steps[step]?.fields.map((field, index) => {
+                                        switch (field?.type) {
                                             case "file":
                                                 return (
                                                     <FileInput
-                                                        key={field.name}
-
-                                                        name={field.name}
-                                                        label={field.label}
-                                                        required={field.required}
+                                                        key={field?.name}
+                                                        old={isProfilePresent ? profile?.profilePhotos[0] : ""}
+                                                        name={field?.name}
+                                                        label={field?.label}
+                                                        required={field?.required}
 
                                                     />
                                                 )

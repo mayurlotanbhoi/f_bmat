@@ -15,6 +15,9 @@ module.exports = {
 
   theme: {
     extend: {
+      fontFamily: {
+        marathi: ['"Baloo 2"', 'cursive'],
+      },
       keyframes: {
         'fadeIn': {
           '0%': { opacity: 0, transform: 'scale(0.95)' },

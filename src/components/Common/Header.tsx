@@ -5,9 +5,12 @@ import { FaBell } from "react-icons/fa";
 import ProfileStatus from "./ProfileStatus";
 import { IoMdMenu } from "react-icons/io";
 import { CgMenuMotion } from "react-icons/cg";
+import { useAuth } from "../../hooks/useAuth";
 
 const Header: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
+    const { user } = useAuth();
+    console.log(user?.profilePicture);
 
     return (
         <>
@@ -18,7 +21,7 @@ const Header: React.FC = () => {
                         MySite
                     </div>
                     <div className=" flex justify-center items-center gap-2">
-                        <ProfileStatus percentage={75} imageUrl="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?cs=srgb&dl=pexels-pixabay-220453.jpg&fm=jpg" />
+                        <ProfileStatus percentage={75} imageUrl={user?.profilePicture} />
                         <FaBell size={25} className=" cursor-pointer" />
                         {/* Menu button */}
                         <button

@@ -3,8 +3,10 @@
 import Router from './routes/Router'
 import useUiTheme from './view/home/useUiTheme'
 
+// Typically in index.js/index.tsx or App.tsx
 import './assets/common.css'
 import './App.css'
+// import "flatpickr/dist/flatpickr.min.css";
 
 
 function App() {

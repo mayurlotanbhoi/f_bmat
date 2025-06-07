@@ -13,12 +13,14 @@ import { usePwaPrompt } from "../../hooks";
 import { bioHeader1 } from "../../util/images.util";
 import { useFirebaseMessaging } from "../../hooks/useFirebaseMessaging";
 import { useAuth } from "../../hooks/useAuth";
+import { getMatrimony } from "../../features/matrimony/matrimonySlice";
 // import { usePwaPrompt } from "../../hooks";
 
 export default function Home() {
     const [isAppInstall, setAppInstall] = useState(false)
     const { installApp } = usePwaPrompt();
     const [isClikOnInstall, setClikOnInstall] = useState(false)
+    const profile = getMatrimony();
     const { mainMenu } = appConfig;
     const bios = profilesData;
     const Cartclores = ['#89A6F0', '#FFC969', '#FC72AA', '#47E76F',]
@@ -29,6 +31,7 @@ export default function Home() {
     console.log("user", user)
     useFirebaseMessaging(user?._id);
     // }, [])
+
 
 
 
@@ -51,12 +54,17 @@ export default function Home() {
 
     return (
         <>
-            <div className="px-4 w-100 ">
+            <div className="px-2 w-100 ">
 
-                <img src={bioHeader1} />
+                {/* <img src={bioHeader1} /> */}
                 <BannerCarouselWrapper />
                 <Category />
-                <CompletProfile />
+                <CompletProfile
+                    profile={{
+                        complition: profile?.profileCompletion ?? 0,
+                        avatar: profile?.profilePhotos?.[0] ?? '/default-avatar.png',
+                        name: profile?.personalDetails?.fullName ?? 'Guest User',
+                    }} />
                 <div className="mt-3">
                     <div className="w-full text-right my-2"><Link className="text-blue-600 hover:underline" to='bio'>All Profiles</Link></div>
                     <div className="w-100 flex flex-wrap justify-between   gap-4 ">

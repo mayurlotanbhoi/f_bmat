@@ -14,6 +14,7 @@ import { RxCross2 } from 'react-icons/rx';
 import { AgeFilter, CastFilter, CityFilter, IncomeFilter, StateFilter, SubCastFilter } from '../../components/forms/ProfileFiltersForms';
 import ProfileSearchHeader from './ProfileSearchHeader';
 import BackButtn from '../../components/Buttons/BackButtn';
+import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 interface TypeOfBio {
     [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
 }
@@ -65,9 +66,22 @@ const Filter: React.FC<FilterProps> = ({ filterKey, setFilter, setModelKey, setS
 
                     {/* Content area */}
                     <div className="px-4 mt-4">
-                        {Object.keys(filterKey).map((key, index) => <p onClick={() => setModelKey(key)} key={index} className=' cursor-pointer w-full flex justify-between mt-2 bg-g items-center text-gray-500 border-2 border-gray-200 h-12 rounded-xl px-4 font-bold text-[1rem]'> <span><span className=' capitalize'>{key}</span>: All {filterKey[key]}</span> <IoIosArrowForward /></p>
-                        )}
+                        {Object.keys(filterKey).map((key, index) => (
+                            <div
+                                onClick={() => setModelKey(key)}
+                                key={index}
+                                className="cursor-pointer w-full flex justify-between items-center mt-2 bg-g text-gray-500 border-2 border-gray-200 min-h-12 rounded-xl px-4 py-2 font-bold text-base"
+                            >
+                                <span className="capitalize">
+                                    {key}: <span className="font-normal">All {filterKey[key]}</span>
+                                </span>
+
+                                {/* Fixed size and alignment for icon */}
+                                <IoIosArrowForward className="text-gray-500 min-w-[20px] min-h-[20px]" size={20} />
+                            </div>
+                        ))}
                     </div>
+
                 </div>
 
                 <div className=' flex justify-between gap-2 mx-4 my-2'>
@@ -163,6 +177,7 @@ export const renderModelFilter = (
 
 export default function Profile() {
     const bios = profilesData;
+    const profile = getMatrimony();
     const [viewBio, setViewBio] = useState<TypeOfBio | boolean>(false)
     const [showFilter, setShowfilter] = useState(false)
     const [h, setH] = useState("h-80")
@@ -192,7 +207,7 @@ export default function Profile() {
             <div className="w-full h-full flex flex-wrap">
                 {bios?.map((bio, index) => (
                     <div key={index} className="w-full p-0  md:w-1/3 lg:w-1/2 ">
-                        <ProfileCard bio={bio} setViewBio={setViewBio} />
+                        <ProfileCard bio={profile} setViewBio={setViewBio} />
                     </div>
                 ))}
             </div>
@@ -215,7 +230,7 @@ export default function Profile() {
 
                 </div>
                 {/* @ts-ignore */}
-                <Viewprofile bio={viewBio} />
+                <Viewprofile bio={profile} />
             </Drawer >
 
             <Drawer isOpen={showFilter} position="left" padding={"p-0"}

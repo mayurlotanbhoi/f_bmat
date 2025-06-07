@@ -98,7 +98,7 @@ export const CastFilter = ({ onSubmit }: CastFilterProps) => {
                                             type="checkbox"
                                             checked={isChecked}
                                             onChange={() => { }} // Required for controlled input
-                                            onClick={(e) => e.stopPropagation()} // Prevent <li> click
+                                            // onClick={(e) => e.stopPropagation()} // Prevent <li> click
                                             className="mr-2"
                                         />
                                         <span>{opt.label}</span>

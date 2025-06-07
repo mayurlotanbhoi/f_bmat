@@ -7,6 +7,7 @@ type FileInputProps = {
     label?: string;
     required?: boolean;
     className?: string;
+    old?: string;
 };
 
 const FileInput: React.FC<FileInputProps> = ({
@@ -14,10 +15,12 @@ const FileInput: React.FC<FileInputProps> = ({
     label,
     required,
     className,
+    old
 }) => {
     const [field, meta, helpers] = useField(name);
     const { setFieldValue } = useFormikContext();
-    const [preview, setPreview] = useState<string | null>(null);
+    const [preview, setPreview] = useState<string | null>(old);
+    console.log("preview", old);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const hasError = meta.touched && meta.error;
@@ -51,7 +54,7 @@ const FileInput: React.FC<FileInputProps> = ({
                 )}
             >
                 {preview ? (
-                    <img src={preview} alt="Selected file" className="object-cover w-full h-full" />
+                    <img src={preview || old} alt="Selected file" className="object-cover w-full h-full" />
                 ) : (
                     <div className="text-4xl text-gray-400 font-bold">+</div>
                 )}

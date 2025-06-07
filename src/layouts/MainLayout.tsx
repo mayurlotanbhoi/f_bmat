@@ -42,7 +42,7 @@ const MainLayout = () => {
       <ScrollToTop />
 
       {!removeHeader && <Header />}
-      <main className={`w-full ${removePadding ? '' : 'px-4 md:px-8 mt-20'}  sm:px-6  max-w-screen-lg mx-auto `}>
+      <main className={`w-full ${removePadding ? '' : 'px-0 md:px-5 mt-20'}  sm:px-6  max-w-screen-lg mx-auto `}>
         <SuspenseWrapper fallback={fallbackSkeleton}>
           <Outlet />
         </SuspenseWrapper>

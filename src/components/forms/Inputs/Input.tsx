@@ -52,7 +52,6 @@ const Input: React.FC<InputProps> = ({
                     {...field}
                     {...props}
                     id={props.name}
-                    required={required}
                     className="w-full bg-transparent outline-none text-sm text-gray-700 placeholder-gray-400"
                 />
                 {iconRight && <div className="ml-2 text-gray-400">{iconRight}</div>}

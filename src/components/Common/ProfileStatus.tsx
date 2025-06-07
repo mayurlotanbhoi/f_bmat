@@ -16,6 +16,8 @@ const ProfileProgressCircle: React.FC<ProfileProgressCircleProps> = ({
     const circumference = 2 * Math.PI * radius;
     const progressOffset = circumference - (percentage / 100) * circumference;
 
+    console.log("percentage", imageUrl);
+
     return (
         <div style={{ width: size, height: size }} className="relative">
             {/* SVG Circle Progress */}

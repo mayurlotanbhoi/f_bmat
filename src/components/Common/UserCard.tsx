@@ -16,7 +16,7 @@ const UserCard: React.FC<UserCardProps> = ({ bios }) => {
         <>
             {bios?.map((match: Bio, index: number) =>
 
-            (<div key={index} className="flex my-2 flex-col p-2 bg-[#3C552D] shadow-2xl border-gray-800  hover:shadow-lg rounded-2xl cursor-pointer transition ease-in duration-500 transform hover:scale-105">
+            (<div key={index} className="flex m-2 flex-col p-2 bg-[#3C552D] shadow-2xl border-gray-800  hover:shadow-lg rounded-2xl cursor-pointer transition ease-in duration-500 transform hover:scale-105">
                 <div className="flex items-center justify-between">
                     {/* Left Side: Avatar & Info */}
                     <div className="flex items-center mr-auto">

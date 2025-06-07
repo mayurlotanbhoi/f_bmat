@@ -4,6 +4,7 @@ import { lazy } from 'react';
 import MainLayout from '../layouts/MainLayout';
 import ErrorBoundary from '../components/ChunkError/ErrorBoundary';
 import { useAuth } from '../hooks/useAuth';
+import { BioDownload } from '../view/bioData';
 
 // import BioForm from '../view/bioForm';
 // import UserProfile from '../view/user';
@@ -97,6 +98,10 @@ const routes = [
             {
                 path: '/complet-profile',
                 element: <BioForm />,
+            },
+            {
+                path: '/bio-download',
+                element: <BioDownload />,
             },
 
             // {

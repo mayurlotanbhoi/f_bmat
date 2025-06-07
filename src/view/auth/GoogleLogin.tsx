@@ -2,11 +2,14 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
+import { useGetProfileByUserIdMutation } from '../../features/matrimony/matrimonyApi';
 const clientId = import.meta.env.VITE_CLIENT_ID;
 
 const GoogleLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [getProfileByUserId,] = useGetProfileByUserIdMutation()
+
 
   useEffect(() => {
     /* global google */
@@ -32,26 +35,38 @@ const GoogleLogin = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          credentials: 'include',
         },
+        credentials: 'include',
         body: JSON.stringify({ token: idToken }),
       });
 
-
       const data = await res.json();
-      console.log(data?.data?.user);
-      // console.log(res.ok);
-
       if (!res.ok) throw new Error(data.message || 'Login failed');
 
-      dispatch(setCredentials({ user: data?.data?.user, token: data?.data?.accessToken })); // Save to Redux
-      navigate('/lang');
+      dispatch(setCredentials({ user: data?.data?.user, token: data?.data?.accessToken }));
+
+      try {
+        await getProfileByUserId('').unwrap();
+        navigate('/lang'); // ✅ Profile found
+      } catch (err) {
+        const message = err?.data?.message || err?.message || '';
+        if (message.includes('Profile not found')) {
+          // ✅ Profile not found, but allow access
+          return navigate('/lang');
+        }
+
+        console.error('Failed to fetch profile:', err);
+        return navigate('/auth'); // Only for real errors
+      }
+
     } catch (err) {
-      navigate('/auth');
       //@ts-ignore
       console.error('Google login failed:', err.message || err);
+      navigate('/auth');
     }
   };
+
+
 
   return (
     <button
