@@ -1,3 +1,4 @@
+// @ts-ignore
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -8,17 +9,17 @@ import { baseApi } from '../services/baseApi'; // this is where you injected you
 
 // Step 1: Combine reducers
 const rootReducer = combineReducers({
-    auth: authReducer,
-    user: userReducer,
-    matrimony: matrimonyReducer,
-    [baseApi.reducerPath]: baseApi.reducer, // dynamic reducer from RTK Query
+  auth: authReducer,
+  user: userReducer,
+  matrimony: matrimonyReducer,
+  [baseApi.reducerPath]: baseApi.reducer, // dynamic reducer from RTK Query
 });
 
 // Step 2: Setup redux-persist config
 const persistConfig = {
-    key: 'root',
-    storage,
-    whitelist: ['auth', 'matrimony', 'user'], // do NOT persist baseApi
+  key: 'root',
+  storage,
+  whitelist: ['auth', 'matrimony', 'user'], // do NOT persist baseApi
 };
 
 // Step 3: Create persisted reducer
@@ -26,11 +27,11 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Step 4: Create store
 export const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        (getDefaultMiddleware({
-            serializableCheck: false,
-        }) as any).concat(baseApi.middleware), // add RTK Query middleware
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    (getDefaultMiddleware({
+      serializableCheck: false,
+    }) as any).concat(baseApi.middleware), // add RTK Query middleware
 });
 
 // Step 5: Setup persistor
