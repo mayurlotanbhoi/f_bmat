@@ -1,8 +1,11 @@
 // src/layouts/MainLayout.jsx
 import { Outlet, useLocation } from 'react-router-dom';
 import { Footer, Header, ScrollToTop, SpeedDail } from '../components';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { HomeSkeleton, ProfileSkeleton } from '../components/Common/skeletons';
+import AppLoader from '../app/AppLoader';
+import { useFirebaseMessaging } from '../hooks/useFirebaseMessaging';
+import { useAuth } from '../hooks/useAuth';
 
 const skeletons = {
   "/": <HomeSkeleton />,
@@ -20,8 +23,9 @@ const SuspenseWrapper = ({
   return <Suspense fallback={fallback}>{children}</Suspense>;
 };
 
-const MainLayout = () => {
+const MainLayout: React.FC = () => {
   const location = useLocation();
+  const { user } = useAuth();
   const Padding = ['profile', 'chat', 'user', 'complet-profile'];
   const header = ['profile', 'chat',];
   const fullScrren = ['chat', 'complet-profile'];
@@ -37,9 +41,18 @@ const MainLayout = () => {
   const removeHeader = header.some((item) => location.pathname.includes(item));
   const hiddeSpeedDail = speedDial.some((item) => location.pathname.includes(item));
 
+  // useEffect(() => {
+  //   console.log("user", user)
+  if (user?.fcmTokens?.length === 0) {
+    useFirebaseMessaging(user?._id);
+  }
+
+  // }, [])
+
   return (
     <div className="app">
       <ScrollToTop />
+      <AppLoader />
 
       {!removeHeader && <Header />}
       <main className={`w-full ${removePadding ? '' : 'px-0 md:px-5 mt-20'}  sm:px-6  max-w-screen-lg mx-auto `}>

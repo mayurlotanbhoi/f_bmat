@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
-import { useGetProfileByUserIdMutation } from '../../features/matrimony/matrimonyApi';
+import { setUser } from '../../features/user/userSlice';
+// import { useGetProfileByUserIdMutation } from '../../features/matrimony/matrimonyApi';
 const clientId = import.meta.env.VITE_CLIENT_ID;
 
 const GoogleLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [getProfileByUserId,] = useGetProfileByUserIdMutation()
+  // const [getProfileByUserId,] = useGetProfileByUserIdMutation()
 
 
   useEffect(() => {
@@ -43,10 +44,10 @@ const GoogleLogin = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Login failed');
 
-      dispatch(setCredentials({ user: data?.data?.user, token: data?.data?.accessToken }));
+      dispatch(setUser({ user: data?.data?.user, token: data?.data?.accessToken }));
 
       try {
-        await getProfileByUserId('').unwrap();
+        // await getProfileByUserId('').unwrap();
         navigate('/lang'); // ✅ Profile found
       } catch (err) {
         const message = err?.data?.message || err?.message || '';

@@ -5,6 +5,7 @@ import MainLayout from '../layouts/MainLayout';
 import ErrorBoundary from '../components/ChunkError/ErrorBoundary';
 import { useAuth } from '../hooks/useAuth';
 import { BioDownload } from '../view/bioData';
+import AppLoader from '../app/AppLoader';
 
 // import BioForm from '../view/bioForm';
 // import UserProfile from '../view/user';
@@ -56,6 +57,10 @@ const BioForm = lazy(() => import('../view/bioForm'));
 const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     // const { isAuthenticated } = useAuth();
     const { isLoggedIn } = useAuth();
+
+    console.log('isLoggedIn', isLoggedIn);
+
+
     // const isAuthenticated = true
     return isLoggedIn ? <>{children}</> : <Navigate to="/auth" replace />;
 };
@@ -75,7 +80,7 @@ const routes = [
                 element: <Home />,
             },
             {
-                path: '/profile',
+                path: '/profile/:filter',
                 element: <Profile />,
             },
             {

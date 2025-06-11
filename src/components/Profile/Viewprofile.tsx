@@ -14,6 +14,7 @@ interface ViewProfileProps {
 
 export default function Viewprofile({ bio }: ViewProfileProps) {
     const [activeTab, setActiveTab] = useState('otherInfo');
+    const { personalDetails, religiousDetails, contactDetails, permanentAddress, presentAddress, professionalDetails } = bio
 
 
     const tabs = [
@@ -31,7 +32,7 @@ export default function Viewprofile({ bio }: ViewProfileProps) {
                 return (
                     <>
                         <div className=' my-5 '>
-                            <strong className='text-xl'>{bio?.name}</strong>
+                            <strong className='text-xl'>{bio?.personalDetails?.name}</strong>
                             <div className=' flex justify-between my-4'>
                                 <button className='btn   secondary-btn'> <FaLock size={15} /> <p>Call Now</p> </button>
                                 <button className='btn   therd-btn'> <IoLogoWhatsapp size={15} /> <p>Call Now</p> </button>
@@ -40,10 +41,10 @@ export default function Viewprofile({ bio }: ViewProfileProps) {
                         </div>
                         <hr className="w-full h-[1px] bg-[gray] border-none my-2" />                        <Heading className={'text-black text-xl font-semibold'} text={'Other Information'} />
                         <div className=' flex justify-center items-center flex-wrap gap-4'>
-                            <p className='flex flex-col justify-center items-center bg-gray w-[9rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>Caste</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.caste}</strong></p>
-                            <p className='flex flex-col justify-center items-center bg-gray w-[9rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>Sub Caste</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.subCaste}</strong></p>
-                            <p className='flex flex-col justify-center items-center bg-gray w-[9rem] h-[5rem] rounded-lg   '> <small className=' text-[14px] '>Profession</small> <strong className='text-[18px] text-center  flex items-center text-primary '> {bio?.profession}</strong></p>
-                            <p className='flex flex-col justify-center items-center bg-goldan w-[9rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>Monthly Salary</small> <strong className='text-[18px] text-center flex items-center'> <FaRupeeSign />{bio?.income}</strong></p>
+                            <p className='flex flex-col justify-center items-center bg-gray w-[9rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>Caste</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.religiousDetails?.caste}</strong></p>
+                            <p className='flex flex-col justify-center items-center bg-gray w-[9rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>Sub Caste</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.religiousDetails?.subCaste}</strong></p>
+                            <p className='flex flex-col justify-center items-center bg-gray w-[9rem] h-[5rem] rounded-lg   '> <small className=' text-[14px] '>Profession</small> <strong className='text-[18px] text-center  flex items-center text-primary '> {bio?.professionalDetails?.occupation}</strong></p>
+                            <p className='flex flex-col justify-center items-center bg-goldan w-[9rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>Monthly Salary</small> <strong className='text-[18px] text-center flex items-center'> <FaRupeeSign />{bio?.professionalDetails?.income}</strong></p>
                         </div>
                     </>
                 );

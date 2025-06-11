@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import * as Yup from 'yup';
 import { DateTimeInput, FileInput, Input, MultiSelect, Select } from "../../components/forms/Inputs";
 import FormProgess from "./FormProgess";
 import { GoArrowLeft } from "react-icons/go";
@@ -13,6 +13,7 @@ import { Checkbox } from "../../components/forms/Inputs/Checkbox";
 import { useCreateMatrimonyProfileMutation, useUpdateMatrimonyProfileMutation } from "../../features/matrimony/matrimonyApi";
 import { getMatrimony } from "../../features/matrimony/matrimonySlice";
 import { asyncHandlerWithSwal } from "../../util/asyncHandler";
+import { nameRegex, pinCodeRegex } from "../../constant/regexPatterns";
 
 const steps = [
     {
@@ -140,75 +141,92 @@ const steps = [
     },
 ];
 
+const addressSchema = Yup.object({
+    // addressLine: Yup.string().required("Address Line is required"),
+    area: Yup.string().required("Area is required"),
+    city: Yup.string().required("City is required"),
+    state: Yup.string().required("State is required"),
+    country: Yup.string().nullable(),
+    pinCode: Yup
+        .string()
+        .required("Pin Code is required")
+        .matches(pinCodeRegex, "Invalid Pin Code format"),
+});
+
 const validationSchemas = [
 
     Yup.object({
         personalDetails: Yup.object({
-            fullName: Yup.string().required("Full Name is required"),
-            gender: Yup.string().required("Gender is required"),
-            dateOfBirth: Yup.string()
-                .required("Date of Birth is required")
-                .test("is-valid-date", "Invalid date format", (value) => {
-                    return value ? !isNaN(Date.parse(value)) : false;
-                })
-                .test("age", "You must be at least 18 years old", function (value) {
-                    if (!value) return false;
-                    const dob = new Date(value);
-                    const today = new Date();
-                    const ageLimit = new Date(today.setFullYear(today.getFullYear() - 18));
-                    return dob <= ageLimit;
-                }),
-            maritalStatus: Yup.string().required("Marital Status is required"),
-            height: Yup.string().required("Height is required"),
-            weight: Yup.string().required("Weight is required"),
-            bloodGroup: Yup.string().default("NA"),
-            disability: Yup.string().required("Disability info is required"),
-        })
+            fullName: Yup
+                .string()
+                .required("Full name is required")
+                .matches(nameRegex, "Only letters and spaces allowed"),
+            gender: Yup
+                .string()
+                .oneOf(["Male", "Female", "Other"], "Invalid gender")
+                .required("Gender is required"),
+            dateOfBirth: Yup.date().required("Date of birth is required"),
+            height: Yup.string().nullable(),
+            weight: Yup.string().nullable(),
+            bloodGroup: Yup.string().nullable(),
+            complexion: Yup.string().nullable(),
+            disability: Yup.string().nullable(),
+            maritalStatus: Yup
+                .string()
+                .oneOf(["Unmarried", "Married", "Divorced", "Widowed"], "Invalid marital status")
+                .required("Marital status is required"),
+            children: Yup.string().nullable(),
+        }),
     }),
 
     Yup.object({
         religiousDetails: Yup.object({
+            religion: Yup.string().nullable(),
             caste: Yup.string().required("Caste is required"),
-            subCaste: Yup.string().required("Caste is required"),
-            gotra: Yup.string().default("NA"),
-            manglik: Yup.string().required("Manglik field is required"),
-            rashi: Yup.string().default("NA"),
-            nakshatra: Yup.string().default("NA"),
-        })
+            subCaste: Yup.string().nullable(),
+            gotra: Yup.string().nullable(),
+            manglik: Yup.string().nullable(),
+            nakshatra: Yup.string().nullable(),
+            rashi: Yup.string().nullable(),
+        }),
     }),
 
     Yup.object({
         familyDetails: Yup.object({
-            fatherName: Yup.string().required("Father's Name is required"),
-            fatherOccupation: Yup.string().default("NA"),
-            motherName: Yup.string().required("Mother's Name is required"),
-            motherOccupation: Yup.string().default("NA"),
-            nativePlace: Yup.string().default("NA"),
-            sister: Yup.string().default("NA"),
-            brother: Yup.string().default("NA"),
-            marriedBrother: Yup.string().default("NA"),
-            marriedSister: Yup.string().default("NA"),
-        })
+            fatherName: Yup
+                .string()
+                .required("Father's name is required")
+                .matches(nameRegex, "Only letters and spaces allowed"),
+            fatherOccupation: Yup.string().nullable(),
+            motherName: Yup
+                .string()
+                .required("Mother's name is required")
+                .matches(nameRegex, "Only letters and spaces allowed"),
+            motherOccupation: Yup.string().nullable(),
+            sister: Yup.string().nullable(),
+            brother: Yup.string().nullable(),
+            marriedBrother: Yup.string().nullable(),
+            marriedSister: Yup.string().nullable(),
+        }),
     }),
 
     Yup.object({
         educationDetails: Yup.object({
-            highestQualification: Yup.string().required("Highest Qualification is required"),
-        })
+            highestQualification: Yup.string().required("Qualification is required"),
+            specialization: Yup.string().nullable(),
+        }),
     }),
 
 
     Yup.object({
         professionalDetails: Yup.object({
             occupation: Yup.string().required("Occupation is required"),
-            companyName: Yup.string(),
-            income: Yup.string().matches(
-                /^₹?[\d,]+$/,
-                "Enter a valid income format (e.g. ₹15,00,000)"
-            ).required("Income is required"),
-            workingCity: Yup.string().required("Working City is required"),
-            workFromHome: Yup.string(),
-        })
+            companyName: Yup.string().nullable(),
+            income: Yup.string().nullable(),
+            workingCity: Yup.string().nullable(),
+            jobType: Yup.string().nullable(),
+            workFromHome: Yup.string().nullable().default('No'),
+        }),
     }),
 
     Yup.object({
@@ -243,47 +261,37 @@ const validationSchemas = [
 
     Yup.object({
         lifestyleDetails: Yup.object({
-            eatingHabits: Yup.string().required("Diet is required"),
-            smoking: Yup.string().required("Smoking info is required"),
-            drinking: Yup.string().required("Drinking info is required"),
-        })
+            smoking: Yup.string().nullable(),
+            drinking: Yup.string().nullable(),
+            eatingHabits: Yup.string().nullable(),
+        }),
     }),
 
 
     Yup.object({
         expectation: Yup.object({
-            ageRange: Yup.string(),
-            heightRange: Yup.string(),
+            ageRange: Yup.string().nullable(),
+            heightRange: Yup.string().nullable(),
             income: Yup.string().nullable(),
-            religion: Yup.string().default("NA"),
-            subCaste: Yup.string().default("NA"),
-            caste: Yup.string(),
+            religion: Yup.string().nullable(),
+            caste: Yup.string().nullable(),
+            subCaste: Yup.string().nullable(),
             education: Yup.array().nullable(),
             occupation: Yup.array().nullable(),
-            locationPreference: Yup.string(),
-        })
+            locationPreference: Yup.string().nullable(),
+        }),
     }),
 
     Yup.object({
-        // documents: Yup.object({
-        //     aadhaarNo: Yup.string()
-        //         .required("Aadhaar Number is required")
-        //         .matches(/^\d{4}-\d{4}-\d{4}$/, "Aadhaar format: XXXX-XXXX-XXXX"),
-
-        //     photo: Yup.string().required("Profile Photo is required"),
-        // })
-        documents: Yup.object({
-            verificationImage: Yup.mixed().nullable(),
-            profilePhotos: Yup.array()
-                .of(Yup.mixed())
-                .min(1, "At least one profile photo is required"),
-        }),
+        verificationImage: Yup.mixed().nullable(),
+        profilePhotos: Yup.array()
+            .of(Yup.mixed())
+            .min(1, "At least one profile photo is required"),
     }),
 ]
 
 const initialValues = {
     personalDetails: {
-
         fullName: '',
         gender: '',
         dateOfBirth: '',
@@ -357,9 +365,6 @@ const initialValues = {
         profilePhotos: [],
     },
 };
-
-
-
 
 const MultiStepForm: React.FC = () => {
     const [step, setStep] = useState(0);
@@ -855,38 +860,44 @@ const MultiStepForm: React.FC = () => {
 
 
                             {isLastStep && (
-                                <div className=" w-full flex justify-between items-center flex-wrap gap-3">
-
+                                <div className="w-full flex justify-between items-center flex-wrap gap-3">
                                     {steps[step]?.fields.map((field, index) => {
-                                        switch (field?.type) {
+                                        if (!field) return null;
+                                        console.log("field", field);
+
+                                        switch (field.type) {
                                             case "file":
-                                                return (
-                                                    <FileInput
-                                                        key={field?.name}
-                                                        old={isProfilePresent ? profile?.profilePhotos[0] : ""}
-                                                        name={field?.name}
-                                                        label={field?.label}
-                                                        required={field?.required}
+                                                if (field.name === "documents.verificationImage") {
+                                                    return (
+                                                        <FileInput
+                                                            key={field.name}
+                                                            old={isProfilePresent ? profile?.verificationImage : ""}
+                                                            name={field.name}
+                                                            label={field.label}
+                                                            required={field.required}
+                                                        />
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <FileInput
+                                                            key={field.name + index}
+                                                            old={isProfilePresent ? profile?.profilePhotos?.[index - 1] : ""}
+                                                            name={field.name}
+                                                            label={field.label}
+                                                            required={field.required}
+                                                        />
+                                                    );
+                                                }
 
-                                                    />
-                                                )
+                                            // You can add more field types here if needed
 
-
+                                            default:
+                                                return null;
                                         }
                                     })}
-
-                                    {/* <div className="text-gray-400 flex justify-center mb-2">
-                                        <FaUpload size={24} />
-                                    </div>
-                                    <input type="file" className="hidden" id="upload" />
-                                    <label
-                                        htmlFor="upload"
-                                        className="cursor-pointer inline-block px-4 py-2 bg-orange-500 text-white rounded"
-                                    >
-                                        Browse
-                                    </label> */}
                                 </div>
                             )}
+
                         </div>
 
                         <button
@@ -911,7 +922,6 @@ const MultiStepForm: React.FC = () => {
         </>
     );
 };
-
 
 const BioCompletModel = () => {
 

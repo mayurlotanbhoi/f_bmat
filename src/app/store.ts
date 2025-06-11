@@ -3,11 +3,13 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from '../features/auth/authSlice';
 import matrimonyReducer from '../features/matrimony/matrimonySlice';
+import userReducer from '../features/user/userSlice';
 import { baseApi } from '../services/baseApi'; // this is where you injected your matrimonyApi endpoints
 
 // Step 1: Combine reducers
 const rootReducer = combineReducers({
     auth: authReducer,
+    user: userReducer,
     matrimony: matrimonyReducer,
     [baseApi.reducerPath]: baseApi.reducer, // dynamic reducer from RTK Query
 });
@@ -16,7 +18,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['auth', 'matrimony'], // do NOT persist baseApi
+    whitelist: ['auth', 'matrimony', 'user'], // do NOT persist baseApi
 };
 
 // Step 3: Create persisted reducer

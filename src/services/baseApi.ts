@@ -3,18 +3,14 @@ import type { RootState } from '../app/store';
 import { logout, setCredentials } from '../features/auth/authSlice';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import type { FetchArgs, BaseQueryFn } from '@reduxjs/toolkit/query/react';
+import { setUser } from '../features/user/userSlice';
 
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://localhost:5000/api/v1',
     credentials: 'include',
-
-
-
     // baseUrl: ' https://api-b-bmat.onrender.com/api/v1',
-
-
     prepareHeaders: (headers, { getState }) => {
-        const token = (getState() as RootState).auth.token;
+        const token = (getState() as RootState).user.token;
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
         }
@@ -38,8 +34,14 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
         );
 
         if (refreshResult.data) {
-            const { token, user } = refreshResult.data as any;
-            api.dispatch(setCredentials({ token, user }));
+            const { user, accessToken } = refreshResult.data as any;
+
+            // console.log('token', token);
+
+            // const { user, accessToken } = data?.data || {}
+            // dispatch(setUser({ user, token: accessToken }));
+
+            api.dispatch(setUser({ user, token: accessToken }));
 
             // retry the original query with new token
             result = await baseQuery(args, api, extraOptions);

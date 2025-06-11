@@ -16,7 +16,7 @@ interface ProfileCardProps {
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ bio, setViewBio }) => {
     const [mainImage, setMainImage] = useState(bio?.profilePhotos?.[0]);
-    console.log('mainImage', bio);
+    console.log('mainImage', bio?.profilePhotos);
 
     return (
         <div className="max-w-md min-h-[80vh]   relative  rounded-xl shadow-lg bg-white">

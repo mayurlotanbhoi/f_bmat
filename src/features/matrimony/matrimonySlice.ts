@@ -18,11 +18,12 @@ interface MatrimonyProfile {
 
 interface MatrimonyState {
     profile: MatrimonyProfile | null;
-
+    searchResults: MatrimonyProfile[]; // <-- Added
 }
 
 const initialState: MatrimonyState = {
     profile: null,
+    searchResults: [],
 
 };
 
@@ -32,6 +33,10 @@ const matrimonySlice = createSlice({
     reducers: {
         setProfile: (state, action: PayloadAction<MatrimonyProfile>) => {
             state.profile = action.payload;
+        },
+
+        setProfileSearchResults: (state, action: any) => {
+            state.searchResults = action.payload;
         },
         // clearProfile: (state) => {
         //     state.profile = null;
@@ -46,6 +51,6 @@ const getMatrimony = () => {
     return matrimony?.profile?.data || {};
 }
 
-export const { setProfile } = matrimonySlice.actions;
+export const { setProfile, setProfileSearchResults } = matrimonySlice.actions;
 export { getMatrimony }
 export default matrimonySlice.reducer;

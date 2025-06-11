@@ -52,7 +52,7 @@ const Drawer: React.FC<DrawerProps> = ({
             break;
         case "bottom":
             positionStyles = `bottom-0 left-0 w-full ${heightClass}`;
-            animationClass = animateOut ? "animate-slide-out-bottom" : "animate-slide-in-bottom";
+            animationClass = animateOut ? "animate-slide-out-bottom " : "animate-slide-in-bottom";
             break;
     }
 
@@ -60,7 +60,7 @@ const Drawer: React.FC<DrawerProps> = ({
         <>
             {/* Backdrop */}
             <div
-                className={`fixed inset-0    bg-black/50 transition-opacity duration-300 ${animateOut ? "opacity-0" : "opacity-100"
+                className={`fixed inset-0   ease-in-out   bg-black/50 transition-opacity duration-300 ${animateOut ? "opacity-0" : "opacity-100"
                     }`}
                 onClick={onClose}
             />

@@ -1,8 +1,28 @@
 import { baseApi } from '../../services/baseApi';
-import { setProfile, setProfileSearchResults } from './matrimonySlice';
+import { setUser } from './userSlice';
 
-export const matrimonyApi = baseApi.injectEndpoints({
+export const userApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
+
+        getUser: builder.query<any, string>({
+            query: () => ({
+                url: '/user/get/me',
+                method: 'GET',
+
+            }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    console.log('data', data?.data);
+
+                    const { user, accessToken } = data?.data || {}
+                    dispatch(setUser({ user, token: accessToken })); // from matrimonySlice
+                } catch (err) {
+                    console.log("getProfileByUserId, /matrimony/me", err);
+                    // dispatch(setError("Failed to fetch profile"));
+                }
+            },
+        }),
 
         // ✅ Create Matrimony Profile (with image upload)
         createMatrimonyProfile: builder.mutation<any, FormData>({
@@ -14,7 +34,7 @@ export const matrimonyApi = baseApi.injectEndpoints({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    dispatch(setProfile(data)); // from matrimonySlice
+                    dispatch(setUser(data)); // from matrimonySlice
                 } catch (err) {
                     console.log("getProfileByUserId, /matrimony/me", err);
                     // dispatch(setError("Failed to fetch profile"));
@@ -33,7 +53,7 @@ export const matrimonyApi = baseApi.injectEndpoints({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    dispatch(setProfile(data)); // from matrimonySlice
+                    dispatch(setUser(data)); // from matrimonySlice
                 } catch (err) {
                     console.log("getProfileByUserId, /matrimony/me", err);
                     // dispatch(setError("Failed to fetch profile"));
@@ -42,28 +62,11 @@ export const matrimonyApi = baseApi.injectEndpoints({
         }),
 
         // ✅ Get all profiles
-        filterAllProfiles: builder.mutation<any, any>({
-            query: (filterValue) => ({
-                url: '/matrimony/filter',
-                method: 'POST',
-                body: filterValue, // filterValue, // no need for JSON.stringify
-            }),
-        }),
-
-        globalSearchProfiles: builder.query<any, string>({
-            query: (searchTerm) => ({
-                url: `/matrimony/search?query=${encodeURIComponent(searchTerm)}`,
+        getAllProfiles: builder.query<any, void>({
+            query: () => ({
+                url: '/matrimony',
                 method: 'GET',
             }),
-            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled;
-                    dispatch(setProfileSearchResults(data)); // from matrimonySlice
-                } catch (err) {
-                    console.log("getProfileByUserId, /matrimony/me", err);
-                    // dispatch(setError("Failed to fetch profile"));
-                }
-            },
         }),
 
         // ✅ Get single profile
@@ -75,22 +78,22 @@ export const matrimonyApi = baseApi.injectEndpoints({
         }),
 
 
-        getMatrimonyByUserId: builder.query<any, string>({
+        getProfileByUserId: builder.mutation<any, string>({
             query: () => ({
                 url: '/matrimony/me',
                 method: 'GET',
+
             }),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
-                    dispatch(setProfile(data));
+                    dispatch(setUser(data)); // from matrimonySlice
                 } catch (err) {
                     console.log("getProfileByUserId, /matrimony/me", err);
+                    // dispatch(setError("Failed to fetch profile"));
                 }
             },
         }),
-
-
 
 
         // ✅ Delete profile
@@ -104,11 +107,11 @@ export const matrimonyApi = baseApi.injectEndpoints({
 });
 
 export const {
-    useCreateMatrimonyProfileMutation,
-    useUpdateMatrimonyProfileMutation,
-    useFilterAllProfilesMutation,
-    useLazyGlobalSearchProfilesQuery,
-    useGetProfileByIdQuery,
-    useLazyGetMatrimonyByUserIdQuery,
-    useDeleteProfileMutation,
-} = matrimonyApi;
+    useLazyGetUserQuery
+    // useCreateMatrimonyProfileMutation,
+    // useUpdateMatrimonyProfileMutation,
+    // useGetProfileByUserIdMutation,
+    // useGetAllProfilesQuery,
+    // useGetProfileByIdQuery,
+    // useDeleteProfileMutation,
+} = userApi;

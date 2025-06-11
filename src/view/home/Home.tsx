@@ -7,10 +7,9 @@ import { AppDownloading, AppInstall, FullFirework, Matches } from "../../compone
 import { profilesData } from "../../data/profiles";
 import Heading from "../../components/Headings/Heading";
 import CompletProfile from "./CompletProfile";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../components/Common/Modal";
 import { usePwaPrompt } from "../../hooks";
-import { bioHeader1 } from "../../util/images.util";
 import { useFirebaseMessaging } from "../../hooks/useFirebaseMessaging";
 import { useAuth } from "../../hooks/useAuth";
 import { getMatrimony } from "../../features/matrimony/matrimonySlice";
@@ -27,10 +26,7 @@ export default function Home() {
     const { user } = useAuth();
 
 
-    // useEffect(() => {
-    console.log("user", user)
-    useFirebaseMessaging(user?._id);
-    // }, [])
+
 
 
 
@@ -54,6 +50,7 @@ export default function Home() {
 
     return (
         <>
+
             <div className="px-2 w-100 ">
 
                 {/* <img src={bioHeader1} /> */}
@@ -71,7 +68,7 @@ export default function Home() {
                         {mainMenu.map((item, index) => (
                             <Link
                                 key={index}
-                                to={item?.url}
+                                to={item?.url + '/' + item?.key}
                                 style={{ backgroundColor: Cartclores[index] }}
                                 className={`  flex-col   relative md:w-52 w-32 h-32 rounded-2xl shadow-xl border-2 border-rose-100 flex justify-center items-center font-bold text-white text-xl`}
                             >

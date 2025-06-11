@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProfileCard from '../../components/Profile/ProfileCard'
 import { profilesData } from '../../data/profiles'
 import Drawer from '../../components/Common/Drawer';
@@ -15,6 +15,8 @@ import { AgeFilter, CastFilter, CityFilter, IncomeFilter, StateFilter, SubCastFi
 import ProfileSearchHeader from './ProfileSearchHeader';
 import BackButtn from '../../components/Buttons/BackButtn';
 import { getMatrimony } from '../../features/matrimony/matrimonySlice';
+import { useParams } from 'react-router-dom';
+import { useFilterAllProfilesMutation } from '../../features/matrimony/matrimonyApi';
 interface TypeOfBio {
     [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
 }
@@ -179,9 +181,13 @@ export default function Profile() {
     const bios = profilesData;
     const profile = getMatrimony();
     const [viewBio, setViewBio] = useState<TypeOfBio | boolean>(false)
+    // const [viewProfile, setViewProfile] = useState(false)
     const [showFilter, setShowfilter] = useState(false)
     const [h, setH] = useState("h-80")
     const [modelkey, setModelKey] = useState<string>("")
+    const { filter: filterKey } = useParams();
+    const [filterAllProfiles, { data, isLoading, isError, error }] = useFilterAllProfilesMutation();
+    // console.log(filterKey, 'filterKey');
 
     const [filter, setFilter] = useState({
         age: "age",
@@ -191,6 +197,29 @@ export default function Profile() {
         state: 'state',
         city: "city",
     })
+
+
+    useEffect(() => {
+        const filterData = {
+            caste: '',
+            city: '',
+            candidateTypes: '',
+            page: 1,
+            limit: 10
+        };
+        const filterApi = async () => {
+            const profiltes = await filterAllProfiles(filterData).unwrap();;
+            console.log(data?.data?.data, 'profiltes');
+        }
+
+        filterApi()
+
+
+    }, [filterAllProfiles]);
+
+    if (isLoading) return <div>Loading...</div>;
+    if (isError) return <div>Error: {(error as any)?.message}</div>;
+
 
     const onDown = () => { setViewBio(false); setH("h-80") };
 
@@ -205,9 +234,9 @@ export default function Profile() {
                 </div>
             </div>
             <div className="w-full h-full flex flex-wrap">
-                {bios?.map((bio, index) => (
-                    <div key={index} className="w-full p-0  md:w-1/3 lg:w-1/2 ">
-                        <ProfileCard bio={profile} setViewBio={setViewBio} />
+                {Array.isArray(data?.data?.data) && data?.data?.data?.map((bio, index) => (
+                    <div key={index} className="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 ">
+                        <ProfileCard bio={bio} setViewBio={setViewBio} />
                     </div>
                 ))}
             </div>
@@ -215,7 +244,7 @@ export default function Profile() {
 
             <Drawer isOpen={!!viewBio} position="bottom" padding={"p-0"}
                 widthClass="w-100"
-                className={'rounded-t-lg bg-gray-300'}
+                className={'rounded-t-lg bg-gray-300 '}
                 heightClass={h} showCloseBtn={false} onClose={() => setViewBio(false)}>
                 <div className=' w-100 flex justify-center   '>
                     {h !== "h-80" ? (
