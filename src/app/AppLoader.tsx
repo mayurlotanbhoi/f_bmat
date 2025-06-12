@@ -8,6 +8,7 @@ import { useLazyGetMatrimonyByUserIdQuery } from '../features/matrimony/matrimon
 const AppLoader = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
+    
 
     const [triggerGetUser] = useLazyGetUserQuery();
     const [triggerGetProfileByUserId] = useLazyGetMatrimonyByUserIdQuery();

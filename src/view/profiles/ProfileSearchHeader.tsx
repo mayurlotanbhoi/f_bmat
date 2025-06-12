@@ -17,12 +17,12 @@ export default function ProfileSearchHeader() {
     const [searchHistory, setSearchHistory] = useState<string[]>([]);
     const [triggerSearch, { data, error }] = useLazyGlobalSearchProfilesQuery();
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setPlaceholderIndex((prevIndex) => (prevIndex + 1) % placeholders.length);
-        }, 2000);
-        return () => clearInterval(interval);
-    }, []);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         setPlaceholderIndex((prevIndex) => (prevIndex + 1) % placeholders.length);
+    //     }, 2000);
+    //     return () => clearInterval(interval);
+    // }, []);
 
     useEffect(() => {
         const history = localStorage.getItem('profileSearchHistory');

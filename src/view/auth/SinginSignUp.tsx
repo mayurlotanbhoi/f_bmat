@@ -166,10 +166,16 @@ export default function SinginSignUp() {
                     successHtml: "<b>Account SignIn Succesfully</b>",
                     errorHtml: "<b>Upload failed. Please try again.</b>",
                 });
+
+                console.log("res ",res?.data )
               
 
-                // dispatch(setUser(res));
-                // navigate('/lang');
+                dispatch(setUser({user:res?.data?.user,token:res?.data?.accessToken}));
+
+                setTimeout(()=>{
+                    navigate('/lang');
+                },1000)
+                
             } catch (error) {
                 console.error('Login failed:', error);
             } finally {
@@ -179,11 +185,7 @@ export default function SinginSignUp() {
         }
     };
 
-    useEffect(() => {
-  if (user) {
-    navigate('/lang');
-  }
-}, [user, navigate]);
+
 
     return (
         <div className="h-[100vh] bg_primary text-gray-900 flex justify-center">

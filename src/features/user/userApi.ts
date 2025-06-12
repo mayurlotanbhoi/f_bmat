@@ -87,6 +87,8 @@ export const userApi = baseApi.injectEndpoints({
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
+
+                    console.log("data getProfileByUserId",data )
                     dispatch(setUser(data)); // from matrimonySlice
                 } catch (err) {
                     console.log("getProfileByUserId, /matrimony/me", err);
