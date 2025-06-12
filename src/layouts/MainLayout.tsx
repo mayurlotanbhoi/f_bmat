@@ -7,10 +7,22 @@ import AppLoader from '../app/AppLoader';
 import { useFirebaseMessaging } from '../hooks/useFirebaseMessaging';
 import { useAuth } from '../hooks/useAuth';
 
-const skeletons = {
-  "/": <HomeSkeleton />,
-  "/profile": <ProfileSkeleton />,
-};
+// const skeletons = {
+//   : <HomeSkeleton />,
+//   "/profile": <ProfileSkeleton />,
+// };
+const skeletons = (path: string) => {
+
+  switch (path) {
+    case "/": return <HomeSkeleton />;
+    case "/profile": return <ProfileSkeleton />;
+
+
+    default:
+      return <ProfileSkeleton />;
+  }
+
+}
 
 
 const SuspenseWrapper = ({
@@ -34,7 +46,7 @@ const MainLayout: React.FC = () => {
   console.log("location", location.pathname)
   type Path = keyof typeof skeletons;
   const pathname = location.pathname as Path;
-  const fallbackSkeleton = skeletons[pathname] || <div>Loading...</div>;
+  const fallbackSkeleton = skeletons(pathname);
   // Check if any value from removeFor is included in the pathname
   const removePadding = Padding.some((item) => location.pathname.includes(item));
   const fullScreeenRemove = fullScrren.some((item) => location.pathname.includes(item));

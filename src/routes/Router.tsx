@@ -84,6 +84,10 @@ const routes = [
                 element: <Profile />,
             },
             {
+                path: '/profile',
+                element: <Profile />,
+            },
+            {
                 path: '/matches',
                 element: <Matche />,
             },

@@ -63,7 +63,7 @@ export default function Home() {
                         name: profile?.personalDetails?.fullName ?? 'Guest User',
                     }} />
                 <div className="mt-3">
-                    <div className="w-full text-right my-2"><Link className="text-blue-600 hover:underline" to='bio'>All Profiles</Link></div>
+                    <div className="w-full text-right my-2"><Link to={'/profile'} className="text-blue-600 hover:underline" >All Profiles</Link></div>
                     <div className="w-100 flex flex-wrap justify-between   gap-4 ">
                         {mainMenu.map((item, index) => (
                             <Link

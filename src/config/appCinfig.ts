@@ -73,7 +73,7 @@ export const appConfig = {
         {
             "key": "groom",
             "disKey": "groomDis",
-            "url": "/profile/",
+            "url": "/profile",
             "text": "var",
             "description": "View All Var",
             "icon": "🤵",

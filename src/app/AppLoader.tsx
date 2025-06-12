@@ -8,7 +8,7 @@ import { useLazyGetMatrimonyByUserIdQuery } from '../features/matrimony/matrimon
 const AppLoader = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
-    
+
 
     const [triggerGetUser] = useLazyGetUserQuery();
     const [triggerGetProfileByUserId] = useLazyGetMatrimonyByUserIdQuery();
@@ -52,7 +52,7 @@ const AppLoader = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen flex justify-center items-center bg-white dark:bg-gray-900">
+            <div className="h-screen w-screen absolute top-0 z-[99999] sr-only  flex justify-center items-center bg-white dark:bg-gray-900">
                 <span className="text-lg font-medium text-gray-700 dark:text-white">
                     Loading app...
                 </span>

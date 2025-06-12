@@ -17,6 +17,7 @@ import BackButtn from '../../components/Buttons/BackButtn';
 import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 import { useParams } from 'react-router-dom';
 import { useFilterAllProfilesMutation } from '../../features/matrimony/matrimonyApi';
+import { ProfileSkeleton } from '../../components/Common/skeletons';
 interface TypeOfBio {
     [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
 }
@@ -25,9 +26,10 @@ interface FilterProps {
     filterKey: { [key: string]: any }; // adjust type if you know the exact structure
     setFilter: React.Dispatch<React.SetStateAction<any>>; // update `any` to the actual state type
     setModelKey: React.Dispatch<React.SetStateAction<any>>;
-    setShowfilter: React.Dispatch<React.SetStateAction<any>>; // update `any` to the actual state type
+    setShowfilter: React.Dispatch<React.SetStateAction<any>>;
+    onSave: () => void // update `any` to the actual state type
 }
-const Filter: React.FC<FilterProps> = ({ filterKey, setFilter, setModelKey, setShowfilter }) => {
+const Filter: React.FC<FilterProps> = ({ onSave, filterKey, setFilter, setModelKey, setShowfilter }) => {
 
     const reset = () => {
         setFilter(
@@ -40,6 +42,11 @@ const Filter: React.FC<FilterProps> = ({ filterKey, setFilter, setModelKey, setS
                 city: "city",
             }
         )
+    }
+
+    const handleOnSave = () => {
+        onSave()
+        setShowfilter(false)
     }
 
     return <>
@@ -88,7 +95,7 @@ const Filter: React.FC<FilterProps> = ({ filterKey, setFilter, setModelKey, setS
 
                 <div className=' flex justify-between gap-2 mx-4 my-2'>
                     <button onClick={() => { reset(), setShowfilter(false) }} className='clasic-btn w-30'>  <RxCross2 size={20} /> <span>CANCEL </span></button>
-                    <button className='primary-button w-30'> <SiVerizon /> <span>SAVE THIS</span></button>
+                    <button onClick={handleOnSave} className='primary-button w-30'> <SiVerizon /> <span>SAVE THIS</span></button>
                 </div>
             </div>
 
@@ -187,7 +194,7 @@ export default function Profile() {
     const [modelkey, setModelKey] = useState<string>("")
     const { filter: filterKey } = useParams();
     const [filterAllProfiles, { data, isLoading, isError, error }] = useFilterAllProfilesMutation();
-    // console.log(filterKey, 'filterKey');
+    console.log(filterKey, 'filterKey');
 
     const [filter, setFilter] = useState({
         age: "age",
@@ -198,42 +205,76 @@ export default function Profile() {
         city: "city",
     })
 
+    const filterData = {
+        caste: '',
+        city: '',
+        candidateTypes: filterKey,
+        page: 1,
+        limit: 10
+    };
+
+    const filterApi = async () => {
+        // Clone the filter to avoid mutating original state
+        const filtered = { ...filter };
+
+        // Remove default keys if they are equal to their default string
+        const keysToRemove = {
+            age: "age",
+            cast: "cast",
+            subCast: "sub-cast",
+            income: "income",
+            state: "state",
+            city: "city",
+        };
+
+        Object.entries(keysToRemove).forEach(([key, defaultValue]) => {
+            if (filtered[key] === defaultValue) {
+                delete filtered[key];
+            }
+        });
+
+        try {
+            const profiltes = await filterAllProfiles({ ...filtered, candidateTypes: filterKey }).unwrap();
+            console.log(profiltes?.data?.data, 'profiltes');
+        } catch (err) {
+            console.error('Filter API error:', err);
+        }
+    };
+
+
 
     useEffect(() => {
-        const filterData = {
-            caste: '',
-            city: '',
-            candidateTypes: '',
-            page: 1,
-            limit: 10
-        };
-        const filterApi = async () => {
-            const profiltes = await filterAllProfiles(filterData).unwrap();;
-            console.log(data?.data?.data, 'profiltes');
-        }
+
+
 
         filterApi()
 
 
     }, [filterAllProfiles]);
 
-    if (isLoading) return <div>Loading...</div>;
-    if (isError) return <div>Error: {(error as any)?.message}</div>;
+
 
 
     const onDown = () => { setViewBio(false); setH("h-80") };
 
+
     return (
         <>
             <ProfileSearchHeader />
+            {isLoading && <ProfileSkeleton />}
+            {Array.isArray(data?.data?.data) && data.data.data.length === 0 && (
+                <h1 className=" w-screen h-screen flex justify-center items-center font-extrabold text-xl text-gray-400 ">
+                    No BioData found
+                </h1>
+            )}
             <FlotingButton icon={<FaFilter size={18} />} onClick={() => setShowfilter(true)} text={'FILTER'} />
             <div className="w-full  flex justify-between items-center px-4 my-4">
-                <Heading className='text-xl font-semibold' text={'1000 profile Fouond'} />
+                {/* <Heading className='text-xl font-semibold' text={'1000 profile Fouond'} /> */}
                 <div className="">
                     {/* <FaFilter className="text-gray-700 cursor-pointer" onClick={() => setShowfilter(true)} size={24} /> */}
                 </div>
             </div>
-            <div className="w-full h-full flex flex-wrap">
+            <div className="w-full h-full flex flex-wrap py-10 pb-14">
                 {Array.isArray(data?.data?.data) && data?.data?.data?.map((bio, index) => (
                     <div key={index} className="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 ">
                         <ProfileCard bio={bio} setViewBio={setViewBio} />
@@ -241,7 +282,7 @@ export default function Profile() {
                 ))}
             </div>
 
-
+            {/* view profile animation */}
             <Drawer isOpen={!!viewBio} position="bottom" padding={"p-0"}
                 widthClass="w-100"
                 className={'rounded-t-lg bg-gray-300 '}
@@ -266,7 +307,7 @@ export default function Profile() {
                 widthClass="w-100"
                 className={'rounded-t-lg'}
                 showCloseBtn={false} onClose={() => setShowfilter(false)}>
-                <Filter filterKey={filter} setModelKey={setModelKey} setFilter={setFilter} setShowfilter={setShowfilter} />
+                <Filter onSave={filterApi} filterKey={filter} setModelKey={setModelKey} setFilter={setFilter} setShowfilter={setShowfilter} />
             </Drawer>
 
             <Modal

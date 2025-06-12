@@ -46,10 +46,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ bio, setViewBio }) => {
             </div>
 
             {/* Candidate Info */}
-            <div className=' w-full absolute bottom-0 px-4 text-white '>
+            <div className=' w-full absolute bottom-0 px-4  pb-2 text-white '>
                 <div className="text-lg font-semibold mb-1">{bio?.personalDetails?.fullName}</div>
+                <div className="text-sm  ">Cast: {bio?.religiousDetails?.subCaste},{bio?.religiousDetails?.caste}, </div>
                 <div className="text-sm  mb-1">Age: {calculateAge(bio?.personalDetails?.dateOfBirth)}</div>
-                <div className="text-sm  mb-3">Income: {bio?.professionalDetails?.income}</div>
+                <div className="text-sm  mb-3">Income: {bio?.professionalDetails?.income}, </div>
 
                 {/* Action Buttons */}
                 <div className=" w-full flex justify-center">
