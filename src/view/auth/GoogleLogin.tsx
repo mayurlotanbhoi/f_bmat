@@ -32,7 +32,7 @@ const GoogleLogin = () => {
     const idToken = response.credential;
 
     try {
-      const res = await fetch('http://localhost:5000/api/v1/auth/google-login', {
+      const res = await fetch('https://api-b-bmat.onrender.com/api/v1/auth/google-login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
