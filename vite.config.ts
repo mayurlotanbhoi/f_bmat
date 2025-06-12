@@ -9,39 +9,40 @@ export default defineConfig({
     react(),
     
     VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
-      devOptions: {
-        enabled: true, // 👈 enables service worker + manifest in dev
+  registerType: 'autoUpdate',
+  includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
+  devOptions: {
+    enabled: true,
+    type: 'module', // optional but better for dev
+  },
+  manifest: {
+    name: 'My App Name',
+    short_name: 'MyApp',
+    description: 'Your app description',
+    theme_color: '#ffffff',
+    background_color: '#ffffff',
+    display: 'standalone',
+    start_url: '/',
+    icons: [
+      {
+        src: 'pwa-192x192.png',
+        sizes: '192x192',
+        type: 'image/png',
       },
-      manifest: {
-        name: 'My App Name',
-        short_name: 'MyApp',
-        description: 'Your app description',
-        theme_color: '#ffffff',
-        background_color: '#ffffff',
-        display: 'standalone',
-        start_url: '/',
-        icons: [
-          {
-            src: '/pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-          },
-          {
-            src: '/pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable',
-          },
-        ],
+      {
+        src: 'pwa-512x512.png',
+        sizes: '512x512',
+        type: 'image/png',
       },
-    }),
+      {
+        src: 'pwa-512x512.png',
+        sizes: '512x512',
+        type: 'image/png',
+        purpose: 'any maskable',
+      },
+    ],
+  },
+})
   ],
     server: {
     host: true,              // Allows external access (e.g. Gitpod)

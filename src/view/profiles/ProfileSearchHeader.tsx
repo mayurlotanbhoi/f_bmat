@@ -51,7 +51,7 @@ export default function ProfileSearchHeader() {
         return () => clearTimeout(debounceTimeout); // cleanup on each change
     }, [query]);
 
-    console.log("isLoading", isLoading)
+
 
 
     const handleSearch = () => {

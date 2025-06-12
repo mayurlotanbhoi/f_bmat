@@ -167,11 +167,7 @@ export default function SinginSignUp() {
                     errorHtml: "<b>Upload failed. Please try again.</b>",
                 });
 
-                console.log("res ",res?.data )
-              
-
                 dispatch(setUser({user:res?.data?.user,token:res?.data?.accessToken}));
-
                 setTimeout(()=>{
                     navigate('/lang');
                 },1000)
