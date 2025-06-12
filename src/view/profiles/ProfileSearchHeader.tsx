@@ -7,13 +7,15 @@ import { TfiLocationPin } from "react-icons/tfi";
 import { PiCalendarPlusLight } from "react-icons/pi";
 import { searchbanner } from '../../util/images.util';
 import { useLazyGlobalSearchProfilesQuery } from '../../features/matrimony/matrimonyApi';
+import { calculateAge } from '../../util/dateFormat';
 export default function ProfileSearchHeader() {
     const placeholders = ['Search by ID...', 'Search by name...', 'Search by mobile number...'];
     const [placeholderIndex, setPlaceholderIndex] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
     const [query, setQuery] = useState('');
+    const [isLoading, setIsloading] = useState(false)
     const [searchHistory, setSearchHistory] = useState<string[]>([]);
-    const [triggerSearch, { data, isLoading }] = useLazyGlobalSearchProfilesQuery()
+    const [triggerSearch, { data, error }] = useLazyGlobalSearchProfilesQuery();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -30,17 +32,26 @@ export default function ProfileSearchHeader() {
     }, []);
 
     useEffect(() => {
-        const handleSearch = async () => {
-            if (query.trim() !== '') {
-                try {
-                    await triggerSearch(query.trim());
-                } catch (err) {
-                    console.error('Search API failed:', err);
+        const debounceTimeout = setTimeout(() => {
+            const handleSearch = async () => {
+                if (query.trim() !== '') {
+                    setIsloading(true)
+                    try {
+                        await triggerSearch(query.trim());
+                    } catch (err) {
+                        console.error('Search API failed:', err);
+                    } finally {
+                        setIsloading(false)
+                    }
                 }
-            }
-        };
-        handleSearch();
+            };
+            handleSearch();
+        }, 500); // 500ms debounce delay
+
+        return () => clearTimeout(debounceTimeout); // cleanup on each change
     }, [query]);
+
+    console.log("isLoading", isLoading)
 
 
     const handleSearch = () => {
@@ -134,12 +145,23 @@ export default function ProfileSearchHeader() {
                         <div className="bg-white p-4 rounded-lg shadow-sm">
                             <h3 className="text-lg font-semibold mb-4">Suggested Profiles</h3>
                             <div className="">
-                                {[1, 2,].map((i) => (
+                                {data?.data.map((profiles, index) => (
                                     <div className="flex items-center py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <img className="w-10 h-10 rounded-full" src="https://writestylesonline.com/wp-content/uploads/2016/08/Follow-These-Steps-for-a-Flawless-Professional-Profile-Picture.jpg" alt="Jese image" />
+                                        <img className="w-10 h-10 object-cover  rounded-full" src={profiles?.profilePhotos[0]} loading='lazy' alt="Jese image" />
                                         <div className="ps-3">
-                                            <div className=" text-gray-600 font-semibold">Neil Sims</div>
-                                            <div className="font-normal flex items-center gap-1 text-gray-500"><>Raj Bhoi (More)</>,  <><TfiLocationPin /> pune</>,<> <PiCalendarPlusLight /> 24 Yr</></div>
+                                            <div className="text-gray-600 font-semibold break-words whitespace-normal">
+                                                {profiles?.personalDetails?.fullName}
+                                            </div>
+                                            <div className="font-normal flex flex-wrap items-center gap-1 text-gray-500 break-words whitespace-normal">
+                                                <>{profiles?.religiousDetails?.subCaste} {profiles?.religiousDetails?.caste}</>,
+
+                                                <>
+                                                    <TfiLocationPin /> {profiles?.contactDetails?.presentAddress?.city}
+                                                </>
+                                                <>
+                                                    <PiCalendarPlusLight /> {calculateAge(profiles?.personalDetails?.dateOfBirth)}
+                                                </>
+                                            </div>
                                         </div>
                                     </div>
                                     // <div key={i} className="bg-white p-3 rounded-lg shadow-sm">
@@ -147,6 +169,12 @@ export default function ProfileSearchHeader() {
                                     //     <p className="text-sm text-center">Profile #{i}</p>
                                     // </div>
                                 ))}
+
+                                {data?.data.length === 0 && !isLoading && <h1 className=' text-center text-gray-500 font-bold'>No Match Found</h1>}
+                                {isLoading && (
+                                    <div className="w-6 h-6 mx-auto border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                                )}
+
                             </div>
                         </div>
 
@@ -159,8 +187,9 @@ export default function ProfileSearchHeader() {
                             />
                         </div>
                     </div>
-                </motion.div>
-            )}
+                </motion.div >
+            )
+            }
 
         </>
     );

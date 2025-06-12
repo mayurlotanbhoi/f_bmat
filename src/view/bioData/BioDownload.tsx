@@ -57,6 +57,7 @@ const MatrimonyBioData = () => {
                 src={profile?.verificationImage || profile?.profilePhotos?.[0] || "/placeholder.jpg"}
                 className="h-28 w-24 object-cover rounded"
                 alt="Candidate Profile"
+                //@ts-ignore
                 onError={(e) => (e.target.src = "/placeholder.jpg")}
               />
             </div>

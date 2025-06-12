@@ -710,6 +710,7 @@ const MultiStepForm: React.FC = () => {
                         console.log("Validation Errors:", errors); // 🛑 log this
 
                         if (Object.keys(errors).length > 0) {
+                            //@ts-ignore
                             actions.setTouched(errors); // show errors on UI
                             return; // block submission
                         }
