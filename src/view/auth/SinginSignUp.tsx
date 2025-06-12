@@ -20,10 +20,12 @@ type FormValues = {
 
 export const LoginForm = ({
     onSubmit,
-    isSingUp
+    isSingUp,
+    isLoading
 }: {
     onSubmit: (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => void;
-    isSingUp: boolean
+    isSingUp: boolean,
+    isLoading:boolean
 }) => {
     const initialValues: FormValues = {
         mobile: '',
@@ -70,13 +72,45 @@ export const LoginForm = ({
                         </a>
                     )}
                     <button
-                        type="button"
-                        onClick={submitForm}
-                        className="mt-5 tracking-wide font-semibold primary-button text-white-500 w-full py-4 rounded-lg  transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
-                    >
-                        <FaArrowRight className="mx-2" size={20} />
-                        <span className="ml-">{isSingUp ? 'Sign Up' : 'Sign In'}</span>
-                    </button>
+    type="button"
+    disabled={isLoading}
+    onClick={submitForm}
+    className={`mt-5 tracking-wide font-semibold primary-button text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none ${
+      isLoading ? 'opacity-70 cursor-not-allowed' : ''
+    }`}
+>
+    {isLoading ? (
+        <>
+            <svg
+                className="animate-spin h-5 w-5 text-white mr-2"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+            >
+                <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                />
+                <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
+                />
+            </svg>
+            <span>Processing...</span>
+        </>
+    ) : (
+        <>
+            <FaArrowRight className="mx-2" size={20} />
+            <span>{isSingUp ? 'Sign Up' : 'Sign In'}</span>
+        </>
+    )}
+</button>
+
                 </>
             )}
         </Formik>
@@ -88,8 +122,9 @@ export default function SinginSignUp() {
     const [login] = useLoginMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false)
     const {user} = useAuth()
-    const [registeruser, { isLoading, error, data, isSuccess }] = useRegisterMutation()
+    const [registeruser, {  error, data, isSuccess }] = useRegisterMutation()
 
     const onSubmit = async (
         values: FormValues,
@@ -97,6 +132,7 @@ export default function SinginSignUp() {
     ) => {
         if (singUp) {
             try {
+                setIsLoading(true)
 
                 const res = await asyncHandlerWithSwal(() => registeruser({
                     mobile: values.mobile, // Assuming `mobile` is used as email/username
@@ -115,21 +151,29 @@ export default function SinginSignUp() {
             } catch (error) {
                 console.error('Login failed:', error);
             } finally {
+                setIsLoading(false)
                 setSubmitting(false);
             }
         } else {
             try {
-                const res = await login({
+                setIsLoading(true)
+
+                  const res = await asyncHandlerWithSwal(() =>   login({
                     mobile: values.mobile, // Assuming `mobile` is used as email/username
                     password: values.password,
-                }).unwrap();
+                }).unwrap(), {
+                    loadingHtml: "<b>Account Creting...</b>",
+                    successHtml: "<b>Account Created! Now Login</b>",
+                    errorHtml: "<b>Upload failed. Please try again.</b>",
+                });
+              
 
-                dispatch(setUser(res));
-
+                // dispatch(setUser(res));
                 // navigate('/lang');
             } catch (error) {
                 console.error('Login failed:', error);
             } finally {
+                setIsLoading(false)
                 setSubmitting(false);
             }
         }
@@ -166,7 +210,7 @@ export default function SinginSignUp() {
 
                             <div className="mx-auto max-w-xs">
 
-                                <LoginForm onSubmit={onSubmit} isSingUp={singUp} />
+                                <LoginForm onSubmit={onSubmit} isSingUp={singUp} isLoading={isLoading} />
 
 
 
