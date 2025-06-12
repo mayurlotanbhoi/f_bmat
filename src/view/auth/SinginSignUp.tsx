@@ -1,5 +1,5 @@
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useLoginMutation, useRegisterMutation } from '../../features/auth/authApi';
@@ -11,6 +11,7 @@ import GoogleLogin from './GoogleLogin'; // assumed component
 import { setUser } from '../../features/user/userSlice';
 import { welcome } from '../../util/images.util';
 import { asyncHandlerWithSwal } from '../../util/asyncHandler';
+import { useAuth } from '../../hooks/useAuth';
 
 type FormValues = {
     mobile: string;
@@ -87,6 +88,7 @@ export default function SinginSignUp() {
     const [login] = useLoginMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {user} = useAuth()
     const [registeruser, { isLoading, error, data, isSuccess }] = useRegisterMutation()
 
     const onSubmit = async (
@@ -123,7 +125,8 @@ export default function SinginSignUp() {
                 }).unwrap();
 
                 dispatch(setUser(res));
-                navigate('/lang');
+
+                // navigate('/lang');
             } catch (error) {
                 console.error('Login failed:', error);
             } finally {
@@ -131,6 +134,12 @@ export default function SinginSignUp() {
             }
         }
     };
+
+    useEffect(() => {
+  if (user) {
+    navigate('/lang');
+  }
+}, [user, navigate]);
 
     return (
         <div className="h-[100vh] bg_primary text-gray-900 flex justify-center">

@@ -7,6 +7,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 export default defineConfig({
   plugins: [
     react(),
+    
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'robots.txt', 'apple-touch-icon.png'],
@@ -42,4 +43,8 @@ export default defineConfig({
       },
     }),
   ],
+    server: {
+    host: true,              // Allows external access (e.g. Gitpod)
+    allowedHosts: true,     // Allows any domain name (Gitpod, etc.)
+  },
 })
