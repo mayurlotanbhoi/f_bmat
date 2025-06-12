@@ -168,8 +168,8 @@ export default function SinginSignUp() {
                 });
               
 
-                // dispatch(setUser(res));
-                // navigate('/lang');
+                dispatch(setUser(res));
+                navigate('/lang');
             } catch (error) {
                 console.error('Login failed:', error);
             } finally {
@@ -179,11 +179,11 @@ export default function SinginSignUp() {
         }
     };
 
-    useEffect(() => {
-  if (user) {
-    navigate('/lang');
-  }
-}, [user, navigate]);
+//     useEffect(() => {
+//   if (user) {
+//     navigate('/lang');
+//   }
+// }, [user, navigate]);
 
     return (
         <div className="h-[100vh] bg_primary text-gray-900 flex justify-center">
