@@ -17,8 +17,7 @@ const AppLoader = () => {
             try {
                 // First, get user data (must succeed)
                 const userData = await triggerGetUser('').unwrap();
-
-
+                console.log("userData AppLoader", userData)
                 if (userData?.statusCode !== 200) throw new Error('User ID missing');
 
                 // Call profile API in parallel, but don’t crash on failure

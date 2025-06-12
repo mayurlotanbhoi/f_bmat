@@ -162,14 +162,14 @@ export default function SinginSignUp() {
                     mobile: values.mobile, // Assuming `mobile` is used as email/username
                     password: values.password,
                 }).unwrap(), {
-                    loadingHtml: "<b>Account Creting...</b>",
-                    successHtml: "<b>Account Created! Now Login</b>",
+                    loadingHtml: "<b>Account SignIn...</b>",
+                    successHtml: "<b>Account SignIn Succesfully</b>",
                     errorHtml: "<b>Upload failed. Please try again.</b>",
                 });
               
 
-                dispatch(setUser(res));
-                navigate('/lang');
+                // dispatch(setUser(res));
+                // navigate('/lang');
             } catch (error) {
                 console.error('Login failed:', error);
             } finally {
@@ -179,11 +179,11 @@ export default function SinginSignUp() {
         }
     };
 
-//     useEffect(() => {
-//   if (user) {
-//     navigate('/lang');
-//   }
-// }, [user, navigate]);
+    useEffect(() => {
+  if (user) {
+    navigate('/lang');
+  }
+}, [user, navigate]);
 
     return (
         <div className="h-[100vh] bg_primary text-gray-900 flex justify-center">
