@@ -61,12 +61,20 @@ export const useFirebaseMessaging = (userId: string) => {
 
             // Check if browser supports notifications
             if (Notification.permission === "granted") {
+                // new Notification(title, {
+                //     body: body,
+                //     // @ts-ignore
+                //     imageUrl: imageUrl,
+                //     url: url,
+                //     icon: "/logo192.png", // Optional: your app icon
+                // });
+
                 new Notification(title, {
-                    body: body,
+                    body,
+                    icon: "/logo192.png",
                     // @ts-ignore
-                    imageUrl: imageUrl,
-                    url: url,
-                    icon: "/logo192.png", // Optional: your app icon
+                    image: imageUrl, // ✅ valid key
+                    data: { url },   // ✅ store custom data like URL
                 });
             } else {
                 // If notifications aren't granted, you could fallback to a toast or alert
@@ -81,7 +89,9 @@ export const useFirebaseMessaging = (userId: string) => {
 
     useEffect(() => {
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+            // navigator.serviceWorker.register('/firebase-messaging-sw.js')
+            navigator.serviceWorker.register('/firebase-messaging-sw.js?v=2')
+
                 .then((registration) => {
                     console.log('Service Worker registered with scope:', registration.scope);
                 }).catch((err) => {

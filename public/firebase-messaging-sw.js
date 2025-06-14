@@ -35,15 +35,13 @@ function parseNotificationData(data = {}) {
  * Show notification
  */
 function showNotification(data) {
-
     const { title, body, icon, badge, image, url } = parseNotificationData(data);
-    console.log('title, body, icon, badge, image, url', title, body, icon, badge, image, url)
+
     const options = {
         body,
-        icon: image,
+        icon: icon, // ✅ correct
         badge,
         image,
-        url: url,
         data: { click_action_url: url },
         actions: [
             {
@@ -61,6 +59,7 @@ function showNotification(data) {
 
     return self.registration.showNotification(title, options);
 }
+
 
 // Firebase background messages
 messaging.onBackgroundMessage(payload => {
@@ -80,7 +79,7 @@ self.addEventListener('push', event => {
 // Notification click handler
 self.addEventListener('notificationclick', event => {
     event.notification.close();
-    const targetUrl = event.notification.data?.url || '/';
+    const targetUrl = event.notification.data?.click_action_url || '/';
 
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
@@ -93,3 +92,4 @@ self.addEventListener('notificationclick', event => {
         })
     );
 });
+
