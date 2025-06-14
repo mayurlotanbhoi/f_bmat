@@ -25,7 +25,7 @@ export const LoginForm = ({
 }: {
     onSubmit: (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => void;
     isSingUp: boolean,
-    isLoading:boolean
+    isLoading: boolean
 }) => {
     const initialValues: FormValues = {
         mobile: '',
@@ -72,44 +72,43 @@ export const LoginForm = ({
                         </a>
                     )}
                     <button
-    type="button"
-    disabled={isLoading}
-    onClick={submitForm}
-    className={`mt-5 tracking-wide font-semibold primary-button text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none ${
-      isLoading ? 'opacity-70 cursor-not-allowed' : ''
-    }`}
->
-    {isLoading ? (
-        <>
-            <svg
-                className="animate-spin h-5 w-5 text-white mr-2"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-            >
-                <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                />
-                <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
-                />
-            </svg>
-            <span>Processing...</span>
-        </>
-    ) : (
-        <>
-            <FaArrowRight className="mx-2" size={20} />
-            <span>{isSingUp ? 'Sign Up' : 'Sign In'}</span>
-        </>
-    )}
-</button>
+                        type="button"
+                        disabled={isLoading}
+                        onClick={submitForm}
+                        className={`mt-5 tracking-wide font-semibold primary-button text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
+                            }`}
+                    >
+                        {isLoading ? (
+                            <>
+                                <svg
+                                    className="animate-spin h-5 w-5 text-white mr-2"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    />
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
+                                    />
+                                </svg>
+                                <span>Processing...</span>
+                            </>
+                        ) : (
+                            <>
+                                <FaArrowRight className="mx-2" size={20} />
+                                <span>{isSingUp ? 'Sign Up' : 'Sign In'}</span>
+                            </>
+                        )}
+                    </button>
 
                 </>
             )}
@@ -123,8 +122,8 @@ export default function SinginSignUp() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false)
-    const {user} = useAuth()
-    const [registeruser, {  error, data, isSuccess }] = useRegisterMutation()
+    const { user } = useAuth()
+    const [registeruser, { error, data, isSuccess }] = useRegisterMutation()
 
     const onSubmit = async (
         values: FormValues,
@@ -158,7 +157,7 @@ export default function SinginSignUp() {
             try {
                 setIsLoading(true)
 
-                  const res = await asyncHandlerWithSwal(() =>   login({
+                const res = await asyncHandlerWithSwal(() => login({
                     mobile: values.mobile, // Assuming `mobile` is used as email/username
                     password: values.password,
                 }).unwrap(), {
@@ -167,11 +166,11 @@ export default function SinginSignUp() {
                     errorHtml: "<b>Upload failed. Please try again.</b>",
                 });
 
-                dispatch(setUser({user:res?.data?.user,token:res?.data?.accessToken}));
-                setTimeout(()=>{
+                dispatch(setUser({ user: res?.data?.user, token: res?.data?.accessToken }));
+                setTimeout(() => {
                     navigate('/lang');
-                },1000)
-                
+                }, 1000)
+
             } catch (error) {
                 console.error('Login failed:', error);
             } finally {

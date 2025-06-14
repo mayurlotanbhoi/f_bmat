@@ -2,13 +2,20 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCredentials } from '../../features/auth/authSlice';
+import { useFirebaseMessaging } from "../../hooks/useFirebaseMessaging";
+
 import { setUser } from '../../features/user/userSlice';
+const BASE_URL =
+  import.meta.env.PROD
+    ? import.meta.env.VITE_BASE_URL
+    : 'http://localhost:5000/api/v1';
 // import { useGetProfileByUserIdMutation } from '../../features/matrimony/matrimonyApi';
 const clientId = import.meta.env.VITE_CLIENT_ID;
 
 const GoogleLogin = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   // const [getProfileByUserId,] = useGetProfileByUserIdMutation()
 
 
@@ -32,7 +39,7 @@ const GoogleLogin = () => {
     const idToken = response.credential;
 
     try {
-      const res = await fetch('https://api-b-bmat.onrender.com/api/v1/auth/google-login', {
+      const res = await fetch(`${BASE_URL}/auth/google-login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,6 +55,9 @@ const GoogleLogin = () => {
 
       try {
         // await getProfileByUserId('').unwrap();
+        if (data?.data?.user) {
+          useFirebaseMessaging(data?.data?.user?._id);
+        }
         navigate('/lang'); // ✅ Profile found
       } catch (err) {
         const message = err?.data?.message || err?.message || '';
@@ -66,6 +76,8 @@ const GoogleLogin = () => {
       navigate('/auth');
     }
   };
+
+
 
 
 

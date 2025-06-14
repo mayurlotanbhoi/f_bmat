@@ -10,7 +10,6 @@ import CompletProfile from "./CompletProfile";
 import { useEffect, useState } from "react";
 import Modal from "../../components/Common/Modal";
 import { usePwaPrompt } from "../../hooks";
-import { useFirebaseMessaging } from "../../hooks/useFirebaseMessaging";
 import { useAuth } from "../../hooks/useAuth";
 import { getMatrimony } from "../../features/matrimony/matrimonySlice";
 // import { usePwaPrompt } from "../../hooks";

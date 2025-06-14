@@ -54,8 +54,9 @@ const MainLayout: React.FC = () => {
   const hiddeSpeedDail = speedDial.some((item) => location.pathname.includes(item));
 
   // useEffect(() => {
-  //   console.log("user", user)
-  if (user?.fcmTokens?.length === 0) {
+  // console.log("user", user)
+  // console.log("user?.fcmTokens?.length", user?.fcmTokens?.length)
+  if (user?._id) {
     useFirebaseMessaging(user?._id);
   }
 

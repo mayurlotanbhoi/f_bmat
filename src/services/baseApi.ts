@@ -4,14 +4,18 @@ import { logout, setCredentials } from '../features/auth/authSlice';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import type { FetchArgs, BaseQueryFn } from '@reduxjs/toolkit/query/react';
 import { setUser } from '../features/user/userSlice';
+const BASE_URL =
+    import.meta.env.PROD
+        ? import.meta.env.VITE_BASE_URL
+        : 'http://localhost:5000/api/v1';
 
 const baseQuery = fetchBaseQuery({
     // baseUrl: 'http://localhost:5000/api/v1',
     credentials: 'include',
-    baseUrl: ' https://api-b-bmat.onrender.com/api/v1',
+    baseUrl: BASE_URL,
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as RootState).user.token;
-        console.log('token',token)
+        console.log('token', token)
         if (token) {
             headers.set('Authorization', `Bearer ${token}`);
         }

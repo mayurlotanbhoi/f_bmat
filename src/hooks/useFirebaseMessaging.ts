@@ -2,6 +2,10 @@
 import { useEffect } from 'react';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
 import { initializeApp } from 'firebase/app';
+const BASE_URL =
+    import.meta.env.PROD
+        ? import.meta.env.VITE_BASE_URL
+        : 'http://localhost:5000/api/v1';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAzeRY7RYox42t6Cpy33TQRmzTmlxt8lKo",
@@ -34,7 +38,7 @@ export const useFirebaseMessaging = (userId: string) => {
 
                 if (token) {
                     console.log("FCM Token:", token);
-                    await fetch("hhttps://api-b-bmat.onrender.com/api/v1/notifications/save-subscription", {
+                    await fetch(`${BASE_URL}/notifications/save-subscription`, {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

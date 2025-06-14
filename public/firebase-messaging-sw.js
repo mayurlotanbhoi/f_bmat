@@ -63,10 +63,10 @@ function showNotification(data) {
 }
 
 // Firebase background messages
-// messaging.onBackgroundMessage(payload => {
-//     console.log('[Service Worker] Firebase onBackgroundMessage:', payload);
-//     showNotification(payload.data);
-// });
+messaging.onBackgroundMessage(payload => {
+    console.log('[Service Worker] Firebase onBackgroundMessage:', payload);
+    showNotification(payload.data);
+});
 
 // Raw Push API (fallback or custom push formats)
 self.addEventListener('push', event => {
