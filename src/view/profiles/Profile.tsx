@@ -18,6 +18,7 @@ import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 import { useParams } from 'react-router-dom';
 import { useFilterAllProfilesMutation } from '../../features/matrimony/matrimonyApi';
 import { ProfileSkeleton } from '../../components/Common/skeletons';
+import { m } from 'framer-motion';
 interface TypeOfBio {
     [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
 }
@@ -192,6 +193,7 @@ export default function Profile() {
     const [showFilter, setShowfilter] = useState(false)
     const [h, setH] = useState("h-80")
     const [modelkey, setModelKey] = useState<string>("")
+    const [profileData, setProfileData] = useState([])
     const { filter: filterKey } = useParams();
     const [filterAllProfiles, { data, isLoading, isError, error }] = useFilterAllProfilesMutation();
     console.log(filterKey, 'filterKey');
@@ -233,23 +235,32 @@ export default function Profile() {
             }
         });
 
+
         try {
             const profiltes = await filterAllProfiles({ ...filtered, candidateTypes: filterKey }).unwrap();
             console.log(profiltes?.data?.data, 'profiltes');
+            setProfileData(prev => [...prev, ...profiltes?.data?.data])
         } catch (err) {
             console.error('Filter API error:', err);
         }
     };
 
+    useEffect(() => {
+        setProfileData([])
+        setFilter({
+            age: "age",
+            cast: "cast",
+            subCast: "sub-cast",
+            income: "income",
+            state: 'state',
+            city: "city",
+        })
+    }, [filterKey])
+
 
 
     useEffect(() => {
-
-
-
         filterApi()
-
-
     }, [filterAllProfiles]);
 
 
@@ -275,7 +286,7 @@ export default function Profile() {
                 </div>
             </div>
             <div className="w-full h-full flex flex-wrap py-10 pb-14">
-                {Array.isArray(data?.data?.data) && data?.data?.data?.map((bio, index) => (
+                {Array.isArray(profileData) && profileData?.map((bio, index) => (
                     <div key={index} className="w-full sm:w-1/2 md:w-1/2 lg:w-1/3 ">
                         <ProfileCard bio={bio} setViewBio={setViewBio} />
                     </div>
@@ -300,7 +311,7 @@ export default function Profile() {
 
                 </div>
                 {/* @ts-ignore */}
-                <Viewprofile bio={profile} />
+                <Viewprofile bio={viewBio} />
             </Drawer >
 
             <Drawer isOpen={showFilter} position="left" padding={"p-0"}

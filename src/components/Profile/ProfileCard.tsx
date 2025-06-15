@@ -54,7 +54,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ bio, setViewBio }) => {
 
                 {/* Action Buttons */}
                 <div className=" w-full flex justify-center">
-                    <button onClick={() => setViewBio(bio)} className=" bg_primary w-full flex justify-center items-center gap-3 text-md rounded-3xl font-bold   text-white px-4 py-2 ">
+                    <button onClick={() => setViewBio(prev => bio)} className=" bg_primary w-full flex justify-center items-center gap-3 text-md rounded-3xl font-bold   text-white px-4 py-2 ">
                         <p>View</p><FaRightLong />
                     </button>
                     {/* <button className="bg-green-500 text-sm text-white px-4 py-2 rounded hover:bg-green-600">

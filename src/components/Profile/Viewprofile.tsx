@@ -5,6 +5,8 @@ import { FaLock } from 'react-icons/fa6';
 import { IoLogoWhatsapp } from 'react-icons/io';
 import Heading from '../Headings/Heading';
 import UserProfileCard from './PersonalBioCard';
+import { useShareBioDataMutation } from '../../features/biodata/biodataApi';
+import { ConfettiButton } from '../Common';
 
 interface ViewProfileProps {
     bio: {
@@ -14,8 +16,19 @@ interface ViewProfileProps {
 
 export default function Viewprofile({ bio }: ViewProfileProps) {
     const [activeTab, setActiveTab] = useState('otherInfo');
+    const [isLoading, setIsLoading] = useState(false)
+    const [searchBio] = useShareBioDataMutation();
+
     const { personalDetails, religiousDetails, contactDetails, permanentAddress, presentAddress, professionalDetails } = bio
 
+    const handleShearClick = async (toUserId = bio?.userId, profileId = bio?._id) => {
+        console.log(toUserId, profileId);
+        try {
+            await searchBio({ toUserId, profileId });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const tabs = [
         { key: 'otherInfo', label: 'Other Information' },
@@ -27,7 +40,6 @@ export default function Viewprofile({ bio }: ViewProfileProps) {
 
     const renderTabContent = () => {
         switch (activeTab) {
-
             case 'otherInfo':
                 return (
                     <>
@@ -117,7 +129,48 @@ export default function Viewprofile({ bio }: ViewProfileProps) {
 
             {/* Content */}
 
-            <div className="text-sm space-y-2 max-w-[22rem] lg:max-w-full  container ">{renderTabContent()}</div>
+            <div className="text-sm min-h-screen space-y-2 max-w-[22rem]  lg:max-w-full  container ">
+                {renderTabContent()}
+
+                <ConfettiButton>
+
+                    <button
+                        onClick={() => handleShearClick()}
+                        disabled={isLoading}
+                        className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
+                            }`}
+                    >
+                        {isLoading ? (
+                            <>
+                                <svg
+                                    className="animate-spin h-5 w-5 text-white mr-2"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    />
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
+                                    />
+                                </svg>
+                                <span>Completing...</span>
+                            </>
+                        ) : (
+                            <span>{isLoading ? 'Complete Registration' : 'Send Your BioData'}</span>
+                        )}
+                    </button>
+                </ConfettiButton>
+                {/* <button className=' bg_primary fixed bottom-2 text-white font-semibold shadow-sm'>skjnkj</button> */}
+            </div>
 
         </div>
     );

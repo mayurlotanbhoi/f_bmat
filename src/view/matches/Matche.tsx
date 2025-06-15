@@ -3,6 +3,7 @@ import { MdVerified } from 'react-icons/md';
 import { IoChatbubbleOutline } from 'react-icons/io5';
 import { AiOutlineLike } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { ConfettiButton } from '../../components';
 
 // interface UserCardProps {
 //     bios: {
@@ -92,7 +93,7 @@ const Matche = () => {
                         </div>
                     </div>
 
-                    <button className=' btn bg_primary text-white px-4 py-[2px] rounded-xl '>Send Intrest</button>
+                    <ConfettiButton className=' btn bg_primary text-white px-4 py-[2px] rounded-xl '><button >Send Intrest</button></ConfettiButton>
                 </div>
             </div>))}
         </>

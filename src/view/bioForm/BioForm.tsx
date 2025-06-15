@@ -594,7 +594,7 @@ const MultiStepForm: React.FC = () => {
         }
 
         try {
-setIsSubmitting(true)
+            setIsSubmitting(true)
             let res;
             if (isProfilePresent) {
                 res = await updateMatrimonyProfile({ id: profile._id, formData }).unwrap();
@@ -605,8 +605,8 @@ setIsSubmitting(true)
         } catch (err) {
             const message = err?.data?.message || "Something went wrong";
             console.error("❌ Error", message);
-        }finally{
-            setIsSubmitting(true)
+        } finally {
+            setIsSubmitting(false)
         }
     };
 
@@ -904,41 +904,40 @@ setIsSubmitting(true)
 
                         </div>
 
-                       <button
-    type="submit"
-    disabled={isLastStep && isSubmitting}
-    className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${
-      isLastStep && isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-    }`}
->
-    {isLastStep && isSubmitting ? (
-        <>
-            <svg
-                className="animate-spin h-5 w-5 text-white mr-2"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-            >
-                <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                />
-                <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
-                />
-            </svg>
-            <span>Completing...</span>
-        </>
-    ) : (
-        <span>{isLastStep ? 'Complete Registration' : 'Continue'}</span>
-    )}
-</button>
+                        <button
+                            type="submit"
+                            disabled={isLastStep && isSubmitting}
+                            className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLastStep && isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                                }`}
+                        >
+                            {isLastStep && isSubmitting ? (
+                                <>
+                                    <svg
+                                        className="animate-spin h-5 w-5 text-white mr-2"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                        />
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
+                                        />
+                                    </svg>
+                                    <span>Completing...</span>
+                                </>
+                            ) : (
+                                <span>{isLastStep ? 'Complete Registration' : 'Continue'}</span>
+                            )}
+                        </button>
 
                     </Form>
                 </Formik>
