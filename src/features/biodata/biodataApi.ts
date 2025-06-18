@@ -10,6 +10,14 @@ export const biodataApi = baseApi.injectEndpoints({
                 body: data,
             }),
         }),
+
+        getLikes: builder.query<any, string>({
+            query: () => ({
+                url: `/biodata/shared`,
+                method: 'GET',
+            }),
+        }),
+        // /shared
         register: builder.mutation<any, { mobile: string; password: string }>({
             query: (data) => ({
                 url: '/auth/register',
@@ -20,4 +28,4 @@ export const biodataApi = baseApi.injectEndpoints({
     }),
 });
 
-export const { useShareBioDataMutation, useRegisterMutation } = biodataApi;
+export const { useShareBioDataMutation, useLazyGetLikesQuery, useRegisterMutation } = biodataApi;

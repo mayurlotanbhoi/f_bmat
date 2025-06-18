@@ -24,6 +24,7 @@ const Matche = lazy(() => import('../view/matches'));
 const ChatBox = lazy(() => import('../view/chat'));
 const UserProfile = lazy(() => import('../view/user'));
 const BioForm = lazy(() => import('../view/bioForm'));
+const Links = lazy(() => import('../view/links/Links'))
 // import { ScrollToTop } from '../components';
 
 // import LoadingFallback from '../components/LoadingFallback';
@@ -112,6 +113,11 @@ const routes = [
                 path: '/bio-download',
                 element: <BioDownload />,
             },
+            {
+                path: '/likes',
+                element: <Links />,
+            },
+
 
             // {
             //     path: '/dashboard',

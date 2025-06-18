@@ -135,7 +135,7 @@ export default function Viewprofile({ bio }: ViewProfileProps) {
                 <ConfettiButton>
 
                     <button
-                        onClick={() => handleShearClick()}
+                        onClick={() => handleShearClick(bio?.userId, bio?._id)}
                         disabled={isLoading}
                         className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
                             }`}
