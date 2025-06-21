@@ -6,6 +6,7 @@ import ErrorBoundary from '../components/ChunkError/ErrorBoundary';
 import { useAuth } from '../hooks/useAuth';
 import { BioDownload } from '../view/bioData';
 import AppLoader from '../app/AppLoader';
+import InitialInfo from '../view/plashScreens';
 // import { ViewBioData } from '../view/viewBioData';
 
 // import BioForm from '../view/bioForm';
@@ -124,6 +125,10 @@ const routes = [
                 path: '/vlew-profile/:id',
                 element: <ViewBioData />,
             },
+            {
+                path: '/initial-info',
+                element: <InitialInfo />,
+            }
 
 
 

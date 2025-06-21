@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Formik, Form } from "formik";
 import * as Yup from 'yup';
+
 import { DateTimeInput, FileInput, Input, MultiSelect, Select } from "../../components/forms/Inputs";
 import FormProgess from "./FormProgess";
 import { GoArrowLeft } from "react-icons/go";

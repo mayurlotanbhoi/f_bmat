@@ -7,6 +7,7 @@ import AppLoader from '../app/AppLoader';
 import { useFirebaseMessaging } from '../hooks/useFirebaseMessaging';
 import { useAuth } from '../hooks/useAuth';
 
+
 // const skeletons = {
 //   : <HomeSkeleton />,
 //   "/profile": <ProfileSkeleton />,
@@ -38,10 +39,10 @@ const SuspenseWrapper = ({
 const MainLayout: React.FC = () => {
   const location = useLocation();
   const { user } = useAuth();
-  const Padding = ['profile', 'chat', 'user', 'complet-profile'];
-  const header = ['profile', 'chat',];
-  const fullScrren = ['chat', 'complet-profile'];
-  const speedDial = ['profile',];
+  const Padding = ['profile', 'chat', 'user', 'complet-profile', 'initial-info'];
+  const header = ['profile', 'chat', 'initial-info'];
+  const fullScrren = ['chat', 'complet-profile', 'initial-info'];
+  const speedDial = ['profile', , 'initial-info'];
 
   console.log("location", location.pathname)
   type Path = keyof typeof skeletons;
@@ -64,6 +65,8 @@ const MainLayout: React.FC = () => {
 
   return (
     <div className="app">
+
+
       <ScrollToTop />
       <AppLoader />
 

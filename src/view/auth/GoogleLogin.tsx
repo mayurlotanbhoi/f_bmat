@@ -58,12 +58,12 @@ const GoogleLogin = () => {
         if (data?.data?.user) {
           useFirebaseMessaging(data?.data?.user?._id);
         }
-        navigate('/lang'); // ✅ Profile found
+        navigate('/initial-info'); // ✅ Profile found
       } catch (err) {
         const message = err?.data?.message || err?.message || '';
         if (message.includes('Profile not found')) {
           // ✅ Profile not found, but allow access
-          return navigate('/lang');
+          return navigate('/initial-info');
         }
 
         console.error('Failed to fetch profile:', err);

@@ -168,7 +168,7 @@ export default function SinginSignUp() {
 
                 dispatch(setUser({ user: res?.data?.user, token: res?.data?.accessToken }));
                 setTimeout(() => {
-                    navigate('/lang');
+                    navigate('/initial-info');
                 }, 1000)
 
             } catch (error) {
