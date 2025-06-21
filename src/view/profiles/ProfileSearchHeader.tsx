@@ -8,6 +8,7 @@ import { PiCalendarPlusLight } from "react-icons/pi";
 import { searchbanner } from '../../util/images.util';
 import { useLazyGlobalSearchProfilesQuery } from '../../features/matrimony/matrimonyApi';
 import { calculateAge } from '../../util/dateFormat';
+import { Link } from 'react-router-dom';
 export default function ProfileSearchHeader() {
     const placeholders = ['Search by ID...', 'Search by name...', 'Search by mobile number...'];
     const [placeholderIndex, setPlaceholderIndex] = useState(0);
@@ -145,8 +146,9 @@ export default function ProfileSearchHeader() {
                         <div className="bg-white p-4 rounded-lg shadow-sm">
                             <h3 className="text-lg font-semibold mb-4">Suggested Profiles</h3>
                             <div className="">
-                                {data?.data.map((profiles, index) => (
-                                    <div className="flex items-center py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                                {data?.data?.map((profiles, index) => (
+                                    <Link to={`/vlew-profile/${profiles?._id
+                                        }`} className="flex items-center py-4 text-gray-900 whitespace-nowrap dark:text-white">
                                         <img className="w-10 h-10 object-cover  rounded-full" src={profiles?.profilePhotos[0]} loading='lazy' alt="Jese image" />
                                         <div className="ps-3">
                                             <div className="text-gray-600 font-semibold break-words whitespace-normal">
@@ -163,7 +165,7 @@ export default function ProfileSearchHeader() {
                                                 </>
                                             </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                     // <div key={i} className="bg-white p-3 rounded-lg shadow-sm">
                                     //     <div className="h-24 w-full bg-gray-200 rounded-md mb-2" />
                                     //     <p className="text-sm text-center">Profile #{i}</p>

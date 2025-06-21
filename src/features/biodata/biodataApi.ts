@@ -25,7 +25,13 @@ export const biodataApi = baseApi.injectEndpoints({
                 body: data,
             }),
         }),
+        getBiodata: builder.query<any, string>({
+            query: (id) => ({
+                url: `/biodata/${id}`,
+                method: 'GET',
+            }),
+        }),
     }),
 });
 
-export const { useShareBioDataMutation, useLazyGetLikesQuery, useRegisterMutation } = biodataApi;
+export const { useShareBioDataMutation, useLazyGetLikesQuery, useRegisterMutation, useLazyGetBiodataQuery } = biodataApi;

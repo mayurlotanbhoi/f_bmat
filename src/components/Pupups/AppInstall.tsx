@@ -7,7 +7,7 @@ type AppInstallProps = {
 export default function AppInstall({ installApp }: AppInstallProps) {
 
     return (
-        <div className="p-6 secondary-btn rounded-xl l w-full text-gray-800">
+        <div className="p-6  rounded-xl l w-full text-gray-800">
             <div className="flex flex-col gap-4">
                 {/* Header */}
                 <div className="flex items-center gap-3">

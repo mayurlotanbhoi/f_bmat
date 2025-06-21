@@ -6,6 +6,7 @@ import ErrorBoundary from '../components/ChunkError/ErrorBoundary';
 import { useAuth } from '../hooks/useAuth';
 import { BioDownload } from '../view/bioData';
 import AppLoader from '../app/AppLoader';
+// import { ViewBioData } from '../view/viewBioData';
 
 // import BioForm from '../view/bioForm';
 // import UserProfile from '../view/user';
@@ -24,7 +25,8 @@ const Matche = lazy(() => import('../view/matches'));
 const ChatBox = lazy(() => import('../view/chat'));
 const UserProfile = lazy(() => import('../view/user'));
 const BioForm = lazy(() => import('../view/bioForm'));
-const Links = lazy(() => import('../view/links/Links'))
+const Links = lazy(() => import('../view/links/Links'));
+const ViewBioData = lazy(() => import('../view/viewBioData/viewBio'))
 // import { ScrollToTop } from '../components';
 
 // import LoadingFallback from '../components/LoadingFallback';
@@ -117,6 +119,14 @@ const routes = [
                 path: '/likes',
                 element: <Links />,
             },
+
+            {
+                path: '/vlew-profile/:id',
+                element: <ViewBioData />,
+            },
+
+
+
 
 
             // {

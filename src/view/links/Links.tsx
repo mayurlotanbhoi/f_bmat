@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLazyGetLikesQuery } from '../../features/biodata/biodataApi'
+import { Link } from 'react-router-dom'
 
 export default function SharedLinks() {
   const [getLikes, { data, isLoading }] = useLazyGetLikesQuery()
@@ -44,9 +45,9 @@ export default function SharedLinks() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {sharedList.map((item: any) => {
-            const profile = item.profileShared
-            const viewed = item.isViewed
-            const id = item._id
+            const profile = item?.profileShared
+            const viewed = item?.isViewed
+            const id = item?._id
             const isExpanded = expandedIndex === id
 
             const {
@@ -63,9 +64,11 @@ export default function SharedLinks() {
             const state = profile.contactDetails.presentAddress?.state
             const occupation = profile.professionalDetails.occupation
             const income = profile.professionalDetails.income
+            console.log('item', item?.profileShared);
 
             return (
-              <div
+              <Link to={`/vlew-profile/${item?.profileShared?._id
+                }`}
                 key={id}
                 className="relative bg-white rounded-xl shadow hover:shadow-md p-4 transition border border-gray-100"
               >
@@ -95,7 +98,7 @@ export default function SharedLinks() {
                 </div>
 
                 {/* Expandable content with smooth transition */}
-                <div
+                {/* <div
                   className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
                 >
                   <div className="text-sm text-gray-600 space-y-1">
@@ -105,10 +108,10 @@ export default function SharedLinks() {
                     <div><span className="font-medium">Weight:</span> {weight}</div>
                     <div><span className="font-medium">Income:</span> ₹{income}</div>
                   </div>
-                </div>
+                </div> */}
 
                 {/* Buttons */}
-                <div className="mt-4 flex justify-between items-center">
+                {/* <div className="mt-4 flex justify-between items-center">
                   <button
                     onClick={() => toggleExpand(id)}
                     className="text-blue-600 hover:underline text-sm"
@@ -123,8 +126,8 @@ export default function SharedLinks() {
                   >
                     View Full Profile
                   </button>
-                </div>
-              </div>
+                </div> */}
+              </Link>
             )
           })}
         </div>

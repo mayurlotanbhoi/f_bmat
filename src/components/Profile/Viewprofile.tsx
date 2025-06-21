@@ -16,17 +16,20 @@ interface ViewProfileProps {
 
 export default function Viewprofile({ bio }: ViewProfileProps) {
     const [activeTab, setActiveTab] = useState('otherInfo');
-    const [isLoading, setIsLoading] = useState(false)
-    const [searchBio] = useShareBioDataMutation();
+    const [isLoading, setIsLoadoding] = useState(false);
+    const [shearBioData] = useShareBioDataMutation();
 
     const { personalDetails, religiousDetails, contactDetails, permanentAddress, presentAddress, professionalDetails } = bio
 
     const handleShearClick = async (toUserId = bio?.userId, profileId = bio?._id) => {
         console.log(toUserId, profileId);
         try {
-            await searchBio({ toUserId, profileId });
+            setIsLoadoding(true);
+            await shearBioData({ toUserId, profileId });
         } catch (error) {
             console.log(error);
+        } finally {
+            setIsLoadoding(false);
         }
     };
 
@@ -140,6 +143,7 @@ export default function Viewprofile({ bio }: ViewProfileProps) {
                         className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
                             }`}
                     >
+
                         {isLoading ? (
                             <>
                                 <svg
@@ -162,12 +166,14 @@ export default function Viewprofile({ bio }: ViewProfileProps) {
                                         d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
                                     />
                                 </svg>
-                                <span>Completing...</span>
+                                <span>Shearing...</span>
                             </>
                         ) : (
-                            <span>{isLoading ? 'Complete Registration' : 'Send Your BioData'}</span>
+                            <span>{isLoading ? 'Shearing' : 'Send Your BioData'}</span>
                         )}
                     </button>
+
+
                 </ConfettiButton>
                 {/* <button className=' bg_primary fixed bottom-2 text-white font-semibold shadow-sm'>skjnkj</button> */}
             </div>
