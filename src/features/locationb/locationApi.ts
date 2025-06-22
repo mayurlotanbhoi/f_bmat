@@ -6,7 +6,7 @@ export const biodataApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getLocation: builder.query<any, { lat: number; lon: number }>({
             query: ({ lat, lon }) => ({
-                url: `/location/update-location`,
+                url: `/location/get-location`,
                 method: 'GET',
                 params: {
                     format: 'json',
@@ -15,7 +15,16 @@ export const biodataApi = baseApi.injectEndpoints({
                 },
             }),
         }),
+
+        updateInitialdetails: builder.mutation({
+            query: (data) => ({
+                url: `/location/update-initial-details`,
+                method: 'POST',
+                body: data,
+
+            }),
+        })
     }),
 });
 
-export const { useGetLocationQuery } = biodataApi;
+export const { useGetLocationQuery, useUpdateInitialdetailsMutation } = biodataApi;
