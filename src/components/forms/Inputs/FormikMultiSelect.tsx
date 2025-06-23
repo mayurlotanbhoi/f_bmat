@@ -46,11 +46,11 @@ const FormikMultiSelect: React.FC<Props> = ({ name, label, required, options }) 
                     }`}
                 ref={dropdownRef}
             >
-                {selectedValues.length === 0 && (
+                {selectedValues?.length === 0 && (
                     <span className="text-gray-400">Select one or more...</span>
                 )}
 
-                {selectedValues.map((val) => {
+                {Array.isArray(selectedValues) && selectedValues?.map((val) => {
                     const opt = options.find((o) => o.value === val);
                     return (
                         <span

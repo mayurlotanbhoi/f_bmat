@@ -18,14 +18,14 @@ export const appConfig = {
     },
     "category": [
         {
-            "key": "occupation",
+            "key": "job",
             "url": "/occupation",
             "icon": "💼",
             "text": "Job",
             "accessLevel": "public"
         },
         {
-            "key": "education",
+            "key": "10th-12th",
             "url": "/education",
             "icon": "🎓",
             "text": "10th , 12th",

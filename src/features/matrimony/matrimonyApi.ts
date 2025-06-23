@@ -100,6 +100,15 @@ export const matrimonyApi = baseApi.injectEndpoints({
                 method: 'DELETE',
             }),
         }),
+
+        getMatch: builder.query({
+            query: () => ({
+                url: `/matrimony/match`,
+                method: 'GET',
+            }),
+        }),
+
+
     }),
 });
 
@@ -111,4 +120,5 @@ export const {
     useGetProfileByIdQuery,
     useLazyGetMatrimonyByUserIdQuery,
     useDeleteProfileMutation,
+    useGetMatchQuery
 } = matrimonyApi;

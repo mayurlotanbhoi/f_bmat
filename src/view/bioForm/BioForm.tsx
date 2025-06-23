@@ -15,6 +15,7 @@ import { useCreateMatrimonyProfileMutation, useUpdateMatrimonyProfileMutation } 
 import { getMatrimony } from "../../features/matrimony/matrimonySlice";
 import { asyncHandlerWithSwal } from "../../util/asyncHandler";
 import { nameRegex, pinCodeRegex } from "../../constant/regexPatterns";
+import { useSelector } from "react-redux";
 
 const steps = [
     {
@@ -66,11 +67,11 @@ const steps = [
     {
         label: "Professional Details",
         fields: [
+            { name: "professionalDetails.jobType", label: "Job Type", placeholder: "Private", type: "select", required: true },
             { name: "professionalDetails.occupation", label: "Occupation", placeholder: "Software Developer", type: "select", required: true },
             { name: "professionalDetails.companyName", label: "Company Name", placeholder: "Infosys Ltd.", type: "text", required: false },
             { name: "professionalDetails.income", label: "Annual Income", placeholder: "₹15,00,000", type: "text", required: true },
             { name: "professionalDetails.workingCity", label: "Working City", placeholder: "Bangalore", type: "text", required: true },
-            // { name: "professionalDetails.jobType", label: "Job Type", placeholder: "Private", type: "select", required: false },
             { name: "professionalDetails.workFromHome", label: "Work From Home", placeholder: "Yes/No", type: "select", required: false },
         ],
     },
@@ -107,6 +108,7 @@ const steps = [
             { name: "expectation.caste", label: "Expected Caste", placeholder: "Brahmin", type: "text", required: false },
             { name: "expectation.education", label: "Expected Education", placeholder: "Graduate or above", type: "multiselect", required: false },
             { name: "expectation.occupation", label: "Expected Occupation", placeholder: "Working professional preferred", type: "multiselect", required: false },
+            { name: "expectation.jobType", label: "Expected Job Type", placeholder: "Privet Goverment", type: "multiselect", required: false },
             { name: "expectation.locationPreference", label: "Location Preference", placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
         ],
     },
@@ -225,7 +227,7 @@ const validationSchemas = [
             companyName: Yup.string().nullable(),
             income: Yup.string().nullable(),
             workingCity: Yup.string().nullable(),
-            jobType: Yup.string().nullable(),
+            jobType: Yup.string().required("Job Type is required"),
             workFromHome: Yup.string().nullable().default('No'),
         }),
     }),
@@ -279,6 +281,7 @@ const validationSchemas = [
             subCaste: Yup.string().nullable(),
             education: Yup.array().nullable(),
             occupation: Yup.array().nullable(),
+            jobType: Yup.array().nullable(),
             locationPreference: Yup.string().nullable(),
         }),
     }),
@@ -326,6 +329,7 @@ const initialValues = {
         companyName: '',
         income: '',
         workingCity: '',
+        jobType: '',
         workFromHome: 'No',
     },
     contactDetails: {
@@ -359,6 +363,7 @@ const initialValues = {
         caste: '',
         education: [],
         occupation: [],
+        jobType: [],
         locationPreference: '',
     },
     documents: {
@@ -366,11 +371,387 @@ const initialValues = {
         profilePhotos: [],
     },
 };
+const getOptionsForField = (name: string): { label: string; value: string }[] => {
+    const optionsMap = {
+        "personalDetails.gender": ["Male", "Female", "Other"],
+        "personalDetails.bloodGroup": ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+        "personalDetails.maritalStatus": ["Unmarried", "Divorced", "Widow", "Widower", "Separated", "Remarriage",],
+        "personalDetails.complexion": ["Very Fair", "Fair", "Wheatish", "Wheatish Brown", "Dark",],
+        "personalDetails.disability": ["None", "Physically Challenged", "Visually Challenged", "Hearing Impaired", "Others",],
+        "personalDetails.weight": ["30-40 kg", "40-50 kg", "51-60 kg", "61-70 kg", "71-80 kg", "81-90 kg", "91+ kg",],
+        "personalDetails.height": ["Below 4ft", "4ft - 4ft 5in", "4ft 6in - 5ft", "5ft 1in - 5ft 5in", "5ft 6in - 6ft", "Above 6ft",],
+        "religiousDetails.manglik": ["Manglik", "Non-Manglik", "Don't Know"],
+        "religiousDetails.caste": ["Bhoi", "Raj Bhoi", "Jhinga Bhoi", "Pardeshi Bhoi", "Kahar Bhoi", "Godiya Kahar Bhoi", "Dhuriya Kahar Bhoi", "Maji Kahar Bhoi", "Kirat Bhoi", "Machhua Bhoi", "Maji Bhoi", "Jaliya Bhoi", "Kevat Bhoi", "Dhivar Bhoi", "Dhivar Bhoi", "Dhimar Bhoi", "Palewar Bhoi",
+            "Navadi Bhoi", "Machhedra Bhoi", "Malhar Bhoi", "Malhava Bhoi", "Boi (Bhujari)", "Gadhav Bhoi", "Khadi Bhoi", "Khare Bhoi", "Dhevra Bhoi"],
+        "religiousDetails.rashi": ["Mesh (Aries)", "Vrishabh (Taurus)", "Mithun (Gemini)", "Karka (Cancer)", "Singh (Leo)", "Kanya (Virgo)", "Tula (Libra)", "Vrishchik (Scorpio)", "Dhanu (Sagittarius)", "Makar (Capricorn)", "Kumbh (Aquarius)", "Meen (Pisces)",],
+        "religiousDetails.nakshatra": ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"],
+        "educationDetails.highestQualification": [
+            // Academic Qualifications
+            "Below 10th",
+            "10th Pass",
+            "12th Pass",
+            "Diploma",
+            "ITI",
+            "Graduate",
+            "B.E. / B.Tech",
+            "BCA",
+            "BBA",
+            "Post Graduate",
+            "MBA / PGDM",
+            "MCA",
+            "M.E. / M.Tech",
+            "CA / CS / ICWA",
+            "Ph.D",
+            "MBBS / BDS",
+            "M.D. / M.S.",
+            "LLB",
+            "LLM",
+
+            // Professional Roles
+            "Doctor",
+            "Engineer",
+            "Software Developer",
+            "Chartered Accountant",
+            "Professor / Lecturer",
+            "Government Officer",
+            "IAS / IPS / Civil Services",
+            "Teacher",
+            "Business Owner",
+            "Advocate / Lawyer",
+            "Banker",
+            "Architect",
+            "Pharmacist",
+            "Pilot",
+            "Scientist / Researcher",
+            "Fashion Designer",
+            "Journalist",
+            "Artist / Performer",
+            "Police / Defence Services",
+
+            // Flexible
+            "Other"
+        ],
+        "expectation.heightRange": ["Below 4ft", "4ft - 4ft 5in", "4ft 6in - 5ft", "5ft 1in - 5ft 5in", "5ft 6in - 6ft", "Above 6ft",],
+
+        "expectation.occupation": [
+            // 🎓 Elite Government & Administration
+            "IAS / IPS / IFS",
+            "Government - Class 1 Officer",
+            "Government - Class 2 / 3 Officer",
+            "Politician / MLA / MP",
+            "Judicial Services (Judge / Magistrate)",
+
+            // 🩺 Medical & Healthcare
+            "Doctor",
+            "Surgeon",
+            "Dentist",
+            "Specialist (Cardiologist / Neurologist / etc.)",
+            "Veterinarian",
+            "Pharmacist",
+            "Physiotherapist",
+            "Nurse / Medical Assistant",
+            "Lab Technician",
+            "Healthcare Worker",
+
+            // 📊 Finance & Legal
+            "Chartered Accountant (CA)",
+            "Company Secretary (CS)",
+            "Cost Accountant (ICWA)",
+            "Investment Banker",
+            "Finance Manager / Analyst",
+            "Auditor / Tax Consultant",
+            "Lawyer / Advocate",
+            "Legal Advisor / Consultant",
+
+            // 👨‍💻 IT & Technology
+            "Software Engineer / Developer",
+            "Full Stack Developer",
+            "Mobile App Developer",
+            "Data Scientist / Machine Learning Engineer",
+            "AI / Robotics Specialist",
+            "Cybersecurity Specialist",
+            "Cloud Architect / DevOps",
+            "UI/UX Designer",
+            "IT Support / Network Admin",
+
+            // 📚 Education & Research
+            "Scientist / Researcher",
+            "Professor / Lecturer",
+            "Teacher (School)",
+            "Tutor / Private Teacher",
+            "Librarian",
+            "Academic Counselor",
+
+            // 🏦 Banking & Corporate
+            "Bank Officer / Manager",
+            "Bank Clerk / Executive",
+            "HR Manager / Recruiter",
+            "Business Analyst",
+            "Project Manager",
+            "Marketing / Sales Executive",
+            "BPO / Call Center Executive",
+            "Receptionist / Front Desk",
+
+            // 🧑‍💼 Business & Entrepreneurship
+            "Business Owner",
+            "Startup Founder",
+            "Shop Owner",
+            "Wholesaler / Distributor",
+            "Retailer",
+            "Self-Employed",
+            "Freelancer / Consultant",
+            "Insurance / Real Estate Agent",
+
+            // 🎨 Arts, Media & Creative
+            "Actor / Model",
+            "Artist / Illustrator",
+            "Musician / Singer",
+            "Photographer / Videographer",
+            "Fashion Designer",
+            "Interior Designer",
+            "Content Creator / Influencer",
+            "Journalist / Editor",
+
+            // ✈️ Aviation, Marine & Defense
+            "Pilot",
+            "Cabin Crew / Air Hostess",
+            "Aviation Ground Staff",
+            "Merchant Navy",
+            "Indian Army",
+            "Indian Navy",
+            "Indian Air Force",
+            "Police / Paramilitary Forces",
+            "Firefighter",
+
+            // 🔧 Technical & Skilled Trades
+            "Electrician",
+            "Plumber",
+            "Mechanic",
+            "Technician",
+            "Driver",
+            "Tailor",
+            "Welder",
+            "Carpenter",
+            "Machine Operator",
+
+            // 🧱 Labor & Blue-Collar
+            "Construction Worker",
+            "Daily Wage Worker",
+            "Delivery Person",
+            "Cleaner / Housekeeping Staff",
+            "Security Guard",
+            "Watchman",
+            "Peon / Office Boy",
+
+            // 🌾 Agriculture & Rural
+            "Farmer",
+            "Agricultural Worker",
+            "Dairy / Poultry Farmer",
+            "Fisherman",
+
+            // 🏠 Home & Others
+            "Homemaker",
+            "Student",
+            "Unemployed / Job Seeking",
+            "Retired"
+        ],
+
+        "expectation.income": [
+            10000, 15000, 20000, 25000, 30000,
+            35000, 40000, 45000, 50000, 60000,
+            70000, 80000, 90000, 100000, 120000,
+            140000, 160000, 180000, 200000, 225000,
+            250000, 275000, 300000, 325000, 350000,
+            375000, 400000, 425000, 450000, 475000,
+            500000
+        ],
+        "expectation.education": [
+            // Academic Qualifications
+            "Below 10th",
+            "10th Pass",
+            "12th Pass",
+            "Diploma",
+            "ITI",
+            "Graduate",
+            "B.E. / B.Tech",
+            "BCA",
+            "BBA",
+            "Post Graduate",
+            "MBA / PGDM",
+            "MCA",
+            "M.E. / M.Tech",
+            "CA / CS / ICWA",
+            "Ph.D",
+            "MBBS / BDS",
+            "M.D. / M.S.",
+            "LLB",
+            "LLM",
+
+            // Professional Roles
+            "Doctor",
+            "Engineer",
+            "Software Developer",
+            "Chartered Accountant",
+            "Professor / Lecturer",
+            "Government Officer",
+            "IAS / IPS / Civil Services",
+            "Teacher",
+            "Business Owner",
+            "Advocate / Lawyer",
+            "Banker",
+            "Architect",
+            "Pharmacist",
+            "Pilot",
+            "Scientist / Researcher",
+            "Fashion Designer",
+            "Journalist",
+            "Artist / Performer",
+            "Police / Defence Services",
+
+            // Flexible
+            "Other"
+        ],
+        "expectation.jobType": ["Government", "Private", "Business", "Freelance"],
+
+        "professionalDetails.occupation": [
+            // 🎓 Elite Government & Administration
+            "IAS / IPS / IFS",
+            "Government - Class 1 Officer",
+            "Government - Class 2 / 3 Officer",
+            "Politician / MLA / MP",
+            "Judicial Services (Judge / Magistrate)",
+
+            // 🩺 Medical & Healthcare
+            "Doctor",
+            "Surgeon",
+            "Dentist",
+            "Specialist (Cardiologist / Neurologist / etc.)",
+            "Veterinarian",
+            "Pharmacist",
+            "Physiotherapist",
+            "Nurse / Medical Assistant",
+            "Lab Technician",
+            "Healthcare Worker",
+
+            // 📊 Finance & Legal
+            "Chartered Accountant (CA)",
+            "Company Secretary (CS)",
+            "Cost Accountant (ICWA)",
+            "Investment Banker",
+            "Finance Manager / Analyst",
+            "Auditor / Tax Consultant",
+            "Lawyer / Advocate",
+            "Legal Advisor / Consultant",
+
+            // 👨‍💻 IT & Technology
+            "Software Engineer / Developer",
+            "Full Stack Developer",
+            "Mobile App Developer",
+            "Data Scientist / Machine Learning Engineer",
+            "AI / Robotics Specialist",
+            "Cybersecurity Specialist",
+            "Cloud Architect / DevOps",
+            "UI/UX Designer",
+            "IT Support / Network Admin",
+
+            // 📚 Education & Research
+            "Scientist / Researcher",
+            "Professor / Lecturer",
+            "Teacher (School)",
+            "Tutor / Private Teacher",
+            "Librarian",
+            "Academic Counselor",
+
+            // 🏦 Banking & Corporate
+            "Bank Officer / Manager",
+            "Bank Clerk / Executive",
+            "HR Manager / Recruiter",
+            "Business Analyst",
+            "Project Manager",
+            "Marketing / Sales Executive",
+            "BPO / Call Center Executive",
+            "Receptionist / Front Desk",
+
+            // 🧑‍💼 Business & Entrepreneurship
+            "Business Owner",
+            "Startup Founder",
+            "Shop Owner",
+            "Wholesaler / Distributor",
+            "Retailer",
+            "Self-Employed",
+            "Freelancer / Consultant",
+            "Insurance / Real Estate Agent",
+
+            // 🎨 Arts, Media & Creative
+            "Actor / Model",
+            "Artist / Illustrator",
+            "Musician / Singer",
+            "Photographer / Videographer",
+            "Fashion Designer",
+            "Interior Designer",
+            "Content Creator / Influencer",
+            "Journalist / Editor",
+
+            // ✈️ Aviation, Marine & Defense
+            "Pilot",
+            "Cabin Crew / Air Hostess",
+            "Aviation Ground Staff",
+            "Merchant Navy",
+            "Indian Army",
+            "Indian Navy",
+            "Indian Air Force",
+            "Police / Paramilitary Forces",
+            "Firefighter",
+
+            // 🔧 Technical & Skilled Trades
+            "Electrician",
+            "Plumber",
+            "Mechanic",
+            "Technician",
+            "Driver",
+            "Tailor",
+            "Welder",
+            "Carpenter",
+            "Machine Operator",
+
+            // 🧱 Labor & Blue-Collar
+            "Construction Worker",
+            "Daily Wage Worker",
+            "Delivery Person",
+            "Cleaner / Housekeeping Staff",
+            "Security Guard",
+            "Watchman",
+            "Peon / Office Boy",
+
+            // 🌾 Agriculture & Rural
+            "Farmer",
+            "Agricultural Worker",
+            "Dairy / Poultry Farmer",
+            "Fisherman",
+
+            // 🏠 Home & Others
+            "Homemaker",
+            "Student",
+            "Unemployed / Job Seeking",
+            "Retired"
+        ],
+        "professionalDetails.jobType": ["Government", "Private", "Business", "Freelance"],
+        "professionalDetails.workFromHome": ["Yes", "No"],
+        "lifestyleDetails.eatingHabits": ["Vegetarian", "Non-Vegetarian", "Eggetarian"],
+        "lifestyleDetails.smoking": ["Yes", "No"],
+        "lifestyleDetails.drinking": ["Yes", "No"],
+    };
+
+    // @ts-ignore
+    return (optionsMap[name] || []).map((opt) => ({ label: opt, value: opt }));
+};
 
 const MultiStepForm: React.FC = () => {
     const [step, setStep] = useState(0);
     const [isFormComplet, seIsFormComplet] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const profile = useSelector((state: any) => state.matrimony?.profile?.data || {});
+    const navigate = useNavigate();
     const [createProfile, { isLoading, isError, isSuccess, error }] = useCreateMatrimonyProfileMutation();
     const [updateMatrimonyProfile,
         {
@@ -382,15 +763,11 @@ const MultiStepForm: React.FC = () => {
     ] = useUpdateMatrimonyProfileMutation();
 
 
-    const navigate = useNavigate();
-    const profile = getMatrimony();
+    // const profile = getMatrimony();
     const today = new Date();
     const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
     const isProfilePresent = Object.entries(profile).length !== 0
     const isLastStep = step === steps.length - 1;
-    console.log("validationSchemas", validationSchemas[step])
-    console.log("profile", profile)
-
     const { personalDetails, religiousDetails, familyDetails, educationDetails, professionalDetails, contactDetails, lifestyleDetails, expectation } = profile
     const oldInitialValues = {
         ...initialValues,
@@ -408,138 +785,7 @@ const MultiStepForm: React.FC = () => {
         }
     };
 
-    const getOptionsForField = (name: string): { label: string; value: string }[] => {
-        const optionsMap = {
-            "personalDetails.gender": ["Male", "Female", "Other"],
-            "personalDetails.bloodGroup": ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
-            "personalDetails.maritalStatus": ["Unmarried", "Divorced", "Widow", "Widower", "Separated", "Remarriage",],
-            "personalDetails.complexion": ["Very Fair", "Fair", "Wheatish", "Wheatish Brown", "Dark",],
-            "personalDetails.disability": ["None", "Physically Challenged", "Visually Challenged", "Hearing Impaired", "Others",],
-            "personalDetails.weight": ["30-40 kg", "40-50 kg", "51-60 kg", "61-70 kg", "71-80 kg", "81-90 kg", "91+ kg",],
-            "personalDetails.height": ["Below 4ft", "4ft - 4ft 5in", "4ft 6in - 5ft", "5ft 1in - 5ft 5in", "5ft 6in - 6ft", "Above 6ft",],
-            "religiousDetails.manglik": ["Manglik", "Non-Manglik", "Don't Know"],
-            "religiousDetails.caste": ["Bhoi", "Raj Bhoi", "Jhinga Bhoi", "Pardeshi Bhoi", "Kahar Bhoi", "Godiya Kahar Bhoi", "Dhuriya Kahar Bhoi", "Maji Kahar Bhoi", "Kirat Bhoi", "Machhua Bhoi", "Maji Bhoi", "Jaliya Bhoi", "Kevat Bhoi", "Dhivar Bhoi", "Dhivar Bhoi", "Dhimar Bhoi", "Palewar Bhoi",
-                "Navadi Bhoi", "Machhedra Bhoi", "Malhar Bhoi", "Malhava Bhoi", "Boi (Bhujari)", "Gadhav Bhoi", "Khadi Bhoi", "Khare Bhoi", "Dhevra Bhoi"],
-            "religiousDetails.rashi": ["Mesh (Aries)", "Vrishabh (Taurus)", "Mithun (Gemini)", "Karka (Cancer)", "Singh (Leo)", "Kanya (Virgo)", "Tula (Libra)", "Vrishchik (Scorpio)", "Dhanu (Sagittarius)", "Makar (Capricorn)", "Kumbh (Aquarius)", "Meen (Pisces)",],
-            "religiousDetails.nakshatra": ["Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra", "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni", "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha", "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha", "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"],
-            "educationDetails.highestQualification": [
-                // Academic Qualifications
-                "Below 10th",
-                "10th Pass",
-                "12th Pass",
-                "Diploma",
-                "ITI",
-                "Graduate",
-                "B.E. / B.Tech",
-                "BCA",
-                "BBA",
-                "Post Graduate",
-                "MBA / PGDM",
-                "MCA",
-                "M.E. / M.Tech",
-                "CA / CS / ICWA",
-                "Ph.D",
-                "MBBS / BDS",
-                "M.D. / M.S.",
-                "LLB",
-                "LLM",
 
-                // Professional Roles
-                "Doctor",
-                "Engineer",
-                "Software Developer",
-                "Chartered Accountant",
-                "Professor / Lecturer",
-                "Government Officer",
-                "IAS / IPS / Civil Services",
-                "Teacher",
-                "Business Owner",
-                "Advocate / Lawyer",
-                "Banker",
-                "Architect",
-                "Pharmacist",
-                "Pilot",
-                "Scientist / Researcher",
-                "Fashion Designer",
-                "Journalist",
-                "Artist / Performer",
-                "Police / Defence Services",
-
-                // Flexible
-                "Other"
-            ],
-            "expectation.heightRange": ["Below 4ft", "4ft - 4ft 5in", "4ft 6in - 5ft", "5ft 1in - 5ft 5in", "5ft 6in - 6ft", "Above 6ft",],
-
-            "expectation.occupation": ["Government", "Private", "Business", "Freelance"],
-            "expectation.income": [
-                10000, 15000, 20000, 25000, 30000,
-                35000, 40000, 45000, 50000, 60000,
-                70000, 80000, 90000, 100000, 120000,
-                140000, 160000, 180000, 200000, 225000,
-                250000, 275000, 300000, 325000, 350000,
-                375000, 400000, 425000, 450000, 475000,
-                500000
-            ],
-            "expectation.education": [
-                // Academic Qualifications
-                "Below 10th",
-                "10th Pass",
-                "12th Pass",
-                "Diploma",
-                "ITI",
-                "Graduate",
-                "B.E. / B.Tech",
-                "BCA",
-                "BBA",
-                "Post Graduate",
-                "MBA / PGDM",
-                "MCA",
-                "M.E. / M.Tech",
-                "CA / CS / ICWA",
-                "Ph.D",
-                "MBBS / BDS",
-                "M.D. / M.S.",
-                "LLB",
-                "LLM",
-
-                // Professional Roles
-                "Doctor",
-                "Engineer",
-                "Software Developer",
-                "Chartered Accountant",
-                "Professor / Lecturer",
-                "Government Officer",
-                "IAS / IPS / Civil Services",
-                "Teacher",
-                "Business Owner",
-                "Advocate / Lawyer",
-                "Banker",
-                "Architect",
-                "Pharmacist",
-                "Pilot",
-                "Scientist / Researcher",
-                "Fashion Designer",
-                "Journalist",
-                "Artist / Performer",
-                "Police / Defence Services",
-
-                // Flexible
-                "Other"
-            ],
-
-            "professionalDetails.occupation": ["Government", "Private", "Business", "Freelance"],
-
-            "professionalDetails.workFromHome": ["Yes", "No"],
-            "lifestyleDetails.eatingHabits": ["Vegetarian", "Non-Vegetarian", "Eggetarian"],
-            "lifestyleDetails.smoking": ["Yes", "No"],
-            "lifestyleDetails.drinking": ["Yes", "No"],
-        };
-
-        // @ts-ignore
-        return (optionsMap[name] || []).map((opt) => ({ label: opt, value: opt }));
-    };
-
-    console.log('!isProfilePresent ? initialValues : oldInitialValues', !isProfilePresent ? initialValues : oldInitialValues)
 
     const handleSubmit = async (values) => {
         const formData = new FormData();
@@ -587,9 +833,9 @@ const MultiStepForm: React.FC = () => {
         }
 
         // 🧪 Optional debug log
-        for (const [key, val] of formData.entries()) {
-            console.log("FormData >>", key, val);
-        }
+        // for (const [key, val] of formData.entries()) {
+        //     console.log("FormData >>", key, val);
+        // }
         if (values?.personalDetails?.dateOfBirth) {
             formData.append('personalDetails.dateOfBirth', values?.personalDetails?.dateOfBirth);
         }
@@ -610,7 +856,6 @@ const MultiStepForm: React.FC = () => {
             setIsSubmitting(false)
         }
     };
-
 
     function getChangedFields(initial: any, current: any): any {
         const changes: any = {};
@@ -687,7 +932,7 @@ const MultiStepForm: React.FC = () => {
 
     return (
         <>
-            <div className="max-w-md min-h-screen grid grid-rows-[auto_1fr]  mx-auto   rounded-xl shadow-md">
+            <div className=" min-h-screen grid grid-rows-[auto_1fr]  mx-auto   rounded-xl shadow-md">
                 <div className="flex flex-col  grid-cols-2 justify-between mb-2   px-4 bg-white">
                     <button className="  mt-2 mb-[-0.8rem] " >
                         <GoArrowLeft onClick={handleBack} className="cursor-pointer" size={30} />
@@ -740,11 +985,11 @@ const MultiStepForm: React.FC = () => {
 
                     }}
                 >
-                    <Form className="space-y-4 p-4 grid-cols-10 bg-white relative flex flex-col justify-between">
-                        <div className="space-y-4 mb-10">
-                            <h2 className="text-lg font-semibold p-4">{steps[step].label}</h2>
+                    <Form className="space-y-4 p-4 grid-cols-12 bg-white relative flex flex-col justify-between">
+                        <div className="space-y-4 mb-10 md:grid md:grid-cols-2 gap-2">
+                            <h2 className="text-lg font-semibold p-4 col-span-full ">{steps[step].label}</h2>
 
-                            {steps[step].fields.map((field) => {
+                            {steps[step]?.fields?.map((field) => {
                                 switch (field.type) {
                                     case "select":
                                         return (
@@ -864,44 +1109,42 @@ const MultiStepForm: React.FC = () => {
                             })}
 
 
-                            {isLastStep && (
-                                <div className="w-full flex justify-between items-center flex-wrap gap-3">
-                                    {steps[step]?.fields.map((field, index) => {
-                                        if (!field) return null;
-                                        console.log("field", field);
 
-                                        switch (field.type) {
-                                            case "file":
-                                                if (field.name === "documents.verificationImage") {
-                                                    return (
-                                                        <FileInput
-                                                            key={field.name}
-                                                            old={isProfilePresent ? profile?.verificationImage : ""}
-                                                            name={field.name}
-                                                            label={field.label}
-                                                            required={field.required}
-                                                        />
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <FileInput
-                                                            key={field.name + index}
-                                                            old={isProfilePresent ? profile?.profilePhotos?.[index - 1] : ""}
-                                                            name={field.name}
-                                                            label={field.label}
-                                                            required={field.required}
-                                                        />
-                                                    );
-                                                }
+                            <div className={` ${isLastStep ? "" : "hidden"} w-full flex justify-between items-center flex-wrap gap-3`}>
+                                {steps[step]?.fields.map((field, index) => {
+                                    if (!field) return <></>;
+                                    switch (field.type) {
+                                        case "file":
+                                            if (field.name === "documents.verificationImage") {
+                                                return (
+                                                    <FileInput
+                                                        key={field.name}
+                                                        old={isProfilePresent ? profile?.verificationImage : ""}
+                                                        name={field.name}
+                                                        label={field.label}
+                                                        required={field.required}
+                                                    />
+                                                );
+                                            } else {
+                                                return (
+                                                    <FileInput
+                                                        key={field.name + index}
+                                                        old={isProfilePresent ? profile?.profilePhotos?.[index - 1] : ""}
+                                                        name={field.name}
+                                                        label={field.label}
+                                                        required={field.required}
+                                                    />
+                                                );
+                                            }
 
-                                            // You can add more field types here if needed
+                                        // You can add more field types here if needed
 
-                                            default:
-                                                return null;
-                                        }
-                                    })}
-                                </div>
-                            )}
+                                        default:
+                                            return <></>;
+                                    }
+                                })}
+                            </div>
+
 
                         </div>
 

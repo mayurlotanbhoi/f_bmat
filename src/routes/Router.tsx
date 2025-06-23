@@ -125,6 +125,10 @@ const routes = [
                 path: '/vlew-profile/:id',
                 element: <ViewBioData />,
             },
+            // {
+            //     path: '/bio-qr/:id',
+            //     element: <ViewBioData />,
+            // },
             {
                 path: '/initial-info',
                 element: <InitialInfo />,

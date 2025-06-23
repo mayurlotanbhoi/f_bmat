@@ -85,7 +85,7 @@ export default function Home() {
                 <div className="w-full text-right my-2"><Link className="text-blue-600 hover:underline" to='bio'>See all match</Link></div>
             </div>
 
-            <Matches bios={bios} />
+            <Matches />
 
             <Modal
                 isOpen={isAppInstall}

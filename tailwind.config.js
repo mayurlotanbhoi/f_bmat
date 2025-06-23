@@ -6,12 +6,17 @@
 //   },
 //   plugins: [],
 // }
+// module.exports = {
+//   content: ['./src/**/*.{js,ts,jsx,tsx}'],
+// };
 
 module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}"
   ],
+  safelist: ['text-primary', 'bg-white', 'rounded-2xl',], // add any needed classes
+
 
   theme: {
     extend: {
