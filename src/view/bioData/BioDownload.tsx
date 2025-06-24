@@ -12,7 +12,7 @@ import download from 'downloadjs';
 
 import { Link } from "react-router-dom"; // if routing is internal
 
-const ProfileCard = ({ profile }) => {
+export const ProfileCard = ({ profile }) => {
   const fullName = profile?.personalDetails?.fullName || "N/A";
   const photo = profile?.profilePhotos?.[0];
   const age = calculateAge(profile?.personalDetails?.dateOfBirth);
@@ -113,6 +113,7 @@ export default function MatrimonyBioData() {
       await new Promise((r) => requestAnimationFrame(r));
       await document.fonts.ready;
 
+      //@ts-ignore
       const dataUrl = await toPng(clone, {
         cacheBust: true,
         backgroundColor: 'white',

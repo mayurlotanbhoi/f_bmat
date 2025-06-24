@@ -12,6 +12,8 @@ import Modal from "../../components/Common/Modal";
 import { usePwaPrompt } from "../../hooks";
 import { useAuth } from "../../hooks/useAuth";
 import { getMatrimony } from "../../features/matrimony/matrimonySlice";
+import Matche from "../matches";
+
 // import { usePwaPrompt } from "../../hooks";
 
 export default function Home() {
@@ -48,9 +50,9 @@ export default function Home() {
 
 
     return (
-        <>
+        <div className=" pb-20 md:pb-10">
 
-            <div className="px-2 w-100 ">
+            <div className="px-2 w-100  ">
 
                 {/* <img src={bioHeader1} /> */}
                 <BannerCarouselWrapper />
@@ -82,10 +84,10 @@ export default function Home() {
             </div >
             <div className=" flex justify-between mt-3">
                 <Heading className="text-xl  font-semibold" text="Matches" />
-                <div className="w-full text-right my-2"><Link className="text-blue-600 hover:underline" to='bio'>See all match</Link></div>
+                <div className="w-full text-right my-2"><Link className="text-blue-600 hover:underline cursor-pointer py-10" to='/matches'>See all match</Link></div>
             </div>
 
-            <Matches />
+            <Matche />
 
             <Modal
                 isOpen={isAppInstall}
@@ -95,6 +97,6 @@ export default function Home() {
             > <>
                     {isClikOnInstall ? <AppDownloading /> : <AppInstall installApp={onAppInstall} />}
                 </></Modal>
-        </>
+        </div>
     );
 }

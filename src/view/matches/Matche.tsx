@@ -1,103 +1,90 @@
-import { profilesData } from '../../data/profiles';
 import { MdVerified } from 'react-icons/md';
-import { IoChatbubbleOutline } from 'react-icons/io5';
-import { AiOutlineLike } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
 import { ConfettiButton } from '../../components';
-
-// interface UserCardProps {
-//     bios: {
-//         [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
-//     };
-// }
+import { useGetMatchQuery } from '../../features/matrimony/matrimonyApi';
+import { calculateAge } from '../../util/dateFormat';
+import { formatAmount } from '../../util/commans';
 
 interface Bio {
     [key: string]: any;
 }
 
 const Matche = () => {
-    const bios = profilesData;
+    const { data, isLoading, isError } = useGetMatchQuery('');
+
+    if (isLoading) return <p className="text-center text-gray-500">Loading...</p>;
+    if (isError) return <p className="text-center text-red-500">Something went wrong!</p>;
+
     return (
         <>
-            {bios?.map((match: Bio, index: number) =>
+            {Array.isArray(data?.data) && data?.data?.map((match: Bio, index: number) => {
+                const name = match?.personalDetails?.fullName || 'Unknown';
+                const dob = match?.personalDetails?.dateOfBirth;
+                const age = dob ? new Date().getFullYear() - new Date(dob).getFullYear() : 'N/A';
+                const subCaste = match?.religiousDetails?.subCaste || 'N/A';
+                const caste = match?.religiousDetails?.caste || 'N/A';
+                const income = match?.professionalDetails?.income || 'N/A';
+                const occupation = match?.professionalDetails?.occupation;
+                const JobType = match?.professionalDetails?.jobType || 'N/A';
+                const education = match?.educationDetails?.highestQualification || 'N/A';
+                const photo = match?.profilePhotos?.[0] || '/placeholder.jpg';
+                const city = match?.contactDetails?.presentAddress?.city;
+                const state = match?.contactDetails?.presentAddress?.state;
+                const matId = match?.matId || 'NA';
 
-            (<div key={index} className="flex my-2 flex-col p-2 bg-white relative  shadow-3xl border-gray-800  hover:shadow-lg rounded-2xl cursor-pointer transition ease-in duration-500 transform hover:scale-105">
-                <small className="text-sm absolute right-2 top-1  text-gray-300 leading-none  truncate">
-                    MAT00001
-                </small>
-                <div className="flex  justify-between items-center">
-                    {/* Left Side: Avatar & Info */}
-                    <div className="flex  text-start mr-auto">
-                        <div className="inline-flex  w-28 h-28 relative">
-                            <img
-                                src={match?.imges[0]}
-                                alt={match?.name}
-                                className="p-1 w-full h-full object-cover rounded-2xl"
-                            />
-                            <span className="absolute w-full h-full inline-flex border-2 rounded-2xl border-gray-600 opacity-75" />
+                console.log('match', match?._id.toString());
 
-                        </div>
+                return (
+                    <Link
+                        to={`/vlew-profile/${match?._id.toString()}`}
+                        key={index}
+                    >
 
+                        <div
 
-                    </div>
-
-                    {/* Right Side: Stats */}
-                    <div className="w-full flex flex-col py-3       ml-3 min-w-0">
-                        <div className="flex flex-col    ">
-                            <div className="flex flex-col text-start gap-2  min-w-0">
-                                <div className="font-medium text-xl  leading-none text-primary flex  gap-2">
-                                    {match?.name} <MdVerified className='  text-green-500  ' size={20} />
+                            id="toast-notification"
+                            className="w-full md:max-w-[350px] p-4 relative text-gray-900 bg-white rounded-lg shadow "
+                            role="alert"
+                        >
+                            <div className="flex items-center justify-between mb-3">
+                                <span className="mb-1 text-sm font-semibold text-primary dark:text-white" >
+                                    {name}</span >
+                                <div className='flex items-center gap-1 absolute top-1 right-1  px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full'>
+                                    <MdVerified className='text-green-400' size={20} />
+                                    <h2 className='text-white font-semibold text-[10px]'>Verified</h2>
                                 </div>
-                                <div className=" text-sm font-bold   leading-none  flex  ">
-                                    {match?.profession}, {match?.education}
-                                </div>
-                                <p className="text-sm text-gray-500 leading-none  truncate">
-                                    {match?.age} Yrs Cast: {match?.subCaste}
-                                </p>
-
-
                             </div>
-                            <h5 className="flex items-center text-sm font-medium text-gray-500  ">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-4 w-4 mr-1"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 8h6m-5 0a3 3 0 110 6H9l3 3m-3-6h6m6 1a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                                {match?.income}
-                            </h5>
-                            <p className="text-sm text-gray-500 leading-none  truncate">
-                                {match?.location}
-                            </p>
+                            <div className="flex items-center">
+                                <div className="relative text-center inline-block shrink-0">
+                                    {/* <small>ID: {matId}</small> */}
+                                    <img className='w-16 h-16 rounded-md object-cover bg-green-600 flex items-center justify-center text-white font-bold text-xl ' src={photo} loading='lazy' alt={name} />
+                                </div>
+                                <div className="ms-3 text-sm font-normal">
+                                    <div className="text-sm font-normal">{calculateAge(dob)},  {subCaste}, {caste}</div>
+                                    <div className="text-sm font-semibold text-primary">
+                                        {education}, {occupation} ,{JobType}, {formatAmount(income)}
+                                    </div>
+                                    <div className="text-sm font-semibold text-primary">
 
+                                    </div>
+
+                                    <span className="text-xs font-medium ">
+                                        {city}, {state}
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div className="flex justify-end items-center mt-2">
+                                <button className='btn bg_primary text-sm text-white px-4 rounded-md  text-bold'>Send Bio</button>
+                            </div>
                         </div>
-                    </div>
+                    </Link>
 
-
-                </div>
-                <div className=' flex  justify-between items-center'>
-                    <div className="flex justify-around items-center w-28 text-primary gap-2">
-                        <Link to={'/chat'} className="w-8 h-8 flex items-center justify-center border-2 border-pink-500 rounded-full">
-                            <IoChatbubbleOutline className="text-[1rem]" />
-                        </Link>
-                        <div className="w-8 h-8 flex items-center justify-center border-2 border-pink-500 rounded-full">
-                            <AiOutlineLike className="text-[1rem]" />
-                        </div>
-                    </div>
-
-                    <ConfettiButton className=' btn bg_primary text-white px-4 py-[2px] rounded-xl '><button >Send Intrest</button></ConfettiButton>
-                </div>
-            </div>))}
+                    // </>
+                );
+            })}
         </>
-    )
-}
+    );
+};
 
 export default Matche;

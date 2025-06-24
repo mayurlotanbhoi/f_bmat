@@ -10,16 +10,29 @@ import {
 } from "react-icons/fa";
 import { useLogOutMutation } from "../../features/auth/authApi";
 import { asyncHandlerWithSwal } from "../../util/asyncHandler";
+import { useDispatch } from "react-redux";
+import { logout } from "../../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
     const [logOut] = useLogOutMutation();
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
 
     const handleLogout = async () => {
-        await asyncHandlerWithSwal(async () => logOut("").unwrap(), {
+        const result = await asyncHandlerWithSwal(async () => logOut("").unwrap(), {
             loadingHtml: "<b>Logging out...</b>",
             successHtml: "<b>Logged out successfully</b>",
             errorHtml: "<b>Logout failed. Please try again.</b>",
         });
+
+        if (result.statusCode === 200) {
+            dispatch(logout())
+            navigate('/auth');
+        }
+
+
+        console.log(result);
     };
 
     return (

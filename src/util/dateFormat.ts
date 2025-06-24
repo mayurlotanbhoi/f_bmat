@@ -1,5 +1,6 @@
-export const calculateAge = (dateOfBirth: string): string => {
+export const calculateAge = (dateOfBirth: any): string => {
     // Convert input to Date object
+    if (dateOfBirth == null || dateOfBirth === 'N/A') return '';
     const birthDate = new Date(dateOfBirth);
     const today = new Date();
 

@@ -30,9 +30,10 @@ export const authApi = baseApi.injectEndpoints({
 
         logOut: builder.mutation({
             query: () => ({
-                url: '/auth/register',
+                url: '/auth/logout',
                 method: 'POST',
             }),
+
         }),
     }),
 

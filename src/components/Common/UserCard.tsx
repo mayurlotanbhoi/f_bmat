@@ -2,7 +2,7 @@ import React from "react";
 import { MdVerified } from "react-icons/md";
 import { useGetMatchQuery } from "../../features/matrimony/matrimonyApi";
 
-const Matchs: React.FC<{ userId: string }> = () => {
+const Matchs = () => {
     const { data, isLoading, isError, error } = useGetMatchQuery('');
 
     if (isLoading) return <p className="text-white">Loading matches...</p>;
@@ -22,9 +22,9 @@ const Matchs: React.FC<{ userId: string }> = () => {
                 return (
                     <div
                         key={index}
-                        className="flex m-2 flex-col p-2 bg-[#3C552D] shadow-2xl border-gray-800 hover:shadow-lg rounded-2xl cursor-pointer transition ease-in duration-500 transform hover:scale-105"
+                        className="flex m-2 flex-col p-2 bg-white shadow-2xl border-gray-800 hover:shadow-lg rounded-2xl cursor-pointer transition ease-in duration-500 transform hover:scale-105"
                     >
-                        <div className="flex items-center justify-between">
+                        <div className="flex  justify-between">
                             {/* Left Side: Avatar */}
                             <div className="flex items-center mr-auto">
                                 <div className="inline-flex w-32 h-32 relative">
@@ -38,17 +38,17 @@ const Matchs: React.FC<{ userId: string }> = () => {
                             </div>
 
                             {/* Right Side: Details */}
-                            <div className="w-full flex flex-col justify-center items-center ml-3 min-w-0">
+                            <div className="w-full ">
                                 <div className="flex flex-col justify-center items-center">
                                     <div className="flex flex-col min-w-0">
-                                        <div className="font-medium text-xl leading-none text-gray-100 flex items-center gap-2">
+                                        <div className="font-medium text-xl leading-none text-black flex items-center gap-2">
                                             {name} <MdVerified className="text-green-500" size={20} />
                                         </div>
-                                        <p className="text-sm text-gray-500 leading-none mt-1 truncate">
+                                        <p className="text-sm text-black leading-none mt-1 truncate">
                                             Age: {age} | Caste: {subCaste}
                                         </p>
                                     </div>
-                                    <h5 className="flex items-center font-medium text-gray-300">
+                                    <h5 className="flex items-center font-medium text-black">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="h-4 w-4 mr-1"
@@ -65,18 +65,6 @@ const Matchs: React.FC<{ userId: string }> = () => {
                                         </svg>
                                         ₹{income}
                                     </h5>
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-6 w-6 text-green-400 ml-2"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                            clipRule="evenodd"
-                                        />
-                                    </svg>
                                 </div>
                             </div>
                         </div>
