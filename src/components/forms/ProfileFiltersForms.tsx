@@ -19,7 +19,7 @@ interface CastFilterProps {
 }
 
 interface SubCastFilterProps {
-    onSubmit: (values: { subCast: string; }) => void;
+    onSubmit: (values: { subCaste: string; }) => void;
 
 }
 interface IncomeFilterProps {
@@ -125,7 +125,7 @@ export const CastFilter = ({ onSubmit }: CastFilterProps) => {
 export const SubCastFilter = ({ onSubmit }: SubCastFilterProps) => {
     return (
         <Formik
-            initialValues={{ subCast: "" }}
+            initialValues={{ subCaste: "" }}
             onSubmit={(values) => {
                 console.log(values)
                 onSubmit?.(values)
@@ -133,7 +133,7 @@ export const SubCastFilter = ({ onSubmit }: SubCastFilterProps) => {
         >
 
             <Form className="space-y-4">
-                <Input name="subCast" label="Sub Cast" placeholder="More, Wadile, satote" />
+                <Input name="subCaste" label="Sub Cast" placeholder="More, Wadile, satote" />
                 {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                 <button type="submit" className="primary-button w-full">
                     SUBMIT

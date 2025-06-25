@@ -30,9 +30,6 @@ const Sidebar: React.FC = () => {
             dispatch(logout())
             navigate('/auth');
         }
-
-
-        console.log(result);
     };
 
     return (

@@ -42,12 +42,19 @@ export const matrimonyApi = baseApi.injectEndpoints({
         }),
 
         // ✅ Get all profiles
-        filterAllProfiles: builder.mutation<any, any>({
-            query: (filterValue) => ({
-                url: '/matrimony/filter',
-                method: 'POST',
-                body: filterValue, // filterValue, // no need for JSON.stringify
-            }),
+        filterAllProfiles: builder.query<any, { filterValue: any, page?: number, limit?: number }>({
+            query: ({ filterValue, page = 1, limit = 10 }) => {
+                const params = new URLSearchParams({
+                    page: String(page),
+                    limit: String(limit),
+                    ...filterValue,
+                });
+
+                return {
+                    url: `/matrimony/filter?${params.toString()}`,
+                    method: 'GET',
+                };
+            },
         }),
 
         globalSearchProfiles: builder.query<any, string>({
@@ -115,7 +122,7 @@ export const matrimonyApi = baseApi.injectEndpoints({
 export const {
     useCreateMatrimonyProfileMutation,
     useUpdateMatrimonyProfileMutation,
-    useFilterAllProfilesMutation,
+    useLazyFilterAllProfilesQuery,
     useLazyGlobalSearchProfilesQuery,
     useGetProfileByIdQuery,
     useLazyGetMatrimonyByUserIdQuery,
