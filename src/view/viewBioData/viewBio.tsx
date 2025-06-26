@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useLazyGetBiodataQuery } from '../../features/biodata/biodataApi';
+import { useLazyGetBiodataQuery, useLazyViewLikesQuery } from '../../features/biodata/biodataApi';
 import { MdVerified } from 'react-icons/md';
 import { calculateAge } from '../../util/dateFormat';
 import { CiLocationOn } from 'react-icons/ci';
@@ -17,6 +17,7 @@ export default function ViewBio() {
     const [activeTab, setActiveTab] = useState('Personal');
     const [mainImage, setMainImage] = useState(bio?.profilePhotos?.[0]);
     const [getBiodata] = useLazyGetBiodataQuery();
+    const [vieViewLikes] = useLazyViewLikesQuery()
 
     const getBiodatacall = async (id: any) => {
         try {
@@ -30,6 +31,7 @@ export default function ViewBio() {
 
     useEffect(() => {
         getBiodatacall(id);
+        vieViewLikes(id)
     }, [id]);
 
     if (!bio) return <div className="text-center mt-10 text-gray-500">Loading profile...</div>;

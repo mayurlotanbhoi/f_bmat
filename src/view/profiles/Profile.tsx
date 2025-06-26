@@ -1,26 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react'
 import ProfileCard from '../../components/Profile/ProfileCard'
-import { profilesData } from '../../data/profiles'
 import Drawer from '../../components/Common/Drawer';
 import Viewprofile from '../../components/Profile/Viewprofile';
 import { IoIosArrowDown, IoIosArrowForward, IoIosArrowUp } from 'react-icons/io';
 import { FaFilter, } from 'react-icons/fa';
-import Heading from '../../components/Headings/Heading';
 import { FlotingButton } from '../../components';
 import Modal from '../../components/Common/Modal';
-import { IoFilterSharp } from 'react-icons/io5';
-import { SiVerizon } from 'react-icons/si';
-import { RxCross2 } from 'react-icons/rx';
+
 import { AgeFilter, CastFilter, CityFilter, IncomeFilter, StateFilter, SubCastFilter } from '../../components/forms/ProfileFiltersForms';
 import ProfileSearchHeader from './ProfileSearchHeader';
-import BackButtn from '../../components/Buttons/BackButtn';
-import { getMatrimony } from '../../features/matrimony/matrimonySlice';
-import { Form, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useLazyFilterAllProfilesQuery } from '../../features/matrimony/matrimonyApi';
 import { ProfileSkeleton } from '../../components/Common/skeletons';
 import { useInfiniteScrollRtk } from '../../hooks/useInfiniteScrollRtk';
-import { Formik, type FormikProps } from 'formik';
 import { Input, MultiSelect } from '../../components/forms/Inputs';
+
+import { Formik, Form, type FormikProps } from "formik";
+import { IoFilterSharp } from "react-icons/io5";
+import { RxCross2 } from "react-icons/rx";
+import { SiVerizon } from "react-icons/si";
+import BackButtn from '../../components/Buttons/BackButtn';
+import Heading from '../../components/Headings/Heading';
+
 interface TypeOfBio {
     [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
 }
@@ -257,14 +258,14 @@ const Filter: React.FC<FilterProps> = ({ onSave, filterKey, setFilter, setModelK
     const formikRef = useRef<FormikProps<any>>(null);
 
     const fields = [
-        { name: "ageRange", label: "Expected Age Range", placeholder: "24-29", type: "text" },
-        { name: "heightRange", label: "Expected Height Range", placeholder: "5'2\" - 5'8\"", type: "select" },
-        { name: "income", label: "Expected Annual Min Income", placeholder: "₹1,00,000", type: "text" },
-        { name: "caste", label: "Expected Caste", placeholder: "Brahmin", type: "text" },
-        { name: "education", label: "Expected Education", placeholder: "Graduate or above", type: "multiselect" },
-        { name: "occupation", label: "Expected Occupation", placeholder: "Working professional", type: "multiselect" },
-        { name: "jobType", label: "Expected Job Type", placeholder: "Private / Government", type: "multiselect" },
-        { name: "locationPreference", label: "Location Preference", placeholder: "Delhi NCR, Bangalore", type: "text" },
+        { name: "ageRange", label: "Expected Age Range", placeholder: "24-29", type: "text", required: false },
+        { name: "heightRange", label: "Expected Height Range", placeholder: "5'2\" - 5'8\"", type: "select", required: false },
+        { name: "income", label: "Expected Annual Min Income", placeholder: "₹1,00,000", type: "text", required: false },
+        { name: "caste", label: "Expected Caste", placeholder: "More", type: "text", required: false },
+        { name: "education", label: "Expected Education", placeholder: "Graduate or above", type: "multiselect", required: false },
+        { name: "occupation", label: "Expected Occupation", placeholder: "Working professional", type: "multiselect", required: false },
+        { name: "jobType", label: "Expected Job Type", placeholder: "Private / Government", type: "multiselect", required: false },
+        { name: "locationPreference", label: "Location Preference", placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
     ];
 
     const getOptionsForField = (name: string): { label: string; value: string }[] => {
@@ -313,79 +314,79 @@ const Filter: React.FC<FilterProps> = ({ onSave, filterKey, setFilter, setModelK
                 enableReinitialize
                 onSubmit={(values) => {
                     setFilter(values);
-                    setShowfilter(false);
                     onSave?.(); // Trigger reset + fetch
+                    setShowfilter(false);
                 }}
             >
-                {({ isSubmitting }) => (
-                    <Form className="space-y-4 p-4 bg-white h-full w-full flex flex-col justify-between">
-                        <div className="space-y-4">
-                            {fields.map((field) => {
-                                switch (field.type) {
-                                    case "multiselect":
-                                        return (
-                                            <MultiSelect
-                                                key={field.name}
-                                                name={field.name}
-                                                label={field.label}
-                                                options={getOptionsForField(field.name)}
-                                            />
-                                        );
-                                    case "select":
-                                        return (
-                                            <Input
-                                                key={field.name}
-                                                type="select"
-                                                name={field.name}
-                                                label={field.label}
-                                                // @ts-ignore
-                                                options={getOptionsForField(field.name)}
-                                                placeholder={field.placeholder}
-                                            />
-                                        );
-                                    default:
-                                        return (
-                                            <Input
-                                                key={field.name}
-                                                type="text"
-                                                name={field.name}
-                                                label={field.label}
-                                                placeholder={field.placeholder}
-                                            />
-                                        );
-                                }
-                            })}
-                        </div>
+                {/* {({ isSubmitting }) => ( */}
+                <Form className="space-y-4 p-4 bg-white h-full w-full flex flex-col justify-between">
+                    <div className="space-y-4">
+                        {fields.map((field) => {
+                            switch (field.type) {
+                                case "multiselect":
+                                    return (
+                                        <MultiSelect
+                                            key={field.name}
+                                            name={field.name}
+                                            label={field.label}
+                                            options={getOptionsForField(field.name)}
+                                        />
+                                    );
+                                case "select":
+                                    return (
+                                        <Input
+                                            key={field.name}
+                                            type="select"
+                                            name={field.name}
+                                            label={field.label}
+                                            // @ts-ignore
+                                            options={getOptionsForField(field.name)}
+                                            placeholder={field.placeholder}
+                                        />
+                                    );
+                                default:
+                                    return (
+                                        <Input
+                                            key={field.name}
+                                            type="text"
+                                            name={field.name}
+                                            label={field.label}
+                                            placeholder={field.placeholder}
+                                        />
+                                    );
+                            }
+                        })}
+                    </div>
 
-                        <div className="w-full flex justify-between gap-4  bg-white sticky bottom-0">
-                            <button
-                                onClick={() => setShowfilter(false)}
-                                type="button"
-                                className="flex items-center justify-center gap-2 px-7 py-2 border-2 border-black text-black font-bold rounded-lg w-full"
-                            >
-                                <RxCross2 />
-                                Cancel
-                            </button>
+                    <div className="w-full flex justify-between gap-4  bg-white sticky bottom-0">
+                        <button
+                            onClick={() => setShowfilter(false)}
+                            type="button"
+                            className="flex items-center justify-center gap-2 px-7 py-2 border-2 border-black text-black font-bold rounded-lg w-full"
+                        >
+                            <RxCross2 />
+                            Cancel
+                        </button>
 
-                            <button
-                                type="submit"
-                                className="flex items-center justify-center gap-2 px-7 py-2 border-2 bg_primary text-white font-bold rounded-lg w-full"
-                            >
-                                <SiVerizon />
-                                Save
-                            </button>
-                        </div>
+                        <button
+                            type="submit"
+                            className="flex items-center justify-center gap-2 px-7 py-2 border-2 bg_primary text-white font-bold rounded-lg w-full"
+                        >
+                            <SiVerizon />
+                            Save
+                        </button>
+                    </div>
 
 
-                        {/* <button
+                    {/* <button
                             type="submit"
 
                             className="bg_primary text-white py-2 rounded-lg mt-auto"
                         >
                             save
                         </button> */}
-                    </Form>
-                )}
+                </Form>
+                {/* )} */}
             </Formik>
         </div >
     );
