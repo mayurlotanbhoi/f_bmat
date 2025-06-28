@@ -13,20 +13,20 @@ import { usePwaPrompt } from "../../hooks";
 import { useAuth } from "../../hooks/useAuth";
 import { getMatrimony } from "../../features/matrimony/matrimonySlice";
 import Matche from "../matches";
+import { vadhuIcon, varIcon } from "../../util/images.util";
 
 // import { usePwaPrompt } from "../../hooks";
 
 export default function Home() {
     const [isAppInstall, setAppInstall] = useState(false)
     const { installApp } = usePwaPrompt();
-    const [isClikOnInstall, setClikOnInstall] = useState(false)
+    const [isClikOnInstall, setClikOnInstall] = useState<boolean>(false)
     const profile = getMatrimony();
     const { mainMenu } = appConfig;
+    const [menuIcons, setMenuIcons] = useState([vadhuIcon, varIcon])
     const bios = profilesData;
     const Cartclores = ['#89A6F0', '#FFC969', '#FC72AA', '#47E76F',]
     const { user } = useAuth();
-
-
 
 
 
@@ -66,17 +66,22 @@ export default function Home() {
                 <div className="mt-3">
                     <div className="w-full text-right my-2"><Link to={'/profile'} className="text-blue-600 hover:underline" >All Profiles</Link></div>
                     <div className="w-100 flex flex-wrap justify-between   gap-4 ">
+
                         {mainMenu.map((item, index) => (
                             <Link
                                 key={index}
-                                to={item?.url + '/' + item?.key}
+                                to={`${item?.url}/${item?.key}`}
                                 style={{ backgroundColor: Cartclores[index] }}
-                                className={`  flex-col   relative md:w-52 w-32 h-32 rounded-2xl shadow-xl border-2 border-rose-100 flex justify-center items-center font-bold text-white text-xl`}
+                                className="flex flex-col items-center justify-between md:w-52 w-36 h-44 rounded-2xl shadow-lg border border-rose-100 text-white transition-all duration-200 hover:scale-105"
                             >
-                                <p className=" absolute top-2 text-4xl right-0">{item.icon}</p>
-                                {/* <img /> */}
-                                <span>{item.text}</span>
-                                <small className="text-sm font-extralight">{item.text}</small>
+                                <img
+                                    src={menuIcons[Math.floor(index / 2)]}
+                                    alt={`${item?.text} icon`}
+                                    className="w-20 h-20 rounded-full mt-4 drop-shadow-md"
+                                />
+                                <div className="mb-4 text-center">
+                                    <h3 className="text-lg font-semibold capitalize">{item?.text}</h3>
+                                </div>
                             </Link>
                         ))}
                     </div>
