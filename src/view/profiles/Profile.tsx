@@ -564,7 +564,7 @@ export default function Profile() {
                 onClick={() => setShowFilter(true)}
                 text="FILTER"
             />
-            <div className="w-full h-full flex flex-wrap py-10 pb-14">
+            <div className="w-full h-full flex flex-wrap py-10 pb-14 mt-20">
                 {profileData.map((bio, index, arr) => (
                     <><div ref={arr.length - 1 === index ? bottomRef : null} key={index} className="w-full sm:w-1/2 md:w-1/2 lg:w-1/3">
                         <ProfileCard bio={bio} setViewBio={setViewBio} />
