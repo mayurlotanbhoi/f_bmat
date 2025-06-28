@@ -234,3 +234,11 @@ border: 2px #111213 solid;
   background: var(--gray_color);
 }
 
+.qr-code svg{
+  width: 100px;
+  height: 100px;
+}
+.Verified-icon svg{
+  width: 100px;
+  height: 100px;
+}

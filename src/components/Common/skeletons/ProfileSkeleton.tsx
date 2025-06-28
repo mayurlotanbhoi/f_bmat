@@ -1,59 +1,97 @@
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const ProfileSkeleton = () => {
     return (
-        <div className='mt-20'>
+        <div className="mt-20 grid sm:grid-cols-1 md:grid-cols-3 gap-6">
             {Array.from({ length: 4 }).map((_, index) => (
-                <div key={index} className="max-w-md min-h-[80vh] mt-4  animate-pulse relative rounded-xl shadow-lg bg-white dark:border-gray-700 overflow-hidden">
-                    {/* Top Placeholder Image Box */}
-                    <div className="min-h-[80vh] w-full bg-cover bg-center rounded-lg bg-gray-300 dark:bg-gray-700">
-                        <svg
-                            className="w-full h-full dark:text-gray-600"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 16 20"
-                        >
-                            <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
-                            <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
-                        </svg>
+                <div
+                    key={index}
+                    className="max-w-[350px] min-h-[80vh] relative rounded-2xl shadow-lg   overflow-hidden  "
+                >
+                    {/* Verified Badge Placeholder */}
+                    <div className="flex items-center gap-2 absolute top-3 left-3 px-3 py-1  rounded-full z-10">
+                        <Skeleton circle height={24} width={24} highlightColor="#e2e8f0"
+                            baseColor="#f1f5f9" className=" rounded" />
+                        <Skeleton height={16} width={70} highlightColor="#e2e8f0"
+                            baseColor="#f1f5f9" className=" rounded" />
                     </div>
 
-                    {/* Thumbnail Placeholders */}
-                    <div className="flex flex-col justify-between absolute right-2 top-4 gap-2 overflow-x-auto">
-                        {Array.from({ length: 4 }).map((_, index) => (
-                            <svg
-                                key={index}
-                                className="w-14 h-14 object-cover rounded-md cursor-pointer border-2 dark:text-gray-600"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                viewBox="0 0 16 20"
-                            >
-                                <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM10.5 6a1.5 1.5 0 1 1 0 2.999A1.5 1.5 0 0 1 10.5 6Zm2.221 10.515a1 1 0 0 1-.858.485h-8a1 1 0 0 1-.9-1.43L5.6 10.039a.978.978 0 0 1 .936-.57 1 1 0 0 1 .9.632l1.181 2.981.541-1a.945.945 0 0 1 .883-.522 1 1 0 0 1 .879.529l1.832 3.438a1 1 0 0 1-.031.988Z" />
-                                <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
-                            </svg>
+                    {/* Main Image Skeleton */}
+                    <Skeleton
+                        height="80vh"
+                        width="100%"
+                        baseColor="#cbd5e1"
+                        highlightColor="#e2e8f0"
+                    />
+
+                    {/* Thumbnails */}
+                    <div className="flex flex-col justify-between absolute top-4 right-2 gap-2 z-10">
+                        {Array.from({ length: 4 }).map((_, idx) => (
+                            <Skeleton
+                                key={idx}
+                                height={56}
+                                width={56}
+                                borderRadius={8}
+                                baseColor="#f1f5f9"
+                                highlightColor="#e2e8f0"
+                            />
                         ))}
                     </div>
 
-                    {/* Bottom Placeholder with Action Buttons */}
-                    <div className="absolute bottom-0 left-0 w-full px-4 py-6 bg-gradient-to-t from-black/50 via-black/10 to-transparent z-20">
-                        {/* Text lines */}
-                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5" />
-                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-2.5" />
-                        <div className="h-2 bg-gray-200 rounded-full dark:bg-gray-700 mb-4" />
+                    {/* Bottom Text + Button Section */}
+                    <div className="absolute bottom-0 left-0 w-full px-4 pb-6 bg-gradient-to-t from-black/60 via-black/20 to-transparent z-20">
+                        <Skeleton
+                            height={20}
+                            width="70%"
+                            baseColor="#f8fafc"
+                            highlightColor="#e2e8f0"
+                            className="mb-2 rounded"
+                        />
+                        <Skeleton
+                            height={16}
+                            width="50%"
+                            baseColor="#f1f5f9"
+                            highlightColor="#e2e8f0"
+                            className="mb-1 rounded"
+                        />
+                        <Skeleton
+                            height={16}
+                            width="40%"
+                            baseColor="#f1f5f9"
+                            highlightColor="#e2e8f0"
+                            className="mb-1 rounded"
+                        />
+                        <Skeleton
+                            height={16}
+                            width="60%"
+                            baseColor="#f1f5f9"
+                            highlightColor="#e2e8f0"
+                            className="mb-4 rounded"
+                        />
 
-                        {/* Action Buttons */}
-                        <div className="flex justify-between gap-2">
-                            <div className="bg-gray-200 dark:bg-gray-700 rounded h-10 w-24"></div>
-                            <div className="bg-gray-200 dark:bg-gray-700 rounded h-10 w-24"></div>
-                            <div className="bg-gray-200 dark:bg-gray-700 rounded h-10 w-24"></div>
-                        </div>
+                        <Skeleton
+                            height={40}
+                            width="100%"
+                            // baseColor="#f1f5f9"
+                            highlightColor="#e2e8f0"
+                            className=" rounded"
+                        />
+
+                        {/* <div className="w-full flex justify-center">
+                            <Skeleton
+                                height={40}
+                                width="100%"
+                                borderRadius={999}
+                                baseColor="#94a3b8"
+                                highlightColor="#cbd5e1"
+                            />
+                        </div> */}
                     </div>
-                </div>
 
+                </div>
             ))}
         </div>
-
     );
 };
 

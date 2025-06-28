@@ -72,3 +72,53 @@ export const calculateAge = (dateOfBirth: any): string => {
         }
     }
 }
+
+
+
+type FormatDateOptions = {
+    locale?: string;
+    withTime?: boolean;
+    onlyDate?: boolean;
+    fullMonth?: boolean;
+};
+
+export const formatDate = (
+    date: Date | string | number | null | undefined,
+    options: FormatDateOptions = {}
+): string => {
+    const {
+        locale = 'en-IN',
+        withTime = false,
+        onlyDate = false,
+        fullMonth = true,
+    } = options;
+
+    console.log("date", date)
+
+    if (!date) return 'Invalid Date';
+
+    const dateObj = new Date(date);
+
+    if (isNaN(dateObj.getTime())) return 'Invalid Date';
+
+    const dateFormat: Intl.DateTimeFormatOptions = {
+        day: '2-digit',
+        month: fullMonth ? 'long' : 'short',
+        year: 'numeric',
+    };
+
+    const timeFormat: Intl.DateTimeFormatOptions = {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+    };
+
+    const formatOptions: Intl.DateTimeFormatOptions = onlyDate
+        ? dateFormat
+        : withTime
+            ? { ...dateFormat, ...timeFormat }
+            : dateFormat;
+
+    return new Intl.DateTimeFormat(locale, formatOptions).format(dateObj);
+};
+

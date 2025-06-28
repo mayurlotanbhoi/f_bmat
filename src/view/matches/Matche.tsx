@@ -1,9 +1,9 @@
 import { MdVerified } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-import { ConfettiButton } from '../../components';
 import { useGetMatchQuery } from '../../features/matrimony/matrimonyApi';
 import { calculateAge } from '../../util/dateFormat';
 import { formatAmount } from '../../util/commans';
+import Heading from '../../components/Headings/Heading';
 
 interface Bio {
     [key: string]: any;
@@ -13,10 +13,14 @@ const Matche = () => {
     const { data, isLoading, isError } = useGetMatchQuery('');
 
     if (isLoading) return <p className="text-center text-gray-500">Loading...</p>;
-    if (isError) return <p className="text-center text-red-500">Something went wrong!</p>;
+    if (isError) return <p className="text-center text-red-500">No Match Found!</p>;
 
     return (
         <>
+            <div className=" flex justify-between mt-3">
+                <Heading className="text-xl  font-semibold" text="Matches" />
+                <div className="w-full text-right my-2"><Link className="text-blue-600 hover:underline cursor-pointer py-10" to='/matches'>See all match</Link></div>
+            </div>
             {Array.isArray(data?.data) && data?.data?.map((match: Bio, index: number) => {
                 const name = match?.personalDetails?.fullName || 'Unknown';
                 const dob = match?.personalDetails?.dateOfBirth;

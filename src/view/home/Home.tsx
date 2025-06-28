@@ -82,10 +82,7 @@ export default function Home() {
                     </div>
                 </div>
             </div >
-            <div className=" flex justify-between mt-3">
-                <Heading className="text-xl  font-semibold" text="Matches" />
-                <div className="w-full text-right my-2"><Link className="text-blue-600 hover:underline cursor-pointer py-10" to='/matches'>See all match</Link></div>
-            </div>
+
 
             <Matche />
 

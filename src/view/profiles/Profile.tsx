@@ -4,7 +4,7 @@ import Drawer from '../../components/Common/Drawer';
 import Viewprofile from '../../components/Profile/Viewprofile';
 import { IoIosArrowDown, IoIosArrowForward, IoIosArrowUp } from 'react-icons/io';
 import { FaFilter, } from 'react-icons/fa';
-import { FlotingButton } from '../../components';
+import { FlotingButton, InfiniteLoading } from '../../components';
 import Modal from '../../components/Common/Modal';
 
 import { AgeFilter, CastFilter, CityFilter, IncomeFilter, StateFilter, SubCastFilter } from '../../components/forms/ProfileFiltersForms';
@@ -492,7 +492,7 @@ export default function Profile() {
         city: "city",
     });
 
-    const [trigger] = useLazyFilterAllProfilesQuery();
+    const [trigger, { isLoading }] = useLazyFilterAllProfilesQuery();
 
     const sanitizeFilter = () => {
         const keysToRemove = {
@@ -552,9 +552,7 @@ export default function Profile() {
     return (
         <>
             <ProfileSearchHeader />
-
-            {loading && profileData.length === 0 && <ProfileSkeleton />}
-
+            {profileData.length === 0 && <ProfileSkeleton />}
             {!loading && profileData.length === 0 && (
                 <h1 className="w-screen h-screen flex justify-center items-center font-extrabold text-xl text-gray-400">
                     No BioData found
@@ -566,13 +564,14 @@ export default function Profile() {
                 onClick={() => setShowFilter(true)}
                 text="FILTER"
             />
-
             <div className="w-full h-full flex flex-wrap py-10 pb-14">
                 {profileData.map((bio, index, arr) => (
-                    <div ref={arr.length - 1 === index ? bottomRef : null} key={index} className="w-full sm:w-1/2 md:w-1/2 lg:w-1/3">
+                    <><div ref={arr.length - 1 === index ? bottomRef : null} key={index} className="w-full sm:w-1/2 md:w-1/2 lg:w-1/3">
                         <ProfileCard bio={bio} setViewBio={setViewBio} />
                     </div>
+                    </>
                 ))}
+                {loading && <InfiniteLoading />}
             </div>
 
             <div ref={bottomRef} className="h-10" />
