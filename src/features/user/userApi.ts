@@ -9,7 +9,9 @@ export const userApi = baseApi.injectEndpoints({
                 url: '/user/get/me',
                 method: 'GET',
 
+
             }),
+            providesTags: ['User'],
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
@@ -22,6 +24,15 @@ export const userApi = baseApi.injectEndpoints({
                     // dispatch(setError("Failed to fetch profile"));
                 }
             },
+        }),
+
+        updateUser: builder.mutation<any, FormData>({
+            query: (formData) => ({
+                url: '/user/update/me',
+                method: 'PUT',
+                body: formData,
+            }),
+            invalidatesTags: ['User'],
         }),
 
         // ✅ Create Matrimony Profile (with image upload)
@@ -88,7 +99,7 @@ export const userApi = baseApi.injectEndpoints({
                 try {
                     const { data } = await queryFulfilled;
 
-                    console.log("data getProfileByUserId",data )
+                    console.log("data getProfileByUserId", data)
                     dispatch(setUser(data)); // from matrimonySlice
                 } catch (err) {
                     console.log("getProfileByUserId, /matrimony/me", err);
@@ -109,7 +120,8 @@ export const userApi = baseApi.injectEndpoints({
 });
 
 export const {
-    useLazyGetUserQuery
+    useLazyGetUserQuery,
+    useUpdateUserMutation
     // useCreateMatrimonyProfileMutation,
     // useUpdateMatrimonyProfileMutation,
     // useGetProfileByUserIdMutation,

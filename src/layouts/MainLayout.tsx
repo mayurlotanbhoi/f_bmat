@@ -42,7 +42,7 @@ const MainLayout: React.FC = () => {
   const Padding = ['profile', 'chat', 'user', 'complet-profile', 'initial-info'];
   const header = ['profile', 'chat', 'initial-info'];
   const fullScrren = ['chat', 'complet-profile', 'initial-info'];
-  const speedDial = ['profile', 'initial-info'];
+  const speedDial = ['profile', 'initial-info', 'user'];
 
   console.log("location", location.pathname)
   type Path = keyof typeof skeletons;

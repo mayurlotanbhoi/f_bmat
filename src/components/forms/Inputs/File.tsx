@@ -38,7 +38,7 @@ const FileInput: React.FC<FileInputProps> = ({
     };
 
     return (
-        <div className=" w-[8rem]">
+        <div className={` ${className ? '' : 'w-[8rem]'} `}>
             {label && (
                 <label htmlFor={name} className="mb-1 block text-sm font-medium text-gray-700">
                     {label} {required && <span className="text-red-600">*</span>}

@@ -5,7 +5,9 @@ import { SiVerizon } from 'react-icons/si';
 import { IoPersonCircleSharp } from 'react-icons/io5';
 import BackButtn from '../../components/Buttons/BackButtn';
 import Heading from '../../components/Headings/Heading';
-import { Input } from '../../components/forms/Inputs';
+import { FileInput, Input, MultiSelect, Select } from '../../components/forms/Inputs';
+import { useUpdateUserMutation } from '../../features/user/userApi';
+import { updateUserSchema } from '../../validations';
 
 
 type Props = {
@@ -17,8 +19,7 @@ type Props = {
 
 const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
     const formikRef = useRef<FormikProps<any>>(null);
-
-    console.log("user", user?.address?.city, user?.address?.state, user?.address?.country, user?.address?.postcode);
+    const [updateUser, { isError, isLoading, data }] = useUpdateUserMutation()
 
     const initialValues = {
         location: user.location || '',
@@ -34,15 +35,40 @@ const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
     };
 
     const fields = [
-        { name: 'location', label: 'Location', placeholder: 'Indore, MP', type: 'text' },
-        { name: 'language', label: 'Language Code', placeholder: 'en / hi', type: 'text' },
-        { name: 'mobile', label: 'Mobile Number', placeholder: '7709433561', type: 'text' },
-        { name: 'profilePicture', label: 'Profile Picture URL', placeholder: 'choose file', type: 'text' },
-        { name: 'address.city', label: 'City', placeholder: 'Indore', type: 'text' },
-        { name: 'address.state', label: 'State', placeholder: 'Madhya Pradesh', type: 'text' },
-        { name: 'address.country', label: 'Country', placeholder: 'India', type: 'text' },
-        { name: 'address.postcode', label: 'Postal Code', placeholder: '452001', type: 'text' },
+        { name: 'profilePicture', label: 'Profile Picture ', placeholder: 'choose file', type: 'file', required: false },
+        { name: 'name', label: 'name', placeholder: 'your nanme', type: 'text', required: true },
+        { name: 'location', label: 'Location', placeholder: 'Indore, MP', type: 'text', required: true },
+        { name: 'mobile', label: 'Mobile Number', placeholder: '7709433561', type: 'text', required: true },
+        { name: 'address.city', label: 'City', placeholder: 'Indore', type: 'text', required: true },
+        { name: 'address.state', label: 'State', placeholder: 'Madhya Pradesh', type: 'text', required: true },
+        { name: 'address.country', label: 'Country', placeholder: 'India', type: 'text', required: true },
+        { name: 'address.postcode', label: 'Postal Code', placeholder: '452001', type: 'text', required: true },
     ];
+
+    const buildFormData = (formData: FormData, data: any, parentKey = '') => {
+        Object.entries(data).forEach(([key, value]) => {
+            const fieldKey = parentKey ? `${parentKey}[${key}]` : key;
+
+            if (value instanceof File) {
+                formData.append(fieldKey, value);
+            } else if (value !== null && typeof value === 'object' && !(value instanceof Date)) {
+                buildFormData(formData, value, fieldKey); // Recursive for nested objects
+            } else if (value !== undefined && value !== null) {
+                //@ts-ignore
+                formData.append(fieldKey, value);
+            }
+        });
+    };
+
+
+    const onSubmit = async (values) => {
+        const formData = new FormData();
+        buildFormData(formData, values);
+        // conso
+        updateUser(formData).unwrap();
+        console.log('onSubmit values', values)
+
+    }
 
     return (
         <div className=" w-screen ">
@@ -57,31 +83,34 @@ const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
             </div>
 
             <div className="flex justify-between items-center px-4 my-2 w-full">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-2 text-primary font-bold cursor-pointer">
                     <IoPersonCircleSharp />
                     <p>Edit Profile</p>
                 </div>
-                <p
+                {/* <p
                     onClick={() => {
                         formikRef.current?.resetForm({ values: initialValues });
                     }}
                     className="text-primary font-bold cursor-pointer"
                 >
                     Reset
-                </p>
+                </p> */}
             </div>
 
             <Formik
                 innerRef={formikRef}
                 initialValues={initialValues}
+                validationSchema={updateUserSchema}
+                validateOnBlur={true}
+                validateOnChange={true}
                 enableReinitialize
                 onSubmit={(values) => {
-                    // onSubmit(values);
+                    onSubmit(values);
                     // onSave?.();
                 }}
             >
                 <Form className="space-y-4 p-4 bg-white h-full w-full flex flex-col justify-between">
-                    <div className="space-y-4">
+                    {/* <div className="space-y-4">
                         {fields.map((field) => (
                             <Input
                                 key={field.name}
@@ -91,7 +120,35 @@ const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
                                 placeholder={field.placeholder}
                             />
                         ))}
-                    </div>
+                    </div> */}
+
+                    {fields?.map((field) => {
+                        switch (field.type) {
+                            case "file":
+                                return (
+                                    <FileInput
+                                        key={field.name}
+                                        old={user?.profilePicture}
+                                        name={field.name}
+                                        label={field.label}
+                                        required={field.required}
+                                        className={" border-2 object-contain border-dashed w-full h-[200px]"}
+                                    />
+                                );
+
+                            default:
+                                return (
+                                    <Input
+                                        key={field.name}
+                                        type={field.type}
+                                        name={field.name}
+                                        label={field.label}
+                                        placeholder={field.placeholder}
+                                        required={field.required}
+                                    />
+                                );
+                        }
+                    })}
 
                     <div className="w-full flex justify-between gap-4 bg-white sticky bottom-0 pt-4">
                         <button

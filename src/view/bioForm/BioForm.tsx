@@ -1108,8 +1108,6 @@ const MultiStepForm: React.FC = () => {
                                 }
                             })}
 
-
-
                             <div className={` ${isLastStep ? "" : "hidden"} w-full flex justify-between items-center flex-wrap gap-3`}>
                                 {steps[step]?.fields.map((field, index) => {
                                     if (!field) return <></>;
