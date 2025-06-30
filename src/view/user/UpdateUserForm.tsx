@@ -8,6 +8,7 @@ import Heading from '../../components/Headings/Heading';
 import { FileInput, Input, MultiSelect, Select } from '../../components/forms/Inputs';
 import { useUpdateUserMutation } from '../../features/user/userApi';
 import { updateUserSchema } from '../../validations';
+import { asyncHandlerWithSwal } from '../../util/asyncHandler';
 
 
 type Props = {
@@ -26,6 +27,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
         language: user.language || '',
         mobile: user.mobile || '',
         profilePicture: user.profilePicture || '',
+        name: user.name || '',
         address: {
             city: user.address?.city || '',
             state: user.address?.state || '',
@@ -63,10 +65,21 @@ const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
 
     const onSubmit = async (values) => {
         const formData = new FormData();
+
+
         buildFormData(formData, values);
         // conso
-        updateUser(formData).unwrap();
-        console.log('onSubmit values', values)
+
+        const result = await asyncHandlerWithSwal(
+            async () => updateUser(formData).unwrap(),
+            {
+                loadingHtml: "<b>Updating profile...</b>",
+                successHtml: "<b>Profile updated successfully</b>",
+                errorHtml: "<b>Update failed. Please try again.</b>",
+            }
+        );
+
+        console.log('onSubmit values', result)
 
     }
 
@@ -128,7 +141,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
                                 return (
                                     <FileInput
                                         key={field.name}
-                                        old={user?.profilePicture}
+                                        old={user?.profilePicture ? user?.profilePicture : ""}
                                         name={field.name}
                                         label={field.label}
                                         required={field.required}
@@ -154,6 +167,7 @@ const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
                         <button
                             type="button"
                             onClick={onCancel}
+                            disabled={isLoading}
                             className="flex items-center justify-center gap-2 px-7 py-2 border-2 border-black text-black font-bold rounded-lg w-full"
                         >
                             <RxCross2 />
@@ -162,12 +176,42 @@ const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
 
                         <button
                             type="submit"
+                            disabled={isLoading}
                             className="flex items-center justify-center gap-2 px-7 py-2 border-2 bg_primary text-white font-bold rounded-lg w-full"
                         >
-                            <SiVerizon />
-                            Save
+                            {isLoading ? (
+                                <>
+                                    <svg
+                                        className="animate-spin h-5 w-5 text-white mr-2"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                        />
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
+                                        />
+                                    </svg>
+                                    Saving...
+                                </>
+                            ) : (
+                                <>
+                                    <SiVerizon />
+                                    Save
+                                </>
+                            )}
                         </button>
                     </div>
+
                 </Form>
             </Formik>
         </div>

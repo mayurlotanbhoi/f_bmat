@@ -5,13 +5,13 @@ import withReactContent from "sweetalert2-react-content";
 const MySwal = withReactContent(Swal);
 
 type Options = {
-    loadingHtml?: string;
-    successHtml?: string;
-    errorHtml?: string;
-    defaultMessage?: string;
-    preConfirmHtml?: string;
-    confirmButtonText?: string;
-    showConfirm?: boolean;
+  loadingHtml?: string;
+  successHtml?: string;
+  errorHtml?: string;
+  defaultMessage?: string;
+  preConfirmHtml?: string;
+  confirmButtonText?: string;
+  showConfirm?: boolean;
 };
 
 // export const asyncHandlerWithSwal = async<T>(
@@ -83,7 +83,12 @@ export const asyncHandlerWithSwal = async (callback, messages) => {
       title: 'Please wait',
       html: messages.loadingHtml || 'Loading...',
       allowOutsideClick: false,
+      showConfirmButton: false,
       didOpen: () => Swal.showLoading(),
+      customClass: {
+        popup: 'custom-swal-popup',
+        htmlContainer: 'custom-swal-html',
+      },
     });
 
     const result = await callback();
@@ -91,12 +96,16 @@ export const asyncHandlerWithSwal = async (callback, messages) => {
     Swal.fire({
       icon: 'success',
       html: messages.successHtml || 'Success!',
+      customClass: {
+        popup: 'custom-swal-popup',
+        htmlContainer: 'custom-swal-html',
+      },
     });
 
     return result;
   } catch (error) {
     let message = messages.errorHtml || 'Something went wrong';
-    
+
     // ✅ Extract meaningful error message from API response
     if (error?.data?.message) {
       message = error.data.message;

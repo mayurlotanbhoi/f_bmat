@@ -241,4 +241,27 @@ border: 2px #111213 solid;
 .Verified-icon svg{
   width: 100px;
   height: 100px;
+}.custom-swal-popup {
+  background: transparent;
+  /* backdrop-filter: blur(12px); */
+  box-shadow: none;
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 100%;
+  max-width: 340px;
+  font-family: 'Inter', sans-serif;
+}
+
+.custom-swal-html {
+  color: #333;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.swal-text {
+  padding: 10px;
+  background-color: white;
+  border-radius: 12px;
+  /* box-shadow: 0 2px 6px rgba(0,0,0,0.1); */
+  color: #222;
 }
