@@ -221,7 +221,7 @@ export default function MatrimonyBioData() {
               {/* <Heading className=' ' text="Personal Info" /> */}
               <div className="grid grid-cols-4 p-0 m-0   ">
                 <Info className="col-span-4 text-start" label="Name" value={profile.personalDetails.fullName} />
-                <Info className={'col-span-2'} label="Age" value={`${calculateAge(profile.personalDetails.dateOfBirth)}`} />
+                <Info className={'col-span-4'} label="Age" value={`${calculateAge(profile.personalDetails.dateOfBirth)}`} />
                 <Info className={'col-span-4 text-start'} label="DOB" value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
                 <Info className={'col-span-4'} label="Marrial Status" value={profile.personalDetails.maritalStatus} />
                 <Info className={'col-span-2'} label="Color" value={profile.personalDetails?.Complexion} />
@@ -236,8 +236,8 @@ export default function MatrimonyBioData() {
                 <Info className={'col-span-4'} label="Father" value={profile.familyDetails?.fatherName} />
                 {/* <Info label="Weight" value={profile.personalDetails.weight} /> */}
                 <Info className={'col-span-4'} label="Mother" value={profile.familyDetails?.motherName} />
-                <Info className={'col-span-2'} label="Caste" value={profile.religiousDetails.caste} />
-                <Info className={'col-span-2'} label="Sub Caste" value={profile.religiousDetails.subCaste} />
+                {/* <Info className={'col-span-2'} label="Caste" value={profile.religiousDetails.caste} /> */}
+                <Info className={'col-span-4'} label="Sub Caste" value={profile.religiousDetails.subCaste + ' (' + profile.religiousDetails.caste + ')'} />
                 {/* <Info className={'col-span-2'} label="Religion" value={profile.religiousDetails.religion} /> */}
                 <Info className={'col-span-4'} label="Occupation" value={profile.professionalDetails.occupation} />
                 <Info className={'col-span-2'} label="Income" value={formatCurrency(profile.professionalDetails.income)} />
@@ -255,7 +255,7 @@ export default function MatrimonyBioData() {
                 <img
                   src={profile?.profilePhotos?.[0]}
                   alt="Profile"
-                  className="w-28 h-34 md:w-[240px] md:h-[320px] object-cover rounded-md border-2 border-pink-600 shadow-md"
+                  className="w-28 h-34 min:h-34 md:w-[240px] md:h-[320px] object-cover rounded-md border-2 border-pink-600 shadow-md"
                 />
               </div>
             </div>

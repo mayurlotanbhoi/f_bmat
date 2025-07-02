@@ -16,6 +16,8 @@ import { getMatrimony } from "../../features/matrimony/matrimonySlice";
 import { asyncHandlerWithSwal } from "../../util/asyncHandler";
 import { nameRegex, pinCodeRegex } from "../../constant/regexPatterns";
 import { useSelector } from "react-redux";
+import { MotionConfig } from "framer-motion";
+import { motion } from "framer-motion";
 
 const steps = [
     {
@@ -932,8 +934,9 @@ const MultiStepForm: React.FC = () => {
 
     return (
         <>
-            <div className=" min-h-screen grid grid-rows-[auto_1fr]  mx-auto   rounded-xl shadow-md">
-                <div className="flex flex-col  grid-cols-2 justify-between mb-2   px-4 bg-white">
+            <div className=" min-h-screen   grid grid-rows-[auto_1fr]  mx-auto   rounded-xl shadow-md">
+                {/* <div className="fixed top-0  left-0"> */}
+                <div className="flex flex-col   grid-cols-2 justify-between mb-2   px-4 bg-white">
                     <button className="  mt-2 mb-[-0.8rem] " >
                         <GoArrowLeft onClick={handleBack} className="cursor-pointer" size={30} />
                     </button>
@@ -945,6 +948,7 @@ const MultiStepForm: React.FC = () => {
                     {step + 1}
                 </div> */}
                 </div>
+                {/* </div> */}
 
 
 
@@ -985,9 +989,9 @@ const MultiStepForm: React.FC = () => {
 
                     }}
                 >
-                    <Form className="space-y-4 p-4 grid-cols-12 bg-white relative flex flex-col justify-between">
-                        <div className="space-y-4 mb-10 md:grid md:grid-cols-2 gap-2">
-                            <h2 className="text-lg font-semibold p-4 col-span-full ">{steps[step].label}</h2>
+                    <Form className="space-y-4  grid-cols-12 bg-white relative flex flex-col justify-between">
+                        <div className="space-y-4  px-4 py-2  mb-16 md:grid md:grid-cols-2 gap-2">
+                            <h2 className="text-lg font-semibold  col-span-full ">{steps[step].label}</h2>
 
                             {steps[step]?.fields?.map((field) => {
                                 switch (field.type) {
@@ -1146,40 +1150,43 @@ const MultiStepForm: React.FC = () => {
 
                         </div>
 
-                        <button
-                            type="submit"
-                            disabled={isLastStep && isSubmitting}
-                            className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLastStep && isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                                }`}
-                        >
-                            {isLastStep && isSubmitting ? (
-                                <>
-                                    <svg
-                                        className="animate-spin h-5 w-5 text-white mr-2"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <circle
-                                            className="opacity-25"
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="currentColor"
-                                            strokeWidth="4"
-                                        />
-                                        <path
-                                            className="opacity-75"
-                                            fill="currentColor"
-                                            d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
-                                        />
-                                    </svg>
-                                    <span>Completing...</span>
-                                </>
-                            ) : (
-                                <span>{isLastStep ? 'Complete Registration' : 'Continue'}</span>
-                            )}
-                        </button>
+                        <div className="fixed bottom-0 left-0 right-0 bg-white py-3 px-2 shadow-[0_-8px_15px_-4px_rgba(0,0,0,0.1)]">
+                            <button
+                                type="submit"
+                                disabled={isLastStep && isSubmitting}
+                                className={`w-full bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLastStep && isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                                    }`}
+                            >
+                                {isLastStep && isSubmitting ? (
+                                    <>
+                                        <svg
+                                            className="animate-spin h-5 w-5 text-white mr-2"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <circle
+                                                className="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                strokeWidth="4"
+                                            />
+                                            <path
+                                                className="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
+                                            />
+                                        </svg>
+                                        <span>Completing...</span>
+                                    </>
+                                ) : (
+                                    <span>{isLastStep ? 'Complete Registration' : 'Continue'}</span>
+                                )}
+                            </button>
+                        </div>
+
 
                     </Form>
                 </Formik>
@@ -1199,16 +1206,34 @@ const MultiStepForm: React.FC = () => {
 };
 
 const BioCompletModel = () => {
-
-
     return (
-        <div className="p-4 text-center">
-            <h1 className="text-3xl font-bold text-green-600 mb-2">🎉 Congratulations!</h1>
-            <p className="text-gray-600 text-md">You’ve successfully completed your bio setup.</p>
+        <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.3 }}
+            className="p-6 sm:p-8 bg-white rounded-2xl  max-w-md w-full mx-auto text-center"
+        >
+            <div className="text-green-600 text-4xl mb-3">🎉</div>
 
-            <Link to={"/"} className=" btn gont secondary-btn mt-4">Home</Link>
-        </div>
+            <h1 className="text-2xl font-bold text-gray-800 mb-2">
+                Congratulations!
+            </h1>
+
+            <p className="text-gray-600 text-sm sm:text-base">
+                You’ve successfully completed your biodata setup.
+            </p>
+
+            <Link
+                to="/bio-download"
+                className="inline-block mt-6 px-6 py-2 bg_primary hover:bg-primary/90 text-white text-sm sm:text-base font-semibold rounded-lg transition"
+            >
+                Download Your Biodata
+            </Link>
+        </motion.div>
     );
 };
+
+
 
 export default MultiStepForm;

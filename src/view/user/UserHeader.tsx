@@ -11,8 +11,8 @@ export default function UserHeader() {
 
     return (
         <>
-            <div className=" bg-gray-200    flex flex-wrap items-center    ">
-                <div className="     bg-white  shadow-lg pt-16    transform   duration-200 easy-in-out">
+            <div className="  min-h-screen   bg-white     ">
+                <div className="     bg-white     transform   duration-200 easy-in-out">
                     <div className=" h-32 overflow-hidden" >
                         <img className="w-full" src="https://images.unsplash.com/photo-1605379399642-870262d3d051?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80" alt="" />
                     </div>

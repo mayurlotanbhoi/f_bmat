@@ -42,6 +42,7 @@ const Matche = () => {
                     <Link
                         to={`/vlew-profile/${match?._id.toString()}`}
                         key={index}
+                        className=' mt-2'
                     >
 
                         <div

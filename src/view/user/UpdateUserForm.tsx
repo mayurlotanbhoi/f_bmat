@@ -84,9 +84,9 @@ const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
     }
 
     return (
-        <div className=" w-screen ">
+        <div className=" w-screen sm:w-[350px] ">
             {/* Top Header */}
-            <div className="px-2 sticky top-0 flex justify-between gap-2 py-4 border-b-8 border-gray-200 bg-white items-center">
+            <div className=" sticky top-0 flex justify-between gap-2 py-4 border-b-8 border-gray-200 bg-white items-center">
                 <BackButtn onClick={onCancel} />
                 <Heading
                     className="text-black ps-5 font-bold text-sm"
@@ -122,8 +122,10 @@ const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
                     // onSave?.();
                 }}
             >
-                <Form className="space-y-4 p-4 bg-white h-full w-full flex flex-col justify-between">
-                    {/* <div className="space-y-4">
+                <Form className="space-y-4  bg-white h-full w-full flex flex-col justify-between">
+
+                    <div className=' p-4 space-y-4  bg-white h-full w-full flex flex-col justify-between'>
+                        {/* <div className="space-y-4">
                         {fields.map((field) => (
                             <Input
                                 key={field.name}
@@ -135,35 +137,36 @@ const UpdateUserForm: React.FC<Props> = ({ user, onCancel, }) => {
                         ))}
                     </div> */}
 
-                    {fields?.map((field) => {
-                        switch (field.type) {
-                            case "file":
-                                return (
-                                    <FileInput
-                                        key={field.name}
-                                        old={user?.profilePicture ? user?.profilePicture : ""}
-                                        name={field.name}
-                                        label={field.label}
-                                        required={field.required}
-                                        className={" border-2 object-contain border-dashed w-full h-[200px]"}
-                                    />
-                                );
+                        {fields?.map((field) => {
+                            switch (field.type) {
+                                case "file":
+                                    return (
+                                        <FileInput
+                                            key={field.name}
+                                            old={user?.profilePicture ? user?.profilePicture : ""}
+                                            name={field.name}
+                                            label={field.label}
+                                            required={field.required}
+                                            className={" border-2 object-contain border-dashed w-full h-[200px]"}
+                                        />
+                                    );
 
-                            default:
-                                return (
-                                    <Input
-                                        key={field.name}
-                                        type={field.type}
-                                        name={field.name}
-                                        label={field.label}
-                                        placeholder={field.placeholder}
-                                        required={field.required}
-                                    />
-                                );
-                        }
-                    })}
+                                default:
+                                    return (
+                                        <Input
+                                            key={field.name}
+                                            type={field.type}
+                                            name={field.name}
+                                            label={field.label}
+                                            placeholder={field.placeholder}
+                                            required={field.required}
+                                        />
+                                    );
+                            }
+                        })}
+                    </div>
 
-                    <div className="w-full flex justify-between gap-4 bg-white sticky bottom-0 pt-4">
+                    <div className="w-[100%] px-2 flex justify-between gap-4 bg-white sticky bottom-0 pt-4 shadow-top-2xl" style={{ boxShadow: '0 -8px 15px -4px rgba(0, 0, 0, 0.6)' }}>
                         <button
                             type="button"
                             onClick={onCancel}

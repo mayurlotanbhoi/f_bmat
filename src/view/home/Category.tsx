@@ -13,7 +13,7 @@ export default function Category() {
                     <Link to={'/profile/' + item?.key}>
                         <div
                             key={index}
-                            className="bg-secondary text-black min-w-40 h-20 rounded-2xl shadow-xl border-2 border-rose-100 flex justify-center items-center font-bold  text-xl px-3"
+                            className=" bg-[#FF0B55] text-black min-w-40 h-20 rounded-2xl shadow-xl border-2 flex justify-center items-center font-bold  text-xl px-3"
                         >
                             <span className="text-3xl mr-2">{item.icon}</span>
                             <span>{item.text}</span>

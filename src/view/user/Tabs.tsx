@@ -9,7 +9,7 @@ import {
 
 const tabs = [
     { name: 'Biodata', icon: FaUser, },
-    { name: 'Dashboard', icon: FaTachometerAlt },
+    // { name: 'Dashboard', icon: FaTachometerAlt },
     { name: 'Settings', icon: FaCog },
     // { name: 'Contacts', icon: FaAddressBook },
     // { name: 'Disabled', icon: null, disabled: true },
@@ -20,7 +20,7 @@ const Tabs = () => {
 
     return (
         <div className="border-b bg-white mt-10 dark:border-gray-700">
-            <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+            {/* <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                 {tabs.map(({ name, icon: Icon, }) => (
                     <li key={name} className="me-2">
 
@@ -41,10 +41,11 @@ const Tabs = () => {
                             )}
                             {name}
                         </button>
-
+  
                     </li>
                 ))}
-            </ul>
+            </ul> */}
+
         </div>
     );
 };

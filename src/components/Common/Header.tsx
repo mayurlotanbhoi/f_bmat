@@ -22,7 +22,7 @@ const Header: React.FC = () => {
                     </div>
                     <div className=" flex justify-center items-center gap-2">
                         <ProfileStatus percentage={75} imageUrl={user?.profilePicture} />
-                        <FaBell size={25} className=" cursor-pointer" />
+                        {/* <FaBell size={25} className=" cursor-pointer" /> */}
                         {/* Menu button */}
                         <button
                             onClick={() => setMenuOpen(!menuOpen)}

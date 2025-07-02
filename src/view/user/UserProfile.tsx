@@ -13,7 +13,7 @@ export default function UserProfile() {
         <div className=" ">
             <UserHeader />
 
-            <Tabs />
+            {/* <Tabs /> */}
 
 
         </div>

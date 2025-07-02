@@ -241,7 +241,29 @@ border: 2px #111213 solid;
 .Verified-icon svg{
   width: 100px;
   height: 100px;
-}.custom-swal-popup {
+}
+@media screen and (max-width: 600px) {
+  .qr-code svg{
+    width: 70px;
+    height: 70px;
+  }
+  .Verified-icon svg{
+    width: 70px;
+    height: 70px;
+  }
+}
+@media screen and (max-width: 400px) {
+  .qr-code svg{
+    width: 70px;
+    height: 70px;
+  }
+  .Verified-icon svg{
+    width: 60px;
+    height: 60px;
+  }
+}
+
+.custom-swal-popup {
   background: transparent;
   /* backdrop-filter: blur(12px); */
   box-shadow: none;
