@@ -12,11 +12,11 @@ import { useLogOutMutation } from "../../features/auth/authApi";
 import { asyncHandlerWithSwal } from "../../util/asyncHandler";
 import { useDispatch } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 
 const Sidebar: React.FC = () => {
     const [logOut] = useLogOutMutation();
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -27,58 +27,45 @@ const Sidebar: React.FC = () => {
         });
 
         if (result.statusCode === 200) {
-            dispatch(logout())
-            navigate('/auth');
+            dispatch(logout());
+            navigate("/auth");
         }
     };
 
+    const navItems = [
+        { to: "/", icon: <FaHome />, label: "Home" },
+        { to: "/profile", icon: <FaUserAlt />, label: "My Profile" },
+        { to: "/matches", icon: <FaHeart />, label: "Matches" },
+        { to: "/likes", icon: <FaEnvelopeOpenText />, label: "Requests" },
+        { to: "/profile/filter", icon: <FaSearch />, label: "Search" },
+        { to: "/lang", icon: <FaCog />, label: "Language" },
+    ];
+
     return (
-        <aside className="fixed top-0 left-0 h-full w-full sm:w-64 bg-white shadow-lg border-r border-gray-200 flex flex-col">
+        <aside className="fixed top-0 left-0 h-full w-full sm:w-64 bg-white shadow-lg border-r border-gray-200 flex flex-col z-50">
             <div className="px-6 py-4 text-2xl font-bold text-pink-600 border-b border-gray-200">
-                💍 Matrimony Panel
+                💍 Vaishya Parinay
             </div>
-            <nav className="flex-1 px-6 py-4 overflow-y-auto">
-                <ul className="space-y-4 text-gray-700">
-                    <li>
-                        <a href="#" className="flex items-center gap-3 text-base font-medium hover:text-pink-600 transition-colors">
-                            <FaHome className="text-lg" />
-                            Dashboard
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" className="flex items-center gap-3 text-base font-medium hover:text-pink-600 transition-colors">
-                            <FaUserAlt className="text-lg" />
-                            My Profile
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" className="flex items-center gap-3 text-base font-medium hover:text-pink-600 transition-colors">
-                            <FaHeart className="text-lg" />
-                            Matches
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" className="flex items-center gap-3 text-base font-medium hover:text-pink-600 transition-colors">
-                            <FaEnvelopeOpenText className="text-lg" />
-                            Requests
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" className="flex items-center gap-3 text-base font-medium hover:text-pink-600 transition-colors">
-                            <FaSearch className="text-lg" />
-                            Search Profiles
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" className="flex items-center gap-3 text-base font-medium hover:text-pink-600 transition-colors">
-                            <FaCog className="text-lg" />
-                            Settings
-                        </a>
-                    </li>
+            <nav className="flex-1 px-4 py-4 overflow-y-auto">
+                <ul className="space-y-3 text-gray-700">
+                    {navItems.map((item, index) => (
+                        <li key={index}>
+                            <NavLink
+                                to={item.to}
+                                className={({ isActive }) =>
+                                    `flex items-center gap-3 text-base font-medium transition-colors px-3 py-2 rounded-md ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100 hover:text-pink-600"
+                                    }`
+                                }
+                            >
+                                <span className="text-lg">{item.icon}</span>
+                                <span>{item.label}</span>
+                            </NavLink>
+                        </li>
+                    ))}
                     <li>
                         <button
                             onClick={handleLogout}
-                            className="flex items-center gap-3 text-base font-medium text-left w-full hover:text-pink-600 transition-colors"
+                            className="flex items-center gap-3 text-base font-medium text-left w-full hover:text-pink-600 px-3 py-2 rounded-md hover:bg-gray-100 transition"
                         >
                             <FaSignOutAlt className="text-lg" />
                             Logout
@@ -86,7 +73,6 @@ const Sidebar: React.FC = () => {
                     </li>
                 </ul>
             </nav>
-
             <div className="p-4 text-sm text-gray-400 text-center border-t border-gray-200">
                 © 2025 Vaishya Parinay
             </div>

@@ -1,3 +1,5 @@
+import { varIcon, vadhuIcon } from "../util/images.util";
+
 export const appConfig = {
     "_id": "app_config",
     "app": {
@@ -18,44 +20,33 @@ export const appConfig = {
     },
     "category": [
         {
-            "key": "job",
-            "url": "/occupation",
-            "icon": "💼",
-            "text": "Job",
-            "accessLevel": "public"
+            key: 'job',
+            text: 'Job',
+            image: varIcon,
+            gradientFrom: '#ff9a9e',
+            gradientTo: '#fad0c4',
         },
         {
-            "key": "10th-12th",
-            "url": "/education",
-            "icon": "🎓",
-            "text": "10th , 12th",
-            "accessLevel": "public"
+            key: 'education',
+            text: '10th, 12th',
+            image: vadhuIcon,
+            gradientFrom: '#a18cd1',
+            gradientTo: '#fbc2eb',
         },
         {
-            "key": "matches",
-            "url": "/matches",
-            "icon": "❤️",
-            "text": "matches",
-            "accessLevel": "private"
-        },
-
-
-        {
-            "key": "",
-            "url": "/education",
-            "icon": "🎓",
-            "text": "10th , 12th",
-            "accessLevel": "public"
+            key: 'matches',
+            text: 'Matches',
+            image: varIcon,
+            gradientFrom: '#fbc2eb',
+            gradientTo: '#a6c1ee',
         },
         {
-            "key": "likes",
-            "url": "/likes",
-            "icon": "👍",
-            "text": "like",
-            "accessLevel": "private"
+            key: 'like',
+            text: 'Like',
+            image: vadhuIcon,
+            gradientFrom: '#fddb92',
+            gradientTo: '#d1fdff',
         },
-
-
     ],
 
 
