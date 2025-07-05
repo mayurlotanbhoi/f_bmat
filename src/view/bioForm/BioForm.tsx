@@ -18,133 +18,135 @@ import { nameRegex, pinCodeRegex } from "../../constant/regexPatterns";
 import { useSelector } from "react-redux";
 import { MotionConfig } from "framer-motion";
 import { motion } from "framer-motion";
+import { t } from "i18next";
+import { useLocalization } from "../../hooks";
+import { useTranslation } from "react-i18next";
 
 const steps = [
     {
-        label: "Basic Details",
+        label: t("steps.basicDetails"),
         fields: [
-            { name: "personalDetails.fullName", label: "Full Name", placeholder: "Rahul Sharma", type: "text", required: true },
-            { name: "personalDetails.gender", label: "Gender", placeholder: "Male", type: "select", required: true },
-            { name: "personalDetails.dateOfBirth", label: "Date of Birth", placeholder: "YYYY-MM-DD", type: "date", required: true },
-            { name: "personalDetails.maritalStatus", label: "Marital Status", placeholder: "Unmarried", type: "select", required: true },
-            { name: "personalDetails.height", label: "Height", placeholder: "5'9\"", type: "select", required: true },
-            { name: "personalDetails.disability", label: "Disability", placeholder: "None", type: "select", required: true },
-            { name: "personalDetails.weight", label: "Weight", placeholder: "70 kg", type: "select", required: true },
-            { name: "personalDetails.bloodGroup", label: "Blood Group", placeholder: "B+", type: "select", required: false },
-            { name: "personalDetails.complexion", label: "Complexion", placeholder: "None", type: "select", required: false },
+            { name: "personalDetails.fullName", label: t("fields.fullName"), placeholder: "Rahul Sharma", type: "text", required: true },
+            { name: "personalDetails.gender", label: t("fields.gender"), placeholder: "Male", type: "select", required: true },
+            { name: "personalDetails.dateOfBirth", label: t("fields.dateOfBirth"), placeholder: "YYYY-MM-DD", type: "date", required: true },
+            { name: "personalDetails.maritalStatus", label: t("fields.maritalStatus"), placeholder: "Unmarried", type: "select", required: true },
+            { name: "personalDetails.height", label: t("fields.height"), placeholder: "5'9\"", type: "select", required: true },
+            { name: "personalDetails.disability", label: t("fields.disability"), placeholder: "None", type: "select", required: true },
+            { name: "personalDetails.weight", label: t("fields.weight"), placeholder: "70 kg", type: "select", required: true },
+            { name: "personalDetails.bloodGroup", label: t("fields.bloodGroup"), placeholder: "B+", type: "select", required: false },
+            { name: "personalDetails.complexion", label: t("fields.complexion"), placeholder: "None", type: "select", required: false },
         ],
     },
     {
-        label: "Religious Details",
+        label: t("steps.religiousDetails"),
         fields: [
-            { name: "religiousDetails.caste", label: "Caste", placeholder: "Brahmin", type: "select", required: true },
-            { name: "religiousDetails.subCaste", label: "Sub Caste", placeholder: "Gaur", type: "text", required: true },
-            { name: "religiousDetails.gotra", label: "Gotra", placeholder: "Vashishtha", type: "text", required: false },
-            { name: "religiousDetails.manglik", label: "Manglik", placeholder: "Non-Manglik", type: "select", required: true },
-            { name: "religiousDetails.nakshatra", label: "Nakshatra", placeholder: "Nakshatra", type: "select", required: false },
-            { name: "religiousDetails.rashi", label: "Rashi", placeholder: "Rashi", type: "select", required: false },
+            { name: "religiousDetails.caste", label: t("fields.caste"), placeholder: "Brahmin", type: "select", required: true },
+            { name: "religiousDetails.subCaste", label: t("fields.subCaste"), placeholder: "Gaur", type: "text", required: true },
+            { name: "religiousDetails.gotra", label: t("fields.gotra"), placeholder: "Vashishtha", type: "text", required: false },
+            { name: "religiousDetails.manglik", label: t("fields.manglik"), placeholder: "Non-Manglik", type: "select", required: true },
+            { name: "religiousDetails.nakshatra", label: t("fields.nakshatra"), placeholder: "Nakshatra", type: "select", required: false },
+            { name: "religiousDetails.rashi", label: t("fields.rashi"), placeholder: "Rashi", type: "select", required: false },
         ],
     },
     {
-        label: "Family Details",
+        label: t("steps.familyDetails"),
         fields: [
-            { name: "familyDetails.fatherName", label: "Father's Name", placeholder: "Mr. Suresh Sharma", type: "text", required: true },
-            { name: "familyDetails.fatherOccupation", label: "Father's Occupation", placeholder: "Retired Govt Officer", type: "text", required: false },
-            { name: "familyDetails.motherName", label: "Mother's Name", placeholder: "Mrs. Sunita Sharma", type: "text", required: true },
-            { name: "familyDetails.motherOccupation", label: "Mother's Occupation", placeholder: "Homemaker", type: "text", required: false },
-            { name: "familyDetails.brothers", label: "Brothers", placeholder: "2", type: "number", required: false },
-            { name: "familyDetails.sisters", label: "Sisters", placeholder: "1", type: "number", required: false },
-            { name: "familyDetails.marriedBrothers", label: "Married Brothers", placeholder: "1", type: "number", required: false },
-            { name: "familyDetails.marriedSisters", label: "Married Sisters", placeholder: "0", type: "number", required: false },
+            { name: "familyDetails.fatherName", label: t("fields.fatherName"), placeholder: "Mr. Suresh Sharma", type: "text", required: true },
+            { name: "familyDetails.fatherOccupation", label: t("fields.fatherOccupation"), placeholder: "Retired Govt Officer", type: "text", required: false },
+            { name: "familyDetails.motherName", label: t("fields.motherName"), placeholder: "Mrs. Sunita Sharma", type: "text", required: true },
+            { name: "familyDetails.motherOccupation", label: t("fields.motherOccupation"), placeholder: "Homemaker", type: "text", required: false },
+            { name: "familyDetails.brothers", label: t("fields.brothers"), placeholder: "2", type: "number", required: false },
+            { name: "familyDetails.sisters", label: t("fields.sisters"), placeholder: "1", type: "number", required: false },
+            { name: "familyDetails.marriedBrothers", label: t("fields.marriedBrothers"), placeholder: "1", type: "number", required: false },
+            { name: "familyDetails.marriedSisters", label: t("fields.marriedSisters"), placeholder: "0", type: "number", required: false },
         ]
     },
     {
-        label: "Education Details",
+        label: t("steps.educationDetails"),
         fields: [
-            { name: "educationDetails.highestQualification", label: "Highest Qualification", placeholder: "B.Tech in Computer Science", type: "select", required: true },
-            { name: "educationDetails.specialization", label: "Specialization", placeholder: "B.Tech in Computer Science", type: "text", required: false },
-
+            { name: "educationDetails.highestQualification", label: t("fields.highestQualification"), placeholder: "B.Tech in Computer Science", type: "select", required: true },
+            { name: "educationDetails.specialization", label: t("fields.specialization"), placeholder: "B.Tech in Computer Science", type: "text", required: false },
         ],
     },
     {
-        label: "Professional Details",
+        label: t("steps.professionalDetails"),
         fields: [
-            { name: "professionalDetails.jobType", label: "Job Type", placeholder: "Private", type: "select", required: true },
-            { name: "professionalDetails.occupation", label: "Occupation", placeholder: "Software Developer", type: "select", required: true },
-            { name: "professionalDetails.companyName", label: "Company Name", placeholder: "Infosys Ltd.", type: "text", required: false },
-            { name: "professionalDetails.income", label: "Annual Income", placeholder: "₹15,00,000", type: "text", required: true },
-            { name: "professionalDetails.workingCity", label: "Working City", placeholder: "Bangalore", type: "text", required: true },
-            { name: "professionalDetails.workFromHome", label: "Work From Home", placeholder: "Yes/No", type: "select", required: false },
+            { name: "professionalDetails.jobType", label: t("fields.jobType"), placeholder: "Private", type: "select", required: true },
+            { name: "professionalDetails.occupation", label: t("fields.occupation"), placeholder: "Software Developer", type: "select", required: true },
+            { name: "professionalDetails.companyName", label: t("fields.companyName"), placeholder: "Infosys Ltd.", type: "text", required: false },
+            { name: "professionalDetails.income", label: t("fields.income"), placeholder: "₹15,00,000", type: "text", required: true },
+            { name: "professionalDetails.workingCity", label: t("fields.workingCity"), placeholder: "Bangalore", type: "text", required: true },
+            { name: "professionalDetails.workFromHome", label: t("fields.workFromHome"), placeholder: "Yes/No", type: "select", required: false },
         ],
     },
     {
-        label: "Contact Details",
+        label: t("steps.contactDetails"),
         fields: [
-            { name: "contactDetails.mobileNo", label: "Mobile Number", placeholder: "+91-9876543210", type: "tel", required: true },
-            { name: "contactDetails.whatsappNo", label: "WhatsApp Number", placeholder: "+91-9876543210", type: "tel", required: true },
-            { name: "contactDetails.email", label: "Email ID", placeholder: "rahul.sharma@example.com", type: "email", required: false },
-            { name: "contactDetails.presentAddress.area", label: "Present Area", placeholder: "South Delhi", type: "text", required: true },
-            { name: "contactDetails.presentAddress.city", label: "Present City", placeholder: "New Delhi", type: "text", required: true },
-            { name: "contactDetails.presentAddress.state", label: "Present State", placeholder: "Delhi", type: "text", required: true },
-            { name: "contactDetails.presentAddress.pinCode", label: "Present Pincode", placeholder: "110016", type: "text", required: true },
-            { name: "contactDetails.permanentAddress.area", label: "Permanent Area", placeholder: "Najafgarh", type: "text", required: true },
-            { name: "contactDetails.permanentAddress.city", label: "Permanent City", placeholder: "New Delhi", type: "text", required: true },
-            { name: "contactDetails.permanentAddress.state", label: "Permanent State", placeholder: "Delhi", type: "text", required: true },
-            { name: "contactDetails.permanentAddress.pinCode", label: "Permanent Pincode", placeholder: "110043", type: "text", required: true },
+            { name: "contactDetails.mobileNo", label: t("fields.mobileNo"), placeholder: "+91-9876543210", type: "tel", required: true },
+            { name: "contactDetails.whatsappNo", label: t("fields.whatsappNo"), placeholder: "+91-9876543210", type: "tel", required: true },
+            { name: "contactDetails.email", label: t("fields.email"), placeholder: "rahul.sharma@example.com", type: "email", required: false },
+            { name: "contactDetails.presentAddress.area", label: t("fields.presentAddress.area"), placeholder: "South Delhi", type: "text", required: true },
+            { name: "contactDetails.presentAddress.city", label: t("fields.presentAddress.city"), placeholder: "New Delhi", type: "text", required: true },
+            { name: "contactDetails.presentAddress.state", label: t("fields.presentAddress.state"), placeholder: "Delhi", type: "text", required: true },
+            { name: "contactDetails.presentAddress.pinCode", label: t("fields.presentAddress.pinCode"), placeholder: "110016", type: "text", required: true },
+            { name: "contactDetails.permanentAddress.area", label: t("fields.permanentAddress.area"), placeholder: "Najafgarh", type: "text", required: true },
+            { name: "contactDetails.permanentAddress.city", label: t("fields.permanentAddress.city"), placeholder: "New Delhi", type: "text", required: true },
+            { name: "contactDetails.permanentAddress.state", label: t("fields.permanentAddress.state"), placeholder: "Delhi", type: "text", required: true },
+            { name: "contactDetails.permanentAddress.pinCode", label: t("fields.permanentAddress.pinCode"), placeholder: "110043", type: "text", required: true },
         ],
     },
     {
-        label: "Lifestyle & Hobbies",
+        label: t("steps.lifestyleHobbies"),
         fields: [
-            { name: "lifestyleDetails.eatingHabits", label: "Diet", placeholder: "Vegetarian", type: "select", required: true },
-            { name: "lifestyleDetails.smoking", label: "Smoking", placeholder: "No", type: "select", required: true },
-            { name: "lifestyleDetails.drinking", label: "Drinking", placeholder: "No", type: "select", required: true },
+            { name: "lifestyleDetails.eatingHabits", label: t("fields.eatingHabits"), placeholder: "Vegetarian", type: "select", required: true },
+            { name: "lifestyleDetails.smoking", label: t("fields.smoking"), placeholder: "No", type: "select", required: true },
+            { name: "lifestyleDetails.drinking", label: t("fields.drinking"), placeholder: "No", type: "select", required: true },
         ],
     },
     {
-        label: "Partner Expectations",
+        label: t("steps.partnerExpectations"),
         fields: [
-            { name: "expectation.ageRange", label: "Expected Age Range", placeholder: "24-29", type: "text", required: false },
-            { name: "expectation.heightRange", label: "Expected Height Range", placeholder: "5'2\" - 5'8\"", type: "select", required: false },
-            { name: "expectation.income", label: "Expected Annual Min Income", placeholder: "₹1,00,000", type: "select", required: false }, // Add a placeholder for the expected annual income", label: "Expected Religion", placeholder: "Hindu", type: "text", required: false },
-            { name: "expectation.caste", label: "Expected Caste", placeholder: "Brahmin", type: "text", required: false },
-            { name: "expectation.education", label: "Expected Education", placeholder: "Graduate or above", type: "multiselect", required: false },
-            { name: "expectation.occupation", label: "Expected Occupation", placeholder: "Working professional preferred", type: "multiselect", required: false },
-            { name: "expectation.jobType", label: "Expected Job Type", placeholder: "Privet Goverment", type: "multiselect", required: false },
-            { name: "expectation.locationPreference", label: "Location Preference", placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
+            { name: "expectation.ageRange", label: t("fields.ageRange"), placeholder: "24-29", type: "text", required: false },
+            { name: "expectation.heightRange", label: t("fields.heightRange"), placeholder: "5'2\" - 5'8\"", type: "select", required: false },
+            { name: "expectation.income", label: t("fields.income"), placeholder: "₹1,00,000", type: "select", required: false },
+            { name: "expectation.caste", label: t("fields.caste"), placeholder: "Brahmin", type: "text", required: false },
+            { name: "expectation.education", label: t("fields.education"), placeholder: "Graduate or above", type: "multiselect", required: false },
+            { name: "expectation.occupation", label: t("fields.occupation"), placeholder: "Working professional preferred", type: "multiselect", required: false },
+            { name: "expectation.jobType", label: t("fields.jobType"), placeholder: "Privet Goverment", type: "multiselect", required: false },
+            { name: "expectation.locationPreference", label: t("fields.locationPreference"), placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
         ],
     },
     {
-        label: "Documents",
+        label: t("steps.documents"),
         fields: [
             {
                 name: "documents.verificationImage",
-                label: "Document Verification ID",
+                label: t("fields.verificationImage"),
                 type: "file",
                 required: true
             },
             {
                 name: "documents.profilePhotos[0]",
-                label: "Profile Photo 1 (Required)",
+                label: t("fields.profilePhotos") + " 1 (Required)",
                 type: "file",
                 required: true
             },
             {
                 name: "documents.profilePhotos[1]",
-                label: "Profile Photo 2",
+                label: t("fields.profilePhotos") + " 2",
                 type: "file",
                 required: false
             },
             {
                 name: "documents.profilePhotos[2]",
-                label: "Profile Photo 3",
+                label: t("fields.profilePhotos") + " 3",
                 type: "file",
                 required: false
             }
         ]
-
-    },
+    }
 ];
+
 
 const addressSchema = Yup.object({
     // addressLine: Yup.string().required("Address Line is required"),
@@ -164,13 +166,13 @@ const validationSchemas = [
         personalDetails: Yup.object({
             fullName: Yup
                 .string()
-                .required("Full name is required")
-                .matches(nameRegex, "Only letters and spaces allowed"),
+                .required(t("validation.fullNameRequired"))
+                .matches(nameRegex, t("validation.onlyLetters")),
             gender: Yup
                 .string()
-                .oneOf(["Male", "Female", "Other"], "Invalid gender")
-                .required("Gender is required"),
-            dateOfBirth: Yup.date().required("Date of birth is required"),
+                // .oneOf(["Male", "Female", "Other"], t("validation.invalidGender"))
+                .required(t("validation.genderRequired")),
+            dateOfBirth: Yup.date().required(t("validation.dobRequired")),
             height: Yup.string().nullable(),
             weight: Yup.string().nullable(),
             bloodGroup: Yup.string().nullable(),
@@ -178,8 +180,8 @@ const validationSchemas = [
             disability: Yup.string().nullable(),
             maritalStatus: Yup
                 .string()
-                .oneOf(["Unmarried", "Married", "Divorced", "Widowed"], "Invalid marital status")
-                .required("Marital status is required"),
+                .oneOf(["unmarried", "married", "divorced", "widowed"], t("validation.invalidMaritalStatus"))
+                .required(t("validation.maritalStatusRequired")),
             children: Yup.string().nullable(),
         }),
     }),
@@ -187,7 +189,7 @@ const validationSchemas = [
     Yup.object({
         religiousDetails: Yup.object({
             religion: Yup.string().nullable(),
-            caste: Yup.string().required("Caste is required"),
+            caste: Yup.string().required(t("validation.casteRequired")),
             subCaste: Yup.string().nullable(),
             gotra: Yup.string().nullable(),
             manglik: Yup.string().nullable(),
@@ -200,13 +202,13 @@ const validationSchemas = [
         familyDetails: Yup.object({
             fatherName: Yup
                 .string()
-                .required("Father's name is required")
-                .matches(nameRegex, "Only letters and spaces allowed"),
+                .required(t("validation.fatherNameRequired"))
+                .matches(nameRegex, t("validation.onlyLetters")),
             fatherOccupation: Yup.string().nullable(),
             motherName: Yup
                 .string()
-                .required("Mother's name is required")
-                .matches(nameRegex, "Only letters and spaces allowed"),
+                .required(t("validation.motherNameRequired"))
+                .matches(nameRegex, t("validation.onlyLetters")),
             motherOccupation: Yup.string().nullable(),
             sister: Yup.string().nullable(),
             brother: Yup.string().nullable(),
@@ -217,52 +219,49 @@ const validationSchemas = [
 
     Yup.object({
         educationDetails: Yup.object({
-            highestQualification: Yup.string().required("Qualification is required"),
+            highestQualification: Yup.string().required(t("validation.qualificationRequired")),
             specialization: Yup.string().nullable(),
         }),
     }),
 
-
     Yup.object({
         professionalDetails: Yup.object({
-            occupation: Yup.string().required("Occupation is required"),
+            occupation: Yup.string().required(t("validation.occupationRequired")),
             companyName: Yup.string().nullable(),
             income: Yup.string().nullable(),
             workingCity: Yup.string().nullable(),
-            jobType: Yup.string().required("Job Type is required"),
-            workFromHome: Yup.string().nullable().default('No'),
+            jobType: Yup.string().required(t("validation.jobTypeRequired")),
+            workFromHome: Yup.string().nullable().default("No"),
         }),
     }),
 
     Yup.object({
         contactDetails: Yup.object({
             mobileNo: Yup.string()
-                .required("Mobile Number is required")
-                .matches(/^[6-9]\d{9}$/, "Enter valid Indian mobile number"),
+                .required(t("validation.mobileRequired"))
+                .matches(/^[6-9]\d{9}$/, t("validation.mobileInvalid")),
             whatsappNo: Yup.string()
-                .required("WhatsApp Number is required")
-                .matches(/^[6-9]\d{9}$/, "Enter valid WhatsApp number"),
-            email: Yup.string()
-                .email("Invalid email format"),
+                .required(t("validation.whatsappRequired"))
+                .matches(/^[6-9]\d{9}$/, t("validation.whatsappInvalid")),
+            email: Yup.string().email(t("validation.emailInvalid")),
             presentAddress: Yup.object({
-                area: Yup.string().required("Present Area is required"),
-                city: Yup.string().required("Present City is required"),
-                state: Yup.string().required("Present State is required"),
+                area: Yup.string().required(t("validation.presentAreaRequired")),
+                city: Yup.string().required(t("validation.presentCityRequired")),
+                state: Yup.string().required(t("validation.presentStateRequired")),
                 pinCode: Yup.string()
-                    .required("Present Pincode is required")
-                    .matches(/^\d{6}$/, "Pincode must be 6 digits"),
+                    .required(t("validation.presentPinRequired"))
+                    .matches(/^\d{6}$/, t("validation.pinInvalid")),
             }),
             permanentAddress: Yup.object({
-                area: Yup.string().required("Permanent Area is required"),
-                city: Yup.string().required("Permanent City is required"),
-                state: Yup.string().required("Permanent State is required"),
+                area: Yup.string().required(t("validation.permanentAreaRequired")),
+                city: Yup.string().required(t("validation.permanentCityRequired")),
+                state: Yup.string().required(t("validation.permanentStateRequired")),
                 pinCode: Yup.string()
-                    .required("Permanent Pincode is required")
-                    .matches(/^\d{6}$/, "Pincode must be 6 digits"),
+                    .required(t("validation.permanentPinRequired"))
+                    .matches(/^\d{6}$/, t("validation.pinInvalid")),
             }),
         })
     }),
-
 
     Yup.object({
         lifestyleDetails: Yup.object({
@@ -271,7 +270,6 @@ const validationSchemas = [
             eatingHabits: Yup.string().nullable(),
         }),
     }),
-
 
     Yup.object({
         expectation: Yup.object({
@@ -292,9 +290,10 @@ const validationSchemas = [
         verificationImage: Yup.mixed().nullable(),
         profilePhotos: Yup.array()
             .of(Yup.mixed())
-            .min(1, "At least one profile photo is required"),
+            .min(1, t("validation.photoRequired")),
     }),
-]
+];
+
 
 const initialValues = {
     personalDetails: {
@@ -763,6 +762,7 @@ const MultiStepForm: React.FC = () => {
             error: updateErrorData,
         },
     ] = useUpdateMatrimonyProfileMutation();
+    const { t } = useTranslation();
 
 
     // const profile = getMatrimony();
@@ -786,6 +786,29 @@ const MultiStepForm: React.FC = () => {
             setStep((prev) => Math.max(prev - 1, 0));
         }
     };
+    // const optionsMap = useLocalization("options");
+
+    const getOptionsForField = (name: string): { label: string; value: string }[] => {
+
+
+        const keys = name.split(".");
+        let current: any = t("options", { returnObjects: true }); // get full options tree
+
+        for (const key of keys) {
+            if (current && typeof current === "object" && key in current) {
+                current = current[key];
+            } else {
+                return [];
+            }
+        }
+
+        if (!current || typeof current !== "object") return [];
+
+        return Object.entries(current).map(([value, label]) => ({
+            value,
+            label: String(label),
+        }));
+    }
 
 
 

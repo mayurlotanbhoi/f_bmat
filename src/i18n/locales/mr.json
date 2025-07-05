@@ -92,5 +92,287 @@
   "user": {
     "greeting": "नमस्कार, {{name}}"
   },
-  "menu": ["वधू", "वर", "विधवा", "घटस्फोटित"]
+  "menu": ["वधू", "वर", "विधवा", "घटस्फोटित"],
+  "validation": {
+    "fullNameRequired": "पूर्ण नाव आवश्यक आहे",
+    "onlyLetters": "फक्त अक्षरे आणि जागा परवान्याने आहेत",
+    "invalidGender": "अवैध लिंग निवड",
+    "genderRequired": "लिंग आवश्यक आहे",
+    "dobRequired": "जन्मतारीख आवश्यक आहे",
+    "invalidMaritalStatus": "वैवाहिक स्थिती अवैध आहे",
+    "maritalStatusRequired": "वैवाहिक स्थिती आवश्यक आहे",
+    "casteRequired": "जात आवश्यक आहे",
+    "qualificationRequired": "शैक्षणिक पात्रता आवश्यक आहे",
+    "occupationRequired": "व्यवसाय आवश्यक आहे",
+    "jobTypeRequired": "नोकरीचा प्रकार आवश्यक आहे",
+    "mobileRequired": "मोबाईल क्रमांक आवश्यक आहे",
+    "mobileInvalid": "वैध भारतीय मोबाईल क्रमांक प्रविष्ट करा",
+    "whatsappRequired": "व्हॉट्सअॅप क्रमांक आवश्यक आहे",
+    "whatsappInvalid": "वैध व्हॉट्सअॅप क्रमांक प्रविष्ट करा",
+    "emailInvalid": "अवैध ईमेल स्वरूप",
+    "presentAreaRequired": "सध्याचे क्षेत्र आवश्यक आहे",
+    "presentCityRequired": "सध्याचे शहर आवश्यक आहे",
+    "presentStateRequired": "सध्याचे राज्य आवश्यक आहे",
+    "presentPinRequired": "सध्याचा पिनकोड आवश्यक आहे",
+    "pinInvalid": "पिनकोड ६ अंकी असावा",
+    "permanentAreaRequired": "स्थायी क्षेत्र आवश्यक आहे",
+    "permanentCityRequired": "स्थायी शहर आवश्यक आहे",
+    "permanentStateRequired": "स्थायी राज्य आवश्यक आहे",
+    "permanentPinRequired": "स्थायी पिनकोड आवश्यक आहे",
+    "photoRequired": "किमान एक प्रोफाइल फोटो आवश्यक आहे"
+  },
+    "steps": {
+    "basicDetails": "मूलभूत माहिती",
+    "religiousDetails": "धार्मिक माहिती",
+    "familyDetails": "कौटुंबिक माहिती",
+    "educationDetails": "शैक्षणिक माहिती",
+    "professionalDetails": "व्यावसायिक माहिती",
+    "contactDetails": "संपर्क माहिती",
+    "lifestyleHobbies": "जीवनशैली व छंद",
+    "partnerExpectations": "जीवनसाथीच्या अपेक्षा",
+    "documents": "कागदपत्रे"
+  },
+    "fields": {
+    "fullName": "पूर्ण नाव",
+    "gender": "लिंग",
+    "dateOfBirth": "जन्मतारीख",
+    "maritalStatus": "वैवाहिक स्थिती",
+    "height": "उंची",
+    "weight": "वजन",
+    "bloodGroup": "रक्त गट",
+    "complexion": "कांती",
+    "disability": "अपंगत्व",
+    "children": "मुले",
+    "religion": "धर्म",
+    "caste": "जात",
+    "subCaste": "उपजात",
+    "gotra": "गोत्र",
+    "manglik": "मांगलिक",
+    "nakshatra": "नक्षत्र",
+    "rashi": "राशी",
+    "fatherName": "वडिलांचे नाव",
+    "fatherOccupation": "वडिलांचा व्यवसाय",
+    "motherName": "आईचे नाव",
+    "motherOccupation": "आईचा व्यवसाय",
+    "brothers": "भाऊ",
+    "sisters": "बहिणी",
+    "marriedBrothers": "लग्न झालेले भाऊ",
+    "marriedSisters": "लग्न झालेल्या बहिणी",
+    "highestQualification": "सर्वोच्च पात्रता",
+    "specialization": "विशेष शाखा",
+    "jobType": "नोकरीचा प्रकार",
+    "occupation": "व्यवसाय",
+    "companyName": "कंपनीचे नाव",
+    "income": "वार्षिक उत्पन्न",
+    "workingCity": "कामाचे शहर",
+    "workFromHome": "घरून काम",
+    "mobileNo": "मोबाईल क्रमांक",
+    "whatsappNo": "व्हॉट्सअॅप क्रमांक",
+    "email": "ईमेल आयडी",
+    "presentAddress": {
+      "area": "सध्याचे क्षेत्र",
+      "city": "सध्याचे शहर",
+      "state": "सध्याचे राज्य",
+      "pinCode": "सध्याचा पिनकोड"
+    },
+    "permanentAddress": {
+      "area": "स्थायी क्षेत्र",
+      "city": "स्थायी शहर",
+      "state": "स्थायी राज्य",
+      "pinCode": "स्थायी पिनकोड"
+    },
+    "eatingHabits": "आहार",
+    "smoking": "धूम्रपान",
+    "drinking": "दारू",
+    "ageRange": "अपेक्षित वय श्रेणी",
+    "heightRange": "अपेक्षित उंची श्रेणी",
+    "locationPreference": "स्थानिक प्राधान्य",
+    "profilePhotos": "प्रोफाइल फोटो",
+    "verificationImage": "ओळखपत्र"
+  },
+  
+  "options": {
+  "personalDetails": {
+    "gender": {
+      "male": "पुरुष",
+      "female": "स्त्री",
+      "other": "इतर"
+    },
+    "bloodGroup": {
+      "A+": "A+",
+      "A-": "A-",
+      "B+": "B+",
+      "B-": "B-",
+      "AB+": "AB+",
+      "AB-": "AB-",
+      "O+": "O+",
+      "O-": "O-"
+    },
+    "maritalStatus": {
+      "unmarried": "अविवाहित",
+      "divorced": "घटस्फोटित",
+      "widow": "विधवा",
+      "widower": "विधुर",
+      "separated": "विखंडित",
+      "remarriage": "पुनर्विवाह"
+    },
+    "complexion": {
+      "veryFair": "अतिशय गोरा",
+      "fair": "गोरा",
+      "wheatish": "गव्हाळ",
+      "wheatishBrown": "गव्हाळ तपकिरी",
+      "dark": "काळा"
+    },
+    "disability": {
+      "none": "नाही",
+      "physicallyChallenged": "शारीरिक अपंग",
+      "visuallyChallenged": "दृष्टी अपंग",
+      "hearingImpaired": "श्रवण अपंग",
+      "others": "इतर"
+    },
+    "height": {
+      "below4ft": "४ फूट पेक्षा कमी",
+      "4ft-4ft5in": "४ फूट - ४ फूट ५ इंच",
+      "4ft6in-5ft": "४ फूट ६ इंच - ५ फूट",
+      "5ft1in-5ft5in": "५ फूट १ इंच - ५ फूट ५ इंच",
+      "5ft6in-6ft": "५ फूट ६ इंच - ६ फूट",
+      "above6ft": "६ फूट पेक्षा जास्त"
+    },
+    "weight": {
+      "30-40 kg": "३० - ४० किलो",
+      "40-50 kg": "४० - ५० किलो",
+      "51-60 kg": "५१ - ६० किलो",
+      "61-70 kg": "६१ - ७० किलो",
+      "71-80 kg": "७१ - ८० किलो",
+      "81-90 kg": "८१ - ९० किलो",
+      "91+ kg": "९१ किलो पेक्षा जास्त"
+    }
+  },
+  "religiousDetails": {
+    "manglik": {
+      "manglik": "मंगळिक",
+      "nonManglik": "अमंगळिक",
+      "dontKnow": "माहित नाही"
+    },
+    "rashi": {
+      "aries": "मेष",
+      "taurus": "वृषभ",
+      "gemini": "मिथुन",
+      "cancer": "कर्क",
+      "leo": "सिंह",
+      "virgo": "कन्या",
+      "libra": "तूळ",
+      "scorpio": "वृश्चिक",
+      "sagittarius": "धनु",
+      "capricorn": "मकर",
+      "aquarius": "कुंभ",
+      "pisces": "मीन"
+    },
+    "nakshatra": {
+      "ashwini": "अश्विनी",
+      "bharani": "भरणी",
+      "krittika": "कृत्तिका",
+      "rohini": "रोहिणी",
+      "mrigashira": "मृगशीर्ष",
+      "ardra": "आर्द्रा",
+      "punarvasu": "पुनर्वसू",
+      "pushya": "पुष्य",
+      "ashlesha": "आश्लेषा",
+      "magha": "मघा",
+      "purvaPhalguni": "पूर्वा फाल्गुनी",
+      "uttaraPhalguni": "उत्तर फाल्गुनी",
+      "hasta": "हस्त",
+      "chitra": "चित्रा",
+      "swati": "स्वाती",
+      "vishakha": "विशाखा",
+      "anuradha": "अनुराधा",
+      "jyeshtha": "ज्येष्ठा",
+      "mula": "मूळ",
+      "purvaAshadha": "पूर्वाषाढा",
+      "uttaraAshadha": "उत्तराषाढा",
+      "shravana": "श्रवण",
+      "dhanishta": "धनिष्ठा",
+      "shatabhisha": "शततारका",
+      "purvaBhadrapada": "पूर्व भाद्रपद",
+      "uttaraBhadrapada": "उत्तर भाद्रपद",
+      "revati": "रेवती"
+    },
+    "caste": {
+      "bhoi": "भोई",
+      "rajBhoi": "राज भोई",
+      "jhingaBhoi": "झिंगा भोई",
+      "pardeshiBhoi": "परदेशी भोई",
+      "kaharBhoi": "कहार भोई",
+      "godiyaKaharBhoi": "गोडिया कहार भोई",
+      "dhuriyaKaharBhoi": "धुरिया कहार भोई",
+      "majiKaharBhoi": "माझी कहार भोई",
+      "kiratBhoi": "किरात भोई",
+      "machhuaBhoi": "मच्छुआ भोई",
+      "majiBhoi": "माझी भोई",
+      "jaliyaBhoi": "जाळिया भोई",
+      "kevatBhoi": "केवट भोई",
+      "dhivarBhoi": "धिवार भोई",
+      "dhimarBhoi": "धिमार भोई",
+      "palewarBhoi": "पालेवार भोई",
+      "navadiBhoi": "नावाडी भोई",
+      "machhedraBhoi": "मच्छेद्र भोई",
+      "malharBhoi": "मल्हार भोई",
+      "malhavaBhoi": "मल्हवा भोई",
+      "boiBhujari": "भोई (भुजारी)",
+      "gadhavBhoi": "गाढव भोई",
+      "khadiBhoi": "खाडी भोई",
+      "khareBhoi": "खारे भोई",
+      "dhevraBhoi": "धेवरा भोई"
+    }
+  },
+  "professionalDetails": {
+    "jobType": {
+      "government": "शासकीय",
+      "private": "खाजगी",
+      "business": "व्यवसाय",
+      "freelance": "फ्रीलान्स"
+    },
+    "workFromHome": {
+      "yes": "होय",
+      "no": "नाही"
+    }
+  },
+  "expectation": {
+    "jobType": {
+      "government": "शासकीय",
+      "private": "खाजगी",
+      "business": "व्यवसाय",
+      "freelance": "फ्रीलान्स"
+    },
+    "heightRange": {
+      "below4ft": "४ फूट पेक्षा कमी",
+      "4ft-4ft5in": "४ फूट - ४ फूट ५ इंच",
+      "4ft6in-5ft": "४ फूट ६ इंच - ५ फूट",
+      "5ft1in-5ft5in": "५ फूट १ इंच - ५ फूट ५ इंच",
+      "5ft6in-6ft": "५ फूट ६ इंच - ६ फूट",
+      "above6ft": "६ फूट पेक्षा जास्त"
+    },
+    "income": {
+      "10000": "₹10,000",
+      "15000": "₹15,000",
+      "20000": "₹20,000",
+      "...": "..."
+    }
+  },
+  "lifestyleDetails": {
+    "eatingHabits": {
+      "vegetarian": "शाकाहारी",
+      "nonVegetarian": "मांसाहारी",
+      "eggetarian": "अंडाहारी"
+    },
+    "smoking": {
+      "yes": "होय",
+      "no": "नाही"
+    },
+    "drinking": {
+      "yes": "होय",
+      "no": "नाही"
+    }
+  }
+  }
 }
