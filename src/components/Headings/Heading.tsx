@@ -20,7 +20,7 @@ export default function Heading({
 
     return (
         <h6
-            className={`capitalize text-gray-800 space-y-2 ${className}`}
+            className={`capitalize w-100 text-gray-800 space-y-2 ${className}`}
         >
             {text}
         </h6>

@@ -1,5 +1,5 @@
 
-
+import './i18n';
 import Router from './routes/Router'
 import useUiTheme from './view/home/useUiTheme'
 

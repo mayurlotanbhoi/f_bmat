@@ -3,6 +3,8 @@ import { FaRightLong } from 'react-icons/fa6';
 import { MdVerified } from 'react-icons/md';
 import { calculateAge } from '../../util/dateFormat';
 import { useLazySendProfileViewedNotificationQuery } from '../../features/notification/notificationApi';
+import { useLocalization } from '../../hooks';
+import { formatCurrency } from '../../util/formatCurrency';
 interface TypeOfBio {
     [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
 }
@@ -18,6 +20,8 @@ interface ProfileCardProps {
 const ProfileCard: React.FC<ProfileCardProps> = ({ bio, setViewBio }) => {
     const [mainImage, setMainImage] = useState(bio?.profilePhotos?.[0]);
     const [triggerNotification] = useLazySendProfileViewedNotificationQuery();
+    const profileLang = useLocalization('profile');
+    const viewBio = useLocalization('viewBio');
 
     const handleViewProfile = useCallback((bio) => {
         setViewBio(bio);
@@ -56,14 +60,14 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ bio, setViewBio }) => {
             {/* Candidate Info */}
             <div className=' w-full absolute bottom-0 px-4  pb-2 text-white '>
                 <div className="text-lg font-semibold mb-1">{bio?.personalDetails?.fullName}</div>
-                <div className="text-sm  ">Cast: {bio?.religiousDetails?.subCaste},{bio?.religiousDetails?.caste}, </div>
-                <div className="text-sm  mb-1">Age: {calculateAge(bio?.personalDetails?.dateOfBirth)}</div>
-                <div className="text-sm  mb-3">Income: {bio?.professionalDetails?.income}, </div>
+                <div className="text-sm  ">{profileLang?.caste}: {bio?.religiousDetails?.subCaste},{bio?.religiousDetails?.caste}, </div>
+                <div className="text-sm  mb-1">{profileLang?.age}: {calculateAge(bio?.personalDetails?.dateOfBirth)}</div>
+                <div className="text-sm  mb-3">{profileLang?.income}: {formatCurrency(bio?.professionalDetails?.income)}, </div>
 
                 {/* Action Buttons */}
                 <div className=" w-full flex justify-center">
                     <button onClick={() => handleViewProfile(bio)} className=" bg_primary w-full flex justify-center items-center gap-3 text-md rounded-3xl font-bold   text-white px-4 py-2 ">
-                        <p>View</p><FaRightLong />
+                        <p>{viewBio}</p><FaRightLong />
                     </button>
                     {/* <button className="bg-green-500 text-sm text-white px-4 py-2 rounded hover:bg-green-600">
                         Connect

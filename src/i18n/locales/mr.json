@@ -1,0 +1,96 @@
+{
+  "welcome": "स्वागत आहे",
+  "home": {
+    "category": "श्रेणी",
+    "matches": "परिवार",
+    "profile": "प्रोफाइल",
+    "settings": "सेटिंग्ज"
+
+  },
+  "like": "आवड",
+  "matches": "विवाहाला योग्य",
+  "education" : "शिक्षण",
+  "job" : "नोकरी",
+  "family" : "विवाह",
+  "completeProfileSMS" :["तुमचं प्रोफाईल","पूर्ण झालेले नाही"," अधिक जुळण्या मिळवण्यासाठी आत्ताच पूर्ण करा."],
+  "viewBio":"बायोडेटा पहा",
+  "profile":{
+"caste":"जात",
+"age":"वय",
+"income":"उत्पन्न"
+  },
+  "callNow": "आता कॉल करा",
+
+  
+  "tabs": {
+    "otherInfo": "इतर माहिती",
+    "profile": "प्रोफाइल",
+    "family": "कुटुंब",
+    "education": "शिक्षण आणि करिअर",
+    "contact": "संपर्क"
+  },
+ "labels": {
+  "fullName": "पूर्ण नाव",
+  "gender": "लिंग",
+  "dob": "जन्म तारीख",
+  "height": "उंची",
+  "weight": "वजन",
+  "bloodGroup": "रक्तगट",
+  "disability": "अपंगत्व",
+  "maritalStatus": "वैवाहिक स्थिती",
+  "religion": "धर्म",
+  "caste": "जात",
+  "subCaste": "उपजात",
+  "gotra": "गोत्र",
+  "manglik": "मांगलिक",
+  "qualification": "शिक्षण",
+  "occupation": "व्यवसाय",
+  "income": "उत्पन्न",
+  "companyName": "कंपनीचे नाव",
+  "workingCity": "कामाचे शहर",
+  "workFromHome": "वर्क फ्रॉम होम",
+  "phone": "फोन",
+  "whatsapp": "व्हाट्सएप नंबर",
+  "email": "ईमेल",
+  "presentAddress": "सध्याचा पत्ता",
+  "permanentAddress": "स्थायी पत्ता",
+  "father": "वडिलांचे नाव",
+  "mother": "आईचे नाव",
+  "fatherOccupation": "वडिलांचा व्यवसाय",
+  "motherOccupation": "आईचा व्यवसाय",
+  "brothers": "भाऊ",
+  "sisters": "बहिणी",
+  "marriedBrothers": "लग्न झालेले भाऊ",
+  "marriedSisters": "लग्न झालेल्या बहिणी",
+  "smoking": "धूम्रपान",
+  "drinking": "दारू",
+  "eatingHabits": "खाण्याच्या सवयी",
+  "ageRange": "वय मर्यादा",
+  "heightRange": "उंची मर्यादा",
+  "locationPreference": "स्थान पसंती",
+   "sendBio":"बायोडाटा पाठवा"
+}
+,
+"sectionTitles": {
+  "personalDetails": "वैयक्तिक माहिती",
+  "religiousDetails": "धार्मिक माहिती",
+  "educationAndProfession": "शिक्षण आणि व्यवसाय",
+  "contactDetails": "संपर्क माहिती",
+  "familyDetails": "कुटुंबाची माहिती",
+  "lifestyle": "जीवनशैली",
+  "partnerPreference": "जोडीदार पसंती"
+},
+"liks": {
+  "recivedBio":"बायोडाटा प्राप्त केले",
+  "sendedBio":"बायोडाटा पाठवले"
+},
+
+
+
+  "sendBio":"बायोडाटा पाठवा",
+
+  "user": {
+    "greeting": "नमस्कार, {{name}}"
+  },
+  "menu": ["वधू", "वर", "विधवा", "घटस्फोटित"]
+}

@@ -1,5 +1,7 @@
 import usePwaPrompt from "./usePwaPrompt"
+import { useLocalization } from "./useLocalization"
 
 export {
-    usePwaPrompt
+    usePwaPrompt,
+    useLocalization
 }

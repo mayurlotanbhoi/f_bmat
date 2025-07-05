@@ -1,0 +1,13 @@
+{
+  "welcome": "Welcome",
+  "home": {
+    "category": "Category",
+    "matches": "Matches",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "user": {
+    "greeting": "Hello, {{name}}"
+  },
+  "menu": ["Home", "Profile", "Settings"]
+}

@@ -68,7 +68,7 @@ const Drawer: React.FC<DrawerProps> = ({
             {/* Drawer */}
             <div className={`${baseStyles} ${className}   ${positionStyles} ${animationClass}`}>
                 {/* Close button */}
-                {showCloseBtn && <div className="flex fixed right-0 z-50 bg-white justify-end p-4">
+                {showCloseBtn && <div className="flex fixed right-0 z-50  justify-end p-4">
                     <button
                         onClick={onClose}
                         className="text-xl font-bold  "

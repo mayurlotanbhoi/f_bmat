@@ -9,7 +9,7 @@ import Heading from "../../components/Headings/Heading";
 import CompletProfile from "./CompletProfile";
 import { useEffect, useState } from "react";
 import Modal from "../../components/Common/Modal";
-import { usePwaPrompt } from "../../hooks";
+import { useLocalization, usePwaPrompt } from "../../hooks";
 import { useAuth } from "../../hooks/useAuth";
 import { getMatrimony } from "../../features/matrimony/matrimonySlice";
 import Matche from "../matches";
@@ -18,15 +18,16 @@ import { vadhuIcon, varIcon } from "../../util/images.util";
 // import { usePwaPrompt } from "../../hooks";
 
 export default function Home() {
-    const [isAppInstall, setAppInstall] = useState(false)
-    const { installApp } = usePwaPrompt();
     const [isClikOnInstall, setClikOnInstall] = useState<boolean>(false)
-    const profile = getMatrimony();
-    const { mainMenu } = appConfig;
+    const [isAppInstall, setAppInstall] = useState(false)
     const [menuIcons, setMenuIcons] = useState([vadhuIcon, varIcon])
+    const { installApp } = usePwaPrompt();
+    const profile = getMatrimony();
+    const menu = useLocalization("menu")
+    const { mainMenu } = appConfig;
     const bios = profilesData;
     const Cartclores = ['#89A6F0', '#FFC969', '#FC72AA', '#47E76F',]
-    const { user } = useAuth();
+
 
 
 
@@ -57,16 +58,14 @@ export default function Home() {
                 {/* <img src={bioHeader1} /> */}
                 <BannerCarouselWrapper />
                 <Category />
-                <CompletProfile
-                    profile={{
-                        complition: profile?.profileCompletion ?? 0,
-                        avatar: profile?.profilePhotos?.[0] ?? '/default-avatar.png',
-                        name: profile?.personalDetails?.fullName ?? 'Guest User',
-                    }} />
+                <CompletProfile profile={{
+                    complition: profile?.profileCompletion ?? 0,
+                    avatar: profile?.profilePhotos?.[0] ?? '/default-avatar.png',
+                    name: profile?.personalDetails?.fullName ?? 'Guest User',
+                }} />
                 <div className="mt-3">
                     <div className="w-full text-right my-2"><Link to={'/profile'} className="text-blue-600 hover:underline" >All Profiles</Link></div>
                     <div className="w-100 flex flex-wrap justify-between   gap-4 ">
-
                         {mainMenu.map((item, index) => (
                             <Link
                                 key={index}
@@ -77,20 +76,17 @@ export default function Home() {
                                 <img
                                     src={menuIcons[Math.floor(index / 2)]}
                                     alt={`${item?.text} icon`}
-                                    className="w-20 h-20 rounded-full mt-4 drop-shadow-md"
+                                    className="md:w-52 w-36 h-44 rounded-2xl  drop-shadow-md"
                                 />
                                 <div className="mb-4 text-center">
-                                    <h3 className="text-lg font-semibold capitalize">{item?.text}</h3>
+                                    <h3 className="text-lg font-semibold capitalize">{menu[index]}</h3>
                                 </div>
                             </Link>
                         ))}
                     </div>
                 </div>
             </div >
-
-
             <Matche />
-
             <Modal
                 isOpen={isAppInstall}
                 onClose={() => setAppInstall(false)}

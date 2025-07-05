@@ -4,6 +4,7 @@ import { useGetMatchQuery } from '../../features/matrimony/matrimonyApi';
 import { calculateAge } from '../../util/dateFormat';
 import { formatAmount } from '../../util/commans';
 import Heading from '../../components/Headings/Heading';
+import { useLocalization } from '../../hooks';
 
 interface Bio {
     [key: string]: any;
@@ -11,15 +12,18 @@ interface Bio {
 
 const Matche = () => {
     const { data, isLoading, isError } = useGetMatchQuery('');
+    const matches = useLocalization('matches')
+    const sendBio = useLocalization('sendBio')
 
     if (isLoading) return <p className="text-center text-gray-500">Loading...</p>;
     if (isError) return <p className="text-center text-red-500">No Match Found!</p>;
 
+
     return (
         <>
             <div className=" flex justify-between mt-3">
-                <Heading className="text-xl  font-semibold" text="Matches" />
-                <div className="w-full text-right my-2"><Link className="text-blue-600 hover:underline cursor-pointer py-10" to='/matches'>See all match</Link></div>
+                <Heading className="text-xl w-100  font-semibold" text={matches} />
+                <div className=" text-right my-2"><Link className="text-blue-600 hover:underline cursor-pointer py-10" to='/matches'>See all match</Link></div>
             </div>
             {Array.isArray(data?.data) && data?.data?.map((match: Bio, index: number) => {
                 const name = match?.personalDetails?.fullName || 'Unknown';
@@ -80,7 +84,7 @@ const Matche = () => {
                                 </div>
                             </div>
                             <div className="flex justify-end items-center mt-2">
-                                <button className='btn bg_primary text-sm text-white px-4 rounded-md  text-bold'>Send Bio</button>
+                                <button className='btn bg_primary text-sm text-white px-4 rounded-md  text-bold'>{sendBio}</button>
                             </div>
                         </div>
                     </Link>

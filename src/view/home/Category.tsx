@@ -2,13 +2,20 @@
 import { appConfig } from '../../config/appCinfig';
 import Heading from '../../components/Headings/Heading';
 import { Link } from 'react-router-dom';
-import { motion } from "framer-motion";
+import { motion, useTransform } from "framer-motion";
+import { use } from 'react';
+import { useLocalization } from '../../hooks';
+import { useTranslation } from 'react-i18next';
 
 export default function Category() {
     const { category } = appConfig;
+    const { t } = useTranslation()
+    const home = useLocalization('home');
+    console.log(home)
+
     return (
         <>
-            <Heading className="text-xl mt-2 font-semibold" text="category" />
+            <Heading className="text-xl mt-2 font-semibold" text={home.category} />
             <div className="w-full overflow-x-auto no-scrollbar scroll-smooth pt-2 px-3">
                 <div className="flex gap-4 min-w-max">
                     {category.map((item, index) => (
@@ -36,7 +43,7 @@ export default function Category() {
                                         />
                                     )}
                                     <span className="text-sm text-primary
-                                     font-semibold text-center">{item.text}</span>
+                                     font-semibold text-center">{t(item.key)}</span>
                                 </div>
                             </Link>
                         </motion.div>

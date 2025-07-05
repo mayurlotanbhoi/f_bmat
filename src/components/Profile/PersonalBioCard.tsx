@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FaLock } from 'react-icons/fa';
 import { IoIosArrowDown, IoIosArrowUp } from 'react-icons/io';
+import { useLocalization } from '../../hooks';
+import { formatDate } from '../../util/dateFormat';
 
 interface Props {
     user: any; // replace `any` with actual type if available
@@ -8,109 +10,112 @@ interface Props {
 
 export default function UserProfileCard({ user }: Props) {
     const [openSection, setOpenSection] = useState<string | null>(null);
+    const labels = useLocalization('labels');
+    const sectionTitles = useLocalization('sectionTitles');
 
     const toggleSection = (section: string) => {
         setOpenSection(openSection === section ? null : section);
     };
+    console.log("user", user);
 
     return (
         <div className="w-full max-w-md mx-auto py-4">
             <ProfileSection
-                title="Personal Details"
+                title={sectionTitles.personalDetails}
                 isOpen={openSection === 'personal'}
                 onToggle={() => toggleSection('personal')}
                 data={[
-                    { label: 'Full Name', value: user.personalDetails?.fullName || '*****' },
-                    { label: 'Gender', value: user.personalDetails?.gender || '*****' },
-                    { label: 'DOB', value: formatDate(user.personalDetails?.dateOfBirth) },
-                    { label: 'Height', value: user.personalDetails?.height || '*****' },
-                    { label: 'Weight', value: user.personalDetails?.weight || '*****' },
-                    { label: 'Blood Group', value: user.personalDetails?.bloodGroup || '*****' },
-                    { label: 'Disability', value: user.personalDetails?.disability || '*****' },
-                    { label: 'Marital Status', value: user.personalDetails?.maritalStatus || '*****' },
+                    { label: labels.fullName, value: user.personalDetails?.fullName || '*****' },
+                    { label: labels.gender, value: user.personalDetails?.gender || '*****' },
+                    { label: labels.dob, value: formatDate(user.personalDetails?.dateOfBirth) },
+                    { label: labels.height, value: user.personalDetails?.height || '*****' },
+                    { label: labels.weight, value: user.personalDetails?.weight || '*****' },
+                    { label: labels.bloodGroup, value: user.personalDetails?.bloodGroup || '*****' },
+                    { label: labels.disability, value: user.personalDetails?.disability || '*****' },
+                    { label: labels.maritalStatus, value: user.personalDetails?.maritalStatus || '*****' },
                 ]}
             />
 
             <ProfileSection
-                title="Religious Details"
+                title={sectionTitles.religiousDetails}
                 isOpen={openSection === 'religious'}
                 onToggle={() => toggleSection('religious')}
                 data={[
-                    { label: 'Religion', value: user.religiousDetails?.religion || '*****' },
-                    { label: 'Caste', value: user.religiousDetails?.caste || '*****' },
-                    { label: 'Sub Caste', value: user.religiousDetails?.subCaste || '*****' },
-                    { label: 'Gotra', value: user.religiousDetails?.gotra || '*****' },
-                    { label: 'Manglik', value: user.religiousDetails?.manglik || '*****' },
+                    { label: labels.religion, value: user.religiousDetails?.religion || '*****' },
+                    { label: labels.caste, value: user.religiousDetails?.caste || '*****' },
+                    { label: labels.subCaste, value: user.religiousDetails?.subCaste || '*****' },
+                    { label: labels.gotra, value: user.religiousDetails?.gotra || '*****' },
+                    { label: labels.manglik, value: user.religiousDetails?.manglik || '*****' },
                 ]}
             />
 
             <ProfileSection
-                title="Education & Profession"
+                title={sectionTitles.educationAndProfession}
                 isOpen={openSection === 'education'}
                 onToggle={() => toggleSection('education')}
                 data={[
-                    { label: 'Education', value: user.educationDetails?.highestQualification || '*****' },
-                    { label: 'Occupation', value: user.professionalDetails?.occupation || '*****' },
-                    { label: 'Income', value: user.professionalDetails?.income || '*****' },
-                    { label: 'Company Name', value: user.professionalDetails?.companyName || '*****' },
-                    { label: 'Working City', value: user.professionalDetails?.workingCity || '*****' },
-                    { label: 'Work From Home', value: user.professionalDetails?.workFromHome || '*****' },
+                    { label: labels.qualification, value: user.educationDetails?.highestQualification || '*****' },
+                    { label: labels.occupation, value: user.professionalDetails?.occupation || '*****' },
+                    { label: labels.income, value: user.professionalDetails?.income || '*****' },
+                    { label: labels.companyName, value: user.professionalDetails?.companyName || '*****' },
+                    { label: labels.workingCity, value: user.professionalDetails?.workingCity || '*****' },
+                    { label: labels.workFromHome, value: user.professionalDetails?.workFromHome || '*****' },
                 ]}
             />
 
             <ProfileSection
-                title="Contact Details"
+                title={sectionTitles.contactDetails}
                 isOpen={openSection === 'contact'}
                 onToggle={() => toggleSection('contact')}
                 data={[
-                    { label: 'Mobile No', value: user.contactDetails?.mobileNo || '*****' },
-                    { label: 'WhatsApp No', value: user.contactDetails?.whatsappNo || '*****' },
-                    { label: 'Email', value: user.contactDetails?.email || '*****' },
-                    { label: 'Present Address', value: formatAddress(user.contactDetails?.presentAddress) },
-                    { label: 'Permanent Address', value: formatAddress(user.contactDetails?.permanentAddress) },
+                    { label: labels.phone, value: user.contactDetails?.mobileNo || '*****' },
+                    { label: labels.whatsapp, value: user.contactDetails?.whatsappNo || '*****' },
+                    { label: labels.email, value: user.contactDetails?.email || '*****' },
+                    { label: labels.presentAddress, value: formatAddress(user.contactDetails?.presentAddress) },
+                    { label: labels.permanentAddress, value: formatAddress(user.contactDetails?.permanentAddress) },
                 ]}
             />
 
             <ProfileSection
-                title="Family Details"
+                title={sectionTitles.familyDetails}
                 isOpen={openSection === 'family'}
                 onToggle={() => toggleSection('family')}
                 data={[
-                    { label: 'Father Name', value: user.familyDetails?.fatherName || '*****' },
-                    { label: 'Mother Name', value: user.familyDetails?.motherName || '*****' },
-                    { label: 'Father Occupation', value: user.familyDetails?.fatherOccupation || '*****' },
-                    { label: 'Mother Occupation', value: user.familyDetails?.motherOccupation || '*****' },
-                    { label: 'Brothers', value: user.familyDetails?.brothers || '0' },
-                    { label: 'Sisters', value: user.familyDetails?.sisters || '0' },
-                    { label: 'Married Brothers', value: user.familyDetails?.marriedBrothers || '0' },
-                    { label: 'Married Sisters', value: user.familyDetails?.marriedSisters || '0' },
+                    { label: labels.father, value: user.familyDetails?.fatherName || '*****' },
+                    { label: labels.mother, value: user.familyDetails?.motherName || '*****' },
+                    { label: labels.fatherOccupation, value: user.familyDetails?.fatherOccupation || '*****' },
+                    { label: labels.motherOccupation, value: user.familyDetails?.motherOccupation || '*****' },
+                    { label: labels.brothers, value: user.familyDetails?.brothers || '0' },
+                    { label: labels.sisters, value: user.familyDetails?.sisters || '0' },
+                    { label: labels.marriedBrothers, value: user.familyDetails?.marriedBrothers || '0' },
+                    { label: labels.marriedSisters, value: user.familyDetails?.marriedSisters || '0' },
                 ]}
             />
 
             <ProfileSection
-                title="Lifestyle Details"
+                title={sectionTitles.lifestyle}
                 isOpen={openSection === 'lifestyle'}
                 onToggle={() => toggleSection('lifestyle')}
                 data={[
-                    { label: 'Smoking', value: user.lifestyleDetails?.smoking || '*****' },
-                    { label: 'Drinking', value: user.lifestyleDetails?.drinking || '*****' },
-                    { label: 'Eating Habits', value: user.lifestyleDetails?.eatingHabits || '*****' },
+                    { label: labels.smoking, value: user.lifestyleDetails?.smoking || '*****' },
+                    { label: labels.drinking, value: user.lifestyleDetails?.drinking || '*****' },
+                    { label: labels.eatingHabits, value: user.lifestyleDetails?.eatingHabits || '*****' },
                 ]}
             />
 
             <ProfileSection
-                title="Partner Preferences"
+                title={sectionTitles.partnerPreference}
                 isOpen={openSection === 'expectation'}
                 onToggle={() => toggleSection('expectation')}
                 data={[
-                    { label: 'Age Range', value: user.expectation?.ageRange || '*****' },
-                    { label: 'Height Range', value: user.expectation?.heightRange || '*****' },
-                    { label: 'Caste', value: user.expectation?.caste || '*****' },
-                    { label: 'Religion', value: user.expectation?.religion || '*****' },
-                    { label: 'Sub Caste', value: user.expectation?.subCaste || '*****' },
-                    { label: 'Education', value: user.expectation?.education || '*****' },
-                    { label: 'Occupation', value: user.expectation?.occupation || '*****' },
-                    { label: 'Location Preference', value: user.expectation?.locationPreference || '*****' },
+                    { label: labels.ageRange, value: user.expectation?.ageRange || '*****' },
+                    { label: labels.heightRange, value: user.expectation?.heightRange || '*****' },
+                    { label: labels.caste, value: user.expectation?.caste || '*****' },
+                    { label: labels.religion, value: user.expectation?.religion || '*****' },
+                    { label: labels.subCaste, value: user.expectation?.subCaste || '*****' },
+                    { label: labels.qualification, value: user.expectation?.education || '*****' },
+                    { label: labels.occupation, value: user.expectation?.occupation || '*****' },
+                    { label: labels.locationPreference, value: user.expectation?.locationPreference || '*****' },
                 ]}
             />
         </div>
@@ -152,11 +157,21 @@ function ProfileSection({ title, data, isOpen, onToggle }: SectionProps) {
 }
 
 // Format helpers
-function formatDate(dateObj: any) {
-    if (!dateObj?.$date) return '*****';
-    const date = new Date(dateObj.$date);
-    return date.toLocaleDateString('en-IN');
-}
+// function formatDate(dateInput: any): string {
+//     if (!dateInput) return '*****';
+
+//     try {
+//         const date = new Date(dateInput); // Handles ISO string or timestamp
+//         if (isNaN(date.getTime())) return '*****'; // Invalid date check
+//         return date.toLocaleDateString('mr-IN', {
+//             year: 'numeric',
+//             month: 'long',
+//             day: 'numeric'
+//         });
+//     } catch {
+//         return '*****';
+//     }
+// }
 
 function formatAddress(addr: any) {
     if (!addr) return '*****';

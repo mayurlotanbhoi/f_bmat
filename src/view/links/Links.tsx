@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useLazyGetLikesQuery } from '../../features/biodata/biodataApi'
-import { Link } from 'react-router-dom'
+import { Link, useLoaderData } from 'react-router-dom'
+import { useLocalization } from '../../hooks'
 
 export default function SharedLinks() {
   const [getLikes, { data, isLoading }] = useLazyGetLikesQuery()
   const [activeTab, setActiveTab] = useState<'received' | 'sent'>('received')
   const [expandedIndex, setExpandedIndex] = useState<string | null>(null)
+  const sendreciveLocal = useLocalization('liks')
 
   useEffect(() => {
     getLikes('')
@@ -31,7 +33,7 @@ export default function SharedLinks() {
                 : ' bg-white text-gray-600 hover:bg-blue-100 hover:text-blue-700'
               }`}
           >
-            {tab === 'received' ? 'Received' : 'Sent'}
+            {tab === 'received' ? sendreciveLocal.recivedBio : sendreciveLocal.sendedBio}
           </button>
         ))}
       </div>
@@ -64,7 +66,7 @@ export default function SharedLinks() {
             const state = profile.contactDetails.presentAddress?.state
             const occupation = profile.professionalDetails.occupation
             const income = profile.professionalDetails.income
-            console.log('item', item?.profileShared);
+
 
             return (
               <Link to={`/vlew-profile/${item?.profileShared?._id
