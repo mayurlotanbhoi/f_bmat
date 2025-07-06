@@ -8,12 +8,19 @@ import userReducer from '../features/user/userSlice';
 import { baseApi } from '../services/baseApi'; // this is where you injected your matrimonyApi endpoints
 
 // Step 1: Combine reducers
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   matrimony: matrimonyReducer,
   [baseApi.reducerPath]: baseApi.reducer, // dynamic reducer from RTK Query
 });
+const rootReducer = (state: any, action: any) => {
+  if (action.type === 'RESET_APP') {
+    // ⚠️ Reset whole redux state
+    state = undefined;
+  }
+  return appReducer(state, action);
+};
 
 // Step 2: Setup redux-persist config
 const persistConfig = {

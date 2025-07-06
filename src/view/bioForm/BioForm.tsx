@@ -87,11 +87,11 @@ const steps = [
             { name: "contactDetails.email", label: t("fields.email"), placeholder: "rahul.sharma@example.com", type: "email", required: false },
             { name: "contactDetails.presentAddress.area", label: t("fields.presentAddress.area"), placeholder: "South Delhi", type: "text", required: true },
             { name: "contactDetails.presentAddress.city", label: t("fields.presentAddress.city"), placeholder: "New Delhi", type: "text", required: true },
-            { name: "contactDetails.presentAddress.state", label: t("fields.presentAddress.state"), placeholder: "Delhi", type: "text", required: true },
+            { name: "contactDetails.presentAddress.state", label: t("fields.presentAddress.state"), placeholder: "Delhi", type: "select", required: true },
             { name: "contactDetails.presentAddress.pinCode", label: t("fields.presentAddress.pinCode"), placeholder: "110016", type: "text", required: true },
             { name: "contactDetails.permanentAddress.area", label: t("fields.permanentAddress.area"), placeholder: "Najafgarh", type: "text", required: true },
             { name: "contactDetails.permanentAddress.city", label: t("fields.permanentAddress.city"), placeholder: "New Delhi", type: "text", required: true },
-            { name: "contactDetails.permanentAddress.state", label: t("fields.permanentAddress.state"), placeholder: "Delhi", type: "text", required: true },
+            { name: "contactDetails.permanentAddress.state", label: t("fields.permanentAddress.state"), placeholder: "Delhi", type: "select", required: true },
             { name: "contactDetails.permanentAddress.pinCode", label: t("fields.permanentAddress.pinCode"), placeholder: "110043", type: "text", required: true },
         ],
     },
@@ -180,7 +180,7 @@ const validationSchemas = [
             disability: Yup.string().nullable(),
             maritalStatus: Yup
                 .string()
-                .oneOf(["unmarried", "married", "divorced", "widowed"], t("validation.invalidMaritalStatus"))
+                .oneOf(["unmarried", "divorced", "widow", "widower", "separated", "remarriage"], t("validation.invalidMaritalStatus"))
                 .required(t("validation.maritalStatusRequired")),
             children: Yup.string().nullable(),
         }),

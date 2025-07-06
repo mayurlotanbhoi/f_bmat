@@ -12,6 +12,7 @@ import { toPng } from 'html-to-image';
 import { Link } from "react-router-dom"; // if routing is internal
 import { formatCurrency } from '../../util/formatCurrency';
 import { downloadAsImage } from '../../util/downloadAsImage';
+import { formatAddress } from '../../util/commans';
 
 export const ProfileCard = ({ profile }) => {
   const fullName = profile?.personalDetails?.fullName || "N/A";
@@ -215,7 +216,7 @@ export default function MatrimonyBioData() {
           </div>
 
           {/* Personal Info Section */}
-          <div className="flex flex-row gap-2 mt-6 py-2 px-2">
+          <div className="flex flex-row gap-2 mt-6 py-2 px-4">
             {/* Left Column - Info */}
             <div className="flex-1 space-y-4">
               {/* <Heading className=' ' text="Personal Info" /> */}
@@ -241,11 +242,12 @@ export default function MatrimonyBioData() {
                 {/* <Info className={'col-span-2'} label="Religion" value={profile.religiousDetails.religion} /> */}
                 <Info className={'col-span-4'} label="Occupation" value={profile.professionalDetails.occupation} />
                 <Info className={'col-span-2'} label="Income" value={formatCurrency(profile.professionalDetails.income)} />
-                <Info className={'col-span-4'} label="Address" value={profile.contactDetails.presentAddress.city + '-' + profile.contactDetails.presentAddress.state} />
 
                 {/* <Info className={'col-span-2'} label="City" value={profile.contactDetails.presentAddress.city} />
                 <Info className={'col-span-2'} label="State" value={profile.contactDetails.presentAddress.state} /> */}
+                <Info className={' col-span-4'} label="Address" value={formatAddress(profile.contactDetails.presentAddress)} />
               </div>
+
             </div>
 
             {/* Right Column - Profile Photo */}

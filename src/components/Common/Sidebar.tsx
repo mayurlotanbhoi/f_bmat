@@ -13,6 +13,9 @@ import { asyncHandlerWithSwal } from "../../util/asyncHandler";
 import { useDispatch } from "react-redux";
 import { logout } from "../../features/auth/authSlice";
 import { useNavigate, NavLink } from "react-router-dom";
+import persistStore from "redux-persist/es/persistStore";
+import { store } from "../../app/store";
+const persistor = persistStore(store);
 
 const Sidebar: React.FC = () => {
     const [logOut] = useLogOutMutation();
@@ -27,8 +30,11 @@ const Sidebar: React.FC = () => {
         });
 
         if (result.statusCode === 200) {
-            dispatch(logout());
-            navigate("/auth");
+            store.dispatch({ type: "RESET_APP" }); // clear all Redux state
+            persistor.purge();
+            setTimeout(() => {
+                navigate("/auth");
+            }, 400)
         }
     };
 
