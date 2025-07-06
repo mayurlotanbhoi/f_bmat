@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { use, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
 import QRCode from 'react-qr-code';
 import { getMatrimony } from '../../features/matrimony/matrimonySlice';
@@ -13,6 +13,7 @@ import { Link } from "react-router-dom"; // if routing is internal
 import { formatCurrency } from '../../util/formatCurrency';
 import { downloadAsImage } from '../../util/downloadAsImage';
 import { formatAddress } from '../../util/commans';
+import { useLocalization } from '../../hooks';
 
 export const ProfileCard = ({ profile }) => {
   const fullName = profile?.personalDetails?.fullName || "N/A";
@@ -72,6 +73,8 @@ export default function MatrimonyBioData() {
   const [loading, setLoading] = useState(false);
   const page2Ref = useRef(null);
   const cardRef = useRef(null);
+  const labels = useLocalization('labels');
+  const options = useLocalization('options');
 
   const profile = getMatrimony();
   const biodataUrl = `https://bmat.onrender.com/vlew-profile/${profile?._id}`;
@@ -221,31 +224,32 @@ export default function MatrimonyBioData() {
             <div className="flex-1 space-y-4">
               {/* <Heading className=' ' text="Personal Info" /> */}
               <div className="grid grid-cols-4 p-0 m-0   ">
-                <Info className="col-span-4 text-start" label="Name" value={profile.personalDetails.fullName} />
-                <Info className={'col-span-4'} label="Age" value={`${calculateAge(profile.personalDetails.dateOfBirth)}`} />
-                <Info className={'col-span-4 text-start'} label="DOB" value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
-                <Info className={'col-span-4'} label="Marrial Status" value={profile.personalDetails.maritalStatus} />
-                <Info className={'col-span-2'} label="Color" value={profile.personalDetails?.Complexion} />
+                <Info className="col-span-4 text-start" label={labels.fullName} value={profile.personalDetails.fullName} />
+                <Info className={'col-span-4'} label={labels.age} value={`${calculateAge(profile.personalDetails.dateOfBirth)}`} />
+                <Info className={'col-span-4 text-start'} label={labels.dob} value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
+                <Info className={'col-span-4'} label={labels.maritalStatus} value={options.personalDetails.maritalStatus[profile.personalDetails.maritalStatus]} />
+                <Info className={'col-span-2'} label={labels.complexion} value={options.personalDetails.complexion[profile.personalDetails?.Complexion]} />
 
-                <Info className={'col-span-2'} label="Weight" value={profile.personalDetails.weight} />
-                <Info className={'col-span-4'} label="Height" value={profile.personalDetails.height} />
-                <Info className={'col-span-2'} label="Brother" value={profile.familyDetails?.brothers} />
-                <Info className={'col-span-2'} label="Married Brother" value={profile.familyDetails?.marriedBrothers} />
-                <Info className={'col-span-2'} label="Sisters" value={profile.familyDetails?.sisters} />
-                <Info className={'col-span-2'} label="Married Sisters" value={profile.familyDetails?.marriedSisters} />
+                <Info className={'col-span-2'} label={labels.weight} value={options.personalDetails.weight[profile.personalDetails.weight]} />
+                <Info className={'col-span-4'} label={labels.height} value={options.personalDetails.height[profile.personalDetails.height]} />
+                <Info className={'col-span-2'} label={labels.brothers} value={profile.familyDetails?.brothers} />
+                <Info className={'col-span-2'} label={labels.marriedBrothers} value={profile.familyDetails?.marriedBrothers} />
+                <Info className={'col-span-2'} label={labels.sisters} value={profile.familyDetails?.sisters} />
+                <Info className={'col-span-2'} label={labels.marriedSisters} value={profile.familyDetails?.marriedSisters} />
 
-                <Info className={'col-span-4'} label="Father" value={profile.familyDetails?.fatherName} />
+                <Info className={'col-span-4'} label={labels.father} value={profile.familyDetails?.fatherName} />
                 {/* <Info label="Weight" value={profile.personalDetails.weight} /> */}
-                <Info className={'col-span-4'} label="Mother" value={profile.familyDetails?.motherName} />
+                <Info className={'col-span-4'} label={labels.mother} value={profile.familyDetails?.motherName} />
                 {/* <Info className={'col-span-2'} label="Caste" value={profile.religiousDetails.caste} /> */}
-                <Info className={'col-span-4'} label="Sub Caste" value={profile.religiousDetails.subCaste + ' (' + profile.religiousDetails.caste + ')'} />
+                <Info className={'col-span-4'} label={labels.caste} value={profile.religiousDetails.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'} />
                 {/* <Info className={'col-span-2'} label="Religion" value={profile.religiousDetails.religion} /> */}
-                <Info className={'col-span-4'} label="Occupation" value={profile.professionalDetails.occupation} />
-                <Info className={'col-span-2'} label="Income" value={formatCurrency(profile.professionalDetails.income)} />
+                <Info className={'col-span-4'} label={labels.occupation} value={options.professionalDetails.occupation[profile.professionalDetails.occupation]} />
+                <Info className={'col-span-4'} label={labels.jobType} value={options.professionalDetails.jobType[profile.professionalDetails.jobType]} />
+                <Info className={'col-span-2'} label={labels.income} value={formatCurrency(profile.professionalDetails.income)} />
 
                 {/* <Info className={'col-span-2'} label="City" value={profile.contactDetails.presentAddress.city} />
                 <Info className={'col-span-2'} label="State" value={profile.contactDetails.presentAddress.state} /> */}
-                <Info className={' col-span-4'} label="Address" value={formatAddress(profile.contactDetails.presentAddress)} />
+                <Info className={' col-span-4'} label={labels.presentAddress} value={formatAddress(profile.contactDetails.presentAddress)} />
               </div>
 
             </div>
@@ -257,7 +261,7 @@ export default function MatrimonyBioData() {
                 <img
                   src={profile?.profilePhotos?.[0]}
                   alt="Profile"
-                  className="w-28 h-34 min:h-34 md:w-[240px] md:h-[320px] object-cover rounded-md border-2 border-pink-600 shadow-md"
+                  className="w-28 h-34  md:w-[240px] md:h-[320px] object-cover rounded-md border-2 border-pink-600 shadow-md"
                 />
               </div>
             </div>
