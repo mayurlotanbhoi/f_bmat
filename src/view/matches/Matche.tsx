@@ -14,6 +14,8 @@ const Matche = () => {
     const { data, isLoading, isError } = useGetMatchQuery('');
     const matches = useLocalization('matches')
     const sendBio = useLocalization('sendBio')
+    const options = useLocalization('options')
+    console.log("options",options)
 
     if (isLoading) return <p className="text-center text-gray-500">Loading...</p>;
     if (isError) return <p className="text-center text-red-500">No Match Found!</p>;
@@ -21,20 +23,23 @@ const Matche = () => {
 
     return (
         <>
-            <div className=" flex justify-between mt-3">
+        
+            <div className=" flex justify-between mt-3 ">
                 <Heading className="text-xl w-100  font-semibold" text={matches} />
                 <div className=" text-right my-2"><Link className="text-blue-600 hover:underline cursor-pointer py-10" to='/matches'>See all match</Link></div>
             </div>
+            <div className="md:flex justify-between items-center mt-3">
             {Array.isArray(data?.data) && data?.data?.map((match: Bio, index: number) => {
                 const name = match?.personalDetails?.fullName || 'Unknown';
                 const dob = match?.personalDetails?.dateOfBirth;
                 const age = dob ? new Date().getFullYear() - new Date(dob).getFullYear() : 'N/A';
                 const subCaste = match?.religiousDetails?.subCaste || 'N/A';
-                const caste = match?.religiousDetails?.caste || 'N/A';
+                const caste = options.religiousDetails.caste[match?.religiousDetails?.caste];
                 const income = match?.professionalDetails?.income || 'N/A';
-                const occupation = match?.professionalDetails?.occupation;
-                const JobType = match?.professionalDetails?.jobType || 'N/A';
-                const education = match?.educationDetails?.highestQualification || 'N/A';
+                const occupation = options?.professionalDetails?.occupation[match?.professionalDetails?.occupation];
+                const JobType = options?.professionalDetails?.jobType[match?.professionalDetails?.jobType];
+                const education = options?.educationDetails?.highestQualification[match?.educationDetails?.highestQualification || 'N/A'];
+
                 const photo = match?.profilePhotos?.[0] || '/placeholder.jpg';
                 const city = match?.contactDetails?.presentAddress?.city;
                 const state = match?.contactDetails?.presentAddress?.state;
@@ -46,7 +51,7 @@ const Matche = () => {
                     <Link
                         to={`/vlew-profile/${match?._id.toString()}`}
                         key={index}
-                        className=' mt-2'
+                        className=' mt-2 m-5 bg-white hover:bg-gray-100 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg'
                     >
 
                         <div
@@ -92,6 +97,7 @@ const Matche = () => {
                     // </>
                 );
             })}
+            </div>
         </>
     );
 };

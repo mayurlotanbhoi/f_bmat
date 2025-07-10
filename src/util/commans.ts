@@ -40,3 +40,20 @@ export function formatAddress(address?: Address): string {
 
     return parts.length > 0 ? parts.join(', ') : 'पत्ता उपलब्ध नाही';
 }
+
+export function formatShortAddress(address?: Address): string {
+    if (!address || typeof address !== 'object') return 'पत्ता उपलब्ध नाही';
+
+    const {
+        area = '',
+        city = '',
+        state = '',
+        country = '',
+        pinCode = '',
+    } = address;
+
+    // Join all non-empty parts with comma
+    const parts = [city, state, pinCode].filter(Boolean);
+
+    return parts.length > 0 ? parts.join(', ') : 'पत्ता उपलब्ध नाही';
+}

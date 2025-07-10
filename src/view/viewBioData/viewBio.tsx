@@ -10,6 +10,8 @@ import { FaLock, FaRupeeSign } from 'react-icons/fa';
 import {
     FaUser, FaGraduationCap, FaBriefcase, FaPhone, FaUsers, FaHeart, FaLeaf
 } from "react-icons/fa";
+import { useLocalization } from '../../hooks';
+import { formatAddress, formatAmount, formatShortAddress } from '../../util/commans';
 
 export default function ViewBio() {
     const { id } = useParams();
@@ -17,7 +19,11 @@ export default function ViewBio() {
     const [activeTab, setActiveTab] = useState('Personal');
     const [mainImage, setMainImage] = useState(bio?.profilePhotos?.[0]);
     const [getBiodata] = useLazyGetBiodataQuery();
-    const [vieViewLikes] = useLazyViewLikesQuery()
+    const [vieViewLikes] = useLazyViewLikesQuery();
+    const label = useLocalization('labels')
+    const sectionTitles = useLocalization('sectionTitles')
+    const [currectSection, setCurrectSection] = useState(sectionTitles.personalDetails);
+
 
     const getBiodatacall = async (id: any) => {
         try {
@@ -39,68 +45,78 @@ export default function ViewBio() {
     const { personalDetails, contactDetails, religiousDetails, familyDetails, educationDetails, professionalDetails, lifestyleDetails, expectation, profilePhotos } = bio;
 
     const statBox = [
-        { label: 'Sub Caste', value: religiousDetails?.subCaste },
-        { label: 'Occupation', value: professionalDetails?.occupation },
-        { label: 'Caste', value: religiousDetails?.caste },
-        { label: 'Income', value: `₹${professionalDetails?.income}` },
+        { label: label.subCaste, value: religiousDetails?.subCaste },
+        { label: label.occupation, value: professionalDetails?.occupation },
+        { label: label.caste, value: religiousDetails?.caste },
+        { label: label.income, value: `₹${professionalDetails?.income}` },
     ];
 
     const tabs = {
         Personal: [
-            { label: 'Gender', value: personalDetails?.gender },
-            { label: 'DOB', value: new Date(personalDetails?.dateOfBirth).toLocaleDateString() },
-            { label: 'Marital Status', value: personalDetails?.maritalStatus },
-            { label: 'Height', value: personalDetails?.height },
-            { label: 'Weight', value: personalDetails?.weight },
-            { label: 'Complexion', value: personalDetails?.complexion },
-            { label: 'Disability', value: personalDetails?.disability },
+            { label: label.gender, value: personalDetails?.gender },
+            { label: label.dob, value: new Date(personalDetails?.dateOfBirth).toLocaleDateString() },
+            { label: label.maritalStatus, value: personalDetails?.maritalStatus },
+            { label: label.height, value: personalDetails?.height },
+            { label: label.weight, value: personalDetails?.weight },
+            { label: label.complexion, value: personalDetails?.complexion },
+            { label: label.disability, value: personalDetails?.disability },
         ],
         Education: [
-            { label: 'Qualification', value: educationDetails?.highestQualification },
-            { label: 'Specialization', value: educationDetails?.specialization },
+            { label: label.qualification, value: educationDetails?.highestQualification },
+            { label: label.specialization, value: educationDetails?.specialization },
         ],
         Profession: [
-            { label: 'Occupation', value: professionalDetails?.occupation },
-            { label: 'Income', value: `₹${professionalDetails?.income}` },
-            { label: 'Working City', value: professionalDetails?.workingCity },
-            { label: 'WFH', value: professionalDetails?.workFromHome },
+            { label: label.occupation, value: professionalDetails?.occupation },
+            { label: label.income, value: `₹${professionalDetails?.income}` },
+            { label: label.workingCity, value: professionalDetails?.workingCity },
+            { label: label.workFromHome, value: professionalDetails?.workFromHome },
         ],
         Contact: [
-            { label: 'Mobile', value: contactDetails?.mobileNo },
-            { label: 'WhatsApp', value: contactDetails?.whatsappNo },
-            { label: 'Email', value: contactDetails?.email },
-            { label: 'City', value: contactDetails?.presentAddress?.city },
-            { label: 'State', value: contactDetails?.presentAddress?.state },
+            { label: label.phone, value: contactDetails?.mobileNo },
+            { label: label.whatsapp, value: contactDetails?.whatsappNo },
+            { label: label.email, value: contactDetails?.email },
+            { label: label.city, value: contactDetails?.presentAddress?.city },
+            { label: label.state, value: contactDetails?.presentAddress?.state },
         ],
         Family: [
-            { label: 'Father', value: familyDetails?.fatherName },
-            { label: 'Mother', value: familyDetails?.motherName },
-            { label: 'Brothers', value: familyDetails?.brothers },
-            { label: 'Sisters', value: familyDetails?.sisters },
+            { label: label.father, value: familyDetails?.fatherName },
+            { label: label.fatherOccupation, value: familyDetails?.fatherOccupation },
+            { label: label.mother, value: familyDetails?.motherName },
+            { label: label.motherOccupation, value: familyDetails?.motherOccupation },
+            { label: label.brothers, value: familyDetails?.brothers },
+            { label: label.marriedBrothers, value: familyDetails?.marriedBrothers },
+            { label: label.sisters, value: familyDetails?.sisters },
+            { label: label.marriedSisters, value: familyDetails?.marriedSisters },
+
         ],
         Lifestyle: [
-            { label: 'Smoking', value: lifestyleDetails?.smoking },
-            { label: 'Drinking', value: lifestyleDetails?.drinking },
-            { label: 'Food Habits', value: lifestyleDetails?.eatingHabits },
+            { label: label.smoking, value: lifestyleDetails?.smoking },
+            { label: label.drinking, value: lifestyleDetails?.drinking },
+            { label: label.eatingHabits, value: lifestyleDetails?.eatingHabits },
         ],
         Expectations: [
-            { label: 'Education', value: expectation?.education?.join(', ') },
-            { label: 'Occupation', value: expectation?.occupation?.join(', ') },
-            { label: 'Location Preference', value: expectation?.locationPreference },
+            { label: label.education, value: expectation?.education?.join(', ') },
+            { label: label.occupation, value: expectation?.occupation?.join(', ') },
+            { label: label.locationPreference, value: expectation?.locationPreference },
         ]
     };
 
 
 
     const tabConfig = [
-        { key: 'Personal', icon: FaUser },
-        { key: 'Education', icon: FaGraduationCap },
-        { key: 'Profession', icon: FaBriefcase },
-        { key: 'Contact', icon: FaPhone },
-        { key: 'Family', icon: FaUsers },
-        { key: 'Lifestyle', icon: FaLeaf },
+        { key: 'Personal', icon: FaUser, text: sectionTitles.personalDetails },
+        { key: 'Education', icon: FaGraduationCap, text: sectionTitles.educationAndProfession },
+        { key: 'Profession', icon: FaBriefcase, text: sectionTitles.educationAndProfession },
+        { key: 'Contact', icon: FaPhone, text: sectionTitles.contactDetails },
+        { key: 'Family', icon: FaUsers, text: sectionTitles.familyDetails },
+        { key: 'Lifestyle', icon: FaLeaf, text: sectionTitles.lifestyle },
         { key: 'Expectations', icon: FaHeart },
     ];
+
+    const onTabClick = (key: string, section: string) => {
+        setActiveTab(key);
+        setCurrectSection(section);
+    };
 
     return (
         <div className=" mx-auto  space-y-6 bg-white pb-10">
@@ -159,29 +175,29 @@ export default function ViewBio() {
 
             <div className=' my-5 px-2 '>
                 <div className=' my-5 px-2 '>
-                    <strong className='text-xl'>{bio?.personalDetails?.name}</strong>
+                    <strong className='text-xl'>{bio?.personalDetails?.fullName}</strong>
                     <div className=' flex justify-between my-4'>
-                        <button className='btn   secondary-btn'> <FaLock size={15} /> <p>Call Now</p> </button>
-                        <button className='btn   therd-btn'> <IoLogoWhatsapp size={15} /> <p>Call Now</p> </button>
+                        <button className='btn   secondary-btn'> <FaLock size={15} /> <p>{label.callNow}</p> </button>
+                        <button className='btn   therd-btn'> <IoLogoWhatsapp size={15} /> <p>{label.whatsappNow}</p> </button>
                     </div>
-                    <div className='flex justify-start items-center gap-1 capitalize'><CiLocationOn size={20} /> <small className='text-[16px] '>pune, maharashtra</small></div>
+                    <div className='flex justify-start items-center gap-1 capitalize'><CiLocationOn size={20} /> <small className='text-[16px] '>{formatShortAddress(contactDetails?.presentAddress)}</small></div>
                 </div>
                 <hr className="w-full h-[1px] bg-[gray] border-none my-2" />
-                <Heading className={'text-black text-xl font-semibold py-2'} text={'Other Information'} />
+                <Heading className={'text-black text-xl font-semibold py-2'} text={sectionTitles.mainInformation} />
                 <div className=' flex justify-center items-center flex-wrap gap-4'>
-                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>Caste</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.religiousDetails?.caste}</strong></p>
-                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>Sub Caste</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.religiousDetails?.subCaste}</strong></p>
-                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg   '> <small className=' text-[14px] '>Profession</small> <strong className='text-[18px] text-center  flex items-center text-primary '> {bio?.professionalDetails?.occupation}</strong></p>
-                    <p className='flex flex-col justify-center items-center bg-goldan w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>Monthly Salary</small> <strong className='text-[18px] text-center flex items-center'> <FaRupeeSign />{bio?.professionalDetails?.income}</strong></p>
+                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>{label.caste}</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.religiousDetails?.caste}</strong></p>
+                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>{label.subCaste}</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.religiousDetails?.subCaste}</strong></p>
+                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg   '> <small className=' text-[14px] '>{label.occupation}</small> <strong className='text-[18px] text-center  flex items-center text-primary '> {bio?.professionalDetails?.occupation}</strong></p>
+                    <p className='flex flex-col justify-center items-center bg-goldan w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>{label.income}</small> <strong className='text-[18px] text-center flex items-center'>{formatAmount(bio?.professionalDetails?.income)}</strong></p>
                 </div>
             </div>
 
             <div className="border-b bg-white mt-10 dark:border-gray-700 flex overflow-x-auto no-scrollbar space-x-3  px-1 ">
                 <ul className="flex space-x-2 px-2  w-max min-w-full ">
-                    {tabConfig.map(({ key, icon: Icon }) => (
+                    {tabConfig.map(({ key, text, icon: Icon }) => (
                         <li key={key} className="flex-shrink-0 font-bold  ">
                             <button
-                                onClick={() => setActiveTab(key)}
+                                onClick={() => onTabClick(key, text)}
                                 className={`inline-flex items-center px-4 py-4 text-sm  transition-all border-b-2 rounded-t-lg group
             ${activeTab === key
                                         ? 'text-pink-600 border-pink-600 bg-white shadow-sm'
@@ -194,7 +210,7 @@ export default function ViewBio() {
                                         : 'text-gray-800 group-hover:text-gray-500'
                                         }`}
                                 />
-                                {key}
+                                {text}
                             </button>
                         </li>
                     ))}
@@ -206,7 +222,7 @@ export default function ViewBio() {
             <div className="">
                 <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-4 sm:p-6">
                     <h2 className="text-lg font-semibold text-pink-600 mb-4">
-                        {activeTab} Details
+                        {currectSection}
                     </h2>
 
                     <div className="divide-y divide-gray-100">
