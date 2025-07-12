@@ -182,8 +182,6 @@ export default function Viewprofile({ bio }: ViewProfileProps) {
                             <span>{isLoading ? 'Shearing' : labels.sendBio}</span>
                         )}
                     </button>
-
-
                 </ConfettiButton>
                 {/* <button className=' bg_primary fixed bottom-2 text-white font-semibold shadow-sm'>skjnkj</button> */}
             </div>

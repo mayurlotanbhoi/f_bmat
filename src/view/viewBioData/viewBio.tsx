@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useLazyGetBiodataQuery, useLazyViewLikesQuery } from '../../features/biodata/biodataApi';
+import { useLazyGetBiodataQuery, useLazyViewLikesQuery, useShareBioDataMutation } from '../../features/biodata/biodataApi';
 import { MdVerified } from 'react-icons/md';
 import { calculateAge } from '../../util/dateFormat';
 import { CiLocationOn } from 'react-icons/ci';
@@ -12,6 +12,7 @@ import {
 } from "react-icons/fa";
 import { useLocalization } from '../../hooks';
 import { formatAddress, formatAmount, formatShortAddress } from '../../util/commans';
+import { ConfettiButton } from '../../components';
 
 export default function ViewBio({ biodata }: { biodata?: any }) {
     const { id } = useParams();
@@ -20,6 +21,9 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
     const [mainImage, setMainImage] = useState(bio?.profilePhotos?.[0]);
     const [getBiodata] = useLazyGetBiodataQuery();
     const [vieViewLikes] = useLazyViewLikesQuery();
+     const [shearBioData] = useShareBioDataMutation();
+
+         const [isLoading, setIsLoadoding] = useState(false);
     const label = useLocalization('labels')
     const sectionTitles = useLocalization('sectionTitles')
     const [currectSection, setCurrectSection] = useState(sectionTitles.personalDetails);
@@ -120,6 +124,18 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
         setCurrectSection(section);
     };
 
+    const handleShearClick = async (toUserId = bio?.userId, profileId = bio?._id) => {
+        console.log(toUserId, profileId);
+        try {
+            setIsLoadoding(true);
+            await shearBioData({ toUserId, profileId });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoadoding(false);
+        }
+    };
+
     return (
         <div className=" mx-auto  space-y-6 bg-white pb-10">
 
@@ -179,7 +195,7 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
 
             <div className=' my-5 px-2 '>
                 <div className=' my-5 px-2 '>
-                    <strong className='text-xl'>{bio?.personalDetails?.fullName}</strong>
+                    <strong className='text-xl capitalize'>{bio?.personalDetails?.fullName}</strong>
                     <div className=' flex justify-between my-4'>
                         <button className='btn   secondary-btn'> <FaLock size={15} /> <p>{label.callNow}</p> </button>
                         <button className='btn   therd-btn'> <IoLogoWhatsapp size={15} /> <p>{label.whatsappNow}</p> </button>
@@ -248,6 +264,44 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
             <div className="text-center text-xs text-gray-400">
                 Last Updated: {new Date(bio?.updatedAt).toLocaleDateString()}
             </div>
+            <ConfettiButton>
+
+                <button
+                    onClick={() => handleShearClick(bio?.userId, bio?._id)}
+                    disabled={isLoading}
+                    className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
+                        }`}
+                >
+
+                    {isLoading ? (
+                        <>
+                            <svg
+                                className="animate-spin h-5 w-5 text-white mr-2"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                />
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
+                                />
+                            </svg>
+                            <span>Shearing...</span>
+                        </>
+                    ) : (
+                        <span>{isLoading ? 'Shearing' : label.sendBio}</span>
+                    )}
+                </button>
+            </ConfettiButton>
         </div>
     );
 }

@@ -23,6 +23,8 @@ import BackButtn from '../../components/Buttons/BackButtn';
 import Heading from '../../components/Headings/Heading';
 import ViewBio from '../viewBioData/viewBio';
 import { filterValidationSchema } from '../../validations/matrimony.validations';
+import { object } from 'yup';
+import NoData from '../../components/Common/notFound';
 
 interface TypeOfBio {
     [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
@@ -556,11 +558,13 @@ export default function Profile() {
     return (
         <>
             <ProfileSearchHeader />
-            {profileData.length === 0 && <ProfileSkeleton />}
+            {profileData.length === 0 && Object.values(filter).every(
+                v => v === null || v === undefined || v === '' ||
+                    (Array.isArray(v) && v.length === 0) ||
+                    (typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 0)
+            ) && <ProfileSkeleton />}
             {!loading && profileData.length === 0 && (
-                <h1 className="w-screen h-screen flex justify-center items-center font-extrabold text-xl text-gray-400">
-                    No BioData found
-                </h1>
+                <><NoData /></>
             )}
 
             <FlotingButton
@@ -568,7 +572,7 @@ export default function Profile() {
                 onClick={() => setShowFilter(true)}
                 text="FILTER"
             />
-            <div className="w-full h-full flex flex-wrap py-10 pb-14 mt-20">
+            <div className="w-full h-full flex flex-wrap py-10 pb-14 mt-8">
                 {profileData.map((bio, index, arr) => (
                     <><div ref={arr.length - 1 === index ? bottomRef : null} key={index} className="w-full sm:w-1/2 md:w-1/2 lg:w-1/3">
                         <ProfileCard bio={bio} setViewBio={setViewBio} />

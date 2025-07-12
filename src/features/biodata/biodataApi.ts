@@ -1,5 +1,6 @@
 import { baseApi } from '../../services/baseApi';
 import { setUser } from '../user/userSlice';
+import { addShearedBio } from './shearedSlice';
 
 export const biodataApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
@@ -16,6 +17,21 @@ export const biodataApi = baseApi.injectEndpoints({
                 url: `/biodata/shared`,
                 method: 'GET',
             }),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                try {
+                    const { data } = await queryFulfilled;
+                    console.log("getLikes, /biodata/shared", data?.success, data?.data?.sent);
+
+                    if (data?.success){
+                        dispatch(addShearedBio(data?.data?.sent || []));
+                    }
+                    // dispatch(setUser(data)); // from userSlice
+                    // dispatch(addShearedBio(data));
+                } catch (err) {
+                    console.log("getLikes, /biodata/shared", err);
+                    // dispatch(setError("Failed to fetch likes"));
+                }
+            },
         }),
 
         viewLikes: builder.query({

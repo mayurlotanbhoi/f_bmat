@@ -6,6 +6,7 @@ import BioHeader from "../assets/images/bioHeader.jpg"
 import Location from "../assets/images/location.png"
 import vadhuIcon from "../assets/images/vadhuIcon.jpg"
 import varIcon from "../assets/images/varIcon.jpg"
+import langicom from "../assets/images/langIcon.png"
 
 
 
@@ -18,5 +19,6 @@ export {
     BioHeader,
     bioHeader1,
     searchbanner,
-    Location
+    Location,
+    langicom
 }

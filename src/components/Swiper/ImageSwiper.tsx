@@ -25,7 +25,7 @@ export default function BannerCarouselWrapper() {
                     <img
                         src={src}
                         alt={`Banner ${index + 1}`}
-                        className="h-[5rem] sm:h-[14rem] md:h-[18rem] w-full object-cover rounded-3xl"
+                        className="h-[6rem] sm:h-[14rem] md:h-[18rem] w-full object-cover rounded-3xl"
                     />
                 </div>
             ))}

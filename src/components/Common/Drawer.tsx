@@ -11,7 +11,7 @@ const Drawer: React.FC<DrawerProps> = ({
     className,
     position = "right",
     widthClass = "w-80",
-    heightClass = "h-80",
+    heightClass = "h-100",
     showCloseBtn = true,
     padding = 'p-4'
 }) => {

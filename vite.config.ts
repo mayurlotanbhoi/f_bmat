@@ -28,8 +28,8 @@ export default defineConfig({
     name: 'My App Name',
     short_name: 'MyApp',
     description: 'Your app description',
-    theme_color: '#ffffff',
-    background_color: '#ffffff',
+    theme_color: '#D91656',
+    background_color: '#F564A9',
     display: 'standalone',
     start_url: '/',
     icons: [

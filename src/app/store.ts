@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage';
 import authReducer from '../features/auth/authSlice';
 import matrimonyReducer from '../features/matrimony/matrimonySlice';
 import userReducer from '../features/user/userSlice';
+import shearedBioReducer from '../features/biodata/shearedSlice';
 import { baseApi } from '../services/baseApi'; // this is where you injected your matrimonyApi endpoints
 
 // Step 1: Combine reducers
@@ -12,6 +13,9 @@ const appReducer = combineReducers({
   auth: authReducer,
   user: userReducer,
   matrimony: matrimonyReducer,
+  shearedBio: shearedBioReducer,
+  // Add other reducers here as needed
+  // Note: baseApi.reducerPath is dynamically added by RTK Query
   [baseApi.reducerPath]: baseApi.reducer, // dynamic reducer from RTK Query
 });
 const rootReducer = (state: any, action: any) => {

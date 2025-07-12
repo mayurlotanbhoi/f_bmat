@@ -8,7 +8,7 @@ interface AppDownloadingPopupProps {
 
 const AppDownloadingPopup: React.FC<AppDownloadingPopupProps> = ({ progressText = 'Downloading app...' }) => {
     return (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
+        <div className=" inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center px-4">
             <div className="bg-white dark:bg-zinc-900 rounded-xl shadow-xl w-full max-w-sm p-6 text-center space-y-4">
 
                 {/* Loading Icon */}

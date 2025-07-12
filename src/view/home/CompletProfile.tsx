@@ -27,7 +27,7 @@ export default function CompletProfile({ profile }: ProfileProps) {
                 </p>
                 <div className="w-full bg-gray-300 rounded-full h-3 md:5 overflow-hidden">
                     <div
-                        className=" bg-goldan h-full text-xs font-semibold  flex items-center justify-center transition-all duration-500 rounded-full"
+                        className=" bg_primary text-white h-full text-xs font-semibold  flex items-center justify-center transition-all duration-500 rounded-full"
                         style={{ width: `${complition}%` }}
                         aria-valuenow={complition}
                         aria-valuemin={0}
