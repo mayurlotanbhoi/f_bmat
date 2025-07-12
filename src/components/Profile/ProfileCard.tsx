@@ -32,11 +32,12 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ bio, setViewBio }) => {
 
     return (
         <div className="max-w-md min-h-[80vh]   relative  rounded-xl shadow-lg bg-white">
-            <div className='flex items-center gap-2 absolute top-3 left-3 px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full'>
-                <MdVerified className='text-green-400' size={24} />
-                <h2 className='text-white font-semibold text-sm'>Verified</h2>
-            </div>
-
+            {bio?.isVerified && (
+                <div className='flex items-center gap-2 absolute top-3 left-3 px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full'>
+                    <MdVerified className='text-green-400' size={24} />
+                    <h2 className='text-white font-semibold text-sm'>Verified</h2>
+                </div>
+            )}
             {/* Main Image */}
             <div
                 className=" min-h-[80vh] w-full bg-cover bg-center rounded-lg border mb-4"

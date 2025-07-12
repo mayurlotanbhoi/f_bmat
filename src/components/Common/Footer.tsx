@@ -31,7 +31,7 @@ const Footer = () => {
 
                 {/* Center QR Button */}
                 <Link
-                    to="/qr"
+                    to="/scanner"
                     className={`absolute bg_primary -top-7 left-1/2 transform -translate-x-1/2  text-white p-3 rounded-full shadow-lg   `}
                 >
                     {/* Use any QR icon or emoji */}

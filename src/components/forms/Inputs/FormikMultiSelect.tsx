@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { useField, useFormikContext } from "formik";
 import { FaTimes } from "react-icons/fa";
+import { cn } from "./Input";
 
 type Option = { label: string; value: string };
 
@@ -17,7 +18,7 @@ const FormikMultiSelect: React.FC<Props> = ({ name, label, required, options }) 
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
     const selectedValues: string[] = field.value || [];
-
+    const [isFocused, setIsFocused] = useState(false);
     const toggleDropdown = () => setIsOpen((prev) => !prev);
 
     const handleSelect = (value: string) => {
@@ -42,13 +43,19 @@ const FormikMultiSelect: React.FC<Props> = ({ name, label, required, options }) 
 
             <div
                 onClick={toggleDropdown}
-                className={`min-h-[42px] w-full flex flex-wrap gap-1 items-center border rounded-lg px-3 py-2 text-sm bg-white cursor-pointer ${error ? "border-red-500" : "border-gray-300"
-                    }`}
+                tabIndex={0}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                className={cn(
+                    "input-parent min-h-[42px] w-full flex flex-wrap border gap-1 items-center rounded-lg px-3 py-2 text-sm bg-white cursor-pointer",
+                    error ? "border-red-500" : isOpen ? "border-blue-500" : "border-gray-300"
+                )}
                 ref={dropdownRef}
             >
                 {selectedValues?.length === 0 && (
                     <span className="text-gray-400">Select one or more...</span>
                 )}
+
 
                 {Array.isArray(selectedValues) && selectedValues?.map((val) => {
                     const opt = options.find((o) => o.value === val);

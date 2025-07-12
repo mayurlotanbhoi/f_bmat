@@ -6,6 +6,14 @@
     "profile": "Profile",
     "settings": "Settings"
   },
+  "sidebar": {
+  "home": "Home",
+  "myProfile": "My Profile",
+  "matches": "Matches",
+  "requests": "Requests",
+  "search": "Search",
+  "language": "Language"
+},
   "like": "Like",
   "matches": "Suitable for Marriage",
   "education": "Education",

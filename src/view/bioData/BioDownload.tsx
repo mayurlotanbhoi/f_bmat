@@ -9,17 +9,21 @@ import { FaLevelUpAlt, FaSpinner } from 'react-icons/fa';
 import { GoLink } from 'react-icons/go';
 import { toPng } from 'html-to-image';
 
-import { Link } from "react-router-dom"; // if routing is internal
 import { formatCurrency } from '../../util/formatCurrency';
 import { downloadAsImage } from '../../util/downloadAsImage';
 import { formatAddress } from '../../util/commans';
 import { useLocalization } from '../../hooks';
+import Drawer from '../../components/Common/Drawer';
+import PaymentQrCode from '../../components/Common/PaymentQrCode';
 
 export const ProfileCard = ({ profile }) => {
+  const labels = useLocalization('labels');
+  const options = useLocalization('options');
   const fullName = profile?.personalDetails?.fullName || "N/A";
   const photo = profile?.profilePhotos?.[0];
   const age = calculateAge(profile?.personalDetails?.dateOfBirth);
   const caste = profile?.religiousDetails?.caste || "N/A";
+  const subCaste = profile?.religiousDetails?.subCaste || "N/A";
   const income = formatCurrency(profile?.professionalDetails?.income || "0");
 
   const profileUrl = `https://yourdomain.com/memberQr/${profile?.matId}`;
@@ -49,14 +53,16 @@ export const ProfileCard = ({ profile }) => {
         {/* Info */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h2 className="text-lg font-semibold text-gray-800 truncate">{fullName}</h2>
-            <MdVerified className="text-green-500" size={20} />
+            <h2 className="text-lg font-semibold text-gray-800 truncate capitalize">{fullName}</h2>
+            {profile?.isVerified && (
+                <MdVerified className="text-green-500" size={20} />
+            )}
           </div>
           <p className="text-sm text-gray-500 mt-1 truncate">
-            Age: {age} | Caste: {caste}
+            {labels.age}: {age} | {labels.caste}:  {subCaste} {options?.religiousDetails?.caste[caste] } | {labels.income}: {income}
           </p>
           <p className="text-sm text-gray-600 mt-1 flex items-center gap-1">
-            ₹{income}
+            {income}
           </p>
         </div>
 
@@ -66,7 +72,72 @@ export const ProfileCard = ({ profile }) => {
   );
 };
 
+// const PaymentQrCode = (profile) => {
+//   // Replace with your actual UPI ID and name
+//   const upiId = "yourupi@okaxis"; // <-- CHANGE THIS
+//   const name = "Your Name"; // <-- CHANGE THIS
+//   const amount = ""; // e.g., "500" or leave blank for user entry
+//   const note = `Support Matrimony: Profile ${profile?.matId}`;
+//   const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
 
+//   return (
+//     <div className="flex flex-col items-center mt-4 gap-2">
+//       <h2 className="text-lg font-semibold text-gray-800">Support Our Free Matrimony Service</h2>
+//       <QRCode value={upiUrl} size={128} />
+//       <p className="text-sm text-gray-600 mt-2 text-center">
+//         Scan to pay via UPI<br />
+//         <span className="font-mono text-xs">{upiId}</span>
+//       </p>
+//       <div className='grid grid-cols-2 gap-2'>
+//         <a
+//           href={upiUrl}
+//           className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+//         >
+//           Pay with UPI App
+//         </a>
+//         <a
+//           href={`https://pay.google.com/gp/p/ui/pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`}
+//           target="_blank"
+//           rel="noopener noreferrer"
+//           className="mt-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
+//         >
+//           Pay with Google Pay
+//         </a>
+//         <a
+//           href={`phonepe://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`}
+//           target="_blank"
+//           rel="noopener noreferrer"
+//           className="mt-1 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition"
+//         >
+//           Pay with PhonePe
+//         </a>
+//         <a
+//           href={`paytmmp://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`}
+//           target="_blank"
+//           rel="noopener noreferrer"
+//           className="mt-1 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
+//         >
+//           Pay with Paytm
+//         </a>
+//       </div>
+//       <div className='w-full'>
+//         <div id="alert-additional-content-3" className="p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert">
+//           <div className="flex items-center">
+//             <svg className="shrink-0 w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+//               <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+//             </svg>
+//             <span className="sr-only">Info</span>
+//             <h3 className="text-lg font-medium">This service is 100% free for all users.</h3>
+//           </div>
+//           <div className="mt-2 mb-4 text-sm">
+//             We do not charge for registration, search, or contact. However, if you wish to support our server and maintenance costs, you can pay any amount you like.<br/>
+//             <b>Even ₹30 (just 1 toffee per day!) helps us keep this service running for everyone.</b>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
 export default function MatrimonyBioData() {
   const page1Ref = useRef(null);
@@ -75,6 +146,7 @@ export default function MatrimonyBioData() {
   const cardRef = useRef(null);
   const labels = useLocalization('labels');
   const options = useLocalization('options');
+  const [showPaymentQr, setShowPaymentQr] = useState(false);
 
   const profile = getMatrimony();
   const biodataUrl = `https://bmat.onrender.com/vlew-profile/${profile?._id}`;
@@ -156,11 +228,16 @@ export default function MatrimonyBioData() {
 
 
   const handleDownload = () => {
-    downloadAsImage({
-      setLoading,
-      fileName: 'biodata.png',
-      id: 'biodataPage'
-    });
+    setShowPaymentQr(true);
+
+    setTimeout(() => {
+      downloadAsImage({
+        setLoading,
+        fileName: 'biodata.png',
+        id: 'biodataPage'
+      });
+     
+    }, 5000); // Delay to ensure the QR code is rendered
   };
 
 
@@ -288,10 +365,12 @@ export default function MatrimonyBioData() {
               वरील QR कोड स्कॅन करून सविस्तर प्रोफाइल पहा.<br />
               विवाहासाठी निर्णय घेण्याआधी संपूर्ण माहिती तपासा आणि घरच्यांचा सल्ला घ्या.
             </p>
-            <div className="Verified-icon col-span-1 text-green-600 flex flex-col items-center text-center">
-              <MdOutlineVerifiedUser className=" text-green-600" />
-              <p className="text-sm mt-1">Verified by Bhoi Matrimony</p>
-            </div>
+            {profile?.isVerified && (
+              <div className="Verified-icon col-span-1 text-green-600 flex flex-col items-center text-center">
+                <MdOutlineVerifiedUser className=" text-green-600" />
+                <p className="text-sm mt-1">Verified by Bhoi Matrimony</p>
+              </div>
+            )}
           </div>
 
           <div className="bg-pink-100 py-4 rounded shadow px-3">
@@ -313,6 +392,23 @@ export default function MatrimonyBioData() {
 
 
       </div>
+       <Drawer
+                      isOpen={showPaymentQr}
+                      position="bottom"
+                      padding="p-0"
+                      widthClass="w-100"
+                      className="rounded-t-lg h-[90vh]"
+                      showCloseBtn={false}
+        onClose={() => setShowPaymentQr(false)}
+                  >
+        <PaymentQrCode profile={profile} />
+                  </Drawer>
+      
     </>
   );
+
+
 }
+
+
+

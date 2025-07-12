@@ -7,6 +7,7 @@ import { useAuth } from '../hooks/useAuth';
 import { BioDownload } from '../view/bioData';
 import AppLoader from '../app/AppLoader';
 import InitialInfo from '../view/plashScreens';
+import {ScanQrPage} from '../view/scanQr';
 // import { ViewBioData } from '../view/viewBioData';
 
 // import BioForm from '../view/bioForm';
@@ -124,6 +125,10 @@ const routes = [
             {
                 path: '/vlew-profile/:id',
                 element: <ViewBioData />,
+            },
+            {
+                path: '/scanner',
+                element: <ScanQrPage />,
             },
             // {
             //     path: '/bio-qr/:id',

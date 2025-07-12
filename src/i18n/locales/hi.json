@@ -6,6 +6,14 @@
     "profile": "प्रोफाइल",
     "settings": "सेटिंग्स"
   },
+  "sidebar": {
+  "home": "होम",
+  "myProfile": "मेरा प्रोफाइल",
+  "matches": "मेल",
+  "requests": "अनुरोध",
+  "search": "खोजें",
+  "language": "भाषा"
+},
   "like": "पसंद",
   "matches": "विवाह के लिए उपयुक्त",
   "education": "शिक्षा",

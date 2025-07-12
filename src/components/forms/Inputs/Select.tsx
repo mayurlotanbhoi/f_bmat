@@ -17,7 +17,7 @@ const FormikSelect: React.FC<Props> = ({ name, label, required, options }) => {
             {label && <label className="block text-sm mb-1">{label} {required && <span className=" text-red-600">*</span>}</label>}
             <select
                 {...field}
-                className={`w-full px-3 py-2 border rounded-lg text-sm ${error ? "border-red-500" : "border-gray-300"}`}
+                className={`input-parent w-full px-3 py-2 border rounded-lg text-sm ${error ? "border-red-500" : "border-gray-300"}`}
             >
                 <option value="">Select an option</option>
                 {options.map(opt => (

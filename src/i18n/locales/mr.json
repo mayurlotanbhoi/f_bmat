@@ -6,6 +6,14 @@
     "profile": "प्रोफाइल",
     "settings": "सेटिंग्ज"
   },
+  "sidebar": {
+  "home": "मुख्यपृष्ठ",
+  "myProfile": "माझे प्रोफाइल",
+  "matches": "जुळण्या",
+  "requests": "विनंत्या",
+  "search": "शोधा",
+  "language": "भाषा"
+},
   "like": "आवड",
   "matches": "विवाहाला योग्य",
   "education": "शिक्षण",
@@ -87,7 +95,8 @@
     "contactDetails": "संपर्क माहिती",
     "familyDetails": "कुटुंबाची माहिती",
     "lifestyle": "जीवनशैली",
-    "partnerPreference": "जोडीदार पसंती"
+    "partnerPreference": "जोडीदार पसंती",
+    "expectations": "अपेक्षा"
   },
   "liks": {
     "recivedBio": "बायोडाटा प्राप्त केले",

@@ -21,6 +21,8 @@ import { RxCross2 } from "react-icons/rx";
 import { SiVerizon } from "react-icons/si";
 import BackButtn from '../../components/Buttons/BackButtn';
 import Heading from '../../components/Headings/Heading';
+import ViewBio from '../viewBioData/viewBio';
+import { filterValidationSchema } from '../../validations/matrimony.validations';
 
 interface TypeOfBio {
     [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
@@ -261,11 +263,11 @@ const Filter: React.FC<FilterProps> = ({ onSave, filterKey, setFilter, setModelK
         { name: "ageRange", label: "Expected Age Range", placeholder: "24-29", type: "text", required: false },
         { name: "heightRange", label: "Expected Height Range", placeholder: "5'2\" - 5'8\"", type: "select", required: false },
         { name: "income", label: "Expected Annual Min Income", placeholder: "₹1,00,000", type: "text", required: false },
-        { name: "caste", label: "Expected Caste", placeholder: "More", type: "text", required: false },
+        { name: "subCaste", label: "Expected Caste", placeholder: "More", type: "text", required: false },
         { name: "education", label: "Expected Education", placeholder: "Graduate or above", type: "multiselect", required: false },
         { name: "occupation", label: "Expected Occupation", placeholder: "Working professional", type: "multiselect", required: false },
         { name: "jobType", label: "Expected Job Type", placeholder: "Private / Government", type: "multiselect", required: false },
-        { name: "locationPreference", label: "Location Preference", placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
+        { name: "city", label: "Location Preference", placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
     ];
 
     const getOptionsForField = (name: string): { label: string; value: string }[] => {
@@ -311,9 +313,11 @@ const Filter: React.FC<FilterProps> = ({ onSave, filterKey, setFilter, setModelK
             <Formik
                 innerRef={formikRef}
                 initialValues={filterKey || initialValues}
+                validationSchema={filterValidationSchema}
                 enableReinitialize
                 onSubmit={(values) => {
                     setFilter(values);
+                    console.log("values", values);
                     onSave?.(); // Trigger reset + fetch
                     setShowfilter(false);
                 }}
@@ -484,12 +488,12 @@ export default function Profile() {
     const [onSave, setOnSave] = useState(1);
 
     const [filter, setFilter] = useState({
-        age: "age",
-        cast: "cast",
-        subCast: "sub-cast",
-        income: "income",
-        state: "state",
-        city: "city",
+        ageRange: "",
+        cast: "",
+        subCast: "",
+        income: "",
+        state: "",
+        city: "",
     });
 
     const [trigger, { isLoading }] = useLazyFilterAllProfilesQuery();
@@ -498,7 +502,7 @@ export default function Profile() {
         const keysToRemove = {
             age: "age",
             caste: "caste",
-            subCast: "sub-cast",
+            subCast: "subCaste",
             income: "income",
             state: "state",
             city: "city",
@@ -600,7 +604,8 @@ export default function Profile() {
                     </button>
                 </div>
                 {/* @ts-ignore */}
-                <Viewprofile bio={viewBio} />
+                {/* <Viewprofile bio={viewBio} /> */}
+                <ViewBio biodata={viewBio} />
             </Drawer>
 
             {/* Filter Side Drawer */}

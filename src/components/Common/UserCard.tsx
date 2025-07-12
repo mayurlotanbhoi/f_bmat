@@ -41,9 +41,11 @@ const Matchs = () => {
                             <div className="w-full ">
                                 <div className="flex flex-col justify-center items-center">
                                     <div className="flex flex-col min-w-0">
-                                        <div className="font-medium text-xl leading-none text-black flex items-center gap-2">
-                                            {name} <MdVerified className="text-green-500" size={20} />
-                                        </div>
+                                        {match?.isVerified && (
+                                            <div className="font-medium text-xl leading-none text-black flex items-center gap-2">
+                                                {name} <MdVerified className="text-green-500" size={20} />
+                                            </div>
+                                        )}
                                         <p className="text-sm text-black leading-none mt-1 truncate">
                                             Age: {age} | Caste: {subCaste}
                                         </p>

@@ -32,7 +32,6 @@ const Matche = () => {
             {Array.isArray(data?.data) && data?.data?.map((match: Bio, index: number) => {
                 const name = match?.personalDetails?.fullName || 'Unknown';
                 const dob = match?.personalDetails?.dateOfBirth;
-                const age = dob ? new Date().getFullYear() - new Date(dob).getFullYear() : 'N/A';
                 const subCaste = match?.religiousDetails?.subCaste || 'N/A';
                 const caste = options.religiousDetails.caste[match?.religiousDetails?.caste];
                 const income = match?.professionalDetails?.income || 'N/A';
@@ -63,10 +62,12 @@ const Matche = () => {
                             <div className="flex items-center justify-between mb-3">
                                 <span className="mb-1 text-sm font-semibold text-primary dark:text-white" >
                                     {name}</span >
-                                <div className='flex items-center gap-1 absolute top-1 right-1  px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full'>
-                                    <MdVerified className='text-green-400' size={20} />
-                                    <h2 className='text-white font-semibold text-[10px]'>Verified</h2>
-                                </div>
+                               { match?.isVerified && (
+                                   <div className='flex items-center gap-1 absolute top-1 right-1  px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full'>
+                                       <MdVerified className='text-green-400' size={20} />
+                                       <h2 className='text-white font-semibold text-[10px]'>Verified</h2>
+                                   </div>
+                               )}
                             </div>
                             <div className="flex items-center">
                                 <div className="relative text-center inline-block shrink-0">

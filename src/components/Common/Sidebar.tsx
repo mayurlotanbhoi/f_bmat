@@ -15,12 +15,14 @@ import { logout } from "../../features/auth/authSlice";
 import { useNavigate, NavLink } from "react-router-dom";
 import persistStore from "redux-persist/es/persistStore";
 import { store } from "../../app/store";
+import { useLocalization } from "../../hooks";
 const persistor = persistStore(store);
 
 const Sidebar: React.FC = () => {
     const [logOut] = useLogOutMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const sidebarLang = useLocalization('sidebar');
 
     const handleLogout = async () => {
         const result = await asyncHandlerWithSwal(async () => logOut("").unwrap(), {
@@ -38,18 +40,32 @@ const Sidebar: React.FC = () => {
         }
     };
 
+    // Localization example (replace with your localization hook or object)
+    const menuLabels = {
+        home: sidebarLang.home,
+        myProfile: sidebarLang.myProfile,
+        matches: sidebarLang.matches,
+        requests: sidebarLang.requests,
+        search: sidebarLang.search,
+        language: sidebarLang.language,
+    };
+
+    // If you have a localization hook, e.g.:
+    // const labels = useLocalization('sidebar');
+    // ...then use labels.home, labels.myProfile, etc.
+
     const navItems = [
-        { to: "/", icon: <FaHome />, label: "Home" },
-        { to: "/profile", icon: <FaUserAlt />, label: "My Profile" },
-        { to: "/matches", icon: <FaHeart />, label: "Matches" },
-        { to: "/likes", icon: <FaEnvelopeOpenText />, label: "Requests" },
-        { to: "/profile/filter", icon: <FaSearch />, label: "Search" },
-        { to: "/lang", icon: <FaCog />, label: "Language" },
+        { to: "/", icon: <FaHome />, label: menuLabels.home },
+        { to: "/profile", icon: <FaUserAlt />, label: menuLabels.myProfile },
+        { to: "/matches", icon: <FaHeart />, label: menuLabels.matches },
+        { to: "/likes", icon: <FaEnvelopeOpenText />, label: menuLabels.requests },
+        { to: "/profile/filter", icon: <FaSearch />, label: menuLabels.search },
+        { to: "/lang", icon: <FaCog />, label: menuLabels.language },
     ];
 
     return (
-        <aside className="fixed top-0 left-0 h-full w-full sm:w-64 bg-white shadow-lg border-r border-gray-200 flex flex-col z-50">
-            <div className="px-6 py-4 text-2xl font-bold text-pink-600 border-b border-gray-200">
+        <aside className="fixed top-0 left-0 h-full w-full sm:w-80 bg-white  flex flex-col ">
+            <div className="px-6 py-4 text-2xl font-bold text-pink-600 border-b ">
                 💍 Vaishya Parinay
             </div>
             <nav className="flex-1 px-4 py-4 overflow-y-auto">

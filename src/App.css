@@ -287,3 +287,13 @@ border: 2px #111213 solid;
   /* box-shadow: 0 2px 6px rgba(0,0,0,0.1); */
   color: #222;
 }
+.input-parent:focus-within {
+  border: 1px solid var(--bordercolor1);
+}
+
+.border-sm{
+  border: 0.1px solid var(--gray_color);
+}
+.border-sm-focus {
+   border: 0.1px solid rgb(86, 132, 231);
+}

@@ -13,9 +13,9 @@ import {
 import { useLocalization } from '../../hooks';
 import { formatAddress, formatAmount, formatShortAddress } from '../../util/commans';
 
-export default function ViewBio() {
+export default function ViewBio({ biodata }: { biodata?: any }) {
     const { id } = useParams();
-    const [bio, setBio] = useState<any>(null);
+    const [bio, setBio] = useState<any>(biodata || null);
     const [activeTab, setActiveTab] = useState('Personal');
     const [mainImage, setMainImage] = useState(bio?.profilePhotos?.[0]);
     const [getBiodata] = useLazyGetBiodataQuery();
@@ -36,6 +36,7 @@ export default function ViewBio() {
     };
 
     useEffect(() => {
+        if (!id) return;
         getBiodatacall(id);
         vieViewLikes(id)
     }, [id]);
@@ -87,7 +88,6 @@ export default function ViewBio() {
             { label: label.marriedBrothers, value: familyDetails?.marriedBrothers },
             { label: label.sisters, value: familyDetails?.sisters },
             { label: label.marriedSisters, value: familyDetails?.marriedSisters },
-
         ],
         Lifestyle: [
             { label: label.smoking, value: lifestyleDetails?.smoking },
@@ -95,9 +95,11 @@ export default function ViewBio() {
             { label: label.eatingHabits, value: lifestyleDetails?.eatingHabits },
         ],
         Expectations: [
-            { label: label.education, value: expectation?.education?.join(', ') },
+            { label: label.qualification, value: expectation?.education?.join(', ') },
             { label: label.occupation, value: expectation?.occupation?.join(', ') },
             { label: label.locationPreference, value: expectation?.locationPreference },
+            { label: label.ageRange, value: expectation?.ageRange },
+            { label: label.heightRange, value: expectation?.heightRange },
         ]
     };
 
@@ -110,7 +112,7 @@ export default function ViewBio() {
         { key: 'Contact', icon: FaPhone, text: sectionTitles.contactDetails },
         { key: 'Family', icon: FaUsers, text: sectionTitles.familyDetails },
         { key: 'Lifestyle', icon: FaLeaf, text: sectionTitles.lifestyle },
-        { key: 'Expectations', icon: FaHeart },
+        { key: 'Expectations', icon: FaHeart, text: sectionTitles.expectations },
     ];
 
     const onTabClick = (key: string, section: string) => {
@@ -122,10 +124,12 @@ export default function ViewBio() {
         <div className=" mx-auto  space-y-6 bg-white pb-10">
 
             <div className="max-w-md min-h-[80vh]   relative  rounded-xl shadow-lg bg-white">
-                <div className='flex items-center gap-2 absolute top-3 left-3 px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full'>
-                    <MdVerified className='text-green-400' size={24} />
-                    <h2 className='text-white font-semibold text-sm'>Verified</h2>
-                </div>
+                {bio?.isVerified && (
+                    <div className='flex items-center gap-2 absolute top-3 left-3 px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full'>
+                        <MdVerified className='text-green-400' size={24} />
+                        <h2 className='text-white font-semibold text-sm'>Verified</h2>
+                    </div>
+                )}
 
                 {/* Main Image */}
                 <div

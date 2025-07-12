@@ -25,8 +25,7 @@ const Input: React.FC<InputProps> = ({
     ...props
 }) => {
     const [field, meta] = useField(props.name);
-    console.log("meta.touched", meta.touched, meta.error)
-    console.log("meta.error", props.name)
+   
     const hasError = meta.touched && meta.error;
 
     // console.log("meta.touched", meta.touched)
@@ -40,7 +39,8 @@ const Input: React.FC<InputProps> = ({
             )}
             <div
                 className={cn(
-                    "flex items-center rounded-xl border bg-white px-3 py-2 shadow-sm transition-all",
+                    
+                    " input-parent flex items-center rounded-xl border bg-white px-3 py-2 transition-all",
                     hasError ? "border-red-500" : "border-gray-300",
                     props.disabled ? "bg-gray-100 cursor-not-allowed opacity-75" : "",
                     className

@@ -48,7 +48,7 @@ const FileInput: React.FC<FileInputProps> = ({
             <div
                 onClick={handleClick}
                 className={cn(
-                    "flex justify-center items-center aspect-square cursor-pointer border rounded-xl bg-white transition hover:shadow-md overflow-hidden",
+                    "input-parent flex justify-center items-center aspect-square cursor-pointer border rounded-xl bg-white transition hover:shadow-md overflow-hidden",
                     hasError ? "border-red-500" : "border-gray-300",
                     className
                 )}
