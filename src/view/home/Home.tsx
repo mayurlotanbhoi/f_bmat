@@ -90,6 +90,7 @@ export default function Home() {
                                 <img
                                     src={menuIcons[Math.floor(index / 2)]}
                                     alt={`${item?.text} icon`}
+                                    loading="lazy"
                                     className="md:w-52 w-36 h-44 rounded-2xl  drop-shadow-md"
                                 />
                                 <div className="mb-4 text-center">
@@ -103,7 +104,7 @@ export default function Home() {
             <Matche />
 
             <Drawer
-                isOpen={hasUpdate &&  localStorage.getItem('isAppInstall') !== 'true'}
+                isOpen={hasUpdate || isInstalled }
                 position="bottom"
                 padding="p-0"
                 widthClass="w-100"
