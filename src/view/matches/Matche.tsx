@@ -21,6 +21,7 @@ const Matche = () => {
     const options = useLocalization('options')
 
    const isLiked =  useCallback((id: string) => {
+    // @ts-ignore
     const like = likes?.map((like) => like?._id);
     if (!like) return false;
         return like.includes(id);

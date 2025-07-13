@@ -15,6 +15,7 @@ import { formatAddress, formatAmount, formatShortAddress } from '../../util/comm
 import { ConfettiButton } from '../../components';
 import { useSelector } from 'react-redux';
 import { getShearedBio } from '../../features/biodata/shearedSlice';
+import { t } from 'i18next';
 
 export default function ViewBio({ biodata }: { biodata?: any }) {
     const { id } = useParams();
@@ -33,8 +34,9 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
  const likes = useSelector(getShearedBio);
 
 const isLiked =  useCallback((id: string) => {
-    
-    const like = likes?.map((like) => like?.sharedId);
+    console.log("id", id, likes)
+    // @ts-ignore
+    const like = likes?.map((like) => like?.toUser?._id);
     console.log("ids", like, id)
     console.log("likes", like.includes(id))
     if (!like) return false;
@@ -89,7 +91,7 @@ const isLiked =  useCallback((id: string) => {
             { label: label.occupation, value: opinions.professionalDetails.occupation[ professionalDetails?.occupation] },
             { label: label.companyName, value: professionalDetails?.companyName },
             { label: label.jobType, value: opinions.professionalDetails.jobType[professionalDetails?.jobType] },
-            { label: label.income, value: `₹${professionalDetails?.income}` },
+            { label: label.income, value: professionalDetails?.income },
             { label: label.workingCity, value: professionalDetails?.workingCity },
             { label: label.workFromHome, value: opinions.professionalDetails.workFromHome[professionalDetails?.workFromHome] },
         ],
@@ -155,7 +157,6 @@ const isLiked =  useCallback((id: string) => {
 
     return (
         <div className=" mx-auto  space-y-6 bg-white pb-10">
-
             <div className="max-w-md min-h-[80vh]   relative  rounded-xl shadow-lg bg-white">
                 {bio?.isVerified && (
                     <div className='flex items-center gap-2 absolute top-3 left-3 px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full'>
@@ -222,9 +223,9 @@ const isLiked =  useCallback((id: string) => {
                 <hr className="w-full h-[1px] bg-[gray] border-none my-2" />
                 <Heading className={'text-black text-xl font-semibold py-2'} text={sectionTitles.mainInformation} />
                 <div className=' flex justify-center items-center flex-wrap gap-4'>
-                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>{label.caste}</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.religiousDetails?.caste}</strong></p>
-                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>{label.subCaste}</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.religiousDetails?.subCaste}</strong></p>
-                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg   '> <small className=' text-[14px] '>{label.occupation}</small> <strong className='text-[18px] text-center  flex items-center text-primary '> {bio?.professionalDetails?.occupation}</strong></p>
+                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>{label.caste}</small> <strong className='text-[18px] text-center flex items-center text-primary'> {opinions?.religiousDetails?.caste[bio?.religiousDetails?.caste || '-']} </strong></p>
+                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg'> <small className=' text-[14px] '>{label.subCaste}</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.religiousDetails?.subCaste}</strong></p>
+                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg   '> <small className=' text-[14px] '>{label?.occupation}</small> <strong className='text-[18px] text-center  flex items-center text-primary '> {bio?.professionalDetails?.occupation}</strong></p>
                     <p className='flex flex-col justify-center items-center bg-goldan w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>{label.income}</small> <strong className='text-[18px] text-center flex items-center'>{formatAmount(bio?.professionalDetails?.income)}</strong></p>
                 </div>
             </div>
@@ -285,13 +286,13 @@ const isLiked =  useCallback((id: string) => {
 
                 <button
                     onClick={() => handleShearClick(bio?.userId, bio?._id)}
-                    disabled={isLoading || isLiked(bio?._id)}
-                    className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
+                    disabled={isLoading || isLiked(bio?. userId?.toString())}
+                    className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLoading || isLiked(bio?. userId?.toString()) ? 'opacity-70 cursor-not-allowed' : ''
                         }`}
                 >
                    
 
-                    {isLoading ? (
+                    {isLoading  ? (
                         <>
                             <svg
                                 className="animate-spin h-5 w-5 text-white mr-2"
@@ -315,8 +316,13 @@ const isLiked =  useCallback((id: string) => {
                             </svg>
                             <span>Shearing...</span>
                         </>
-                    ) : (
-                        <span>{isLoading ? 'Shearing' : label.sendBio}</span>
+                    ) : (<>
+                            { isLiked(bio?.userId?.toString()) ? (
+                                <span>{label.biosended}</span>
+                            ) : (
+                                  <span>{isLoading ? 'Shearing' : label.sendBio}</span>
+                            )}
+                        </>
                     )}
                 </button>
             </ConfettiButton>

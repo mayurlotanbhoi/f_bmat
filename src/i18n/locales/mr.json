@@ -92,7 +92,8 @@
     "ageRange": "वय मर्यादा",
     "heightRange": "उंची मर्यादा",
     "locationPreference": "स्थान पसंती",
-    "sendBio": "बायोडाटा पाठवा"
+    "sendBio": "बायोडाटा पाठवा",
+    "biosended": "बायोडाटा पाठवला"
   },
   "sectionTitles": {
     "personalDetails": "वैयक्तिक माहिती",
