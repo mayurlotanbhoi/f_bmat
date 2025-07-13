@@ -1,17 +1,20 @@
 
+import { use } from 'react';
 import { AiFillLike } from 'react-icons/ai';
 import { FaHome, FaQrcode, FaUserCircle } from 'react-icons/fa';
 import { IoMdHeartDislike } from 'react-icons/io';
 import { Link, useLocation } from 'react-router-dom';
+import { useLocalization } from '../../hooks';
 
 const Footer = () => {
     const location = useLocation()?.pathname
+    const mobieMenu = useLocalization('mobieMenu');
 
     const links = [
-        { key: 'home', label: 'Home', to: '/', icon: <FaHome size={30} /> },
-        { key: 'matches', label: 'Matches', to: '/matches', icon: <IoMdHeartDislike size={30} /> },
-        { key: 'likes', label: 'Likes', to: '/likes', icon: <AiFillLike size={30} /> },
-        { key: 'profile', label: 'user', to: '/user', icon: <FaUserCircle size={30} /> }
+        { key: 'home', label: mobieMenu.home, to: '/', icon: <FaHome size={30} /> },
+        { key: 'matches', label: mobieMenu.matches, to: '/matches', icon: <IoMdHeartDislike size={30} /> },
+        { key: 'likes', label: mobieMenu.likes, to: '/likes', icon: <AiFillLike size={30} /> },
+        { key: 'profile', label: mobieMenu.myProfile, to: '/user', icon: <FaUserCircle size={30} /> }
     ];
 
     return (

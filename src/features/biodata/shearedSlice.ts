@@ -23,5 +23,5 @@ const userSlice = createSlice({
 });
 
 export const { addShearedBio, removeShearedBio } = userSlice.actions;
-export const selectShearedBio = (state: { shearedBio: UserState }) => state.shearedBio.shearedBio;
+export const getShearedBio = (state: { shearedBio: UserState }) => state.shearedBio.shearedBio;
 export default userSlice.reducer;

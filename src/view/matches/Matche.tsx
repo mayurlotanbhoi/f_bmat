@@ -5,6 +5,9 @@ import { calculateAge } from '../../util/dateFormat';
 import { formatAmount } from '../../util/commans';
 import Heading from '../../components/Headings/Heading';
 import { useLocalization } from '../../hooks';
+import { getShearedBio } from '../../features/biodata/shearedSlice';
+import { useSelector } from 'react-redux';
+import { useCallback } from 'react';
 
 interface Bio {
     [key: string]: any;
@@ -12,10 +15,17 @@ interface Bio {
 
 const Matche = () => {
     const { data, isLoading, isError } = useGetMatchQuery('');
+    const likes = useSelector(getShearedBio);
     const matches = useLocalization('matches')
     const sendBio = useLocalization('sendBio')
     const options = useLocalization('options')
-    console.log("options",options)
+
+   const isLiked =  useCallback((id: string) => {
+    const like = likes?.map((like) => like?._id);
+    if (!like) return false;
+        return like.includes(id);
+    }, [likes]);
+
 
     if (isLoading) return <p className="text-center text-gray-500">Loading...</p>;
     if (isError) return <p className="text-center text-red-500">No Match Found!</p>;
@@ -41,11 +51,9 @@ const Matche = () => {
 
                 const photo = match?.profilePhotos?.[0] || '/placeholder.jpg';
                 const city = match?.contactDetails?.presentAddress?.city;
-                const state = match?.contactDetails?.presentAddress?.state;
+                const state = options.contactDetails?.presentAddress?.state[match?.contactDetails?.presentAddress?.state];
                 const matId = match?.matId || 'NA';
-
-                console.log('match', match?._id.toString());
-
+            
                 return (
                     <Link
                         to={`/vlew-profile/${match?._id.toString()}`}
@@ -90,7 +98,7 @@ const Matche = () => {
                                 </div>
                             </div>
                             <div className="flex justify-end items-center mt-2">
-                                <button className='btn bg_primary text-sm text-white px-4 rounded-md  text-bold'>{sendBio}</button>
+                                <button disabled={isLiked(match?._id.toString())} className='btn bg_primary text-sm text-white px-4 rounded-md  text-bold'>{sendBio}</button>
                             </div>
                         </div>
                     </Link>

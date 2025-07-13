@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useLazyGetBiodataQuery, useLazyViewLikesQuery, useShareBioDataMutation } from '../../features/biodata/biodataApi';
 import { MdVerified } from 'react-icons/md';
@@ -13,6 +13,8 @@ import {
 import { useLocalization } from '../../hooks';
 import { formatAddress, formatAmount, formatShortAddress } from '../../util/commans';
 import { ConfettiButton } from '../../components';
+import { useSelector } from 'react-redux';
+import { getShearedBio } from '../../features/biodata/shearedSlice';
 
 export default function ViewBio({ biodata }: { biodata?: any }) {
     const { id } = useParams();
@@ -23,12 +25,21 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
     const [vieViewLikes] = useLazyViewLikesQuery();
      const [shearBioData] = useShareBioDataMutation();
 
-         const [isLoading, setIsLoadoding] = useState(false);
+    const [isLoading, setIsLoadoding] = useState(false);
     const label = useLocalization('labels')
     const sectionTitles = useLocalization('sectionTitles')
+    const opinions = useLocalization('options');
     const [currectSection, setCurrectSection] = useState(sectionTitles.personalDetails);
+ const likes = useSelector(getShearedBio);
 
-
+const isLiked =  useCallback((id: string) => {
+    
+    const like = likes?.map((like) => like?.sharedId);
+    console.log("ids", like, id)
+    console.log("likes", like.includes(id))
+    if (!like) return false;
+        return like.includes(id);
+    }, [likes]);
     const getBiodatacall = async (id: any) => {
         try {
             const response = await getBiodata(id);
@@ -56,51 +67,57 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
         { label: label.income, value: `₹${professionalDetails?.income}` },
     ];
 
+    // opinions?.personalDetails.gender[]
+
     const tabs = {
         Personal: [
-            { label: label.gender, value: personalDetails?.gender },
+            { label: label.gender, value: opinions?.personalDetails.gender[personalDetails?.gender] },
             { label: label.dob, value: new Date(personalDetails?.dateOfBirth).toLocaleDateString() },
-            { label: label.maritalStatus, value: personalDetails?.maritalStatus },
-            { label: label.height, value: personalDetails?.height },
-            { label: label.weight, value: personalDetails?.weight },
-            { label: label.complexion, value: personalDetails?.complexion },
-            { label: label.disability, value: personalDetails?.disability },
+            { label: label.age, value: calculateAge(personalDetails?.dateOfBirth) },
+            { label: label.maritalStatus, value: opinions?.personalDetails.maritalStatus[personalDetails?.maritalStatus] },
+            { label: label.height, value: opinions?.personalDetails.height[personalDetails?.height] },
+            { label: label.weight, value: opinions?.personalDetails.weight[personalDetails?.weight] },
+            { label: label.complexion, value: opinions?.personalDetails.complexion[personalDetails?.complexion] },
+            { label: label.disability, value: opinions?.personalDetails.disability[personalDetails?.disability] },
         ],
+        // opinions.education[]
         Education: [
-            { label: label.qualification, value: educationDetails?.highestQualification },
+            { label: label.qualification, value: opinions?.educationDetails.highestQualification[educationDetails?.highestQualification] },
             { label: label.specialization, value: educationDetails?.specialization },
         ],
         Profession: [
-            { label: label.occupation, value: professionalDetails?.occupation },
+            { label: label.occupation, value: opinions.professionalDetails.occupation[ professionalDetails?.occupation] },
+            { label: label.companyName, value: professionalDetails?.companyName },
+            { label: label.jobType, value: opinions.professionalDetails.jobType[professionalDetails?.jobType] },
             { label: label.income, value: `₹${professionalDetails?.income}` },
             { label: label.workingCity, value: professionalDetails?.workingCity },
-            { label: label.workFromHome, value: professionalDetails?.workFromHome },
+            { label: label.workFromHome, value: opinions.professionalDetails.workFromHome[professionalDetails?.workFromHome] },
         ],
         Contact: [
             { label: label.phone, value: contactDetails?.mobileNo },
             { label: label.whatsapp, value: contactDetails?.whatsappNo },
             { label: label.email, value: contactDetails?.email },
             { label: label.city, value: contactDetails?.presentAddress?.city },
-            { label: label.state, value: contactDetails?.presentAddress?.state },
+            { label: label.state, value: opinions.contactDetails.presentAddress.state[contactDetails?.presentAddress?.state] },
         ],
         Family: [
             { label: label.father, value: familyDetails?.fatherName },
-            { label: label.fatherOccupation, value: familyDetails?.fatherOccupation },
+            { label: label.fatherOccupation, value: opinions.professionalDetails.occupation[familyDetails?.fatherOccupation] },
             { label: label.mother, value: familyDetails?.motherName },
-            { label: label.motherOccupation, value: familyDetails?.motherOccupation },
+            { label: label.motherOccupation, value: opinions.professionalDetails.occupation[familyDetails?.motherOccupation] },
             { label: label.brothers, value: familyDetails?.brothers },
             { label: label.marriedBrothers, value: familyDetails?.marriedBrothers },
             { label: label.sisters, value: familyDetails?.sisters },
             { label: label.marriedSisters, value: familyDetails?.marriedSisters },
         ],
         Lifestyle: [
-            { label: label.smoking, value: lifestyleDetails?.smoking },
-            { label: label.drinking, value: lifestyleDetails?.drinking },
-            { label: label.eatingHabits, value: lifestyleDetails?.eatingHabits },
+            { label: label.smoking, value: opinions.lifestyleDetails.smoking[lifestyleDetails?.smoking] },
+            { label: label.drinking, value: opinions.lifestyleDetails.drinking[lifestyleDetails?.drinking] },
+            { label: label.eatingHabits, value: opinions.lifestyleDetails.eatingHabits[lifestyleDetails?.eatingHabits] },
         ],
         Expectations: [
-            { label: label.qualification, value: expectation?.education?.join(', ') },
-            { label: label.occupation, value: expectation?.occupation?.join(', ') },
+            { label: label.qualification, value: expectation?.education?.map(item => opinions.educationDetails.highestQualification[item]).join(', ') },
+            { label: label.occupation, value: expectation?.occupation?.map(item => opinions.professionalDetails.occupation[item]).join(', ') },
             { label: label.locationPreference, value: expectation?.locationPreference },
             { label: label.ageRange, value: expectation?.ageRange },
             { label: label.heightRange, value: expectation?.heightRange },
@@ -268,10 +285,11 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
 
                 <button
                     onClick={() => handleShearClick(bio?.userId, bio?._id)}
-                    disabled={isLoading}
+                    disabled={isLoading || isLiked(bio?._id)}
                     className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
                         }`}
                 >
+                   
 
                     {isLoading ? (
                         <>

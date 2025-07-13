@@ -14,6 +14,13 @@
   "search": "शोधा",
   "language": "भाषा"
 },
+"mobieMenu": {
+    "home": "मुख्य",
+    "myProfile": "प्रोफाइल",
+    "matches": "जुळण्या",
+    "likes": "आवड",
+    "language": "भाषा"
+  },
   "like": "आवड",
   "matches": "विवाहाला योग्य",
   "education": "शिक्षण",
@@ -353,7 +360,10 @@
       },
       "workFromHome": {
         "yes": "होय",
-        "no": "नाही"
+        "no": "नाही",
+        "No": "नाही",
+        "sometimes": "कधी कधी",
+        "Yes": "होय"
       },
       "occupation": {
         "IAS / IPS / IFS": "IAS / IPS / IFS",

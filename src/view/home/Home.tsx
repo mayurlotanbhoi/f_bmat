@@ -32,9 +32,11 @@ export default function Home() {
     const { mainMenu } = appConfig;
     const bios = profilesData;
     const Cartclores = ['#89A6F0', '#FFC969', '#FC72AA', '#47E76F',]
-useEffect(() => {
+   useEffect(() => {
     getLikes('')
   }, [])
+
+  
 
 
     // Remove auto-open of install Drawer on mount. Only open install Drawer when user triggers it (setAppInstall).
@@ -43,6 +45,7 @@ useEffect(() => {
     const onAppInstall = () => {
         setClikOnInstall(true);
         installApp();
+        localStorage.setItem('isAppInstall', 'true');
         setTimeout(() => {
             setClikOnInstall(false);
             setAppInstall(false);
@@ -50,6 +53,7 @@ useEffect(() => {
         }, 4000);
     }
 
+    console.log("hasUpdate || !isInstalled || isAppInstall", hasUpdate , !isInstalled , isAppInstall);
 
     return (
         <div className=" pb-20 md:pb-10">
@@ -99,7 +103,7 @@ useEffect(() => {
             <Matche />
 
             <Drawer
-                isOpen={false ||hasUpdate || (!isInstalled && isAppInstall)}
+                isOpen={hasUpdate &&  localStorage.getItem('isAppInstall') !== 'true'}
                 position="bottom"
                 padding="p-0"
                 widthClass="w-100"

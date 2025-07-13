@@ -273,7 +273,14 @@ const validationSchemas = [
 
     Yup.object({
         expectation: Yup.object({
-            ageRange: Yup.string().nullable(),
+            ageRange: Yup.string()
+                    .matches(/^(\d{1,2})-(\d{1,2})$/, "Format should be like 24-29")
+                    .test("min-max", "Min age must be less than max age", value => {
+                        if (!value) return true;
+                        const [min, max] = value.split("-").map(Number);
+                        return min < max;
+                    })
+                    .notRequired(),
             heightRange: Yup.string().nullable(),
             income: Yup.string().nullable(),
             religion: Yup.string().nullable(),
@@ -960,8 +967,8 @@ const MultiStepForm: React.FC = () => {
             <div className=" min-h-screen   grid grid-rows-[auto_1fr]  mx-auto   rounded-xl shadow-md">
                 {/* <div className="fixed top-0  left-0"> */}
                 <div className="flex flex-col   grid-cols-2 justify-between mb-2   px-4 bg-white">
-                    <button className="  mt-2 mb-[-0.8rem] " >
-                        <GoArrowLeft onClick={handleBack} className="cursor-pointer" size={30} />
+                    <button onClick={handleBack} className="  mt-2 mb-[-0.8rem] " >
+                        <GoArrowLeft  className="cursor-pointer" size={30} />
                     </button>
                     <FormProgess current={step + 1} total={steps.length} live={steps[step]?.label || ""} prev={steps[step - 1]?.label || ""} next={isLastStep ? 'Last ' : steps[step + 1]?.label} />
                     {/* <div className="text-sm text-gray-500">
