@@ -45,7 +45,6 @@ export default function Home() {
     const onAppInstall = () => {
         setClikOnInstall(true);
         installApp();
-        localStorage.setItem('isAppInstall', 'true');
         setTimeout(() => {
             setClikOnInstall(false);
             setAppInstall(false);
@@ -104,7 +103,7 @@ export default function Home() {
             <Matche />
 
             <Drawer
-                isOpen={hasUpdate || isInstalled }
+                isOpen={hasUpdate || !isInstalled }
                 position="bottom"
                 padding="p-0"
                 widthClass="w-100"
