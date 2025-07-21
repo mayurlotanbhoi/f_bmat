@@ -103,7 +103,7 @@ export default function Home() {
             <Matche />
 
             <Drawer
-                isOpen={hasUpdate || !isInstalled }
+                isOpen={hasUpdate }
                 position="bottom"
                 padding="p-0"
                 widthClass="w-100"
