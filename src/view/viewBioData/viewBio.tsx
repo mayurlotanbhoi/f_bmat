@@ -42,6 +42,7 @@ const isLiked =  useCallback((id: string) => {
     if (!like) return false;
         return like.includes(id);
     }, [likes]);
+    
     const getBiodatacall = async (id: any) => {
         try {
             const response = await getBiodata(id);

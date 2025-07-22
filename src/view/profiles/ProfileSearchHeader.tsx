@@ -149,7 +149,7 @@ export default function ProfileSearchHeader() {
                                 {data?.data?.map((profiles, index) => (
                                     <Link to={`/vlew-profile/${profiles?._id
                                         }`} className="flex items-center py-4 text-gray-900 whitespace-nowrap dark:text-white">
-                                        <img className="w-10 h-10 object-cover  rounded-full" src={profiles?.profilePhotos[0]} loading='lazy' alt="Jese image" />
+                                        <img className="w-10 h-10 object-fit aspect-square  rounded-full" src={profiles?.profilePhotos[0]} loading='lazy' alt="Jese image" />
                                         <div className="ps-3">
                                             <div className="text-gray-600 font-semibold break-words whitespace-normal">
                                                 {profiles?.personalDetails?.fullName}

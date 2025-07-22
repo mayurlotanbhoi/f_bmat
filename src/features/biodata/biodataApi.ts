@@ -10,6 +10,7 @@ export const biodataApi = baseApi.injectEndpoints({
                 method: 'POST',
                 body: data,
             }),
+            invalidatesTags: ['Biodata-sheared'],
         }),
 
         getLikes: builder.query<any, string>({
@@ -17,6 +18,7 @@ export const biodataApi = baseApi.injectEndpoints({
                 url: `/biodata/shared`,
                 method: 'GET',
             }),
+            providesTags: ['Biodata-sheared'],
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
@@ -25,6 +27,7 @@ export const biodataApi = baseApi.injectEndpoints({
                     if (data?.success){
                         dispatch(addShearedBio(data?.data?.sent || []));
                     }
+                    
                     // dispatch(setUser(data)); // from userSlice
                     // dispatch(addShearedBio(data));
                 } catch (err) {

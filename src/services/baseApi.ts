@@ -61,6 +61,6 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 export const baseApi = createApi({
     reducerPath: 'baseApi',
     baseQuery: baseQueryWithReauth,
-    tagTypes: ['User'], // REGISTER your tag types here
+    tagTypes: ['User', 'Biodata-sheared'], // REGISTER your tag types here
     endpoints: () => ({}),
 });

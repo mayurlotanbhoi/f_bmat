@@ -7,29 +7,50 @@ import Heading from '../../components/Headings/Heading';
 import { useLocalization } from '../../hooks';
 import { getShearedBio } from '../../features/biodata/shearedSlice';
 import { useSelector } from 'react-redux';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
+import { ConfettiButton } from '../../components';
+import { useShareBioDataMutation } from '../../features/biodata/biodataApi';
 
 interface Bio {
     [key: string]: any;
 }
 
 const Matche = () => {
-    const { data, isLoading, isError } = useGetMatchQuery('');
+    const { data,  isError } = useGetMatchQuery('');
+     const [shearBioData] = useShareBioDataMutation();
+    
+        const [isLoading, setIsLoadoding] = useState(false);
     const likes = useSelector(getShearedBio);
     const matches = useLocalization('matches')
     const sendBio = useLocalization('sendBio')
     const options = useLocalization('options')
+     const label = useLocalization('labels')
 
    const isLiked =  useCallback((id: string) => {
-    // @ts-ignore
-    const like = likes?.map((like) => like?._id);
-    if (!like) return false;
-        return like.includes(id);
-    }, [likes]);
+       console.log("id", id, likes)
+       // @ts-ignore
+       const like = likes?.map((like) => like?.toUser?._id);
+       console.log("ids", like, id)
+       console.log("likes", like.includes(id))
+       if (!like) return false;
+           return like.includes(id);
+       }, [likes]);
 
 
-    if (isLoading) return <p className="text-center text-gray-500">Loading...</p>;
-    if (isError) return <p className="text-center text-red-500">No Match Found!</p>;
+    // if (isLoading) return <p className="text-center text-gray-500">Loading...</p>;
+    // if (isError) return <p className="text-center text-red-500">No Match Found!</p>;
+
+    const handleShearClick = async (toUserId , profileId ) => {
+
+        try {
+            setIsLoadoding(true);
+            await shearBioData({ toUserId, profileId });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setIsLoadoding(false);
+        }
+    };
 
 
     return (
@@ -54,20 +75,24 @@ const Matche = () => {
                 const city = match?.contactDetails?.presentAddress?.city;
                 const state = options.contactDetails?.presentAddress?.state[match?.contactDetails?.presentAddress?.state];
                 const matId = match?.matId || 'NA';
+
+                // console.log("match", match)
             
                 return (
-                    <Link
-                        to={`/vlew-profile/${match?._id.toString()}`}
-                        key={index}
-                        className=' mt-2 m-5 bg-white hover:bg-gray-100 transition-all duration-300 rounded-lg shadow-md hover:shadow-lg'
-                    >
+                    <>
+                   
 
                         <div
 
                             id="toast-notification"
-                            className="w-full md:max-w-[350px] p-4 relative text-gray-900 bg-white rounded-lg shadow "
+                            className="w-full md:max-w-[400px] p-4 relative text-gray-900 bg-white rounded-lg shadow my-2"
                             role="alert"
                         >
+                             <Link
+                        to={`/vlew-profile/${match?._id.toString()}`}
+                        key={index}
+                        className=' '
+                    >
                             <div className="flex items-center justify-between mb-3">
                                 <span className="mb-1 text-sm font-semibold text-primary dark:text-white" >
                                     {name}</span >
@@ -98,11 +123,59 @@ const Matche = () => {
 
                                 </div>
                             </div>
+                        
+                            </Link>
+
                             <div className="flex justify-end items-center mt-2">
-                                <button disabled={isLiked(match?._id.toString())} className='btn bg_primary text-sm text-white px-4 rounded-md  text-bold'>{sendBio}</button>
-                            </div>
+                             <ConfettiButton>
+                            
+                                            <button
+                                    onClick={() => { handleShearClick(match?.userId, match?._id)}}
+                                    disabled={isLoading || isLiked(match?.userId?.toString())}
+                                    className={` bg_primary text-white py-1 px-3 rounded-lg transition flex items-center justify-end  ${isLoading || isLiked(match?.userId?.toString()) ? 'opacity-70 cursor-not-allowed' : ''
+                                                    }`}
+                                            >
+                                               
+                            
+                                                {isLoading  ? (
+                                                    <>
+                                                        {/* <svg
+                                                            className="animate-spin h-5 w-5 text-white mr-2"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                        >
+                                                            <circle
+                                                                className="opacity-25"
+                                                                cx="12"
+                                                                cy="12"
+                                                                r="10"
+                                                                stroke="currentColor"
+                                                                strokeWidth="4"
+                                                            />
+                                                            <path
+                                                                className="opacity-75"
+                                                                fill="currentColor"
+                                                                d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
+                                                            />
+                                                        </svg> */}
+                                                        <span>Shearing...</span>
+                                                    </>
+                                                ) : (<>
+                                            {isLiked(match?.userId?.toString()) ? (
+                                                            <span>{label.biosended}</span>
+                                                        ) : (
+                                                              <span>{isLoading ? 'Shearing' : label.sendBio}</span>
+                                                        )}
+                                                    </>
+                                                )}
+                                            </button>
+                                        </ConfettiButton>
+                                        </div>
+
                         </div>
-                    </Link>
+                   
+                    </>
 
                     // </>
                 );

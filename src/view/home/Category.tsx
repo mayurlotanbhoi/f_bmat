@@ -16,8 +16,8 @@ export default function Category() {
     return (
         <>
             <Heading className="text-xl mt-2 font-semibold" text={home.category} />
-            <div className="w-full overflow-x-auto no-scrollbar scroll-smooth pt-2 px-3">
-                <div className="flex gap-4 min-w-max">
+            <div className="w-full overflow-x-auto no-scrollbar scroll-smooth pt-2 ">
+                <div className=" gap-4 min-w-max flex justify-between">
                     {category.map((item, index) => (
                         <motion.div
                             key={index}
