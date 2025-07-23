@@ -1,93 +1,77 @@
-
-import QRCode from 'react-qr-code'; // Or 'react-qr-code'
-import { motion } from "framer-motion";
+import QRCode from 'react-qr-code';
+import { motion } from 'framer-motion';
 
 const PaymentQrCode = ({ profile }) => {
-    const upiId = "mayur.bhoi1@ybl"; // <-- Replace
-    const name = "mayur bho";       // <-- Replace
-    const amount = "";              // Optional fixed amount
-    const note = `Support Matrimony: Profile ${profile?.professionalDetails?.fullName}`;
+    const upiId = 'mayur.bhoi1@ybl';
+    const name = 'Mayur Bhoi';
+    const amount = ''; // Optional: leave empty to allow user-defined amount
+    const note = `Support Matrimony: Profile ${profile?.professionalDetails?.fullName || ''}`;
     const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
 
     const paymentApps = [
         {
-            name: "UPI App",
+            name: 'Any UPI App',
             url: upiUrl,
-            color: "bg-blue-600",
-            hover: "hover:bg-blue-700",
-        },
-        {
-            name: "Google Pay",
-            url: `https://pay.google.com/gp/p/ui/pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`,
-            color: "bg-green-600",
-            hover: "hover:bg-green-700",
-        },
-        {
-            name: "PhonePe",
-            url: `phonepe://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`,
-            color: "bg-purple-600",
-            hover: "hover:bg-purple-700",
-        },
-        {
-            name: "Paytm",
-            url: `paytmmp://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`,
-            color: "bg-indigo-600",
-            hover: "hover:bg-indigo-700",
+            color: 'bg-gradient-to-r from-pink-500 to-yellow-500',
+            hover: 'hover:opacity-90',
         },
     ];
 
     return (
         <motion.div
-            className="max-w-md mx-auto mt-10 p-6 rounded-2xl shadow-lg bg-white border"
-            initial={{ opacity: 0, y: 20 }}
+            className="max-w-md mx-auto p-6 rounded-3xl shadow-xl bg-white"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            transition={{ duration: 0.5 }}
         >
-            <h2 className="text-2xl font-semibold text-gray-800 text-center mb-4">
-                Support Our Free Matrimony Service
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
+                ❤️ Help Keep Matrimony Free
             </h2>
 
-            <div className="flex flex-col items-center gap-2">
-                <QRCode value={upiUrl} size={160} />
-                <p className="text-center text-gray-600 text-sm mt-2">
-                    Scan this QR or click a button to pay via UPI<br />
-                    <span className="font-mono text-xs text-gray-500">{upiId}</span>
-                </p>
+            <p className="text-center text-gray-600 text-base mb-6">
+                We proudly offer 100% free profiles for the first <span className="font-semibold text-green-700">1000 members</span>.
+                No hidden charges – ever.
+                <br />
+                If our effort touches your heart, support us with any amount. Even ₹30 helps!
+            </p>
+
+            <div className="flex justify-center mb-4">
+                <QRCode value={upiUrl} size={180} className="rounded-xl border p-1 bg-white shadow" />
             </div>
 
-            <div className="grid grid-cols-2 gap-3 mt-6">
+            <p className="text-center text-gray-500 text-sm mb-4">
+                Scan above or tap below to open your UPI app
+            </p>
+
+            <div className="grid grid-cols-1 gap-3">
                 {paymentApps.map((app) => (
                     <a
                         key={app.name}
                         href={app.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`text-sm px-4 py-2 rounded-xl text-white text-center font-medium transition ${app.color} ${app.hover}`}
-                        aria-label={`Pay using ${app.name}`}
+                        className={`text-white font-semibold px-4 py-2 rounded-xl text-center transition-all duration-200 ${app.color} ${app.hover}`}
                     >
-                        {app.name}
+                        {`Pay using ${app.name}`}
                     </a>
                 ))}
             </div>
 
-            <div className="mt-6 p-4 rounded-lg border border-green-300 bg-green-50 text-green-800">
-                <div className="flex items-start gap-2">
+            <div className="mt-6 p-4 rounded-xl border border-dashed border-green-400 bg-green-50 text-green-800">
+                <div className="flex items-start gap-3">
                     <svg
-                        className="w-5 h-5 mt-1 shrink-0"
+                        className="w-6 h-6 shrink-0 mt-1 text-green-600"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                     >
                         <path d="M10 .5a9.5 9.5 0 100 19 9.5 9.5 0 000-19zM9.5 4a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM12 15H8a1 1 0 010-2h1v-3H8a1 1 0 010-2h2a1 1 0 011 1v4h1a1 1 0 010 2z" />
                     </svg>
                     <div>
-                        <h3 className="font-semibold text-base">
-                            This service is 100% free for all users.
-                        </h3>
+                        <h4 className="text-base font-semibold">Why We Ask</h4>
                         <p className="text-sm mt-1 leading-relaxed">
-                            We do not charge for registration, search, or contact.
-                            If you'd like to help with server & maintenance costs, feel free to contribute.
+                            We don’t charge for registration, browsing, or messaging. Your kind donation helps cover server, SMS, and support costs — to continue serving the community with love. 💚
                             <br />
-                            <strong>Even ₹30 (just 1 toffee/day!) helps us stay free for everyone.</strong>
+                            <strong>Give only if you wish. There’s no obligation.</strong>
                         </p>
                     </div>
                 </div>

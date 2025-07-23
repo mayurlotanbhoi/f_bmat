@@ -7,6 +7,8 @@ import Location from "../assets/images/location.png"
 import vadhuIcon from "../assets/images/vadhuIcon.jpg"
 import varIcon from "../assets/images/varIcon.jpg"
 import langicom from "../assets/images/langIcon.png"
+import divorcee from "../assets/images/divorce.svg"
+import couple from "../assets/images/couple.png"
 
 
 
@@ -15,10 +17,12 @@ export {
     welcome,
     vadhuIcon,
     varIcon,
+    divorcee,
     bioHeader,
     BioHeader,
     bioHeader1,
     searchbanner,
     Location,
-    langicom
+    langicom,
+    couple
 }

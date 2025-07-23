@@ -10,10 +10,12 @@ import { useEffect, useState } from "react";
 import Modal from "../../components/Common/Modal";
 import { useLocalization, usePwaPrompt } from "../../hooks";
 import { useAuth } from "../../hooks/useAuth";
+import { motion, useTransform } from "framer-motion";
+
 
 import { getMatrimony } from "../../features/matrimony/matrimonySlice";
 import Matche from "../matches";
-import { vadhuIcon, varIcon } from "../../util/images.util";
+import { couple, divorcee, vadhuIcon, varIcon } from "../../util/images.util";
 import Drawer from "../../components/Common/Drawer";
 import { usePwaStatus } from "../../hooks/usePwaStatus";
 import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
@@ -25,7 +27,7 @@ export default function Home() {
     const [getLikes, { data, isLoading }] = useLazyGetLikesQuery()
     const [isAppInstall, setAppInstall] = useState(false)
     const { isInstalled, hasUpdate } = usePwaStatus();
-    const [menuIcons, setMenuIcons] = useState([vadhuIcon, varIcon])
+    const [menuIcons, setMenuIcons] = useState([vadhuIcon, varIcon, divorcee, couple])
     const { installApp } = usePwaPrompt();
     const profile = getMatrimony();
     const menu = useLocalization("menu")
@@ -71,15 +73,29 @@ export default function Home() {
                 {/* <img src={bioHeader1} /> */}
                 <BannerCarouselWrapper />
                 <Category />
+                <motion.div
+                   
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay:  0.05, duration: 0.3 }}
+                >
                 <CompletProfile profile={{
                     complition: profile?.profileCompletion ?? 0,
                     avatar: profile?.profilePhotos?.[0] ?? '/default-avatar.png',
                     name: profile?.personalDetails?.fullName ?? 'Guest User',
                 }} />
+                </motion.div>
+                <motion.div
+
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05, duration: 0.3 }}
+                >
                 <div className="mt-3">
                     <div className="w-full text-right my-2"><Link to={'/profile'} className="text-blue-600 hover:underline" >All Profiles</Link></div>
                     <div className="w-100 flex flex-wrap justify-between   gap-4 ">
                         {mainMenu.map((item, index) => (
+
                             <Link
                                 key={index}
                                 to={`${item?.url}/${item?.key}`}
@@ -87,10 +103,10 @@ export default function Home() {
                                 className="flex flex-col items-center justify-between  w-36 h-44 rounded-2xl shadow-lg border border-rose-100 text-white transition-all duration-200 hover:scale-105"
                             >
                                 <img
-                                    src={menuIcons[Math.floor(index / 2)]}
+                                    src={menuIcons[index]}
                                     alt={`${item?.text} icon`}
                                     loading="lazy"
-                                    className=" w-36 h-44 rounded-2xl  drop-shadow-md"
+                                    className=" w-36 h-44 rounded-2xl bg-white  drop-shadow-md"
                                 />
                                 <div className="mb-4 text-center">
                                     <h3 className="text-lg font-semibold capitalize">{menu[index]}</h3>
@@ -99,8 +115,11 @@ export default function Home() {
                         ))}
                     </div>
                 </div>
+                </motion.div>
             </div >
             <Matche />
+            
+            
 
             <Drawer
                 isOpen={hasUpdate }

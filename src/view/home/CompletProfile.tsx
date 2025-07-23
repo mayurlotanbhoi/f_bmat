@@ -42,7 +42,7 @@ export default function CompletProfile({ profile }: ProfileProps) {
                         {complition}%
                     </div>
                 </div>:
-                 <div className="w-full flex justify-between gap-1  bg-white sticky bottom-0">
+                 <div className="w-full flex justify-between gap-1   sticky bottom-0">
                                         <Link
                                         to={'/complet-profile'}
                                            
@@ -54,9 +54,9 @@ export default function CompletProfile({ profile }: ProfileProps) {
                         </Link>
                 
                         <Link
-                            to={'/complet-profile'}
+                            to={'/bio-download'}
                                             type="submit"
-                                            className="flex items-center text-sm justify-center gap-2 px-5 py-1 border-2 bg_primary text-white font-bold rounded-lg w-full"
+                                            className="flex items-center text-sm justify-center gap-2 px-5 py-1 bg_primary text-white font-bold rounded-lg w-full"
                                         >
                             <MdOutlineFileDownload size={20} />
                                             Download

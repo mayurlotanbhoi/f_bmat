@@ -27,7 +27,14 @@ export const appConfig = {
             gradientTo: '#fad0c4',
         },
         {
-            key: 'education',
+            key: 'nearBy',
+            text: '10th, 12th',
+            image: vadhuIcon,
+            gradientFrom: '#a18cd1',
+            gradientTo: '#fbc2eb',
+        },
+        {
+            key: '10-12',
             text: '10th, 12th',
             image: vadhuIcon,
             gradientFrom: '#a18cd1',

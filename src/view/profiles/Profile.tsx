@@ -558,7 +558,7 @@ export default function Profile() {
     return (
         <>
             <ProfileSearchHeader />
-            {profileData.length === 0 && Object.values(filter).every(
+            {loading && profileData.length === 0 && Object.values(filter).every(
                 v => v === null || v === undefined || v === '' ||
                     (Array.isArray(v) && v.length === 0) ||
                     (typeof v === 'object' && !Array.isArray(v) && Object.keys(v).length === 0)

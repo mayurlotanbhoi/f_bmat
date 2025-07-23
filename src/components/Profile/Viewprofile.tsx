@@ -8,6 +8,7 @@ import UserProfileCard from './PersonalBioCard';
 import { useShareBioDataMutation } from '../../features/biodata/biodataApi';
 import { ConfettiButton } from '../Common';
 import { useLocalization } from '../../hooks';
+import { makeCall, sendWhatsAppMessage } from '../../util';
 
 interface ViewProfileProps {
     bio: {
@@ -58,8 +59,8 @@ export default function Viewprofile({ bio }: ViewProfileProps) {
                         <div className=' my-5 '>
                             <strong className='text-xl'>{bio?.personalDetails?.name}</strong>
                             <div className=' flex justify-between my-4'>
-                                <button className='btn   secondary-btn'> <FaLock size={15} /> <p>{labels?.callNow}</p> </button>
-                                <button className='btn   therd-btn'> <IoLogoWhatsapp size={15} /> <p>{labels?.whatsapp}</p> </button>
+                                <button onClick={() => makeCall(bio?.contactDetails?.mobileNo)} className='btn   secondary-btn'> <FaLock size={15} /> <p>{labels?.callNow}</p> </button>
+                                <button onClick={() => sendWhatsAppMessage({ phoneNumber: bio?.contactDetails?.whatsappNo, message: 'we love you', biodataUrl: `http://localhost:5173/vlew-profile//vlew-profile/${bio?._id}`})} className='btn   therd-btn'> <IoLogoWhatsapp size={15} /> <p>{labels?.whatsapp}</p> </button>
                             </div>
                             <div className='flex justify-start items-center gap-1 capitalize'><CiLocationOn size={20} /> <small className='text-[16px] '>pune, maharashtra</small></div>
                         </div>
