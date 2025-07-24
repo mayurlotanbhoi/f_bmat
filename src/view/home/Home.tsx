@@ -2,15 +2,12 @@ import { Link } from "react-router-dom";
 import BannerCarouselWrapper from "../../components/Swiper/ImageSwiper";
 import { appConfig } from "../../config/appCinfig";
 import Category from "./Category";
-import { AppDownloading, AppInstall, FullFirework, Matches } from "../../components";
+import { AppDownloading, AppInstall, FullFirework } from "../../components";
 import { profilesData } from "../../data/profiles";
-import Heading from "../../components/Headings/Heading";
 import CompletProfile from "./CompletProfile";
-import { useEffect, useState } from "react";
-import Modal from "../../components/Common/Modal";
+import { useEffect, useMemo, useState } from "react";
 import { useLocalization, usePwaPrompt } from "../../hooks";
-import { useAuth } from "../../hooks/useAuth";
-import { motion, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 
 import { getMatrimony } from "../../features/matrimony/matrimonySlice";
@@ -27,7 +24,7 @@ export default function Home() {
     const [getLikes, { data, isLoading }] = useLazyGetLikesQuery()
     const [isAppInstall, setAppInstall] = useState(false)
     const { isInstalled, hasUpdate } = usePwaStatus();
-    const [menuIcons, setMenuIcons] = useState([vadhuIcon, varIcon, divorcee, couple])
+    const [menuIcons, setMenuIcons] = useState([vadhuIcon, varIcon, couple, divorcee])
     const { installApp } = usePwaPrompt();
     const profile = getMatrimony();
     const menu = useLocalization("menu")
@@ -38,11 +35,9 @@ export default function Home() {
     getLikes('')
   }, [])
 
-  
-
-
-    // Remove auto-open of install Drawer on mount. Only open install Drawer when user triggers it (setAppInstall).
-
+  const isUpdateOrInstall = useMemo(() => {
+    return isInstalled || hasUpdate;
+  }, []);
 
     const onAppInstall = () => {
         setClikOnInstall(true);
@@ -54,23 +49,11 @@ export default function Home() {
         }, 4000);
     }
 
-    console.log("hasUpdate || !isInstalled || isAppInstall", hasUpdate , !isInstalled , isAppInstall);
 
     return (
         <div className=" pb-20 md:pb-10">
 
             <div className="px-2 w-100  ">
-                {/* Example: Add a button to trigger install Drawer manually if not installed and no update */}
-                {/* {(!isInstalled && !hasUpdate) && (
-                  <button
-                    className="mb-4 px-4 py-2 bg-primary text-white rounded-lg shadow hover:bg-primary/90 transition"
-                    onClick={() => setAppInstall(true)}
-                  >
-                    Install App
-                  </button>
-                )} */}
-
-                {/* <img src={bioHeader1} /> */}
                 <BannerCarouselWrapper />
                 <Category />
                 <motion.div
@@ -122,7 +105,7 @@ export default function Home() {
             
 
             <Drawer
-                isOpen={hasUpdate }
+                isOpen={false || isUpdateOrInstall }
                 position="bottom"
                 padding="p-0"
                 widthClass="w-100"

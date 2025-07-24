@@ -1,13 +1,13 @@
 import { use, useRef, useState } from 'react';
-import html2canvas from 'html2canvas';
 import QRCode from 'react-qr-code';
 import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 import { calculateAge, formatDate } from '../../util/dateFormat';
-import { MdOutlineFileDownload, MdOutlineVerifiedUser, MdVerified } from 'react-icons/md';
+import { MdLocationOn, MdOutlineFileDownload, MdOutlineVerifiedUser, MdPhone, MdVerified, MdWhatsapp } from 'react-icons/md';
 import { BioHeader } from '../../util/images.util';
 import { FaLevelUpAlt, FaSpinner } from 'react-icons/fa';
 import { GoLink } from 'react-icons/go';
 import { toPng } from 'html-to-image';
+
 
 import { formatCurrency } from '../../util/formatCurrency';
 import { downloadAsImage } from '../../util/downloadAsImage';
@@ -17,127 +17,120 @@ import Drawer from '../../components/Common/Drawer';
 import PaymentQrCode from '../../components/Common/PaymentQrCode';
 
 export const ProfileCard = ({ profile }) => {
+  const cardRef = useRef(null);
   const labels = useLocalization('labels');
   const options = useLocalization('options');
-  const fullName = profile?.personalDetails?.fullName || "N/A";
-  const photo = profile?.profilePhotos?.[0];
+
+  const fullName = profile?.personalDetails?.fullName || 'N/A';
+  const photo = profile?.profilePhotos?.[0] || '/placeholder.jpg';
   const age = calculateAge(profile?.personalDetails?.dateOfBirth);
-  const caste = profile?.religiousDetails?.caste || "N/A";
-  const subCaste = profile?.religiousDetails?.subCaste || "N/A";
-  const income = formatCurrency(profile?.professionalDetails?.income || "0");
+  const caste = profile?.religiousDetails?.caste || 'N/A';
+  const subCaste = profile?.religiousDetails?.subCaste || 'N/A';
+  const income = formatCurrency(profile?.professionalDetails?.income || '0');
+  const location =
+    formatAddress(profile?.contactDetails?.presentAddress) ||
+    profile?.contactDetails?.presentAddress?.city ||
+    'Not Specified';
+  const phone = profile?.contactDetails?.mobileNumber;
 
   const profileUrl = `https://yourdomain.com/memberQr/${profile?.matId}`;
 
-  const shareText = encodeURIComponent(
-    `Check out ${fullName}'s profile on our Matrimony App!\nAge: ${age}, Caste: ${caste}\nIncome: ₹${income}\nClick here: ${profileUrl}`
-  );
+  const whatsappText = `🧑🏻‍💼 ${fullName}'s Profile on Bhoi Matrimony\n\n🗓 Age: ${age}\n🧬 Caste: ${subCaste}\n💰 Income: ₹${income}\n📍 Location: ${location}\n🔗 View Profile: ${profileUrl}`;
 
-  const whatsappShareUrl = `https://wa.me/?text=${shareText}`;
+  const handleWhatsAppShare = () => {
+    const url = `https://wa.me/?text=${encodeURIComponent(whatsappText)}`;
+    window.open(url, '_blank');
+  };
+
+  const handleCardImageShare = async () => {
+    try {
+      const dataUrl = await toPng(cardRef.current);
+      const blob = await (await fetch(dataUrl)).blob();
+      const file = new File([blob], 'profile.png', { type: blob.type });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: `${fullName}'s Profile`,
+          text: 'Check out this profile on Bhoi Matrimony',
+          files: [file],
+        });
+      } else {
+        alert('Image sharing is not supported on this device');
+      }
+    } catch (err) {
+      console.error('Error sharing card image:', err);
+    }
+  };
 
   return (
-    <a
-      href={whatsappShareUrl}
-      className="flex flex-col p-3 m-2 bg-white shadow-lg border border-gray-300 hover:shadow-xl rounded-2xl transition-transform transform hover:scale-105 cursor-pointer"
+    <div
+      ref={cardRef}
+      className="group relative flex flex-col md:flex-row items-center gap-5 p-5 border border-gray-200 rounded-2xl shadow-xl hover:shadow-2xl transition hover:scale-[1.02] bg-white w-full max-w-3xl mx-auto"
     >
-      <div className="flex items-center gap-4">
-        {/* Avatar */}
-        <div className="relative w-28 h-28 flex-shrink-0">
-          <img
-            src={photo}
-            alt={fullName}
-            className="w-full h-full object-cover rounded-2xl border border-gray-400"
-          />
-          <span className="absolute inset-0 rounded-2xl border-2 border-gray-600 opacity-60" />
-        </div>
-
-        {/* Info */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <h2 className="text-lg font-semibold text-gray-800 truncate capitalize">{fullName}</h2>
-            {profile?.isVerified && (
-                <MdVerified className="text-green-500" size={20} />
-            )}
-          </div>
-          <p className="text-sm text-gray-500 mt-1 truncate">
-            {labels.age}: {age} | {labels.caste}:  {subCaste} {options?.religiousDetails?.caste[caste] } | {labels.income}: {income}
-          </p>
-          <p className="text-sm text-gray-600 mt-1 flex items-center gap-1">
-            {income}
-          </p>
-        </div>
-
-
+      {/* Profile Image */}
+      <div className="relative w-32 h-32 rounded-xl overflow-hidden border border-gray-300 shadow-md">
+        {/* <img src={photo} alt={fullName} className="object-cover w-full h-full" /> */}
+        {profile?.isVerified && (
+          <MdVerified className="absolute bottom-1 right-1 text-green-500 bg-white rounded-full p-0.5" size={20} />
+        )}
       </div>
-    </a>
+
+      {/* Info Section */}
+      <div className="flex-1 w-full">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-xl font-bold text-gray-900 capitalize truncate">{fullName}</h2>
+          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">ID: {profile?.matId}</span>
+        </div>
+
+        <p className="text-gray-700 text-sm mb-1">
+          <strong>{labels.age}:</strong> {age} &nbsp;|&nbsp;
+          <strong>{labels.caste}:</strong> {subCaste} {options?.religiousDetails?.caste?.[caste]} &nbsp;|&nbsp;
+          <strong>{labels.income}:</strong> {income}
+        </p>
+
+        <p className="text-gray-600 text-sm flex items-center gap-1">
+          <MdLocationOn size={20} className="text-gray-500" />
+          {location}
+        </p>
+
+        {/* QR + Actions */}
+        <div className="mt-4 flex items-center justify-between flex-wrap gap-3">
+          <QRCode
+            value={profileUrl}
+            size={64}
+            className="border border-gray-300 p-1 rounded-md"
+          />
+
+          <div className="flex gap-2">
+            {phone && (
+              <a
+                href={`tel:${phone}`}
+                className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 border border-blue-100 px-3 py-1 rounded-lg shadow-sm hover:shadow-md transition"
+              >
+                <MdPhone size={16} /> Call
+              </a>
+            )}
+
+            <button
+              onClick={handleWhatsAppShare}
+              className="flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700 border border-green-100 px-3 py-1 rounded-lg shadow-sm hover:shadow-md transition"
+            >
+              <MdWhatsapp size={16} /> WhatsApp
+            </button>
+
+            <button
+              onClick={handleCardImageShare}
+              className="flex items-center gap-1 text-sm font-medium text-purple-600 hover:text-purple-700 border border-purple-100 px-3 py-1 rounded-lg shadow-sm hover:shadow-md transition"
+            >
+              📤 Share Card
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
-// const PaymentQrCode = (profile) => {
-//   // Replace with your actual UPI ID and name
-//   const upiId = "yourupi@okaxis"; // <-- CHANGE THIS
-//   const name = "Your Name"; // <-- CHANGE THIS
-//   const amount = ""; // e.g., "500" or leave blank for user entry
-//   const note = `Support Matrimony: Profile ${profile?.matId}`;
-//   const upiUrl = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`;
-
-//   return (
-//     <div className="flex flex-col items-center mt-4 gap-2">
-//       <h2 className="text-lg font-semibold text-gray-800">Support Our Free Matrimony Service</h2>
-//       <QRCode value={upiUrl} size={128} />
-//       <p className="text-sm text-gray-600 mt-2 text-center">
-//         Scan to pay via UPI<br />
-//         <span className="font-mono text-xs">{upiId}</span>
-//       </p>
-//       <div className='grid grid-cols-2 gap-2'>
-//         <a
-//           href={upiUrl}
-//           className="mt-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-//         >
-//           Pay with UPI App
-//         </a>
-//         <a
-//           href={`https://pay.google.com/gp/p/ui/pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`}
-//           target="_blank"
-//           rel="noopener noreferrer"
-//           className="mt-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition"
-//         >
-//           Pay with Google Pay
-//         </a>
-//         <a
-//           href={`phonepe://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`}
-//           target="_blank"
-//           rel="noopener noreferrer"
-//           className="mt-1 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 transition"
-//         >
-//           Pay with PhonePe
-//         </a>
-//         <a
-//           href={`paytmmp://pay?pa=${upiId}&pn=${encodeURIComponent(name)}&am=${amount}&cu=INR&tn=${encodeURIComponent(note)}`}
-//           target="_blank"
-//           rel="noopener noreferrer"
-//           className="mt-1 px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition"
-//         >
-//           Pay with Paytm
-//         </a>
-//       </div>
-//       <div className='w-full'>
-//         <div id="alert-additional-content-3" className="p-4 mb-4 text-green-800 border border-green-300 rounded-lg bg-green-50" role="alert">
-//           <div className="flex items-center">
-//             <svg className="shrink-0 w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-//               <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-//             </svg>
-//             <span className="sr-only">Info</span>
-//             <h3 className="text-lg font-medium">This service is 100% free for all users.</h3>
-//           </div>
-//           <div className="mt-2 mb-4 text-sm">
-//             We do not charge for registration, search, or contact. However, if you wish to support our server and maintenance costs, you can pay any amount you like.<br/>
-//             <b>Even ₹30 (just 1 toffee per day!) helps us keep this service running for everyone.</b>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 
 export default function MatrimonyBioData() {
   const page1Ref = useRef(null);

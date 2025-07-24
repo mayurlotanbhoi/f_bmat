@@ -1,4 +1,4 @@
-import { varIcon, vadhuIcon } from "../util/images.util";
+import { varIcon, vadhuIcon, job, education, nearby } from "../util/images.util";
 
 export const appConfig = {
     "_id": "app_config",
@@ -22,21 +22,21 @@ export const appConfig = {
         {
             key: 'job',
             text: 'Job',
-            image: varIcon,
+            image: job,
             gradientFrom: '#ff9a9e',
             gradientTo: '#fad0c4',
         },
         {
             key: 'nearBy',
             text: '10th, 12th',
-            image: vadhuIcon,
+            image: nearby,
             gradientFrom: '#a18cd1',
             gradientTo: '#fbc2eb',
         },
         {
             key: '10-12',
             text: '10th, 12th',
-            image: vadhuIcon,
+            image: education,
             gradientFrom: '#a18cd1',
             gradientTo: '#fbc2eb',
         },

@@ -9,6 +9,10 @@ import varIcon from "../assets/images/varIcon.jpg"
 import langicom from "../assets/images/langIcon.png"
 import divorcee from "../assets/images/divorce.svg"
 import couple from "../assets/images/couple.png"
+import education from "../assets/images/education.webp"
+import job from "../assets/images/job.webp"
+import nearby from '../assets/images/nearby.png'
+import loader from '../assets/images/loader.gif'
 
 
 
@@ -24,5 +28,9 @@ export {
     searchbanner,
     Location,
     langicom,
-    couple
+    couple,
+    education,
+    job,
+    nearby,
+    loader
 }

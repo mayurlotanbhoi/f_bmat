@@ -872,7 +872,7 @@ const MultiStepForm: React.FC = () => {
             formData.append('personalDetails.dateOfBirth', values?.personalDetails?.dateOfBirth);
         }
 
-        try {
+     
             setIsSubmitting(true)
             let res;
             if (isProfilePresent) {
@@ -880,13 +880,19 @@ const MultiStepForm: React.FC = () => {
             } else {
                 res = await createProfile(formData).unwrap();
             }
+            if(res?.success){
+                seIsFormComplet(true);
+                ConfettiFireworks();
+            }
             console.log("✅ Success", res);
-        } catch (err) {
-            const message = err?.data?.message || "Something went wrong";
-            console.error("❌ Error", message);
-        } finally {
+
+            
+       
+       
+       
             setIsSubmitting(false)
-        }
+        return res;
+        
     };
 
     function getChangedFields(initial: any, current: any): any {
@@ -1009,12 +1015,10 @@ const MultiStepForm: React.FC = () => {
                             console.log("changes", changes);
                             await asyncHandlerWithSwal(() => handleSubmit(changes), {
                                 loadingHtml: "<b>Uploading your file...</b>",
-                                successHtml: "<b>Upload successful!</b>",
+                                successHtml: "<b>successful!</b>",
                                 errorHtml: "<b>Upload failed. Please try again.</b>",
                             });
-                            seIsFormComplet(true);
-                            // alert(JSON.stringify(values, null, 2));
-                            ConfettiFireworks();
+                           
                         }
 
                     }}

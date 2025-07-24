@@ -275,9 +275,10 @@ border: 2px #111213 solid;
 }
 
 .custom-swal-html {
-  color: #333;
+  color: white;
   font-size: 1rem;
   text-align: center;
+  
 }
 
 .swal-text {

@@ -39,7 +39,7 @@ export default function Category() {
                                         <img
                                             src={item.image}
                                             alt={item.text}
-                                            className="w-10 h-10 mb-1 object-contain rounded-full border border-white shadow-sm"
+                                            className="w-16 h-auto mb-1 object-contain rounded-md   "
                                         />
                                     )}
                                     <span className="text-sm text-primary

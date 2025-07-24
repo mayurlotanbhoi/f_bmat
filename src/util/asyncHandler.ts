@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import { loader } from "./images.util";
 
 // Your custom SweetAlert2 instance
 const MySwal = withReactContent(Swal);
@@ -81,24 +82,29 @@ export const asyncHandlerWithSwal = async (callback, messages) => {
   try {
     Swal.fire({
       title: 'Please wait',
+      color: 'white',
       html: messages.loadingHtml || 'Loading...',
       allowOutsideClick: false,
       showConfirmButton: false,
+
       didOpen: () => Swal.showLoading(),
       customClass: {
         popup: 'custom-swal-popup',
         htmlContainer: 'custom-swal-html',
+
       },
     });
 
     const result = await callback();
 
+
     Swal.fire({
       icon: 'success',
-      html: messages.successHtml || 'Success!',
+      html: result?.success ? result?.message
+ :  messages.successHtml || 'Success!',
       customClass: {
         popup: 'custom-swal-popup',
-        htmlContainer: 'custom-swal-html',
+        htmlContainer: 'custom-swal-html text-white ',
       },
     });
 
@@ -106,7 +112,7 @@ export const asyncHandlerWithSwal = async (callback, messages) => {
   } catch (error) {
     let message = messages.errorHtml || 'Something went wrong';
 
-    // ✅ Extract meaningful error message from API response
+    //  Extract meaningful error message from API response
     if (error?.data?.message) {
       message = error.data.message;
     } else if (error?.message) {
@@ -115,6 +121,7 @@ export const asyncHandlerWithSwal = async (callback, messages) => {
 
     Swal.fire({
       icon: 'error',
+      color: 'white',
       html: `<b>${message}</b>`,
     });
 
