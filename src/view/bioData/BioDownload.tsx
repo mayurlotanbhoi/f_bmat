@@ -1,130 +1,117 @@
-import { use, useRef, useState } from 'react';
+import {  useRef, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 import { calculateAge, formatDate } from '../../util/dateFormat';
-import { MdLocationOn, MdOutlineFileDownload, MdOutlineVerifiedUser, MdPhone, MdVerified, MdWhatsapp } from 'react-icons/md';
+import { MdLocationOn, MdOutlineFileDownload, MdOutlineVerifiedUser, MdPhone, MdShare, MdVerified, MdWhatsapp } from 'react-icons/md';
 import { BioHeader } from '../../util/images.util';
 import { FaLevelUpAlt, FaSpinner } from 'react-icons/fa';
 import { GoLink } from 'react-icons/go';
 import { toPng } from 'html-to-image';
-
-
 import { formatCurrency } from '../../util/formatCurrency';
 import { downloadAsImage } from '../../util/downloadAsImage';
 import { formatAddress } from '../../util/commans';
 import { useLocalization } from '../../hooks';
 import Drawer from '../../components/Common/Drawer';
 import PaymentQrCode from '../../components/Common/PaymentQrCode';
+import Modal from '../../components/Common/Modal';
+
+import { MdClose, MdInsertDriveFile } from 'react-icons/md';
+import { shareElementAsImage } from '../../util';
+
 
 export const ProfileCard = ({ profile }) => {
   const cardRef = useRef(null);
   const labels = useLocalization('labels');
   const options = useLocalization('options');
-
   const fullName = profile?.personalDetails?.fullName || 'N/A';
   const photo = profile?.profilePhotos?.[0] || '/placeholder.jpg';
   const age = calculateAge(profile?.personalDetails?.dateOfBirth);
-  const caste = profile?.religiousDetails?.caste || 'N/A';
-  const subCaste = profile?.religiousDetails?.subCaste || 'N/A';
-  const income = formatCurrency(profile?.professionalDetails?.income || '0');
-  const location =
-    formatAddress(profile?.contactDetails?.presentAddress) ||
-    profile?.contactDetails?.presentAddress?.city ||
-    'Not Specified';
-  const phone = profile?.contactDetails?.mobileNumber;
-
-  const profileUrl = `https://yourdomain.com/memberQr/${profile?.matId}`;
-
-  const whatsappText = `🧑🏻‍💼 ${fullName}'s Profile on Bhoi Matrimony\n\n🗓 Age: ${age}\n🧬 Caste: ${subCaste}\n💰 Income: ₹${income}\n📍 Location: ${location}\n🔗 View Profile: ${profileUrl}`;
-
-  const handleWhatsAppShare = () => {
-    const url = `https://wa.me/?text=${encodeURIComponent(whatsappText)}`;
-    window.open(url, '_blank');
-  };
-
-  const handleCardImageShare = async () => {
-    try {
-      const dataUrl = await toPng(cardRef.current);
-      const blob = await (await fetch(dataUrl)).blob();
-      const file = new File([blob], 'profile.png', { type: blob.type });
-
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          title: `${fullName}'s Profile`,
-          text: 'Check out this profile on Bhoi Matrimony',
-          files: [file],
-        });
-      } else {
-        alert('Image sharing is not supported on this device');
-      }
-    } catch (err) {
-      console.error('Error sharing card image:', err);
-    }
-  };
+  const caste = profile?.religiousDetails?.caste;
+  const subCaste = profile?.religiousDetails?.subCaste;
+  const income = profile?.professionalDetails?.income;
+  const jobType = profile?.professionalDetails?.jobType;
+  const location = formatAddress(profile?.contactDetails?.presentAddress) || profile?.contactDetails?.presentAddress?.city;
+  const profileUrl = `https://bmat.onrender.com/vlew-profile/${profile?._id}`;
 
   return (
     <div
       ref={cardRef}
-      className="group relative flex flex-col md:flex-row items-center gap-5 p-5 border border-gray-200 rounded-2xl shadow-xl hover:shadow-2xl transition hover:scale-[1.02] bg-white w-full max-w-3xl mx-auto"
+      id="biodata-card"
+      className="relative w-full max-w-xl mx-auto bg-white rounded-xl shadow-lg border p-4 flex flex-col sm:flex-row gap-4"
     >
-      {/* Profile Image */}
-      <div className="relative w-32 h-32 rounded-xl overflow-hidden border border-gray-300 shadow-md">
-        {/* <img src={photo} alt={fullName} className="object-cover w-full h-full" /> */}
-        {profile?.isVerified && (
-          <MdVerified className="absolute bottom-1 right-1 text-green-500 bg-white rounded-full p-0.5" size={20} />
-        )}
+      {/* Verified Badge */}
+      {profile?.isVerified && (
+        <div className="flex items-center gap-1 absolute top-2 right-2 px-2 py-1 bg-black/40 text-white text-[10px] font-semibold rounded-full backdrop-blur-sm z-10">
+          <MdVerified className="text-green-400" size={16} />
+          Verified
+        </div>
+      )}
+
+      {/* Photo & QR */}
+      <div className="w-full sm:w-1/3 flex flex-col items-center gap-2">
+        <div className="w-24 h-24 rounded-lg overflow-hidden border">
+          <img
+            src={photo}
+            alt={fullName}
+            crossOrigin="anonymous"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <span className="text-xs bg-gray-100 px-2 py-1 rounded shadow-sm font-semibold">
+          ID: {profile?.matId}
+        </span>
+        <QRCode
+          value={profileUrl}
+          size={64}
+          className="bg-white p-1 rounded border"
+        />
       </div>
 
-      {/* Info Section */}
-      <div className="flex-1 w-full">
-        <div className="flex items-center justify-between mb-2">
-          <h2 className="text-xl font-bold text-gray-900 capitalize truncate">{fullName}</h2>
-          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">ID: {profile?.matId}</span>
-        </div>
+      {/* Details */}
+      <div className="flex-1 flex flex-col justify-between text-sm text-gray-700">
+        <div className="space-y-1">
+          <h2 className="text-lg font-bold text-gray-900 capitalize">
+            {fullName}
+          </h2>
 
-        <p className="text-gray-700 text-sm mb-1">
-          <strong>{labels.age}:</strong> {age} &nbsp;|&nbsp;
-          <strong>{labels.caste}:</strong> {subCaste} {options?.religiousDetails?.caste?.[caste]} &nbsp;|&nbsp;
-          <strong>{labels.income}:</strong> {income}
-        </p>
+          {age && (
+            <p>
+              <strong>{labels.age}:</strong> {age}
+            </p>
+          )}
 
-        <p className="text-gray-600 text-sm flex items-center gap-1">
-          <MdLocationOn size={20} className="text-gray-500" />
-          {location}
-        </p>
+          {(subCaste || caste) && (
+            <p>
+              <strong>{labels.caste}:</strong>{' '}
+              {[subCaste, options?.religiousDetails?.caste?.[caste]]
+                .filter(Boolean)
+                .join(', ')}
+            </p>
+          )}
 
-        {/* QR + Actions */}
-        <div className="mt-4 flex items-center justify-between flex-wrap gap-3">
-          <QRCode
-            value={profileUrl}
-            size={64}
-            className="border border-gray-300 p-1 rounded-md"
-          />
+          {(jobType || income) && (
+            <p>
+              {jobType && (
+                <>
+                  <strong>{labels.jobType}:</strong>{' '}
+                  {options?.professionalDetails?.jobType?.[jobType]}
+                </>
+              )}
+              {jobType && income && <span className="px-1">|</span>}
+              {income && (
+                <>
+                  <strong>{labels.income}:</strong> ₹{formatCurrency(income)}
+                </>
+              )}
+            </p>
+          )}
 
-          <div className="flex gap-2">
-            {phone && (
-              <a
-                href={`tel:${phone}`}
-                className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 border border-blue-100 px-3 py-1 rounded-lg shadow-sm hover:shadow-md transition"
-              >
-                <MdPhone size={16} /> Call
-              </a>
-            )}
-
-            <button
-              onClick={handleWhatsAppShare}
-              className="flex items-center gap-1 text-sm font-medium text-green-600 hover:text-green-700 border border-green-100 px-3 py-1 rounded-lg shadow-sm hover:shadow-md transition"
-            >
-              <MdWhatsapp size={16} /> WhatsApp
-            </button>
-
-            <button
-              onClick={handleCardImageShare}
-              className="flex items-center gap-1 text-sm font-medium text-purple-600 hover:text-purple-700 border border-purple-100 px-3 py-1 rounded-lg shadow-sm hover:shadow-md transition"
-            >
-              📤 Share Card
-            </button>
-          </div>
+          {location && (
+            <p className="flex items-center gap-1 text-sm text-gray-600">
+              <MdLocationOn className="text-gray-500" size={16} />
+              <span>{location}</span>
+            </p>
+          )}
         </div>
       </div>
     </div>
@@ -132,92 +119,55 @@ export const ProfileCard = ({ profile }) => {
 };
 
 
+
+export const ShareModalContent = ({ onClose, onShareCard, onShareFull  }) => {
+  return (
+    <div >
+      {/* Close Button */}
+      {/* Heading */}
+      <h2 className="text-xl font-bold mb-4 text-center text-gray-900">📤 Share This Profile</h2>
+      <p className="text-sm text-center text-gray-500 mb-6">
+        You can share a card-style preview or the full biodata as an image with your contacts.
+      </p>
+
+      {/* Actions */}
+      <div className="flex flex-col gap-4">
+        <button
+          onClick={onShareCard}
+          className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold transition"
+        >
+          <MdShare size={20} /> Share Card View
+        </button>
+
+        <button
+          onClick={onShareFull}
+          className="flex items-center justify-center gap-2 px-4 py-3 rounded-lg bg_primary hover:opacity-70 text-white font-semibold transition"
+        >
+          <MdInsertDriveFile size={20} /> Share Full Biodata
+        </button>
+      </div>
+
+      {/* Footer Note */}
+      <p className="text-xs text-gray-400 mt-6 text-center">
+        Sharing uses your device's native share or downloads the image if not supported.
+      </p>
+    </div>
+  );
+};
+
+
+
 export default function MatrimonyBioData() {
   const page1Ref = useRef(null);
   const [loading, setLoading] = useState(false);
   const page2Ref = useRef(null);
   const cardRef = useRef(null);
+  const [showShareModal, setShowShareModal] = useState(false);
   const labels = useLocalization('labels');
   const options = useLocalization('options');
   const [showPaymentQr, setShowPaymentQr] = useState(false);
-
   const profile = getMatrimony();
   const biodataUrl = `https://bmat.onrender.com/vlew-profile/${profile?._id}`;
-
-  // const downloadAsImage = async () => {
-  //   const pages = [page1Ref, page2Ref];
-
-  //   for (let i = 0; i < pages.length; i++) {
-  //     const canvas = await html2canvas(pages[i].current, {
-  //       scale: 3,
-  //       useCORS: true,
-  //       backgroundColor: '#fff',
-  //       windowWidth: 794
-  //     });
-  //     const image = canvas.toDataURL('image/png');
-  //     const link = document.createElement('a');
-  //     link.href = image;
-  //     link.download = `biodata-page-${i + 1}.png`;
-  //     link.click();
-  //   }
-  // };
-  const handleShareCard = async () => {
-    const cardElement = document.getElementById('biodata-card');
-    if (!cardElement) return;
-
-    try {
-      // Clone and prepare the node
-      const clone = cardElement.cloneNode(true);
-      // Object.assign(clone.style, {
-      //   position: 'absolute',
-      //   left: '-9999px',
-      //   top: '0',
-      //   backgroundColor: 'white',
-      //   padding: '16px',
-      //   width: `${cardElement.offsetWidth}px`,
-      //   height: `${cardElement.offsetHeight}px`,
-      //   zIndex: '-1'
-      // });
-
-      document.body.appendChild(clone);
-
-      await new Promise((r) => requestAnimationFrame(r));
-      await document.fonts.ready;
-
-      //@ts-ignore
-      const dataUrl = await toPng(clone, {
-        cacheBust: true,
-        backgroundColor: 'white',
-      });
-
-      document.body.removeChild(clone);
-
-      const blob = await (await fetch(dataUrl)).blob();
-      const file = new File([blob], 'biodata.png', { type: blob.type });
-
-      const promotionLink = `https://yourdomain.com/memberQr/${profile?.matId}`;
-      const shareText = `🧾 Check out this biodata from Matrimony App!\n\n🔗 ${promotionLink}`;
-
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          title: 'Matrimony BioData',
-          text: shareText,
-          files: [file],
-        });
-      } else {
-        // fallback: download image
-        const a = document.createElement('a');
-        a.href = dataUrl;
-        a.download = 'biodata.png';
-        a.click();
-
-        alert(`Sharing not supported. Image downloaded.\nLink: ${promotionLink}`);
-      }
-    } catch (error) {
-      console.error('❌ Error while sharing:', error);
-    }
-  };
-
 
 
   const handleDownload = () => {
@@ -256,7 +206,7 @@ export default function MatrimonyBioData() {
       <div className=' flex justify-end gap-2 my-2'>
         <button
           className="bg-white text-primary transition flex justify-center items-center rounded-md gap-2 px-4 py-2"
-          onClick={handleShareCard}
+          onClick={() => setShowShareModal(true)}
         >
           {/* <HiExternalLink size={20} /> */}
           {/* <FaLevelUpAlt size={20} /> */}
@@ -275,6 +225,7 @@ export default function MatrimonyBioData() {
 
       <div id="biodata-card" className="">
         <ProfileCard profile={profile} />
+        
       </div>
 
 
@@ -285,8 +236,11 @@ export default function MatrimonyBioData() {
         <div className="bg-white  w-full     ">
           {/* Header Image */}
           <div className="text-center mb-4">
-            <img className="w-full h-auto" src={BioHeader} alt="Biodata Header" />
+            <img className="w-full h-auto rounded-md shadow" src={BioHeader} alt="Biodata Header" />
+
+            
           </div>
+
 
           {/* Personal Info Section */}
           <div className="flex flex-row gap-2 mt-6 py-2 px-4">
@@ -314,7 +268,7 @@ export default function MatrimonyBioData() {
                 <Info className={'col-span-4'} label={labels.caste} value={profile.religiousDetails.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'} />
                 {/* <Info className={'col-span-2'} label="Religion" value={profile.religiousDetails.religion} /> */}
                 <Info className={'col-span-4'} label={labels.occupation} value={options.professionalDetails.occupation[profile.professionalDetails.occupation]} />
-                <Info className={'col-span-4'} label={labels.jobType} value={options.professionalDetails.jobType[profile.professionalDetails.jobType]} />
+                <Info className={'col-span-4 md:col-span-2'} label={labels.jobType} value={options.professionalDetails.jobType[profile.professionalDetails.jobType]} />
                 <Info className={'col-span-2'} label={labels.income} value={formatCurrency(profile.professionalDetails.income)} />
 
                 {/* <Info className={'col-span-2'} label="City" value={profile.contactDetails.presentAddress.city} />
@@ -325,14 +279,27 @@ export default function MatrimonyBioData() {
             </div>
 
             {/* Right Column - Profile Photo */}
-            <div className="flex  justify-center md:justify-end flo">
-              <div className=' flex flex-col items-center gap-2'>
+            <div className="flex  justify-center md:justify-end ">
+              <div className=' flex flex-col items-center gap-2 relative'>
                 <b className='text-green-500'>MAT:{profile?.matId}</b>
                 <img
                   src={profile?.profilePhotos?.[0]}
                   alt="Profile"
                   className="w-28 h-34  md:w-[240px] md:h-[320px] object-cover rounded-md border-2 border-pink-600 shadow-md"
                 />
+                {profile?.isVerified && (
+                  <div className="absolute top-10 right-2 bg-white rounded-full p-1  shadow-md flex items-center justify-center">
+                    <MdVerified className="text-green-500" size={10} />
+                  </div>
+                )}
+
+                <div className="qr-code col-span-1 max-w-20 md:max-w-full  flex flex-col items-center text-center">
+                  <QRCode
+                    value={biodataUrl}
+                    className="!m-0 !p-0 "
+                  />
+                  <small className="text-xs leading-3 my-2">Scan this QR code to view your profile</small>
+                </div>
               </div>
             </div>
           </div>
@@ -345,26 +312,7 @@ export default function MatrimonyBioData() {
         >
           <h2 className="text-xl font-semibold text-center text-pink-700 mb-6">जोडीदार निवड मार्गदर्शक</h2>
 
-          <div className=" grid grid-cols-3 gap-4 my-2">
-            {/* <div className="col-span-1 text-right p-0 m-0 flex justify-end items-start"> */}
-            <div className="qr-code col-span-1  flex flex-col items-center text-center">
-              <QRCode
-                value={biodataUrl}
-                className="!m-0 !p-0 "
-              />
-            </div>
-            {/* </div> */}
-            <p className="col-span-1 text-gray-700 text-[10px] leading-relaxed text-center md:text-left">
-              वरील QR कोड स्कॅन करून सविस्तर प्रोफाइल पहा.<br />
-              विवाहासाठी निर्णय घेण्याआधी संपूर्ण माहिती तपासा आणि घरच्यांचा सल्ला घ्या.
-            </p>
-            {profile?.isVerified && (
-              <div className="Verified-icon col-span-1 text-green-600 flex flex-col items-center text-center">
-                <MdOutlineVerifiedUser className=" text-green-600" />
-                <p className="text-sm mt-1">Verified by Bhoi Matrimony</p>
-              </div>
-            )}
-          </div>
+         
 
           <div className="bg-pink-100 py-4 rounded shadow px-3">
             <h3 className="text-lg font-bold text-red-700 mb-3">जीवनसाथी निवडताना लक्षात ठेवा:</h3>
@@ -396,6 +344,30 @@ export default function MatrimonyBioData() {
                   >
         <PaymentQrCode profile={profile} />
                   </Drawer>
+
+      <Modal isOpen={showShareModal} onClose={() => setShowShareModal(false)}>
+        <ShareModalContent
+          onClose={() => setShowShareModal(false)}
+          onShareCard={() =>
+            shareElementAsImage('biodata-card', {
+              filename: 'card.png',
+              shareTitle: `${profile?.personalDetails?.fullName}'s Matrimony Card`,
+              shareText: `👤 ${profile?.personalDetails?.fullName}\n📍 ${profile?.contactDetails?.presentAddress?.city}`,
+              promotionUrl: biodataUrl,
+              onComplete: () => { setShowShareModal(false); setShowPaymentQr(true)},
+              isWidemode: true
+            })
+          }
+          onShareFull={() =>
+            shareElementAsImage('biodataPage', {
+              filename: 'biodata-full.png',
+              shareTitle: `${profile?.personalDetails?.fullName}'s Full Biodata`,
+              shareText: `🧾 Full Matrimony Biodata of ${profile?.personalDetails?.fullName}`,
+              onComplete: () => { setShowShareModal(false); setShowPaymentQr(true) }, promotionUrl: biodataUrl,
+            })
+          }
+        />
+      </Modal>
       
     </>
   );

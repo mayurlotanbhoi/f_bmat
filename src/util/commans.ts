@@ -1,3 +1,5 @@
+import { t } from "i18next";
+
 export const formatAmount = (amount: string | number | null | undefined, currencySymbol = '₹'): string => {
     if (amount === null || amount === undefined || amount === '') {
         return `${currencySymbol}0`;
@@ -26,6 +28,8 @@ type Address = {
 };
 export function formatAddress(address?: Address): string {
     if (!address || typeof address !== 'object') return 'पत्ता उपलब्ध नाही';
+    const options = t('options', { returnObjects: true }) as any;
+
 
     const {
         area = '',
@@ -36,13 +40,15 @@ export function formatAddress(address?: Address): string {
     } = address;
 
     // Join all non-empty parts with comma
-    const parts = [area, city, state, country, pinCode].filter(Boolean);
+    const parts = [area, city, options?.contactDetails.presentAddress?.state[state], country, pinCode].filter(Boolean);
 
     return parts.length > 0 ? parts.join(', ') : 'पत्ता उपलब्ध नाही';
 }
 
 export function formatShortAddress(address?: Address): string {
     if (!address || typeof address !== 'object') return 'पत्ता उपलब्ध नाही';
+    const options = t('options', { returnObjects: true }) as any;
+
 
     const {
         area = '',
@@ -53,7 +59,7 @@ export function formatShortAddress(address?: Address): string {
     } = address;
 
     // Join all non-empty parts with comma
-    const parts = [city, state, pinCode].filter(Boolean);
+    const parts = [city, options?.contactDetails.presentAddress?.state[state], pinCode].filter(Boolean);
 
     return parts.length > 0 ? parts.join(', ') : 'पत्ता उपलब्ध नाही';
 }
