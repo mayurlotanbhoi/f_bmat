@@ -13,6 +13,8 @@ import { welcome } from '../../util/images.util';
 import { asyncHandlerWithSwal } from '../../util/asyncHandler';
 import { useAuth } from '../../hooks/useAuth';
 
+import './SinginSignUp.css'
+
 type FormValues = {
     mobile: string;
     password: string;
@@ -186,24 +188,25 @@ export default function SinginSignUp() {
         <div className="h-[100vh] bg_primary text-gray-900 flex justify-center">
             <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex flex-col-reverse sm:flex-row justify-center flex-1">
                 <div className="lg:w-1/2 rounded-t-2xl xl:w-5/12 p-6 sm:p-12">
-                    <div>
-                        <img
+                    {/* <div> */}
+                        <h1 className='logo text-4xl text-primary font-extrabold text-center italic'>भोई जोडीदार </h1>
+                        {/* <img
                             src="https://drive.google.com/uc?export=view&id=1MFiKAExRFF0-2YNpAZzIu1Sh52J8r16v"
                             className="w-mx-auto"
                             alt="logo"
-                        />
-                    </div>
+                        /> */}
+                    {/* </div> */}
                     <div className="md:mt-12 flex flex-col items-center">
                         <div className="w-full flex-1 mt-8">
-                            <div className="flex flex-col items-center">
+                            {/* <div className="flex flex-col items-center">
                                 <GoogleLogin />
-                            </div>
+                            </div> */}
 
-                            <div className="my-5 border-b text-center">
+                            {/* <div className="my-5 border-b text-center">
                                 <div className="leading-none px-2 inline-block text-sm text-gray-600 tracking-wide font-medium bg-white transform translate-y-1/2">
                                     Or sign In with Cartesian Phone
                                 </div>
-                            </div>
+                            </div> */}
 
                             <div className="mx-auto max-w-xs">
 

@@ -885,10 +885,6 @@ const MultiStepForm: React.FC = () => {
                 ConfettiFireworks();
             }
             console.log("✅ Success", res);
-
-            
-       
-       
        
             setIsSubmitting(false)
         return res;

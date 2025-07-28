@@ -172,7 +172,6 @@ export default function MatrimonyBioData() {
 
   const handleDownload = () => {
     setShowPaymentQr(true);
-
     setTimeout(() => {
       downloadAsImage({
         setLoading,
@@ -180,7 +179,7 @@ export default function MatrimonyBioData() {
         id: 'biodataPage'
       });
      
-    }, 5000); // Delay to ensure the QR code is rendered
+    }, 5000);
   };
 
 
@@ -287,19 +286,25 @@ export default function MatrimonyBioData() {
                   alt="Profile"
                   className="w-28 h-34  md:w-[240px] md:h-[320px] object-cover rounded-md border-2 border-pink-600 shadow-md"
                 />
-                {profile?.isVerified && (
-                  <div className="absolute top-10 right-2 bg-white rounded-full p-1  shadow-md flex items-center justify-center">
-                    <MdVerified className="text-green-500" size={10} />
-                  </div>
-                )}
-
-                <div className="qr-code col-span-1 max-w-20 md:max-w-full  flex flex-col items-center text-center">
+                <div className="qr-code  gap-2   flex items-center text-center">
+                  <div className=''>
                   <QRCode
                     value={biodataUrl}
                     className="!m-0 !p-0 "
                   />
-                  <small className="text-xs leading-3 my-2">Scan this QR code to view your profile</small>
+                  {/* <small className="text-xs leading-3 my-2">Scan this QR code to view your profile</small> */}
+                  </div>
+                  {profile?.isVerified && (
+                    <div className=" text-green-500  flex  flex-col items-center justify-center">
+                      {/* <MdVerified className="text-green-500" /> */}
+                      <MdOutlineVerifiedUser  />
+                      <small>Verified</small>
+                    </div>
+                  )}
                 </div>
+                <small className="col-span-1 max-w-20 md:max-w-full  flex flex-col items-center text-xs leading-3">Scan this QR code to view your profile</small>
+
+                
               </div>
             </div>
           </div>
@@ -338,14 +343,14 @@ export default function MatrimonyBioData() {
                       position="bottom"
                       padding="p-0"
                       widthClass="w-100"
-                      className="rounded-t-lg h-[90vh]"
-                      showCloseBtn={false}
+                      className="rounded-t-lg h-[100vh]"
+                      showCloseBtn={true}
         onClose={() => setShowPaymentQr(false)}
                   >
         <PaymentQrCode profile={profile} />
                   </Drawer>
 
-      <Modal isOpen={showShareModal} onClose={() => setShowShareModal(false)}>
+      <Modal isOpen={showShareModal} onClose={() => setShowShareModal(false)} >
         <ShareModalContent
           onClose={() => setShowShareModal(false)}
           onShareCard={() =>

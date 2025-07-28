@@ -235,17 +235,27 @@ border: 2px #111213 solid;
 }
 
 .qr-code svg{
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
 }
 .Verified-icon svg{
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
+}
+
+[data-download="true"] .qr-code svg {
+  width: 120px !important;
+  height: 120px !important;
+}
+
+[data-download="true"] .Verified-icon svg {
+  width: 70px !important;
+  height: 70px !important;
 }
 @media screen and (max-width: 600px) {
   .qr-code svg{
-    width: 70px;
-    height: 70px;
+    width: 120px;
+    height: 120px;
   }
   .Verified-icon svg{
     width: 70px;
@@ -254,8 +264,8 @@ border: 2px #111213 solid;
 }
 @media screen and (max-width: 400px) {
   .qr-code svg{
-    width: 70px;
-    height: 70px;
+    width: 44px;
+    height: 44px;
   }
   .Verified-icon svg{
     width: 60px;

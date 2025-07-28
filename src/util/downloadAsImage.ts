@@ -15,12 +15,13 @@ export const downloadAsImage = async ({
         console.error(`Element with ID "${id}" not found.`);
         return { success: false, fileName };
     }
+    element.setAttribute('data-download', 'true');
 
     setLoading(true);
 
     try {
         const canvas = await html2canvas(element, {
-            scale: 3,
+            scale: 4,
             useCORS: true,
             backgroundColor: '#fff',
             windowWidth: 794
@@ -38,5 +39,6 @@ export const downloadAsImage = async ({
         return { success: false, fileName };
     } finally {
         setLoading(false);
+        element.setAttribute('data-download', 'false');
     }
 };

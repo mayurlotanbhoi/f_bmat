@@ -204,6 +204,15 @@
   "profilePhotos": "Profile Photos",
   "verificationImage": "ID Proof"
 },
+ "donation": {
+    "title": "❤️ Keep This Mission Alive",
+    "subtitle": "We’re offering this platform 100% free for our first {{count}} families — no fees, ever.",
+    "cta": "If this effort touched your heart, a small gift of ₹30 or more means the world to us.",
+    "scanNote": "Scan above or tap below to support with love 💚",
+    "whyTitle": "Why We Ask",
+    "whyText": "We don't charge for profiles or messages. Your support helps with servers, SMS, and volunteers. 💛 Even ₹30 keeps this free for someone who needs it most.",
+    "payWith": "Pay with {{name}}"
+  },
   "options": {
     "personalDetails": {
       "gender": {
