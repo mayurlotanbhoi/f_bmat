@@ -204,6 +204,25 @@
   "profilePhotos": "Profile Photos",
   "verificationImage": "ID Proof"
 },
+  "bioHeader": {
+    "title": "Bhoi Samaj Vivah Munch",
+    "tagline1": "A trusted and secure marriage platform",
+    "tagline2": "Empowering Bhoi Community for Meaningful Marriages",
+    "tagline3": "Create your biodata, find your perfect match, and connect with verified profiles from our community.",
+    "tagline4": "Register now to begin your journey toward a meaningful relationship!"
+  },
+ "guide": {
+    "title": "Matchmaking Guidance",
+    "sectionTitle": "Key things to consider while choosing a life partner:",
+    "point1": "Emotional compatibility, mutual respect, and shared goals are essential.",
+    "point2": "Family background and upbringing often influence long-term relationships.",
+    "point3": "Education, career stability, and financial planning matter for future security.",
+    "point4": "A person's ability to communicate openly and resolve conflicts is critical.",
+    "point5": "Lifestyle habits (e.g., alcohol, smoking, diet) should align with your values.",
+    "point6": "Mutual trust, cultural understanding, and willingness to grow together build a strong foundation.",
+    "generated": "Generated on:",
+    "poweredBy": "Powered by Vaishya Parinay"
+  },
  "donation": {
     "title": "❤️ Keep This Mission Alive",
     "subtitle": "We’re offering this platform 100% free for our first {{count}} families — no fees, ever.",

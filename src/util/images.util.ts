@@ -1,6 +1,4 @@
 import welcome from "../assets/images/login.png"
-import bioHeader from "../assets/images/bioHeader.png"
-import bioHeader1 from "../assets/images/bioheader1.png"
 import searchbanner from "../assets/images/searchBanner.png"
 import BioHeader from "../assets/images/bioHeader.jpg"
 import Location from "../assets/images/location.png"
@@ -13,18 +11,24 @@ import education from "../assets/images/education.webp"
 import job from "../assets/images/job.webp"
 import nearby from '../assets/images/nearby.png'
 import loader from '../assets/images/loader.gif'
+import logo_xl from "../assets/images/logo_xl.png"
+import logo_md from "../assets/images/logo_md.png"
+import logo_sm from "../assets/images/logo_sm.png"
+import ganpati from "../assets/images/ganpati.webp"
 
 
 
 
 export {
     welcome,
+    ganpati,
+    logo_md,
+    logo_sm,
+    logo_xl,
     vadhuIcon,
     varIcon,
     divorcee,
-    bioHeader,
     BioHeader,
-    bioHeader1,
     searchbanner,
     Location,
     langicom,

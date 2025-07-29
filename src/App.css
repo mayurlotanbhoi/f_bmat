@@ -244,8 +244,8 @@ border: 2px #111213 solid;
 }
 
 [data-download="true"] .qr-code svg {
-  width: 120px !important;
-  height: 120px !important;
+  width: 90px !important;
+  height: 90px !important;
 }
 
 [data-download="true"] .Verified-icon svg {
@@ -307,4 +307,9 @@ border: 2px #111213 solid;
 }
 .border-sm-focus {
    border: 0.1px solid rgb(86, 132, 231);
+}
+
+.bio_header{
+  background: #EF2700;
+background: linear-gradient(90deg, rgba(239, 39, 0, 1) 0%, rgba(244, 131, 1, 1) 50%, rgba(239, 39, 0, 1) 100%);
 }

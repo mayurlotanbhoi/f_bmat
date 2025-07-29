@@ -2,8 +2,8 @@ import {  useRef, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 import { calculateAge, formatDate } from '../../util/dateFormat';
-import { MdLocationOn, MdOutlineFileDownload, MdOutlineVerifiedUser, MdPhone, MdShare, MdVerified, MdWhatsapp } from 'react-icons/md';
-import { BioHeader } from '../../util/images.util';
+import { MdOutlineFileDownload, MdOutlineVerifiedUser, MdPhone, MdShare, MdVerified, MdWhatsapp } from 'react-icons/md';
+import { BioHeader, couple, ganpati, logo_xl } from '../../util/images.util';
 import { FaLevelUpAlt, FaSpinner } from 'react-icons/fa';
 import { GoLink } from 'react-icons/go';
 import { toPng } from 'html-to-image';
@@ -15,8 +15,10 @@ import Drawer from '../../components/Common/Drawer';
 import PaymentQrCode from '../../components/Common/PaymentQrCode';
 import Modal from '../../components/Common/Modal';
 
-import { MdClose, MdInsertDriveFile } from 'react-icons/md';
+import {  MdInsertDriveFile } from 'react-icons/md';
 import { shareElementAsImage } from '../../util';
+import { useTranslation } from 'react-i18next';
+import { BioDataHeader } from './BioDataHeader';
 
 
 export const ProfileCard = ({ profile }) => {
@@ -26,6 +28,7 @@ export const ProfileCard = ({ profile }) => {
   const fullName = profile?.personalDetails?.fullName || 'N/A';
   const photo = profile?.profilePhotos?.[0] || '/placeholder.jpg';
   const age = calculateAge(profile?.personalDetails?.dateOfBirth);
+  const dob = formatDate(profile?.personalDetails?.dateOfBirth)
   const caste = profile?.religiousDetails?.caste;
   const subCaste = profile?.religiousDetails?.subCaste;
   const income = profile?.professionalDetails?.income;
@@ -76,7 +79,13 @@ export const ProfileCard = ({ profile }) => {
 
           {age && (
             <p>
-              <strong>{labels.age}:</strong> {age}
+              <strong>{labels.dob}:</strong> {age}
+            </p>
+          )}
+
+          {dob && (
+            <p>
+              <strong>{labels.age}:</strong> {dob}
             </p>
           )}
 
@@ -100,16 +109,16 @@ export const ProfileCard = ({ profile }) => {
               {jobType && income && <span className="px-1">|</span>}
               {income && (
                 <>
-                  <strong>{labels.income}:</strong> ₹{formatCurrency(income)}
+                  <strong>{labels.income}:</strong> {formatCurrency(income)}
                 </>
               )}
             </p>
           )}
 
           {location && (
-            <p className="flex items-center gap-1 text-sm text-gray-600">
-              <MdLocationOn className="text-gray-500" size={16} />
-              <span>{location}</span>
+            <p className=" gap-1 text-sm text-gray-600">
+              <strong className=''>{labels.presentAddress}: </strong>
+              {location}
             </p>
           )}
         </div>
@@ -165,6 +174,7 @@ export default function MatrimonyBioData() {
   const [showShareModal, setShowShareModal] = useState(false);
   const labels = useLocalization('labels');
   const options = useLocalization('options');
+  const { t } = useTranslation();
   const [showPaymentQr, setShowPaymentQr] = useState(false);
   const profile = getMatrimony();
   const biodataUrl = `https://bmat.onrender.com/vlew-profile/${profile?._id}`;
@@ -234,17 +244,43 @@ export default function MatrimonyBioData() {
 
         <div className="bg-white  w-full     ">
           {/* Header Image */}
-          <div className="text-center mb-4">
-            <img className="w-full h-auto rounded-md shadow" src={BioHeader} alt="Biodata Header" />
+          <BioDataHeader />
+          {/* <div className="bg-white w-full shadow-[0_4px_10px_-2px_rgba(0,0,0,0.2)]">
+            <div className="relative text-center flex justify-between items-center py-4 px-4 bio_header h-52">
 
-            
-          </div>
+              <img className="w-[70px] md:w-[120px]" src={logo_xl} alt="Biodata Logo" />
+
+              <div className="flex flex-col items-center justify-center">
+                <h1 className="text-xl md:text-3xl font-bold text-gray-900 tracking-wide">
+                  Bhoi Samaj Vivah Munch
+                </h1>
+                <p className="text-sm md:text-base text-gray-600 mt-1">
+                  एक विश्वासार्ह व सुरक्षित विवाह जुळवणी मंच
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Empowering Bhoi Community for Meaningful Marriages
+                </p>
+              </div>
+
+              <img className="w-[70px] md:w-[120px]" src={couple} alt="Couple Icon" />
+
+
+              <img
+                className="w-[40px] md:w-[60px] absolute bottom-[-25px] left-1/2 transform -translate-x-1/2"
+                src={ganpati}
+                alt="Ganpati Icon"
+              />
+            </div>
+          </div> */}
+
 
 
           {/* Personal Info Section */}
-          <div className="flex flex-row gap-2 mt-6 py-2 px-4">
+          <div className="flex flex-row gap-2 mt-6 py-2   px-4">
+            
             {/* Left Column - Info */}
             <div className="flex-1 space-y-4">
+             
               {/* <Heading className=' ' text="Personal Info" /> */}
               <div className="grid grid-cols-4 p-0 m-0   ">
                 <Info className="col-span-4 text-start" label={labels.fullName} value={profile.personalDetails.fullName} />
@@ -284,7 +320,7 @@ export default function MatrimonyBioData() {
                 <img
                   src={profile?.profilePhotos?.[0]}
                   alt="Profile"
-                  className="w-28 h-34  md:w-[240px] md:h-[320px] object-cover rounded-md border-2 border-pink-600 shadow-md"
+                  className="w-28 min:h-[200px]  md:w-[240px] md:h-[320px] object-cover rounded-md border-2 border-pink-600 shadow-md"
                 />
                 <div className="qr-code  gap-2   flex items-center text-center">
                   <div className=''>
@@ -312,27 +348,25 @@ export default function MatrimonyBioData() {
 
 
         {/* Page 2 */}
-        <div
-          className="bg-white  py-4 w-full h-[100%]  shadow border border-gray-300 rounded-md"
-        >
-          <h2 className="text-xl font-semibold text-center text-pink-700 mb-6">जोडीदार निवड मार्गदर्शक</h2>
+        <div className="bg-white w-full py-6 px-4 sm:px-6 rounded-lg shadow-md border border-gray-200">
+          <h2 className="text-2xl font-bold text-center text-pink-700 mb-5">
+            {t('guide.title')}
+          </h2>
 
-         
+          <div className="bg-pink-50 p-4 rounded-md shadow-inner">
+            <h3 className="text-lg font-semibold text-red-700 mb-3">
+              {t('guide.sectionTitle')}
+            </h3>
 
-          <div className="bg-pink-100 py-4 rounded shadow px-3">
-            <h3 className="text-lg font-bold text-red-700 mb-3">जीवनसाथी निवडताना लक्षात ठेवा:</h3>
             <ul className="list-disc pl-5 space-y-2 text-sm text-gray-800">
-              <li>स्वभाव, विचारसरणी आणि समजूतदारपणा महत्त्वाचा आहे.</li>
-              <li>कुटुंबातील वडीलधाऱ्यांचे अनुभव विचारात घ्या.</li>
-              <li>शिक्षण, नोकरी व आरोग्य महत्त्वाचे घटक आहेत.</li>
-              <li>पैशाऐवजी सुसंस्कार व सुसंवाद बघा.</li>
-              <li>धार्मिक, सामाजिक मूल्यांची जाणीव असलेली व्यक्ती निवडा.</li>
-              <li>प्रेम, विश्वास आणि सहकार्याचा पाया मजबूत असावा.</li>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <li key={i}>{t(`guide.point${i + 1}`)}</li>
+              ))}
             </ul>
           </div>
 
-          <div className="text-center text-sm text-gray-400 mt-10">
-            Generated on: {formatDate(new Date().toLocaleDateString(), { withTime: true })} | Powered by Vaishya Parinay
+          <div className="text-center text-xs text-gray-400 mt-8">
+            {t('guide.generated')} {formatDate(new Date().toLocaleString())} | {t('guide.poweredBy')}
           </div>
         </div>
 
