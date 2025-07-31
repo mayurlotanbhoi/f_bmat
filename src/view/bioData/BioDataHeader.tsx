@@ -37,7 +37,7 @@ export const BioDataHeader = () => {
 
                 {/* Ganpati Bottom Center Icon */}
                 <img
-                    className="w-[40px] md:w-[60px] absolute bottom-[-25px] left-1/2 transform -translate-x-1/2"
+                    className="w-[40px] md:w-[60px] absolute bottom-[-25px] sm:bottom-[-50px] left-1/2 transform -translate-x-1/2"
                     src={ganpati}
                     alt="Ganpati Icon"
                 />

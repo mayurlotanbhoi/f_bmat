@@ -39,6 +39,7 @@
     "contact": "Contact"
   },
   "labels": {
+    "scan": "Scan the code to view full profile",
     "fullName": "Full Name",
     "gender": "Gender",
     "dob": "Date of Birth",

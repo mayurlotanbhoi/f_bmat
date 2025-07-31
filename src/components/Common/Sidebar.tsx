@@ -60,13 +60,13 @@ const Sidebar: React.FC = () => {
         { to: "/matches", icon: <FaHeart />, label: menuLabels.matches },
         { to: "/likes", icon: <FaEnvelopeOpenText />, label: menuLabels.requests },
         { to: "/profile/filter", icon: <FaSearch />, label: menuLabels.search },
-        { to: "/lang", icon: <FaCog />, label: menuLabels.language },
+        // { to: "/lang", icon: <FaCog />, label: menuLabels.language },
     ];
 
     return (
         <aside className="fixed top-0 left-0 h-full w-full sm:w-80 bg-white  flex flex-col ">
             <div className="px-6 py-4 text-2xl font-bold text-pink-600 border-b ">
-                💍 Vaishya Parinay
+                <h1 className='logo text-4xl text-primary font-extrabold  italic text-start '>भोई जोडीदार </h1>
             </div>
             <nav className="flex-1 px-4 py-4 overflow-y-auto">
                 <ul className="space-y-3 text-gray-700">

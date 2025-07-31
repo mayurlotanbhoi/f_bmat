@@ -235,12 +235,12 @@ border: 2px #111213 solid;
 }
 
 .qr-code svg{
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
 }
 .Verified-icon svg{
-  width: 120px;
-  height: 120px;
+  width: 90px;
+  height: 90px;
 }
 
 [data-download="true"] .qr-code svg {

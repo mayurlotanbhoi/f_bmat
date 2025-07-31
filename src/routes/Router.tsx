@@ -8,6 +8,7 @@ import { BioDownload } from '../view/bioData';
 import AppLoader from '../app/AppLoader';
 import InitialInfo from '../view/plashScreens';
 import {ScanQrPage} from '../view/scanQr';
+import LunchScreen from '../view/lunchScren';
 // import { ViewBioData } from '../view/viewBioData';
 
 // import BioForm from '../view/bioForm';
@@ -126,6 +127,7 @@ const routes = [
                 path: '/vlew-profile/:id',
                 element: <ViewBioData />,
             },
+            
             {
                 path: '/scanner',
                 element: <ScanQrPage />,
@@ -174,6 +176,14 @@ const routes = [
 
         ],
 
+    },
+    {
+        path: '/scan-qr-view-profile/:id',
+        element: <ViewBioData />,
+    },
+    {
+        path: '/lunch',
+        element: <LunchScreen />,
     },
     {
         path: '/auth',

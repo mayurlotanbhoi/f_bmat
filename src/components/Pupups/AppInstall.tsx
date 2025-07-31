@@ -5,9 +5,11 @@ import { useEffect, useRef } from 'react';
 
 type AppInstallProps = {
   installApp: () => void;
+  title: string;
+  description: string;
 };
 
-export default function AppInstall({ installApp }: AppInstallProps) {
+export default function AppInstall({ installApp, title, description }: AppInstallProps) {
   const { isInstalled, hasUpdate } = usePwaStatus();
   const drawerRef = useRef<HTMLDivElement>(null);
 

@@ -1,0 +1,1 @@
+export const qrScanLink = 'https://bmat.onrender.com/scan-qr-view-profile/'

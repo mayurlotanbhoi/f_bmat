@@ -6,6 +6,7 @@ import ProfileStatus from "./ProfileStatus";
 import { IoMdMenu } from "react-icons/io";
 import { CgMenuMotion } from "react-icons/cg";
 import { useAuth } from "../../hooks/useAuth";
+import {logo_xl}from "../../util/images.util";
 
 const Header: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -19,7 +20,11 @@ const Header: React.FC = () => {
                 <div className=" mx-auto text-white px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
                     {/* Logo / Title */}
                     <div className="text-xl font-bold ">
-                        MySite
+                        <img
+                            src={logo_xl}
+                            alt="Logo"
+                            className="h-12 w-auto"
+                        />
                     </div>
                     <div className=" flex justify-center items-center gap-2">
                         <ProfileStatus percentage={75} imageUrl={user?.profilePicture} />

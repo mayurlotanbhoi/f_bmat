@@ -19,6 +19,7 @@ import {  MdInsertDriveFile } from 'react-icons/md';
 import { shareElementAsImage } from '../../util';
 import { useTranslation } from 'react-i18next';
 import { BioDataHeader } from './BioDataHeader';
+import { qrScanLink } from '../../constant';
 
 
 export const ProfileCard = ({ profile }) => {
@@ -34,7 +35,7 @@ export const ProfileCard = ({ profile }) => {
   const income = profile?.professionalDetails?.income;
   const jobType = profile?.professionalDetails?.jobType;
   const location = formatAddress(profile?.contactDetails?.presentAddress) || profile?.contactDetails?.presentAddress?.city;
-  const profileUrl = `https://bmat.onrender.com/vlew-profile/${profile?._id}`;
+  const profileUrl = `${qrScanLink}/${profile?._id}`;
 
   return (
     <div
@@ -177,7 +178,7 @@ export default function MatrimonyBioData() {
   const { t } = useTranslation();
   const [showPaymentQr, setShowPaymentQr] = useState(false);
   const profile = getMatrimony();
-  const biodataUrl = `https://bmat.onrender.com/vlew-profile/${profile?._id}`;
+  const biodataUrl = `${qrScanLink}/${profile?._id}`;
 
 
   const handleDownload = () => {
@@ -238,7 +239,7 @@ export default function MatrimonyBioData() {
       </div>
 
 
-      <div id='biodataPage' className="flex border-2 border-dashed border-red-500  md-w-full flex-col items-center  bg-white min-h-screen text-lg">
+      <div id='biodataPage' className="flex border-2 mt-10 border-dashed border-red-500  md-w-full flex-col items-center  bg-white min-h-screen text-lg">
         {/* Page 1 */}
         {/* Download Button */}
 
@@ -320,7 +321,7 @@ export default function MatrimonyBioData() {
                 <img
                   src={profile?.profilePhotos?.[0]}
                   alt="Profile"
-                  className="w-28 min:h-[200px]  md:w-[240px] md:h-[320px] object-cover rounded-md border-2 border-pink-600 shadow-md"
+                  className="w-28 min-h-[150px]  md:w-[240px] md:h-[320px] object-cover rounded-md border-2 border-pink-600 shadow-md"
                 />
                 <div className="qr-code  gap-2   flex items-center text-center">
                   <div className=''>
@@ -338,9 +339,7 @@ export default function MatrimonyBioData() {
                     </div>
                   )}
                 </div>
-                <small className="col-span-1 max-w-20 md:max-w-full  flex flex-col items-center text-xs leading-3">Scan this QR code to view your profile</small>
-
-                
+                <small className="col-span-1 max-w-20 md:max-w-full  flex flex-col items-center text-xs leading-3">{labels.scan}</small>
               </div>
             </div>
           </div>

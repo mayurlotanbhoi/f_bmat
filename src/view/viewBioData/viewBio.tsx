@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import { getShearedBio } from '../../features/biodata/shearedSlice';
 import { t } from 'i18next';
 import { makeCall, sendWhatsAppMessage } from '../../util';
+import { qrScanLink } from '../../constant';
 
 export default function ViewBio({ biodata }: { biodata?: any }) {
     const { id } = useParams();
@@ -219,7 +220,7 @@ const isLiked =  useCallback((id: string) => {
                     <div className=' flex justify-between my-4'>
                         <button onClick={() => makeCall(bio?.contactDetails?.mobileNo)} className='btn   secondary-btn'> <FaLock size={15} /> <p>{label.callNow}</p> </button>
                         <button onClick={() => sendWhatsAppMessage({
-                            phoneNumber: bio?.contactDetails?.whatsappNo, message: 'we love you', biodataUrl: `http://localhost:5173/vlew-profile//vlew-profile/${bio?._id}`})} className='btn   therd-btn'> <IoLogoWhatsapp size={15} /> <p>{label.whatsappNow}</p> </button>
+                            phoneNumber: bio?.contactDetails?.whatsappNo, message: 'like', biodataUrl: `${qrScanLink}/${bio?._id}`})} className='btn   therd-btn'> <IoLogoWhatsapp size={15} /> <p>{label.whatsappNow}</p> </button>
                     </div>
                     <div className='flex justify-start items-center gap-1 capitalize'><CiLocationOn size={20} /> <small className='text-[16px] '>{formatShortAddress(contactDetails?.presentAddress)}</small></div>
                 </div>
