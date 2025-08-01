@@ -140,7 +140,7 @@ export default function Home() {
 
             {/* Install/Update Drawer */}
             <Drawer
-                isOpen={shouldShowDrawer}
+                isOpen={hasUpdate || (showInstallDrawer && !isInstalled)}
                 position="bottom"
                 padding="p-0"
                 widthClass="w-100"
