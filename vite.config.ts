@@ -47,17 +47,19 @@ export default defineConfig({
             src: '/android-chrome-192x192.png', // Use public folder paths
             sizes: '192x192',
             type: 'image/png',
+            purpose: 'maskable',
           },
           {
             src: '/android-chrome-512x512.png',
             sizes: '512x512',
             type: 'image/png',
+            purpose: 'maskable',
           },
           {
             src: '/android-chrome-512x512.png',
             sizes: '512x512',
             type: 'image/png',
-            purpose: 'any maskable',
+            purpose: 'maskable',
           },
           // Add more icon sizes for better compatibility
           {
@@ -69,16 +71,19 @@ export default defineConfig({
             src: '/android-chrome-192x192.png',
             sizes: '96x96',
             type: 'image/png',
+            purpose: 'maskable',
           },
           {
             src: '/android-chrome-192x192.png',
             sizes: '72x72',
             type: 'image/png',
+            purpose: 'maskable',
           },
           {
             src: '/fevicon-32x32.png',
             sizes: '48x48',
             type: 'image/png',
+            purpose: 'maskable',
           },
         ],
       },
