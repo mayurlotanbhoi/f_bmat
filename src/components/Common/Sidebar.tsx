@@ -16,11 +16,12 @@ import { useNavigate, NavLink } from "react-router-dom";
 import persistStore from "redux-persist/es/persistStore";
 import { store } from "../../app/store";
 import { useLocalization } from "../../hooks";
+import { useAuth } from "../../hooks/useAuth";
 const persistor = persistStore(store);
 
 const Sidebar: React.FC = () => {
     const [logOut] = useLogOutMutation();
-    const dispatch = useDispatch();
+    const { user } = useAuth();
     const navigate = useNavigate();
     const sidebarLang = useLocalization('sidebar');
 
@@ -68,6 +69,18 @@ const Sidebar: React.FC = () => {
             <div className="px-6 py-4 text-2xl font-bold text-pink-600 border-b ">
                 <h1 className='logo text-4xl text-primary font-extrabold  italic text-start '>भोई जोडीदार </h1>
             </div>
+            <div className="flex justify-center px-5  ">
+                <img
+                    className="h-32 w-32 bg-white p-2 rounded-full"
+                    src={
+                        user?.profilePicture
+                            ? user?.profilePicture
+                            : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2000&q=80'
+                    }
+                    alt="User profile"
+                />
+            </div>
+            <h1 className="w-full text-center text-2xl font-bold">{user?.name}</h1>
             <nav className="flex-1 px-4 py-4 overflow-y-auto">
                 <ul className="space-y-3 text-gray-700">
                     {navItems.map((item, index) => (

@@ -41,7 +41,7 @@ export const ProfileCard = ({ profile }) => {
     <div
       ref={cardRef}
       id="biodata-card"
-      className="relative w-full max-w-xl mx-auto bg-white rounded-xl shadow-lg border p-4 flex flex-col sm:flex-row gap-4"
+      className="relative w-full  mx-auto bg-white rounded-xl shadow-lg border p-4 flex flex-col sm:flex-row gap-4"
     >
       {/* Verified Badge */}
       {profile?.isVerified && (
@@ -58,16 +58,16 @@ export const ProfileCard = ({ profile }) => {
             src={photo}
             alt={fullName}
             crossOrigin="anonymous"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-fill"
           />
         </div>
-        <span className="text-xs bg-gray-100 px-2 py-1 rounded shadow-sm font-semibold">
-          ID: {profile?.matId}
+        <span className="text-xs   rounded font-semibold">
+          MAT: {profile?.matId}
         </span>
         <QRCode
           value={profileUrl}
           size={64}
-          className="bg-white p-1 rounded border"
+          className="bg-white  rounded border"
         />
       </div>
 
@@ -199,7 +199,7 @@ export default function MatrimonyBioData() {
 
   const Info = ({ label, value, className = '' }) => (
     <div
-      className={`flex  text-[10px] md:text-[16px] text-gray-700 font-medium leading-5 md:leading-8 ${className}`}
+      className={`flex  text-[10px] md:text-[17px] text-gray-700 font-medium leading-5 md:leading-8 ${className}`}
     >
       <span className="whitespace-nowrap font-bold mr-1">
         {label} <span className="mr-2">:</span>
@@ -347,7 +347,7 @@ export default function MatrimonyBioData() {
 
 
         {/* Page 2 */}
-        <div className="bg-white w-full py-6 px-4 sm:px-6 rounded-lg shadow-md border border-gray-200">
+        <div className="bg-white w-full py-6  rounded-lg shadow-md border ">
           <h2 className="text-2xl font-bold text-center text-pink-700 mb-5">
             {t('guide.title')}
           </h2>
@@ -387,14 +387,21 @@ export default function MatrimonyBioData() {
         <ShareModalContent
           onClose={() => setShowShareModal(false)}
           onShareCard={() =>
+            // For WhatsApp - shorter text mode
             shareElementAsImage('biodata-card', {
-              filename: 'card.png',
-              shareTitle: `${profile?.personalDetails?.fullName}'s Matrimony Card`,
-              shareText: `👤 ${profile?.personalDetails?.fullName}\n📍 ${profile?.contactDetails?.presentAddress?.city}`,
+              filename: 'matrimony-card.png',
+              shareTitle: `${profile?.personalDetails?.fullName}'s Profile`,
+              shareText: `👤 ${profile?.personalDetails?.fullName}\n📍 ${profile?.contactDetails?.presentAddress?.city}\n💌 Interested families welcome!`,
               promotionUrl: biodataUrl,
-              onComplete: () => { setShowShareModal(false); setShowPaymentQr(true)},
+              shortTextMode: true, // This makes it WhatsApp friendly
+              onComplete: () => {
+                setShowShareModal(false);
+                setShowPaymentQr(true);
+              },
               isWidemode: true
             })
+
+
           }
           onShareFull={() =>
             shareElementAsImage('biodataPage', {

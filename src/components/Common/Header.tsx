@@ -27,7 +27,7 @@ const Header: React.FC = () => {
                         />
                     </div>
                     <div className=" flex justify-center items-center gap-2">
-                        <ProfileStatus percentage={75} imageUrl={user?.profilePicture} />
+                        {/* <ProfileStatus percentage={75} imageUrl={user?.profilePicture} /> */}
                         {/* <FaBell onClick={() => setSwitchLang(!switchLang)} size={25} className=" cursor-pointer" /> */}
                         <img onClick={() => setSwitchLang(!switchLang)} className=" w-7 h-auto" src={langicom} alt="langIcon" loading="lazy" />
                         {/* Menu button */}
