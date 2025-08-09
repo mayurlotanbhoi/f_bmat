@@ -18,6 +18,10 @@ import { getShearedBio } from '../../features/biodata/shearedSlice';
 import { t } from 'i18next';
 import { makeCall, sendWhatsAppMessage } from '../../util';
 import { qrScanLink } from '../../constant';
+import { loader } from '../../util/images.util';
+import { Loading } from '../../components/loaders/Loading';
+import { PiCampfireLight } from 'react-icons/pi';
+// import {  }  from "../../util/images.util";
 
 export default function ViewBio({ biodata }: { biodata?: any }) {
     const { id } = useParams();
@@ -61,7 +65,9 @@ const isLiked =  useCallback((id: string) => {
         vieViewLikes(id)
     }, [id]);
 
-    if (!bio) return <div className="text-center mt-10 text-gray-500">Loading profile...</div>;
+    // return <Loading text={t('loading')} />
+
+    if (!bio) return <Loading text={t('loading')} />;
 
     const { personalDetails, contactDetails, religiousDetails, familyDetails, educationDetails, professionalDetails, lifestyleDetails, expectation, profilePhotos } = bio;
 
@@ -89,14 +95,20 @@ const isLiked =  useCallback((id: string) => {
         Education: [
             { label: label.qualification, value: opinions?.educationDetails.highestQualification[educationDetails?.highestQualification] },
             { label: label.specialization, value: educationDetails?.specialization },
-        ],
-        Profession: [
-            { label: label.occupation, value: opinions.professionalDetails.occupation[ professionalDetails?.occupation] },
+            { label: label.occupation, value: opinions.professionalDetails.occupation[professionalDetails?.occupation] },
             { label: label.companyName, value: professionalDetails?.companyName },
             { label: label.jobType, value: opinions.professionalDetails.jobType[professionalDetails?.jobType] },
             { label: label.income, value: professionalDetails?.income },
             { label: label.workingCity, value: professionalDetails?.workingCity },
             { label: label.workFromHome, value: opinions.professionalDetails.workFromHome[professionalDetails?.workFromHome] },
+        ],
+        Religious: [
+            { label: label.caste, value: opinions.religiousDetails.caste[religiousDetails.caste] },
+            { label: label.subCaste, value: religiousDetails?.subCaste },
+            { label: label.gotra, value: religiousDetails?.gotra },
+            { label: label.manglik, value: opinions.religiousDetails.manglik[religiousDetails?.manglik] },
+            { label: label.nakshatra, value: opinions.religiousDetails.nakshatra[religiousDetails?.nakshatra] },
+            { label: label.rashi, value: opinions.religiousDetails.rashi[religiousDetails?.rashi] },
         ],
         Contact: [
             { label: label.phone, value: contactDetails?.mobileNo },
@@ -123,9 +135,12 @@ const isLiked =  useCallback((id: string) => {
         Expectations: [
             { label: label.qualification, value: expectation?.education?.map(item => opinions.educationDetails.highestQualification[item]).join(', ') },
             { label: label.occupation, value: expectation?.occupation?.map(item => opinions.professionalDetails.occupation[item]).join(', ') },
+            { label: label.income, value: opinions.expectation.income[expectation?.income] },
+            { label: label.jobType, value: expectation?.jobType?.map(item => opinions.expectation.jobType[item]).join(', ') },
             { label: label.locationPreference, value: expectation?.locationPreference },
             { label: label.ageRange, value: expectation?.ageRange },
-            { label: label.heightRange, value: expectation?.heightRange },
+            { label: label.heightRange, value: opinions.expectation.heightRange[expectation?.heightRange] },
+            { label: label.otherExpect, value: expectation?.caste },
         ]
     };
 
@@ -134,7 +149,7 @@ const isLiked =  useCallback((id: string) => {
     const tabConfig = [
         { key: 'Personal', icon: FaUser, text: sectionTitles.personalDetails },
         { key: 'Education', icon: FaGraduationCap, text: sectionTitles.educationAndProfession },
-        { key: 'Profession', icon: FaBriefcase, text: sectionTitles.educationAndProfession },
+        { key: 'Religious', icon: PiCampfireLight, text: sectionTitles.religiousDetails },
         { key: 'Contact', icon: FaPhone, text: sectionTitles.contactDetails },
         { key: 'Family', icon: FaUsers, text: sectionTitles.familyDetails },
         { key: 'Lifestyle', icon: FaLeaf, text: sectionTitles.lifestyle },
@@ -169,6 +184,7 @@ const isLiked =  useCallback((id: string) => {
                 )}
 
                 {/* Main Image */}
+                
                 <div
                     className=" min-h-[80vh] w-full bg-cover bg-center rounded-lg border mb-4"
                     style={{ backgroundImage: `url(${mainImage})` }}
@@ -187,32 +203,7 @@ const isLiked =  useCallback((id: string) => {
                         />
                     ))}
                 </div>
-
-                {/* Candidate Info */}
-                {/* <div className=' w-full absolute bottom-0 px-4  pb-2 text-white '>
-                    <div className="text-lg font-semibold mb-1">{bio?.personalDetails?.fullName}</div>
-                    <div className="text-sm  ">Cast: {bio?.religiousDetails?.subCaste},{bio?.religiousDetails?.caste}, </div>
-                    <div className="text-sm  mb-1">Age: {calculateAge(bio?.personalDetails?.dateOfBirth)}</div>
-                    <div className="text-sm  mb-3">Income: {bio?.professionalDetails?.income}, </div>
-
-
-                </div> */}
             </div>
-
-
-            {/* Stat Pills */}
-            {/* <div className="grid grid-cols-2 p-6 sm:grid-cols-4 gap-3">
-                {statBox.map((item, index) => (
-                    <div
-                        key={index}
-                        className={`rounded-xl shadow text-center p-3 text-sm font-semibold text-white ${index === 0 ? 'bg-pink-600' : 'bg-gray-600'
-                            }`}
-                    >
-                        <div>{item.label}</div>
-                        <div className="text-xs font-normal mt-1">{item.value || 'N/A'}</div>
-                    </div>
-                ))}
-            </div> */}
 
             <div className=' my-5 px-2 '>
                 <div className=' my-5 px-2 '>
@@ -263,9 +254,9 @@ const isLiked =  useCallback((id: string) => {
             {/* Tabs */}
             <div className="">
                 <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-4 sm:p-6">
-                    <h2 className="text-lg font-semibold text-pink-600 mb-4">
+                    {/* <h2 className="text-lg font-semibold text-pink-600 mb-4">
                         {currectSection}
-                    </h2>
+                    </h2> */}
 
                     <div className="divide-y divide-gray-100">
                         {tabs[activeTab].map((item, idx) => (
@@ -274,7 +265,7 @@ const isLiked =  useCallback((id: string) => {
                                 className={`flex justify-between py-3 px-2 sm:px-3 text-sm ${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'
                                     } rounded-lg`}
                             >
-                                <span className="text-black font-medium">{item.label}</span>
+                                <span className="text-black font-medium me-2">{item.label}</span>
                                 <span className="text-gray-800 text-right">{item.value || 'N/A'}</span>
                             </div>
                         ))}

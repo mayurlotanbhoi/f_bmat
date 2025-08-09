@@ -4,7 +4,7 @@ import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 import { calculateAge, formatDate } from '../../util/dateFormat';
 import { MdOutlineFileDownload, MdOutlineVerifiedUser, MdPhone, MdShare, MdVerified, MdWhatsapp } from 'react-icons/md';
 import { BioHeader, couple, ganpati, logo_xl } from '../../util/images.util';
-import { FaLevelUpAlt, FaSpinner } from 'react-icons/fa';
+import { FaEdit, FaLevelUpAlt, FaSpinner } from 'react-icons/fa';
 import { GoLink } from 'react-icons/go';
 import { toPng } from 'html-to-image';
 import { formatCurrency } from '../../util/formatCurrency';
@@ -20,6 +20,8 @@ import { shareElementAsImage } from '../../util';
 import { useTranslation } from 'react-i18next';
 import { BioDataHeader } from './BioDataHeader';
 import { qrScanLink } from '../../constant';
+import { Link } from 'react-router-dom';
+import { CiEdit } from 'react-icons/ci';
 
 
 export const ProfileCard = ({ profile }) => {
@@ -33,6 +35,7 @@ export const ProfileCard = ({ profile }) => {
   const caste = profile?.religiousDetails?.caste;
   const subCaste = profile?.religiousDetails?.subCaste;
   const income = profile?.professionalDetails?.income;
+  console.log('profile', profile?.professionalDetails?.income);
   const jobType = profile?.professionalDetails?.jobType;
   const location = formatAddress(profile?.contactDetails?.presentAddress) || profile?.contactDetails?.presentAddress?.city;
   const profileUrl = `${qrScanLink}/${profile?._id}`;
@@ -213,7 +216,18 @@ export default function MatrimonyBioData() {
     <>
 
 
-      <div className=' flex justify-end gap-2 my-2'>
+      <div className=' flex justify-center md:justify-end gap-2 my-2'>
+
+        <Link
+          to='/complet-profile'
+          className="bg-white text-primary transition flex justify-center items-center rounded-md gap-2 px-4 py-2"
+        >
+          {/* <HiExternalLink size={20} /> */}
+          {/* <FaLevelUpAlt size={20} /> */}
+          <CiEdit size={20} />
+         
+          <span>Edit</span>
+        </Link>
         <button
           className="bg-white text-primary transition flex justify-center items-center rounded-md gap-2 px-4 py-2"
           onClick={() => setShowShareModal(true)}
@@ -339,7 +353,7 @@ export default function MatrimonyBioData() {
                     </div>
                   )}
                 </div>
-                <small className="col-span-1 max-w-20 md:max-w-full  flex flex-col items-center text-xs leading-3">{labels.scan}</small>
+                <small className="col-span-1 max-w-20 md:max-w-full  flex flex-col items-center text-[10px] text-center leading-3">{labels.scan}</small>
               </div>
             </div>
           </div>

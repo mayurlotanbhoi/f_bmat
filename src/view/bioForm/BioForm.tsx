@@ -74,7 +74,7 @@ const steps = [
             { name: "professionalDetails.jobType", label: t("fields.jobType"), placeholder: "Private", type: "select", required: true },
             { name: "professionalDetails.occupation", label: t("fields.occupation"), placeholder: "Software Developer", type: "select", required: true },
             { name: "professionalDetails.companyName", label: t("fields.companyName"), placeholder: "Infosys Ltd.", type: "text", required: false },
-            { name: "professionalDetails.income", label: t("fields.income"), placeholder: "₹15,00,000", type: "text", required: true },
+            { name: "professionalDetails.income", label: t("fields.income"), placeholder: "₹15,00,000", type: "select", required: true },
             { name: "professionalDetails.workingCity", label: t("fields.workingCity"), placeholder: "Bangalore", type: "text", required: true },
             { name: "professionalDetails.workFromHome", label: t("fields.workFromHome"), placeholder: "Yes/No", type: "select", required: false },
         ],
@@ -109,11 +109,11 @@ const steps = [
             { name: "expectation.ageRange", label: t("fields.ageRange"), placeholder: "24-29", type: "text", required: false },
             { name: "expectation.heightRange", label: t("fields.heightRange"), placeholder: "5'2\" - 5'8\"", type: "select", required: false },
             { name: "expectation.income", label: t("fields.income"), placeholder: "₹1,00,000", type: "select", required: false },
-            { name: "expectation.caste", label: t("fields.caste"), placeholder: "Brahmin", type: "text", required: false },
             { name: "expectation.education", label: t("fields.education"), placeholder: "Graduate or above", type: "multiselect", required: false },
             { name: "expectation.occupation", label: t("fields.occupation"), placeholder: "Working professional preferred", type: "multiselect", required: false },
             { name: "expectation.jobType", label: t("fields.jobType"), placeholder: "Privet Goverment", type: "multiselect", required: false },
             { name: "expectation.locationPreference", label: t("fields.locationPreference"), placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
+            { name: "expectation.caste", label: t("fields.otherExpect"), placeholder: t("fields.locationPreference") + ", " + t("fields.income") + ", " + t("fields.smoking") + ", " + t("fields.drinking"), type: "textarea", required: false },
         ],
     },
     {
@@ -159,6 +159,8 @@ const addressSchema = Yup.object({
         .required("Pin Code is required")
         .matches(pinCodeRegex, "Invalid Pin Code format"),
 });
+
+// const nameRegex = /^[\p{Devanagari}A-Za-z\s]+$/u;
 
 const validationSchemas = [
 
@@ -800,7 +802,6 @@ const MultiStepForm: React.FC = () => {
 
         const keys = name.split(".");
         let current: any = t("options", { returnObjects: true }); // get full options tree
-
         for (const key of keys) {
             if (current && typeof current === "object" && key in current) {
                 current = current[key];
@@ -808,7 +809,6 @@ const MultiStepForm: React.FC = () => {
                 return [];
             }
         }
-
         if (!current || typeof current !== "object") return [];
 
         return Object.entries(current).map(([value, label]) => ({
@@ -873,7 +873,7 @@ const MultiStepForm: React.FC = () => {
         }
 
      
-            setIsSubmitting(true)
+           
             let res;
             if (isProfilePresent) {
                 res = await updateMatrimonyProfile({ id: profile._id, formData }).unwrap();
@@ -886,7 +886,7 @@ const MultiStepForm: React.FC = () => {
             }
             console.log("✅ Success", res);
        
-            setIsSubmitting(false)
+            
         return res;
         
     };
@@ -1005,16 +1005,24 @@ const MultiStepForm: React.FC = () => {
                             handleNext(); // move to next step
                             actions.setTouched({});
                         } else {
+
                             console.log("Final submit:", values);
                             const changes = getChangedFields(!isProfilePresent ? initialValues : oldInitialValues, values);
                             // handleSubmit(values);
-                            console.log("changes", changes);
-                            await asyncHandlerWithSwal(() => handleSubmit(changes), {
-                                loadingHtml: "<b>Uploading your file...</b>",
-                                successHtml: "<b>successful!</b>",
+                            setIsSubmitting(true)
+                            try {
+                                await asyncHandlerWithSwal(() => handleSubmit(changes), {
+                                    loadingHtml: "<b>Uploading your file...</b>",
+                                    successHtml: "<b>successful!</b>",
                                 errorHtml: "<b>Upload failed. Please try again.</b>",
                             });
-                           
+
+                            } catch (error) {
+                                console.error("Error uploading file:", error);
+                            }finally {
+                                setIsSubmitting(false)
+                            }
+
                         }
 
                     }}

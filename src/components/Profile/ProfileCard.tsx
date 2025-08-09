@@ -22,6 +22,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ bio, setViewBio }) => {
     const [triggerNotification] = useLazySendProfileViewedNotificationQuery();
     const profileLang = useLocalization('profile');
     const viewBio = useLocalization('viewBio');
+    const opinions = useLocalization('options');
 
     const handleViewProfile = useCallback((bio) => {
         setViewBio(bio);
@@ -61,7 +62,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ bio, setViewBio }) => {
             {/* Candidate Info */}
             <div className=' w-full absolute bottom-0 px-4  pb-2 text-white '>
                 <div className="text-lg font-semibold mb-1">{bio?.personalDetails?.fullName}</div>
-                <div className="text-sm  ">{profileLang?.caste}: {bio?.religiousDetails?.subCaste},{bio?.religiousDetails?.caste}, </div>
+                <div className="text-sm  ">{profileLang?.caste}: {bio?.religiousDetails?.subCaste},{opinions?.religiousDetails?.caste[bio?.religiousDetails?.caste]}, </div>
                 <div className="text-sm  mb-1">{profileLang?.age}: {calculateAge(bio?.personalDetails?.dateOfBirth)}</div>
                 <div className="text-sm  mb-3">{profileLang?.income}: {formatCurrency(bio?.professionalDetails?.income)}, </div>
 

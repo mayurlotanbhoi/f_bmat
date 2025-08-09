@@ -15,7 +15,7 @@ interface ProfileProps {
 
 export default function CompletProfile({ profile }: ProfileProps) {
     const { complition, name, avatar } = profile;
-    const profleSMS = useLocalization("completeProfileSMS")
+    const profleSMS = useLocalization(complition !< 80 ? "completeProfileSMS" : "completeProfileSMS1")
 
     return (
         <Link to={'/complet-profile'} className="flex items-center gap-6 px-6 py-4 my-4 w-full  bg-[#FFF2E5] rounded-2xl shadow-md">

@@ -31,7 +31,7 @@ export default function SpeedDial() {
             ),
         },
         {
-            label: 'Biodata',
+            label: 'Edit Profile',
             path: '/complet-profile',
             icon: <ImProfile size={20} />,
         },

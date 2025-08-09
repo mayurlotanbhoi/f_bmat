@@ -551,7 +551,14 @@ export default function Profile() {
 
     const toggleDrawerHeight = () => {
         setDrawerHeight((prev) =>
-            prev === "h-80" ? "h-[100vh]" : "h-80"
+        {
+            if (prev === "h-80"){
+                return "h-[100vh]";
+            }else{
+                setViewBio(false);
+                return "h-80";
+            }
+        }
         );
     };
 
