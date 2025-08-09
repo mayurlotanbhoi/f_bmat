@@ -25,6 +25,7 @@ import ViewBio from '../viewBioData/viewBio';
 import { filterValidationSchema } from '../../validations/matrimony.validations';
 import { object } from 'yup';
 import NoData from '../../components/Common/notFound';
+import { useLocalization } from '../../hooks';
 
 interface TypeOfBio {
     [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
@@ -258,18 +259,22 @@ const optionsMap = {
     "jobType": ["Government", "Private", "Business", "Freelance"],
 
 };
+
+
 const Filter: React.FC<FilterProps> = ({ onSave, filterKey, setFilter, setModelKey, setShowfilter }) => {
     const formikRef = useRef<FormikProps<any>>(null);
+    const labels = useLocalization('labels')
+    const expected = useLocalization('expected')
 
     const fields = [
-        { name: "ageRange", label: "Expected Age Range", placeholder: "24-29", type: "text", required: false },
-        { name: "heightRange", label: "Expected Height Range", placeholder: "5'2\" - 5'8\"", type: "select", required: false },
-        { name: "income", label: "Expected Annual Min Income", placeholder: "₹1,00,000", type: "text", required: false },
-        { name: "subCaste", label: "Expected Caste", placeholder: "More", type: "text", required: false },
-        { name: "education", label: "Expected Education", placeholder: "Graduate or above", type: "multiselect", required: false },
-        { name: "occupation", label: "Expected Occupation", placeholder: "Working professional", type: "multiselect", required: false },
-        { name: "jobType", label: "Expected Job Type", placeholder: "Private / Government", type: "multiselect", required: false },
-        { name: "city", label: "Location Preference", placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
+        { name: "ageRange", label: expected+" "+ labels.ageRange, placeholder: "24-29", type: "text", required: false },
+        { name: "heightRange", label: expected + " " +  labels.heightRange, placeholder: "5'2\" - 5'8\"", type: "select", required: false },
+        { name: "income", label: labels.income, placeholder: "₹1,00,000", type: "text", required: false },
+        { name: "subCaste", label: expected + " " +  labels.subCaste, placeholder: "More", type: "text", required: false },
+        { name: "education", label: expected + " " +  labels.qualification, placeholder: "Graduate or above", type: "multiselect", required: false },
+        { name: "occupation", label: expected + " " +  labels.occupation, placeholder: "Working professional", type: "multiselect", required: false },
+        { name: "jobType", label: expected + " " +  labels.jobType, placeholder: "Private / Government", type: "multiselect", required: false },
+        { name: "city", label: expected + " " +  labels.city, placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
     ];
 
     const getOptionsForField = (name: string): { label: string; value: string }[] => {

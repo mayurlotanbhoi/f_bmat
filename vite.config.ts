@@ -44,37 +44,37 @@ export default defineConfig({
         id: '/lknkjgk65465464', // Add unique ID
         icons: [
           {
-            src: '/android-chrome-192x192.png', // Use public folder paths
+            src: 'apple-splash-828-1792.png', // Use public folder paths
             sizes: '192x192',
             type: 'image/png',
             purpose: 'maskable',
           },
           {
-            src: '/android-chrome-512x512.png',
+            src: 'apple-splash-828-1792.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
           },
           {
-            src: '/android-chrome-512x512.png',
+            src: 'apple-splash-828-1792.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable',
           },
           // Add more icon sizes for better compatibility
           {
-            src: '/android-chrome-192x192.png',
+            src: 'apple-splash-828-1792.png',
             sizes: '144x144',
             type: 'image/png',
           },
           {
-            src: '/android-chrome-192x192.png',
+            src: 'apple-splash-828-1792.png',
             sizes: '96x96',
             type: 'image/png',
             purpose: 'maskable',
           },
           {
-            src: '/android-chrome-192x192.png',
+            src: 'apple-splash-828-1792.png',
             sizes: '72x72',
             type: 'image/png',
             purpose: 'maskable',

@@ -189,7 +189,7 @@ export default function MatrimonyBioData() {
     setTimeout(() => {
       downloadAsImage({
         setLoading,
-        fileName: 'biodata.png',
+        fileName: `${profile?.personalDetails?.fullName}-Biodata.png`,
         id: 'biodataPage'
       });
      
@@ -260,35 +260,6 @@ export default function MatrimonyBioData() {
         <div className="bg-white  w-full     ">
           {/* Header Image */}
           <BioDataHeader />
-          {/* <div className="bg-white w-full shadow-[0_4px_10px_-2px_rgba(0,0,0,0.2)]">
-            <div className="relative text-center flex justify-between items-center py-4 px-4 bio_header h-52">
-
-              <img className="w-[70px] md:w-[120px]" src={logo_xl} alt="Biodata Logo" />
-
-              <div className="flex flex-col items-center justify-center">
-                <h1 className="text-xl md:text-3xl font-bold text-gray-900 tracking-wide">
-                  Bhoi Samaj Vivah Munch
-                </h1>
-                <p className="text-sm md:text-base text-gray-600 mt-1">
-                  एक विश्वासार्ह व सुरक्षित विवाह जुळवणी मंच
-                </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  Empowering Bhoi Community for Meaningful Marriages
-                </p>
-              </div>
-
-              <img className="w-[70px] md:w-[120px]" src={couple} alt="Couple Icon" />
-
-
-              <img
-                className="w-[40px] md:w-[60px] absolute bottom-[-25px] left-1/2 transform -translate-x-1/2"
-                src={ganpati}
-                alt="Ganpati Icon"
-              />
-            </div>
-          </div> */}
-
-
 
           {/* Personal Info Section */}
           <div className="flex flex-row gap-2 mt-6 py-2   px-4">
@@ -419,7 +390,7 @@ export default function MatrimonyBioData() {
           }
           onShareFull={() =>
             shareElementAsImage('biodataPage', {
-              filename: 'biodata-full.png',
+              filename: `${profile?.personalDetails?.fullName}-Biodata.png`,
               shareTitle: `${profile?.personalDetails?.fullName}'s Full Biodata`,
               shareText: `🧾 Full Matrimony Biodata of ${profile?.personalDetails?.fullName}`,
               onComplete: () => { setShowShareModal(false); setShowPaymentQr(true) }, promotionUrl: biodataUrl,

@@ -5,7 +5,7 @@ import Category from "./Category";
 import { AppDownloading, AppInstall, FullFirework } from "../../components";
 import { profilesData } from "../../data/profiles";
 import CompletProfile from "./CompletProfile";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocalization, usePwaPrompt } from "../../hooks";
 import { motion } from "framer-motion";
 import { getMatrimony } from "../../features/matrimony/matrimonySlice";
@@ -15,10 +15,11 @@ import Drawer from "../../components/Common/Drawer";
 import { usePwaStatus } from "../../hooks/usePwaStatus";
 import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
 
-export default function Home() {
+ function Home() {
     const [isClickOnInstall, setClickOnInstall] = useState<boolean>(false);
     const [getLikes, { data, isLoading }] = useLazyGetLikesQuery();
     const [showInstallDrawer, setShowInstallDrawer] = useState(false);
+    const [open, setOpen] = useState(false);
 
     const { isInstalled, hasUpdate } = usePwaStatus();
     const { installApp, isInstallable, canInstall } = usePwaPrompt();
@@ -33,22 +34,11 @@ export default function Home() {
     useEffect(() => {
         getLikes('');
     }, []);
-
-    // Show install drawer if app is installable and not installed
     useEffect(() => {
-        if (canInstall && !isInstalled) {
-            // Delay showing the install prompt to improve UX
-            const timer = setTimeout(() => {
-                setShowInstallDrawer(true);
-            }, 3000); // Show after 3 seconds
-
-            return () => clearTimeout(timer);
+        console.log('hasUpdate', hasUpdate, 'showInstallDrawer', showInstallDrawer, 'isInstalled', isInstalled);
+        if (hasUpdate || (showInstallDrawer && !isInstalled)) {
+            setOpen(true);
         }
-    }, [canInstall, isInstalled]);
-
-    // Determine what to show in the drawer
-    const shouldShowDrawer = useMemo(() => {
-        return hasUpdate || (showInstallDrawer && !isInstalled);
     }, [hasUpdate, showInstallDrawer, isInstalled]);
 
     const handleAppInstall = async () => {
@@ -123,7 +113,6 @@ export default function Home() {
                                     <img
                                         src={menuIcons[index]}
                                         alt={`${item?.text} icon`}
-                                        loading="lazy"
                                         className="w-36 h-44 rounded-2xl bg-white drop-shadow-md"
                                     />
                                     <div className="mb-4 text-center">
@@ -139,31 +128,9 @@ export default function Home() {
             <Matche />
 
             {/* Install/Update Drawer */}
-            <Drawer
-                isOpen={hasUpdate || (showInstallDrawer && !isInstalled)}
-                position="bottom"
-                padding="p-0"
-                widthClass="w-100"
-                className="rounded-t-lg"
-                showCloseBtn={!hasUpdate} // Don't show close button for updates
-                onClose={handleCloseDrawer}
-            >
-                {hasUpdate ? (
-                    <AppInstall
-                        installApp={handleUpdateApp}
-                        title="Update Available"
-                        description="A new version of the app is available. Update now for the latest features!"
-                    />
-                ) : isClickOnInstall ? (
-                    <AppDownloading />
-                ) : (
-                    <AppInstall
-                        installApp={handleAppInstall}
-                        title="Install App"
-                        description="Install our app for a better experience!"
-                    />
-                )}
-            </Drawer>
+            
         </div>
     );
 }
+
+export default React.memo(Home);

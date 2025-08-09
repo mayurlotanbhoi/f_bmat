@@ -21,14 +21,21 @@ import { qrScanLink } from '../../constant';
 import { loader } from '../../util/images.util';
 import { Loading } from '../../components/loaders/Loading';
 import { PiCampfireLight } from 'react-icons/pi';
+import { formatCurrency } from '../../util/formatCurrency';
+import { useAuth } from '../../hooks/useAuth';
+import NoData from '../../components/Common/notFound';
+import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 // import {  }  from "../../util/images.util";
 
 export default function ViewBio({ biodata }: { biodata?: any }) {
     const { id } = useParams();
+    const profile = getMatrimony();
+    // console.log("profile", profile)
     const [bio, setBio] = useState<any>(biodata || null);
     const [activeTab, setActiveTab] = useState('Personal');
     const [mainImage, setMainImage] = useState(bio?.profilePhotos?.[0]);
     const [getBiodata] = useLazyGetBiodataQuery();
+    const [isProfileFound, setProfileFound] = useState(false);
     const [vieViewLikes] = useLazyViewLikesQuery();
      const [shearBioData] = useShareBioDataMutation();
 
@@ -38,7 +45,6 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
     const opinions = useLocalization('options');
     const [currectSection, setCurrectSection] = useState(sectionTitles.personalDetails);
  const likes = useSelector(getShearedBio);
-
 const isLiked =  useCallback((id: string) => {
     console.log("id", id, likes)
     // @ts-ignore
@@ -52,8 +58,15 @@ const isLiked =  useCallback((id: string) => {
     const getBiodatacall = async (id: any) => {
         try {
             const response = await getBiodata(id);
+            console.log("getBiodata response", response?.error);
+            if (response?.error) {
+                setProfileFound(true);
+            } else {
+                setProfileFound(false);
+            }
             setBio(response?.data?.data);
             setMainImage(response?.data?.data?.profilePhotos?.[0])
+            
         } catch (error) {
             console.error('Error fetching biodata:', error);
         }
@@ -65,8 +78,7 @@ const isLiked =  useCallback((id: string) => {
         vieViewLikes(id)
     }, [id]);
 
-    // return <Loading text={t('loading')} />
-
+    if (isProfileFound) return <NoData />;
     if (!bio) return <Loading text={t('loading')} />;
 
     const { personalDetails, contactDetails, religiousDetails, familyDetails, educationDetails, professionalDetails, lifestyleDetails, expectation, profilePhotos } = bio;
@@ -98,7 +110,7 @@ const isLiked =  useCallback((id: string) => {
             { label: label.occupation, value: opinions.professionalDetails.occupation[professionalDetails?.occupation] },
             { label: label.companyName, value: professionalDetails?.companyName },
             { label: label.jobType, value: opinions.professionalDetails.jobType[professionalDetails?.jobType] },
-            { label: label.income, value: professionalDetails?.income },
+            { label: label.income, value: opinions.expectation.income[professionalDetails?.income] },
             { label: label.workingCity, value: professionalDetails?.workingCity },
             { label: label.workFromHome, value: opinions.professionalDetails.workFromHome[professionalDetails?.workFromHome] },
         ],
@@ -277,7 +289,7 @@ const isLiked =  useCallback((id: string) => {
             <div className="text-center text-xs text-gray-400">
                 Last Updated: {new Date(bio?.updatedAt).toLocaleDateString()}
             </div>
-            <ConfettiButton>
+            {profile?._id && <ConfettiButton>
 
                 <button
                     onClick={() => handleShearClick(bio?.userId, bio?._id)}
@@ -285,8 +297,6 @@ const isLiked =  useCallback((id: string) => {
                     className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLoading || isLiked(bio?. userId?.toString()) ? 'opacity-70 cursor-not-allowed' : ''
                         }`}
                 >
-                   
-
                     {isLoading  ? (
                         <>
                             <svg
@@ -320,7 +330,7 @@ const isLiked =  useCallback((id: string) => {
                         </>
                     )}
                 </button>
-            </ConfettiButton>
+            </ConfettiButton>}
         </div>
     );
 }
