@@ -1,5 +1,5 @@
 import { MdVerified } from 'react-icons/md';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useGetMatchQuery } from '../../features/matrimony/matrimonyApi';
 import { calculateAge } from '../../util/dateFormat';
 import { formatAmount } from '../../util/commans';
@@ -10,6 +10,8 @@ import { useSelector } from 'react-redux';
 import { useCallback, useState } from 'react';
 import { ConfettiButton } from '../../components';
 import { useShareBioDataMutation } from '../../features/biodata/biodataApi';
+import { isGenerator } from 'framer-motion';
+import NoData from '../../components/Common/notFound';
 
 interface Bio {
     [key: string]: any;
@@ -18,6 +20,7 @@ interface Bio {
 const Matche = () => {
     const { data,  isError } = useGetMatchQuery('');
      const [shearBioData] = useShareBioDataMutation();
+     const location = useLocation()
     
         const [isLoading, setIsLoadoding] = useState(false);
     const likes = useSelector(getShearedBio);
@@ -36,6 +39,14 @@ const Matche = () => {
            return like.includes(id);
        }, [likes]);
 
+    console.log("match", data?.data
+
+
+)
+
+    if (data?.data?.length === 0 && location?.pathname === '/matches') {
+        return <NoData />;
+    }
 
     // if (isLoading) return <p className="text-center text-gray-500">Loading...</p>;
     // if (isError) return <p className="text-center text-red-500">No Match Found!</p>;
@@ -56,10 +67,10 @@ const Matche = () => {
     return (
         <>
         
-            <div className=" flex justify-between mt-3 ">
+            {data?.data?.length !== 0 && <div className=" flex justify-between mt-3 ">
                 <Heading className="text-xl w-100  font-semibold" text={matches} />
                 <div className=" text-right my-2"><Link className="text-blue-600 hover:underline cursor-pointer py-10" to='/matches'>See all match</Link></div>
-            </div>
+            </div>}
             <div className="md:flex justify-between items-center mt-3">
             {Array.isArray(data?.data) && data?.data?.map((match: Bio, index: number) => {
                 const name = match?.personalDetails?.fullName || 'Unknown';

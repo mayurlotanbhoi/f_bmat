@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLazyGetLikesQuery } from '../../features/biodata/biodataApi'
 import { Link, useLoaderData } from 'react-router-dom'
 import { useLocalization } from '../../hooks'
+import NoData from '../../components/Common/notFound'
 
 export default function SharedLinks() {
   const [getLikes, { data, isLoading }] = useLazyGetLikesQuery()
@@ -14,6 +15,10 @@ export default function SharedLinks() {
   }, [])
 
   const sharedList = data?.data?.[activeTab] || []
+
+  if(sharedList?.length === 0) {
+    return <NoData />
+  }
 
   const toggleExpand = (id: string) => {
     setExpandedIndex(expandedIndex === id ? null : id)
@@ -98,37 +103,6 @@ export default function SharedLinks() {
                     </div>
                   </div>
                 </div>
-
-                {/* Expandable content with smooth transition */}
-                {/* <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${isExpanded ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
-                >
-                  <div className="text-sm text-gray-600 space-y-1">
-                    <div><span className="font-medium">Gender:</span> {gender}</div>
-                    <div><span className="font-medium">DOB:</span> {new Date(dateOfBirth).toLocaleDateString()}</div>
-                    <div><span className="font-medium">Height:</span> {height}</div>
-                    <div><span className="font-medium">Weight:</span> {weight}</div>
-                    <div><span className="font-medium">Income:</span> ₹{income}</div>
-                  </div>
-                </div> */}
-
-                {/* Buttons */}
-                {/* <div className="mt-4 flex justify-between items-center">
-                  <button
-                    onClick={() => toggleExpand(id)}
-                    className="text-blue-600 hover:underline text-sm"
-                  >
-                    {isExpanded ? 'Hide Details' : 'Show More'}
-                  </button>
-                  <button
-                    className="text-white bg-blue-600 hover:bg-blue-700 text-sm px-4 py-1.5 rounded-lg"
-                    onClick={() =>
-                      window.open(`/matrimony/view-profile/${profile._id}`, '_blank')
-                    }
-                  >
-                    View Full Profile
-                  </button>
-                </div> */}
               </Link>
             )
           })}

@@ -262,6 +262,11 @@ border: 2px #111213 solid;
     height: 70px;
   }
 }
+
+.verified-bg{
+
+background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(164, 238, 191, 0.5) 50%, rgba(174, 238, 197, 0.5) 50%);
+}
 @media screen and (max-width: 400px) {
   .qr-code svg{
     width: 44px;

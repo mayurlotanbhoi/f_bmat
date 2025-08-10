@@ -2,8 +2,8 @@ import {  useRef, useState } from 'react';
 import QRCode from 'react-qr-code';
 import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 import { calculateAge, formatDate } from '../../util/dateFormat';
-import { MdOutlineFileDownload, MdOutlineVerifiedUser, MdPhone, MdShare, MdVerified, MdWhatsapp } from 'react-icons/md';
-import { BioHeader, couple, ganpati, logo_xl } from '../../util/images.util';
+import { MdOutlineFileDownload, MdOutlineVerifiedUser, MdPhone, MdShare, MdVerified, MdVerifiedUser, MdWhatsapp } from 'react-icons/md';
+import { BioHeader, couple, ganpati, logo_xl, verified } from '../../util/images.util';
 import { FaEdit, FaLevelUpAlt, FaSpinner } from 'react-icons/fa';
 import { GoLink } from 'react-icons/go';
 import { toPng } from 'html-to-image';
@@ -184,7 +184,7 @@ export function ShareBiodata({ biodataUrl, profile }) {
 
 
   return (
-    <div className="flex flex-col items-center gap-3 my-4 bg-white p-5 rounded-2xl shadow-lg border border-gray-100 w-full max-w-lg mx-auto">
+    <div className="flex flex-col items-center gap-3 my-4 bg-white p-5 rounded-2xl shadow-lg border border-gray-100   w-full mx-auto">
       {/* Header */}
       <div className="flex items-center gap-2">
         <FiShare2 className="text-blue-500 text-xl" />
@@ -211,8 +211,8 @@ export function ShareBiodata({ biodataUrl, profile }) {
 
         {/* Share Button */}
         <ShareButton
-          text={`Biodata of ${profile?.personalDetails?.fullName} `}
-          title="Check this biodata"
+          text={`Shear`}
+          title={`Biodata of ${profile?.personalDetails?.fullName} `}
           url={biodataUrl}
           className="flex items-center text-sm justify-center gap-2 px-5 py-2 bg_primary text-white font-bold rounded-lg"
           image="https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"
@@ -317,7 +317,20 @@ export default function MatrimonyBioData() {
       </div>
 
 
-      <div id='biodataPage' className="flex border-2 mt-10 border-dashed border-red-500  md-w-full flex-col items-center  bg-white min-h-screen text-lg">
+      <div id='biodataPage' className="flex border-2 mt-10 border-dashed border-red-500  md-w-full flex-col items-center  bg-white min-h-screen text-lg relative">
+
+        {profile?.isVerified && (
+          <div
+            className="scale-75 md:scale-100 flex items-center  absolute top-[6.5rem] md:top-[11rem] left-0 px-2 py-[2px]  font-semibold rounded-full"
+            style={{
+              lineHeight: "1.2",
+              whiteSpace: "nowrap"
+            }}
+          >
+            <img className="w-20 h-auto" src={verified} alt="Verified" />
+          </div>
+        )}
+
         {/* Page 1 */}
         {/* Download Button */}
 
@@ -325,14 +338,20 @@ export default function MatrimonyBioData() {
           {/* Header Image */}
           <BioDataHeader />
 
+
+
           {/* Personal Info Section */}
           <div className="flex flex-row gap-2 mt-6 py-2   px-4">
             
             {/* Left Column - Info */}
-            <div className="flex-1 space-y-4">
+            <div className="flex-1 space-y-4 ">
+              
              
               {/* <Heading className=' ' text="Personal Info" /> */}
-              <div className="grid grid-cols-4 p-0 m-0   ">
+              <div className="grid grid-cols-4 p-0 m-0    ">
+
+
+               
                 <Info className="col-span-4 text-start" label={labels.fullName} value={profile.personalDetails.fullName} />
                 <Info className={'col-span-4'} label={labels.age} value={`${calculateAge(profile.personalDetails.dateOfBirth)}`} />
                 <Info className={'col-span-4 text-start'} label={labels.dob} value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
@@ -366,7 +385,8 @@ export default function MatrimonyBioData() {
             {/* Right Column - Profile Photo */}
             <div className="flex  justify-center md:justify-end ">
               <div className=' flex flex-col items-center gap-2 relative'>
-                <b className='text-green-500'>MAT:{profile?.matId}</b>
+                
+                <b className='text-primary'>MAT:{profile?.matId}</b>
                 <img
                   src={profile?.profilePhotos?.[0]}
                   alt="Profile"
@@ -380,13 +400,7 @@ export default function MatrimonyBioData() {
                   />
                   {/* <small className="text-xs leading-3 my-2">Scan this QR code to view your profile</small> */}
                   </div>
-                  {profile?.isVerified && (
-                    <div className=" text-green-500  flex  flex-col items-center justify-center">
-                      {/* <MdVerified className="text-green-500" /> */}
-                      <MdOutlineVerifiedUser  />
-                      <small>Verified</small>
-                    </div>
-                  )}
+                 
                 </div>
                 <small className="col-span-1 max-w-20 md:max-w-full  flex flex-col items-center text-[10px] text-center leading-3">{labels.scan}</small>
               </div>
@@ -478,6 +492,7 @@ export const ShareButton = ({ text, url, title = "Share", image, className = "" 
         const shareData = {
           title,
           text,
+          description: title,
           url,
         };
 
@@ -489,8 +504,7 @@ export const ShareButton = ({ text, url, title = "Share", image, className = "" 
           //@ts-ignore
           shareData.files = [file];
         }
-
-        await navigator.share(shareData);
+      const result = await navigator.share(shareData);
       } catch (error) {
         console.error("Share cancelled or failed:", error);
       }

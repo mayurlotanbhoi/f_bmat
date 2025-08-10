@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BannerCarouselWrapper from "../../components/Swiper/ImageSwiper";
 import { appConfig } from "../../config/appCinfig";
 import Category from "./Category";
@@ -20,6 +20,7 @@ import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
     const [getLikes, { data, isLoading }] = useLazyGetLikesQuery();
     const [showInstallDrawer, setShowInstallDrawer] = useState(false);
     const [open, setOpen] = useState(false);
+     const navigate = useNavigate();
 
     const { isInstalled, hasUpdate } = usePwaStatus();
     const { installApp, isInstallable, canInstall } = usePwaPrompt();
@@ -104,9 +105,9 @@ import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
                         </div>
                         <div className="w-100 flex flex-wrap justify-between gap-4">
                             {mainMenu.map((item, index) => (
-                                <Link
+                                <div
                                     key={index}
-                                    to={`${item?.url}/${item?.key}`}
+                                    onClick={() => navigate(`${item?.url}/${item?.key}`)}
                                     style={{ backgroundColor: Cartclores[index] }}
                                     className="flex flex-col items-center justify-between w-36 h-44 rounded-2xl shadow-lg border border-rose-100 text-white transition-all duration-200 hover:scale-105"
                                 >
@@ -118,7 +119,7 @@ import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
                                     <div className="mb-4 text-center">
                                         <h3 className="text-lg font-semibold capitalize">{menu[index]}</h3>
                                     </div>
-                                </Link>
+                                </div>
                             ))}
                         </div>
                     </div>

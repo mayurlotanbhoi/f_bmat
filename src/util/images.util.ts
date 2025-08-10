@@ -15,6 +15,7 @@ import logo_xl from "../assets/images/logo_xl.png"
 import logo_md from "../assets/images/logo_md.png"
 import logo_sm from "../assets/images/logo_sm.png"
 import ganpati from "../assets/images/ganpati.webp"
+import verified from '../assets/images/verified.png'
 
 
 
@@ -36,5 +37,6 @@ export {
     education,
     job,
     nearby,
-    loader
+    loader,
+    verified
 }
