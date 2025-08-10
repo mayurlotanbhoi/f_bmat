@@ -1,13 +1,15 @@
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { ImProfile } from 'react-icons/im';
 import { RxCross2 } from 'react-icons/rx';
 import { Link } from 'react-router-dom';
-import { usePwaPrompt } from '../../../hooks';
+import { useLocalization, usePwaPrompt } from '../../../hooks';
 import { FullFirework } from '../Fireworks';
+import { ShareButton } from '../../../view/bioData/BioDownload';
 
 export default function SpeedDial() {
     const [isOpen, setIsOpen] = useState(false);
     const { installApp, isInstallable, canInstall } = usePwaPrompt();
+    const shareText = useLocalization('shareText');
 
     const handleAppInstall = async () => {
         try {
@@ -23,13 +25,13 @@ export default function SpeedDial() {
     };
 
     const items = [
-        {
-            label: 'Share',
-            path: '/share',
-            icon: (
-                <path d="M14.419 10.581a3.564 3.564 0 0 0-2.574 1.1l-4.756-2.49a3.54 3.54 0 0 0 .072-.71 3.55 3.55 0 0 0-.043-.428L11.67 6.1a3.56 3.56 0 1 0-.831-2.265c.006.143.02.286.043.428L6.33 6.218a3.573 3.573 0 1 0-.175 4.743l4.756 2.491a3.58 3.58 0 1 0 3.508-2.871Z" />
-            ),
-        },
+        // {
+        //     label: 'Share',
+        //     path: '/share',
+        //     icon: (
+        //         <path d="M14.419 10.581a3.564 3.564 0 0 0-2.574 1.1l-4.756-2.49a3.54 3.54 0 0 0 .072-.71 3.55 3.55 0 0 0-.043-.428L11.67 6.1a3.56 3.56 0 1 0-.831-2.265c.006.143.02.286.043.428L6.33 6.218a3.573 3.573 0 1 0-.175 4.743l4.756 2.491a3.58 3.58 0 1 0 3.508-2.871Z" />
+        //     ),
+        // },
         {
             label: 'Edit Profile',
             path: '/complet-profile',
@@ -64,6 +66,14 @@ export default function SpeedDial() {
                 className={`flex flex-col items-center mb-4 space-y-2 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
                     }`}
             >
+
+                <ShareButton
+                    title={shareText}
+                    text=""
+                    url={'https://bmat.onrender.com/'}
+                    className='flex items-center text-sm justify-center gap-2 px-5 py-3 my-2 bg_primary text-white font-bold rounded-lg'
+                    image={"https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"}
+                />
                 {items.map((item, i) => (
                     item.label === 'App Install' ? (
                         <button

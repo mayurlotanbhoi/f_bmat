@@ -172,7 +172,7 @@ export const ShareModalContent = ({ onClose, onShareCard, onShareFull  }) => {
 
 
 
-export function ShareBiodata({ biodataUrl }) {
+export function ShareBiodata({ biodataUrl, profile }) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -181,17 +181,7 @@ export function ShareBiodata({ biodataUrl }) {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleShare = async () => {
-    if (navigator.share) {
-      await navigator.share({
-        title: "Biodata Link",
-        text: "Check out this biodata",
-        url: biodataUrl,
-      });
-    } else {
-      handleCopy();
-    }
-  };
+
 
   return (
     <div className="flex flex-col items-center gap-3 my-4 bg-white p-5 rounded-2xl shadow-lg border border-gray-100 w-full max-w-lg mx-auto">
@@ -221,16 +211,17 @@ export function ShareBiodata({ biodataUrl }) {
 
         {/* Share Button */}
         <ShareButton
-          text="Share"
+          text={`Biodata of ${profile?.personalDetails?.fullName} `}
           title="Check this biodata"
           url={biodataUrl}
-          image={"https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"}
+          className="flex items-center text-sm justify-center gap-2 px-5 py-2 bg_primary text-white font-bold rounded-lg"
+          image="https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"
         />
       </div>
 
       {/* Optional small promo text */}
       <p className="text-xs text-gray-400 text-center">
-        Easily share your profile with friends, recruiters, or social media.
+        Share your biodata easily with family, relatives, or on social media.
       </p>
     </div>
 
@@ -318,7 +309,7 @@ export default function MatrimonyBioData() {
 
       
 
-      <ShareBiodata biodataUrl={biodataUrl} />
+      <ShareBiodata biodataUrl={biodataUrl} profile={profile}  />
 
       <div id="biodata-card" className="">
         <ProfileCard profile={profile} />
@@ -480,7 +471,7 @@ export default function MatrimonyBioData() {
 
 // ShareButton.jsx
 
-const ShareButton = ({ text, url, title = "Share", image }) => {
+export const ShareButton = ({ text, url, title = "Share", image, className = "" }) => {
   const handleShare = async () => {
     if (navigator.share) {
       try {
@@ -517,7 +508,7 @@ const ShareButton = ({ text, url, title = "Share", image }) => {
   return (
     <button
       onClick={handleShare}
-      className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
+      className={` ${className}`}
     >
       <FiShare2 className="text-lg" />
       {text}
