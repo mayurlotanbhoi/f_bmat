@@ -119,10 +119,52 @@ export const asyncHandlerWithSwal = async (callback, messages) => {
       message = error.message;
     }
 
+    console.log("Error message:", message);
+
+    if (message === 'Validation failed'){
+      console.log("Validation failed:", error?.data?.data?.errors
+);
+
+      if (error?.data?.data?.errors && Array.isArray(error?.data?.data?.errors)) {
+        const errorList = error.data.data.errors
+          .map(err => `
+      <li style="margin-bottom: 6px; display: flex; align-items: center;">
+        <span style="color: red; font-size: 14px; margin-right: 8px;">❌</span>
+        <span style="font-size: 14px; color: #333;">${err.message}</span>
+      </li>
+    `)
+          .join('');
+
+        message = `
+    <div style="
+      text-align: left; 
+      font-family: Arial, sans-serif; 
+      background: #fff3f3; 
+      padding: 12px 16px; 
+      border: 1px solid #f5c2c7; 
+      border-radius: 6px;
+    ">
+      <p style="
+        font-size: 15px; 
+        font-weight: bold; 
+        color: #b02a37; 
+        margin-bottom: 8px;
+      ">
+        Please correct the following:
+      </p>
+      <ul style="margin: 0; padding-left: 20px; color: red; list-style: none;">
+        ${errorList}
+      </ul>
+    </div>
+  `;
+      }
+    }
+
     Swal.fire({
       icon: 'error',
-      color: 'white',
-      html: `<b>${message}</b>`,
+      title: 'Validation Errors',
+      html: message,
+      confirmButtonColor: '#d33',
     });
 
     throw error; // so caller can still handle it

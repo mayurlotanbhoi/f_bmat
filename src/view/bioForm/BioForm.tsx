@@ -52,9 +52,9 @@ const steps = [
         label: t("steps.familyDetails"),
         fields: [
             { name: "familyDetails.fatherName", label: t("fields.fatherName"), placeholder: "Mr. Suresh Sharma", type: "text", required: true },
-            { name: "familyDetails.fatherOccupation", label: t("fields.fatherOccupation"), placeholder: "Retired Govt Officer", type: "text", required: false },
+            { name: "familyDetails.fatherOccupation", label: t("fields.fatherOccupation"), placeholder: "Retired Govt Officer", type: "select", required: false },
             { name: "familyDetails.motherName", label: t("fields.motherName"), placeholder: "Mrs. Sunita Sharma", type: "text", required: true },
-            { name: "familyDetails.motherOccupation", label: t("fields.motherOccupation"), placeholder: "Homemaker", type: "text", required: false },
+            { name: "familyDetails.motherOccupation", label: t("fields.motherOccupation"), placeholder: "Homemaker", type: "select", required: false },
             { name: "familyDetails.brothers", label: t("fields.brothers"), placeholder: "2", type: "number", required: false },
             { name: "familyDetails.sisters", label: t("fields.sisters"), placeholder: "1", type: "number", required: false },
             { name: "familyDetails.marriedBrothers", label: t("fields.marriedBrothers"), placeholder: "1", type: "number", required: false },
@@ -123,7 +123,7 @@ const steps = [
                 name: "documents.verificationImage",
                 label: t("fields.verificationImage"),
                 type: "file",
-                required: true
+                required: false
             },
             {
                 name: "documents.profilePhotos[0]",
@@ -296,10 +296,25 @@ const validationSchemas = [
     }),
 
     Yup.object({
-        verificationImage: Yup.mixed().nullable(),
+        verificationImage: Yup.mixed()
+            .nullable()
+            .test("fileType", t("validation.onlyImageAllowed"), (value) => {
+                if (!value) return true; // allow null if not required
+                const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+                return allowedTypes.includes(value.type);
+            }),
+
         profilePhotos: Yup.array()
-            .of(Yup.mixed())
+            .of(
+                Yup.mixed()
+                    .test("fileType", t("validation.onlyImageAllowed"), (value) => {
+                        if (!value) return false; // photo required
+                        const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+                        return allowedTypes.includes(value.type);
+                    })
+            )
             .min(1, t("validation.photoRequired")),
+
     }),
 ];
 
@@ -864,10 +879,6 @@ const MultiStepForm: React.FC = () => {
             formData.append("verificationImage", values.documents.verificationImage); // Must match multer.fields()
         }
 
-        // 🧪 Optional debug log
-        // for (const [key, val] of formData.entries()) {
-        //     console.log("FormData >>", key, val);
-        // }
         if (values?.personalDetails?.dateOfBirth) {
             formData.append('personalDetails.dateOfBirth', values?.personalDetails?.dateOfBirth);
         }
@@ -884,8 +895,6 @@ const MultiStepForm: React.FC = () => {
                 seIsFormComplet(true);
                 ConfettiFireworks();
             }
-            console.log("✅ Success", res);
-       
             
         return res;
         

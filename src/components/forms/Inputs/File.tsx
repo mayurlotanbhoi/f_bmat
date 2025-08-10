@@ -27,6 +27,7 @@ const FileInput: React.FC<FileInputProps> = ({
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.currentTarget.files?.[0];
+        console.log("file", file);
         if (file) {
             setFieldValue(name, file);
             setPreview(URL.createObjectURL(file));
@@ -62,7 +63,7 @@ const FileInput: React.FC<FileInputProps> = ({
 
             <input
                 type="file"
-                accept="image/*"
+                accept=".jpeg, .png, .webp, .jpg"
                 name={name}
                 id={name}
                 ref={fileInputRef}

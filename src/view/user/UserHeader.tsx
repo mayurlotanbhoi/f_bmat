@@ -5,11 +5,22 @@ import UpdateUserForm from "./UpdateUserForm";
 import Drawer from "../../components/Common/Drawer";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function UserHeader() {
     const { user } = useAuth();
     const [isShowProfileForm, setShowProfileForm] = useState(false);
     const [isShowBiodataForm, setShowBiodataForm] = useState(false);
+
+    // const navItems = [
+    //         { to: "/", icon: <FaHome />, label: menuLabels.home },
+    //         { to: "/profile", icon: <FaUserAlt />, label: menuLabels.myProfile },
+    //         { to: "/matches", icon: <FaHeart />, label: menuLabels.matches },
+    //         { to: "/likes", icon: <FaEnvelopeOpenText />, label: menuLabels.requests },
+    //         { to: "/profile/filter", icon: <FaSearch />, label: menuLabels.search },
+    //         // { to: "/lang", icon: <FaCog />, label: menuLabels.language },
+    //     ];
+
 
     return (
         <>
@@ -54,31 +65,50 @@ export default function UserHeader() {
                 </div>
 
                 {/* Actions - Colorful Chips */}
-                <div className="mt-6 flex justify-center gap-3 flex-wrap px-4">
+                
+
+                {/* Divider */}
+                <hr className="my-5 border-gray-200" />
+                <div className="mt-6 flex flex-col justify-center gap-3 flex-wrap px-4">
                     <button
                         onClick={() => setShowProfileForm(true)}
-                        className="flex items-center gap-2 px-4 py-2 rounded-full text-white bg-blue-500 hover:bg-blue-600 transition shadow-sm"
+                        className="flex items-center gap-2 px-4 py-2 rounded-md text-primary bg-gray-200 hover:text-white hover:bg-pink-600 transition shadow-sm"
                     >
                         <LiaEdit size={18} /> Edit Profile
                     </button>
 
                     <Link
                         to='/complet-profile'
-                        className="flex items-center gap-2 px-4 py-2 rounded-full text-white bg-purple-500 hover:bg-purple-600 transition shadow-sm"
+                        className="flex items-center gap-2 px-4 py-2 rounded-md text-primary bg-gray-200 hover:text-white hover:bg-pink-600 transition shadow-sm"
                     >
                         <LiaEdit size={18} /> Edit Biodata
                     </Link>
 
                     <Link
                         to={`/bio-download`}
-                        className="flex items-center gap-2 px-4 py-2 rounded-full text-white bg-green-500 hover:bg-green-600 transition shadow-sm"
+                        className="flex items-center gap-2 px-4 py-2 rounded-md text-primary bg-gray-200 hover:text-white hover:bg-pink-600 transition shadow-sm"
                     >
                         <HiOutlineDownload size={18} /> Download Biodata
                     </Link>
                 </div>
 
-                {/* Divider */}
-                <hr className="my-5 border-gray-200" />
+                {/* <ul className="space-y-3 text-gray-700">
+                    {/* {navItems.map((item, index) => ( */}
+                        {/* <li >
+                            <NavLink
+                                to={'/'}
+                                className={({ isActive }) =>
+                                    `flex items-center gap-3 text-base font-medium transition-colors px-3 py-2 rounded-md ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100 hover:text-pink-600"
+                                    }`
+                                }
+                            >
+                            <span className="text-lg"><LiaEdit size={18} /></span>
+                                <span>bio</span>
+                            </NavLink>
+                        </li> */}
+                    {/* ))} */}
+ 
+                {/* </ul> */} 
             </div>
 
             {/* Profile Edit Drawer */}
