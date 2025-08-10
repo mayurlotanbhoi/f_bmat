@@ -14,6 +14,8 @@ import { useLocalization } from '../../hooks';
 import Drawer from '../../components/Common/Drawer';
 import PaymentQrCode from '../../components/Common/PaymentQrCode';
 import Modal from '../../components/Common/Modal';
+import { FiCopy, FiCheck, FiShare2 } from "react-icons/fi";
+
 
 import {  MdInsertDriveFile } from 'react-icons/md';
 import { shareElementAsImage } from '../../util';
@@ -170,6 +172,73 @@ export const ShareModalContent = ({ onClose, onShareCard, onShareFull  }) => {
 
 
 
+export function ShareBiodata({ biodataUrl }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(biodataUrl);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      await navigator.share({
+        title: "Biodata Link",
+        text: "Check out this biodata",
+        url: biodataUrl,
+      });
+    } else {
+      handleCopy();
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center gap-3 my-4 bg-white p-5 rounded-2xl shadow-lg border border-gray-100 w-full max-w-lg mx-auto">
+      {/* Header */}
+      <div className="flex items-center gap-2">
+        <FiShare2 className="text-blue-500 text-xl" />
+        <span className="text-sm font-medium text-gray-600">
+          Share your profile link
+        </span>
+      </div>
+
+      {/* URL & Actions */}
+      <div className="flex items-center gap-3 w-full bg-gray-50 p-3 rounded-xl border border-gray-200">
+        {/* URL Text */}
+        <span className="text-gray-800 font-medium truncate flex-1 text-sm">
+          {biodataUrl}
+        </span>
+
+        {/* Copy Button */}
+        <button
+          onClick={handleCopy}
+          className="flex items-center gap-1 px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition text-sm"
+        >
+          {copied ? <FiCheck /> : <FiCopy />}
+          {copied ? "Copied" : "Copy"}
+        </button>
+
+        {/* Share Button */}
+        <ShareButton
+          text="Share"
+          title="Check this biodata"
+          url={biodataUrl}
+          image={"https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"}
+        />
+      </div>
+
+      {/* Optional small promo text */}
+      <p className="text-xs text-gray-400 text-center">
+        Easily share your profile with friends, recruiters, or social media.
+      </p>
+    </div>
+
+  );
+}
+
+
+
 export default function MatrimonyBioData() {
   const page1Ref = useRef(null);
   const [loading, setLoading] = useState(false);
@@ -246,6 +315,10 @@ export default function MatrimonyBioData() {
           <span>Download</span>
         </button>
       </div>
+
+      
+
+      <ShareBiodata biodataUrl={biodataUrl} />
 
       <div id="biodata-card" className="">
         <ProfileCard profile={profile} />
@@ -404,6 +477,57 @@ export default function MatrimonyBioData() {
 
 
 }
+
+// ShareButton.jsx
+
+const ShareButton = ({ text, url, title = "Share", image }) => {
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        const shareData = {
+          title,
+          text,
+          url,
+        };
+
+        // Try adding image if supported
+        if (image && navigator.canShare && navigator.canShare({ files: [] })) {
+          const response = await fetch(image);
+          const blob = await response.blob();
+          const file = new File([blob], "image.jpg", { type: blob.type });
+          //@ts-ignore
+          shareData.files = [file];
+        }
+
+        await navigator.share(shareData);
+      } catch (error) {
+        console.error("Share cancelled or failed:", error);
+      }
+    } else {
+      // Fallback: copy link
+      try {
+        await navigator.clipboard.writeText(url);
+        alert("Link copied to clipboard!");
+      } catch {
+        alert("Could not copy link.");
+      }
+    }
+  };
+
+  return (
+    <button
+      onClick={handleShare}
+      className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition-all"
+    >
+      <FiShare2 className="text-lg" />
+      {text}
+    </button>
+  );
+};
+
+
+// export default ShareButton;
+
 
 
 

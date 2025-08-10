@@ -91,24 +91,6 @@ export default function UserHeader() {
                         <HiOutlineDownload size={18} /> Download Biodata
                     </Link>
                 </div>
-
-                {/* <ul className="space-y-3 text-gray-700">
-                    {/* {navItems.map((item, index) => ( */}
-                        {/* <li >
-                            <NavLink
-                                to={'/'}
-                                className={({ isActive }) =>
-                                    `flex items-center gap-3 text-base font-medium transition-colors px-3 py-2 rounded-md ${isActive ? "bg-pink-100 text-pink-600" : "hover:bg-gray-100 hover:text-pink-600"
-                                    }`
-                                }
-                            >
-                            <span className="text-lg"><LiaEdit size={18} /></span>
-                                <span>bio</span>
-                            </NavLink>
-                        </li> */}
-                    {/* ))} */}
- 
-                {/* </ul> */} 
             </div>
 
             {/* Profile Edit Drawer */}
