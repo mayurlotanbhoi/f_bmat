@@ -1,6 +1,7 @@
 import React from "react";
 import { MdVerified } from "react-icons/md";
 import { useGetMatchQuery } from "../../features/matrimony/matrimonyApi";
+import { verified } from "../../util/images.util";
 
 const Matchs = () => {
     const { data, isLoading, isError, error } = useGetMatchQuery('');
@@ -43,7 +44,7 @@ const Matchs = () => {
                                     <div className="flex flex-col min-w-0">
                                         {match?.isVerified && (
                                             <div className="font-medium text-xl leading-none text-black flex items-center gap-2">
-                                                {name} <MdVerified className="text-green-500" size={20} />
+                                                {name} <img className="w-20 h-auto" src={verified} alt="Verified" />
                                             </div>
                                         )}
                                         <p className="text-sm text-black leading-none mt-1 truncate">

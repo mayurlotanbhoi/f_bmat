@@ -18,7 +18,7 @@ import { getShearedBio } from '../../features/biodata/shearedSlice';
 import { t } from 'i18next';
 import { makeCall, sendWhatsAppMessage } from '../../util';
 import { qrScanLink } from '../../constant';
-import { loader } from '../../util/images.util';
+import { loader, verified } from '../../util/images.util';
 import { Loading } from '../../components/loaders/Loading';
 import { PiCampfireLight } from 'react-icons/pi';
 import { formatCurrency } from '../../util/formatCurrency';
@@ -189,9 +189,8 @@ const isLiked =  useCallback((id: string) => {
         <div className=" mx-auto  space-y-6 bg-white pb-10">
             <div className="max-w-md min-h-[80vh]   relative  rounded-xl shadow-lg bg-white">
                 {bio?.isVerified && (
-                    <div className='flex items-center gap-2 absolute top-3 left-3 px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full'>
-                        <MdVerified className='text-green-400' size={24} />
-                        <h2 className='text-white font-semibold text-sm'>Verified</h2>
+                    <div className='flex items-center gap-2 absolute top-3 left-3 px-3 py-1  rounded-full'>
+                        <img className="w-20 h-auto" src={verified} alt="Verified" />
                     </div>
                 )}
 

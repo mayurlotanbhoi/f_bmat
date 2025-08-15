@@ -74,6 +74,10 @@ import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
         setShowInstallDrawer(false);
     };
 
+     useEffect(() => {
+         import("../profiles/Profile"); // path to the route’s component
+     }, []);
+
     return (
         <div className="pb-20 md:pb-10">
             <div className="px-2 w-100">
@@ -105,9 +109,9 @@ import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
                         </div>
                         <div className="w-100 flex flex-wrap justify-between gap-4">
                             {mainMenu.map((item, index) => (
-                                <div
+                                <Link
                                     key={index}
-                                    onClick={() => navigate(`${item?.url}/${item?.key}`)}
+                                    to={`${item?.url}/${item?.key}`}
                                     style={{ backgroundColor: Cartclores[index] }}
                                     className="flex flex-col items-center justify-between w-36 h-44 rounded-2xl shadow-lg border border-rose-100 text-white transition-all duration-200 hover:scale-105"
                                 >
@@ -119,7 +123,7 @@ import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
                                     <div className="mb-4 text-center">
                                         <h3 className="text-lg font-semibold capitalize">{menu[index]}</h3>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                         </div>
                     </div>

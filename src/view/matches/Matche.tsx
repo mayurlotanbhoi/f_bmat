@@ -12,6 +12,7 @@ import { ConfettiButton } from '../../components';
 import { useShareBioDataMutation } from '../../features/biodata/biodataApi';
 import { isGenerator } from 'framer-motion';
 import NoData from '../../components/Common/notFound';
+import { verified } from '../../util/images.util';
 
 interface Bio {
     [key: string]: any;
@@ -108,9 +109,8 @@ const Matche = () => {
                                 <span className="mb-1 text-sm font-semibold text-primary dark:text-white" >
                                     {name}</span >
                                { match?.isVerified && (
-                                   <div className='flex items-center gap-1 absolute top-1 right-1  px-3 py-1 bg-black/30 backdrop-blur-sm rounded-full'>
-                                       <MdVerified className='text-green-400' size={20} />
-                                       <h2 className='text-white font-semibold text-[10px]'>Verified</h2>
+                                   <div className='flex items-center gap-1 absolute top-1 right-1  px-3 py-1 backdrop-blur-sm rounded-full'>
+                                            <img className="w-20 h-auto" src={verified} alt="Verified" />
                                    </div>
                                )}
                             </div>
@@ -125,7 +125,6 @@ const Matche = () => {
                                         {education}, {occupation} ,{JobType}, {formatAmount(income)}
                                     </div>
                                     <div className="text-sm font-semibold text-primary">
-
                                     </div>
 
                                     <span className="text-xs font-medium ">
@@ -150,26 +149,6 @@ const Matche = () => {
                             
                                                 {isLoading  ? (
                                                     <>
-                                                        {/* <svg
-                                                            className="animate-spin h-5 w-5 text-white mr-2"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            fill="none"
-                                                            viewBox="0 0 24 24"
-                                                        >
-                                                            <circle
-                                                                className="opacity-25"
-                                                                cx="12"
-                                                                cy="12"
-                                                                r="10"
-                                                                stroke="currentColor"
-                                                                strokeWidth="4"
-                                                            />
-                                                            <path
-                                                                className="opacity-75"
-                                                                fill="currentColor"
-                                                                d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
-                                                            />
-                                                        </svg> */}
                                                         <span>Shearing...</span>
                                                     </>
                                                 ) : (<>
@@ -183,9 +162,7 @@ const Matche = () => {
                                             </button>
                                         </ConfettiButton>
                                         </div>
-
-                        </div>
-                   
+                        </div>                   
                     </>
 
                     // </>

@@ -50,9 +50,8 @@ export const ProfileCard = ({ profile }) => {
     >
       {/* Verified Badge */}
       {profile?.isVerified && (
-        <div className="flex items-center gap-1 absolute top-2 right-2 px-2 py-1 bg-black/40 text-white text-[10px] font-semibold rounded-full backdrop-blur-sm z-10">
-          <MdVerified className="text-green-400" size={16} />
-          Verified
+        <div className="flex items-center gap-1 absolute top-2 right-2 px-2 py-1  text-white text-[10px] font-semibold rounded-full backdrop-blur-sm z-10">
+          <img className="w-20 h-auto" src={verified} alt="Verified" />
         </div>
       )}
 
@@ -174,6 +173,10 @@ export const ShareModalContent = ({ onClose, onShareCard, onShareFull  }) => {
 
 export function ShareBiodata({ biodataUrl, profile }) {
   const [copied, setCopied] = useState(false);
+  const options = useLocalization('options');
+  const labels = useLocalization('labels');
+
+
 
   const handleCopy = () => {
     navigator.clipboard.writeText(biodataUrl);
@@ -211,12 +214,24 @@ export function ShareBiodata({ biodataUrl, profile }) {
 
         {/* Share Button */}
         <ShareButton
-          text={`Shear`}
-          title={`Biodata of ${profile?.personalDetails?.fullName} `}
+          shareMessage={`📜 Biodata of ${profile?.personalDetails?.fullName}
+
+👤 ${labels.fullName}: ${profile?.personalDetails?.fullName || "N/A"}
+🎂 ${labels.age}: ${calculateAge(profile?.personalDetails?.dateOfBirth) || "N/A"} years
+🕉️ ${labels.caste}: ${profile?.religiousDetails?.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'}
+📍 ${labels.presentAddress}: ${profile?.contactDetails?.presentAddress?.city || "N/A"}, ${profile?.contactDetails?.presentAddress?.state || ""}
+💼 ${labels.occupation}: ${options?.professionalDetails?.occupation[profile?.professionalDetails?.occupation] || "N/A"}
+🎓 ${labels.qualification}: ${options?.educationDetails?.highestQualification[profile?.educationDetails?.highestQualification] || "N/A"}
+
+🔗 View Full Biodata: ${biodataUrl}
+
+💖 Find your perfect match on Our Matrimony Platform!`}
+          title={`Biodata of ${profile?.personalDetails?.fullName}`}
           url={biodataUrl}
           className="flex items-center text-sm justify-center gap-2 px-5 py-2 bg_primary text-white font-bold rounded-lg"
           image="https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"
         />
+
       </div>
 
       {/* Optional small promo text */}
@@ -485,17 +500,22 @@ export default function MatrimonyBioData() {
 
 // ShareButton.jsx
 
-export const ShareButton = ({ text, url, title = "Share", image, className = "" }) => {
+export const ShareButton = ({
+  buttonText = "Share", // Button label
+  shareMessage = "", // Message to share
+  url,
+  title = "Share",
+  image,
+  className = "",
+}) => {
   const handleShare = async () => {
+    const shareUrl = url || window.location.href;
     if (navigator.share) {
       try {
         const shareData = {
           title,
-          text,
-          description: title,
-          url,
+          text: `${shareMessage} ${shareUrl}`, // Combine message + URL
         };
-
         // Try adding image if supported
         if (image && navigator.canShare && navigator.canShare({ files: [] })) {
           const response = await fetch(image);
@@ -504,15 +524,24 @@ export const ShareButton = ({ text, url, title = "Share", image, className = "" 
           //@ts-ignore
           shareData.files = [file];
         }
-      const result = await navigator.share(shareData);
+
+        await navigator.share(shareData);
       } catch (error) {
         console.error("Share cancelled or failed:", error);
       }
+    } else if (/Mobi|Android/i.test(navigator.userAgent)) {
+      // WhatsApp fallback for mobile
+      window.open(
+        `https://wa.me/?text=${encodeURIComponent(
+          `${shareMessage} ${shareUrl}`
+        )}`,
+        "_blank"
+      );
     } else {
-      // Fallback: copy link
+      // Desktop fallback: copy to clipboard
       try {
-        await navigator.clipboard.writeText(url);
-        alert("Link copied to clipboard!");
+        await navigator.clipboard.writeText(`${shareMessage} ${shareUrl}`);
+        alert("Link & message copied to clipboard!");
       } catch {
         alert("Could not copy link.");
       }
@@ -520,12 +549,9 @@ export const ShareButton = ({ text, url, title = "Share", image, className = "" 
   };
 
   return (
-    <button
-      onClick={handleShare}
-      className={` ${className}`}
-    >
+    <button onClick={handleShare} className={className}>
       <FiShare2 className="text-lg" />
-      {text}
+      {buttonText}
     </button>
   );
 };

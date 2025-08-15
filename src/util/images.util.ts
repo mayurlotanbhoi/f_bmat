@@ -16,6 +16,7 @@ import logo_md from "../assets/images/logo_md.png"
 import logo_sm from "../assets/images/logo_sm.png"
 import ganpati from "../assets/images/ganpati.webp"
 import verified from '../assets/images/verified.png'
+import banner from '../assets/images/banner.png'
 
 
 
@@ -38,5 +39,6 @@ export {
     job,
     nearby,
     loader,
-    verified
+    verified,
+    banner
 }

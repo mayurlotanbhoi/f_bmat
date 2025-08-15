@@ -9,7 +9,20 @@ import { ShareButton } from '../../../view/bioData/BioDownload';
 export default function SpeedDial() {
     const [isOpen, setIsOpen] = useState(false);
     const { installApp, isInstallable, canInstall } = usePwaPrompt();
-    const shareText = useLocalization('shareText');
+    const shareText = `भोंई समाज मैट्रिमोनी ऐप — सिर्फ अपने समाज के लिए!
+
+✅ सुरक्षित और विश्वसनीय सेवा  
+✅ मुफ्त प्रोफ़ाइल बनाएँ  
+✅ बायोडाटा कभी भी डाउनलोड करें  
+✅ मैच देखें, शेयर करें और संपर्क करें  
+
+मैं स्वयं भोंई समाज का सदस्य हूँ और अपने समाज में सही जीवनसाथी खोजने में मदद करने के लिए प्रतिबद्ध हूँ।  
+अभी डाउनलोड करें और अपने जीवनसाथी की खोज आज ही शुरू करें!`;
+
+
+
+
+
 
     const handleAppInstall = async () => {
         try {
@@ -67,12 +80,20 @@ export default function SpeedDial() {
                     }`}
             >
 
-                <ShareButton
-                    title={shareText}
+                {/* <ShareButton
+                    title={shareText+"kjnfkdsjk"}
                     text=""
                     url={'https://bmat.onrender.com/'}
-                    className='flex items-center text-sm justify-center gap-2 px-5 py-3 my-2 bg_primary text-white font-bold rounded-lg'
                     image={"https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"}
+                /> */}
+
+                <ShareButton
+                    buttonText=""
+                    shareMessage={shareText}
+                    url='https://bmat.onrender.com/'
+                    image={"https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"}
+                    className='flex items-center text-sm justify-center gap-2 px-5 py-3 my-2 bg_primary text-white font-bold rounded-lg'
+
                 />
                 {items.map((item, i) => (
                     item.label === 'App Install' ? (
