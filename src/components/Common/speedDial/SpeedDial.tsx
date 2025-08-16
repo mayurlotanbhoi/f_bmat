@@ -93,8 +93,8 @@ export default function SpeedDial() {
                     url='https://bmat.onrender.com/'
                     image={"https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"}
                     className='flex items-center text-sm justify-center gap-2 px-5 py-3 my-2 bg_primary text-white font-bold rounded-lg'
-
                 />
+                
                 {items.map((item, i) => (
                     item.label === 'App Install' ? (
                         <button

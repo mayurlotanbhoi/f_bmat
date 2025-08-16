@@ -7,6 +7,7 @@ import {
     FaEnvelopeOpenText,
     FaCog,
     FaSignOutAlt,
+    FaQrcode,
 } from "react-icons/fa";
 import { useLogOutMutation } from "../../features/auth/authApi";
 import { asyncHandlerWithSwal } from "../../util/asyncHandler";
@@ -17,11 +18,15 @@ import persistStore from "redux-persist/es/persistStore";
 import { store } from "../../app/store";
 import { useLocalization } from "../../hooks";
 import { useAuth } from "../../hooks/useAuth";
+import { MdOutlineSupportAgent } from "react-icons/md";
+import { ShareButton } from "../../view/bioData/BioDownload";
+import { sendWhatsAppMessage } from "../../util";
 const persistor = persistStore(store);
 
 const Sidebar: React.FC = () => {
     const [logOut] = useLogOutMutation();
     const { user } = useAuth();
+
     const navigate = useNavigate();
     const sidebarLang = useLocalization('sidebar');
 
@@ -49,6 +54,8 @@ const Sidebar: React.FC = () => {
         requests: sidebarLang.requests,
         search: sidebarLang.search,
         language: sidebarLang.language,
+        qrScanner: sidebarLang.qrScanner,
+        support: sidebarLang.support
     };
 
     // If you have a localization hook, e.g.:
@@ -61,7 +68,8 @@ const Sidebar: React.FC = () => {
         { to: "/matches", icon: <FaHeart />, label: menuLabels.matches },
         { to: "/likes", icon: <FaEnvelopeOpenText />, label: menuLabels.requests },
         { to: "/profile/filter", icon: <FaSearch />, label: menuLabels.search },
-        // { to: "/lang", icon: <FaCog />, label: menuLabels.language },
+        { to: "/scanner", icon: <FaQrcode />, label: menuLabels.qrScanner },
+        // { to: "/support", icon: <MdOutlineSupportAgent />, label: menuLabels.support },
     ];
 
     return (
@@ -97,6 +105,27 @@ const Sidebar: React.FC = () => {
                             </NavLink>
                         </li>
                     ))}
+
+                    <li>
+
+                        {/* <ShareButton
+                            buttonText={sidebarLang.support}
+                            icon={<MdOutlineSupportAgent className="text-lg" />}
+                            shareMessage="क्या आपको सहायता चाहिए? अभी हमसे जुड़ें!"
+                            title="BMAT सहायता"
+                            url="https://bmat.onrender.com/"
+                            image="https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"
+                            className="flex items-center gap-3 text-base font-medium text-left w-full hover:text-pink-600 px-3 py-2 rounded-md hover:bg-gray-100 transition"
+                        /> */}
+                        <button
+                            onClick={() => sendWhatsAppMessage({
+                                phoneNumber: '+917709433561', message: 'मैं आपकी कैसे मदद कर सकता हूँ? अभी हमसे जुड़ें!', biodataUrl: ``})} 
+                            className="flex items-center gap-3 text-base font-medium text-left w-full hover:text-pink-600 px-3 py-2 rounded-md hover:bg-gray-100 transition"
+                        >
+                            <MdOutlineSupportAgent className="text-lg" />
+                            support
+                        </button>
+                    </li>
                     <li>
                         <button
                             onClick={handleLogout}

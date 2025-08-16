@@ -1,5 +1,5 @@
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, use } from 'react';
 import { Formik, Form, Field, ErrorMessage, type FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import { useLoginMutation, useRegisterMutation } from '../../features/auth/authApi';
@@ -14,6 +14,9 @@ import { asyncHandlerWithSwal } from '../../util/asyncHandler';
 import { useAuth } from '../../hooks/useAuth';
 
 import './SinginSignUp.css'
+import Drawer from '../../components/Common/Drawer';
+import TermsAndPrivacy from '../termAndPryacy';
+import { t } from 'i18next';
 
 type FormValues = {
     mobile: string;
@@ -33,6 +36,8 @@ export const LoginForm = ({
         mobile: '',
         password: '',
     };
+    const [termsAccepted, setTermsAccepted] = useState(true);
+    const [showTerms, setShowTerms] = useState(false);
 
     const validationSchema = Yup.object({
         mobile: Yup.string()
@@ -43,11 +48,18 @@ export const LoginForm = ({
             .required('Password is required'),
     });
 
+    useEffect(() => {
+        if (termsAccepted) {
+            setShowTerms(true);
+        }
+    }, [termsAccepted]);
+
     return (
+        <>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
             {({ submitForm }) => (
                 <>
-                    <Form className="space-y-5" id="login-form">
+                    <Form className="space-y-2" id="login-form">
                         <div>
                             <Field
                                 name="mobile"
@@ -69,15 +81,22 @@ export const LoginForm = ({
                         </div>
                     </Form>
                     {!isSingUp && (
-                        <a className="text-indigo-700 my-2 hover:text-pink-700 text-sm float-right" href="#">
+                        <a className="text-indigo-700 my-2 hover:text-pink-700 text-sm float-right " href="#">
                             Forgot Password ?
                         </a>
                     )}
+
+                        <div className="flex items-center w-full mt-4 ">
+                        <input onChange={(e) => setTermsAccepted(e.target.checked)} id="link-checkbox" type="checkbox"
+                                value='' checked={termsAccepted} className="w-4 h-4 accent-pink-500 bg-gray-100 border-gray-300 rounded-sm focus:bg-pink-500 " />
+                        <label htmlFor="link-checkbox" className="ms-2 text-sm font-medium text-black ">I agree with the <span className=" text-primary hover:underline ">terms and conditions</span>.</label>
+                    </div>
+
                     <button
                         type="button"
-                        disabled={isLoading}
+                        disabled={isLoading || !termsAccepted}
                         onClick={submitForm}
-                        className={`mt-5 tracking-wide font-semibold primary-button text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none ${isLoading ? 'opacity-70 cursor-not-allowed' : ''
+                        className={`mt-5 tracking-wide font-semibold primary-button text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none ${isLoading || !termsAccepted ? 'opacity-70 cursor-not-allowed' : ''
                             }`}
                     >
                         {isLoading ? (
@@ -106,8 +125,8 @@ export const LoginForm = ({
                             </>
                         ) : (
                             <>
-                                <FaArrowRight className="mx-2" size={20} />
                                 <span>{isSingUp ? 'Sign Up' : 'Sign In'}</span>
+                                <FaArrowRight className="mx-2" size={20} />
                             </>
                         )}
                     </button>
@@ -115,6 +134,11 @@ export const LoginForm = ({
                 </>
             )}
         </Formik>
+            <Drawer isOpen={showTerms} position='left' widthClass='w-screen' onClose={() => setShowTerms(false)}>
+                <TermsAndPrivacy />
+            </Drawer>
+
+        </>
     );
 };
 

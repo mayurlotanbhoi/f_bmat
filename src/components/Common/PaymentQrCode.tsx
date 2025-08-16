@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 const PaymentQrCode = ({ profile }) => {
     const upiId = 'mayur.bhoi1@ybl';
     const { t } = useTranslation();
-
     const name = 'Mayur Bhoi';
     const amount = ''; // Optional: leave empty to allow user-defined amount
     const note = `Support Matrimony: Profile ${profile?.professionalDetails?.fullName || ''}`;

@@ -2,6 +2,11 @@
 {
   "welcome": "Welcome",
   "promotionText": "Bhoi Community Matrimony App — Exclusively for our community!\n✅ Safe and reliable service\n✅ Create a free profile\n✅ Download biodata anytime\n✅ View matches, share, and connect\n\nI am a member of the Bhoi community myself and help find the right life partner within our community. Download now and start your journey to find your life partner today!",
+  "notFound": {
+    "title": "We are working on this page 🚧",
+    "description": "The page you are looking for is under development or not available right now. Our team is working hard to bring it live soon!",
+    "button": "Go Back Home"
+  },
   "home": {
     "category": "Category",
     "matches": "Matches",
@@ -12,10 +17,12 @@
   "expected": "Expected",
   "sidebar": {
     "home": "Home",
-    "myProfile": "My Profile",
+    "myProfile": "Profile",
     "matches": "Matches",
     "requests": "Requests",
     "search": "Search",
+    "qrScanner": "QR Scanner",
+    "support": "Support",
     "language": "Language",
     "edit": "Edit",
     "editBio": "Edit Biodata",
@@ -258,14 +265,14 @@
     "poweredBy": "Powered by Vaishya Parinay"
   },
   "donation": {
-    "title": "❤️ Keep this service alive",
-    "subtitle": "We are offering 100% free service to our first {{count}} families — no charges.",
-    "cta": "If you appreciate this effort, even a small contribution of ₹30 makes a big difference.",
+    "title": "❤️ Join us in keeping this service alive",
+    "subtitle": "We’re providing 100% free services to our first {{count}} families — no fees whatsoever.",
+    "cta": "If you appreciate this effort, a small contribution of ₹99 can go a long way in supporting us.",
     "scanNote": "Scan the QR code above or click the link below 💚",
-    "whyTitle": "Why do we ask for help?",
-    "whyText": "Registration, profile viewing, messaging — we don’t charge a single rupee for these. But server, OTP, and team expenses are covered by your small contributions.",
-    "payWith": "Pay with {{name}}"
-  },
+    "whyTitle": "Why do we need your support?",
+    "whyText": "Registration, profile viewing, messaging — we offer all of this completely free. But server costs, OTP services, and our team’s expenses rely on your small contributions.",
+    "payWith": "Pay via {{name}}"
+},
   "options": {
     "personalDetails": {
       "gender": {

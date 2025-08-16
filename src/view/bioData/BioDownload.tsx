@@ -84,13 +84,13 @@ export const ProfileCard = ({ profile }) => {
 
           {age && (
             <p>
-              <strong>{labels.dob}:</strong> {age}
+              <strong>{labels.age}:</strong>  {age}
             </p>
           )}
 
           {dob && (
             <p>
-              <strong>{labels.age}:</strong> {dob}
+              <strong>{labels.dob}:</strong> {dob}
             </p>
           )}
 
@@ -500,14 +500,25 @@ export default function MatrimonyBioData() {
 
 // ShareButton.jsx
 
-export const ShareButton = ({
-  buttonText = "Share", // Button label
-  shareMessage = "", // Message to share
+interface ShareButtonProps {
+  buttonText?: string;   // बटन का टेक्स्ट (डिफ़ॉल्ट: "Share")
+  icon?: React.ReactNode; // कोई भी React आइकन या एलिमेंट
+  shareMessage?: string;  // शेयर करते समय दिखने वाला मैसेज
+  url?: string;           // शेयर करने का लिंक
+  title?: string;         // शेयर का टाइटल
+  image?: string;         // प्रीव्यू इमेज
+  className?: string;     // एक्स्ट्रा CSS क्लास
+}
+
+export const ShareButton: React.FC<ShareButtonProps> = ({
+  buttonText = "Share",
+  icon,
+  shareMessage = "",
   url,
   title = "Share",
   image,
   className = "",
-}) => {
+}) =>  {
   const handleShare = async () => {
     const shareUrl = url || window.location.href;
     if (navigator.share) {
@@ -550,7 +561,7 @@ export const ShareButton = ({
 
   return (
     <button onClick={handleShare} className={className}>
-      <FiShare2 className="text-lg" />
+      {icon ||  <FiShare2 className="text-lg" />}
       {buttonText}
     </button>
   );

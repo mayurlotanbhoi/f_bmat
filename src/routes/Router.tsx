@@ -9,6 +9,8 @@ import AppLoader from '../app/AppLoader';
 import InitialInfo from '../view/plashScreens';
 import {ScanQrPage} from '../view/scanQr';
 import LunchScreen from '../view/lunchScren';
+import Home from '../view/home/Home';
+import { NotFoundpage } from '../view/notFound';
 // import { ViewBioData } from '../view/viewBioData';
 
 // import BioForm from '../view/bioForm';
@@ -22,7 +24,7 @@ import LunchScreen from '../view/lunchScren';
 
 const SinginSignUp = lazy(() => import('../view/auth'));
 const Profile = lazy(() => import('../view/profiles/Profile'));
-const Home = lazy(() => import('../view/home'));
+
 const LanguageScreen = lazy(() => import('../view/language'));
 const Matche = lazy(() => import('../view/matches'));
 const ChatBox = lazy(() => import('../view/chat'));
@@ -139,7 +141,11 @@ const routes = [
             {
                 path: '/initial-info',
                 element: <InitialInfo />,
-            }
+            },
+            {
+                path: '*',
+                element: <NotFoundpage/>,
+            },
 
 
 
@@ -188,6 +194,10 @@ const routes = [
     {
         path: '/auth',
         element: <SinginSignUp />,
+    },
+    {
+        path: '*',
+        element: <NotFoundpage />,
     },
 ];
 

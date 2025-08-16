@@ -9,7 +9,6 @@ import { useAuth } from '../hooks/useAuth';
 import Drawer from '../components/Common/Drawer';
 import { usePwaStatus } from '../hooks/usePwaStatus';
 import { usePwaPrompt } from '../hooks';
-import { motion } from "framer-motion";
 import { verified } from '../util/images.util';
 import { sendWhatsAppMessage } from '../util';
 import { getMatrimony } from '../features/matrimony/matrimonySlice';
@@ -26,8 +25,6 @@ const skeletons = (path: string) => {
   switch (path) {
     case "/": return <HomeSkeleton />;
     case "/profile": return <ProfileSkeleton />;
-
-
     default:
       return <ProfileSkeleton />;
   }
