@@ -47,10 +47,13 @@ export const LoginForm = ({
             .min(6, 'Password must be at least 6 characters')
             .required('Password is required'),
     });
+    
 
     useEffect(() => {
         if (termsAccepted) {
             setShowTerms(true);
+        }else{
+            setShowTerms(false)
         }
     }, [termsAccepted]);
 

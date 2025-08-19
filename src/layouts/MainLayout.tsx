@@ -13,6 +13,8 @@ import { verified } from '../util/images.util';
 import { sendWhatsAppMessage } from '../util';
 import { getMatrimony } from '../features/matrimony/matrimonySlice';
 import { qrScanLink } from '../constant';
+import { MdOutlineVerified } from 'react-icons/md';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -59,6 +61,7 @@ const MainLayout: React.FC = () => {
   const header = ['profile', 'chat', 'initial-info'];
   const fullScrren = ['chat', 'complet-profile', 'initial-info'];
   const speedDial = ['profile', 'initial-info', 'user'];
+  const { t } = useTranslation();
 
   type Path = keyof typeof skeletons;
   const pathname = location.pathname as Path;
@@ -111,6 +114,8 @@ const MainLayout: React.FC = () => {
    useLayoutEffect(() => {
           if (hasUpdate || (showInstallDrawer && !isInstalled)) {
               setOpen(true);
+          }else{
+            setOpen(false);
           }
       }, [hasUpdate, showInstallDrawer, isInstalled]);
 
@@ -165,6 +170,7 @@ const MainLayout: React.FC = () => {
 
       <Drawer
         isOpen={!isVerified}
+        // isOpen={true}
         position="bottom"
         padding="p-0"
         widthClass="w-100"
@@ -172,33 +178,51 @@ const MainLayout: React.FC = () => {
         showCloseBtn={true} // Don't show close button for updates
         onClose={() => setIsVerified(true)}
       >
-        <div className="  p-6 w-full max-w-sm  text-center ">
-          <div
-            className=" flex justify-center w-full"
-            style={{
-              lineHeight: "1.2",
-              whiteSpace: "nowrap"
-            }}
-          >
-            <img className="w-32 h-auto" src={verified} alt="Verified" />
+        <div className="p-6 w-full max-w-sm text-center">
+          {/* Top Icon */}
+          <div className="flex justify-center w-full" style={{ lineHeight: "1.2", whiteSpace: "nowrap" }}>
+            <img className="w-32 h-auto" src={verified} alt={t("verifyProfile.alt")} />
           </div>
 
-            <h2 className="text-xl font-bold mb-3 mt-4">
-              Verify Your Profile
-            </h2>
-            <p className="text-gray-600 mb-6">
-              Verifying your profile increases trust and visibility.
-              Get verified now and connect with more potential matches!
+          {/* Title */}
+          <h2 className="text-xl font-bold mb-3 mt-4">{t("verifyProfile.title")}</h2>
+
+          {/* Subtext */}
+          <p className="text-gray-600 mb-6">{t("verifyProfile.description")}</p>
+
+          {/* Verification Steps */}
+          <div className="space-y-3 text-left">
+            <p className="flex items-center gap-2 text-gray-600 text-base">
+              <MdOutlineVerified className="text-green-600 text-xl" />
+              <span>{t("verifyProfile.verifysteps.createAccount")}</span>
             </p>
-            <button
-              onClick={() => sendWhatsAppMessage({
-                phoneNumber:'+917709433561', message: `Hi, I would like to verify my profile. ${profile?.personalDetails?.fullName}`, biodataUrl: `${qrScanLink}/${profile?._id}`}
-              )}
-              className="mt-4 px-5 w-full py-2.5 primary-button font-medium rounded-lg shadow hover:bg-primary/90 transition text-base"
-              aria-label="Install app"
-            >
-              Verify Now
-            </button>
+            <p className="flex items-center gap-2 text-gray-600 text-base">
+              <MdOutlineVerified className="text-green-600 text-xl" />
+              <span>{t("verifyProfile.verifysteps.uploadDocs")}</span>
+            </p>
+            <p className="flex items-center gap-2 text-gray-600 text-base">
+              <MdOutlineVerified className="text-green-600 text-xl" />
+              <span>{t("verifyProfile.verifysteps.contactSupport")}</span>
+            </p>
+            <p className="flex items-center gap-2 text-gray-600 text-base">
+              <MdOutlineVerified className="text-green-600 text-xl" />
+              <span>{t("verifyProfile.verifysteps.done")}</span>
+            </p>
+          </div>
+
+          {/* Button */}
+          <button
+            onClick={() =>
+              sendWhatsAppMessage({
+                phoneNumber: "+917709433561",
+                message: `Hi, I would like to verify my profile. ${profile?.personalDetails?.fullName}`,
+                biodataUrl: `${qrScanLink}/${profile?._id}`,
+              })
+            }
+            className="mt-4 px-5 w-full py-2.5 primary-button font-medium rounded-lg shadow hover:bg-primary/90 transition text-base"
+          >
+            {t("verifyProfile.button")}
+          </button>
         </div>
       </Drawer>
     </div>

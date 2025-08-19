@@ -7,6 +7,20 @@
     "description": "The page you are looking for is under development or not available right now. Our team is working hard to bring it live soon!",
     "button": "Go Back Home"
   },
+  "verifyProfile": {
+    
+    "alt": "Verified badge",
+    "title": "Verify Your Profile",
+    "description": "A verified profile builds trust and improves your chances of meaningful connections.",
+    "verifysteps": {
+      "createAccount": "Create your account and add profile details",
+      "uploadDocs": "Upload ID documents with accurate information",
+      "contactSupport": "Contact our support team for assistance",
+      "done": "Verification complete!"
+    },
+    "button": "Verify Now"
+    
+  },
   "home": {
     "category": "Category",
     "matches": "Matches",
