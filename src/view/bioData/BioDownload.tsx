@@ -1,5 +1,7 @@
 import {  useRef, useState } from 'react';
 import QRCode from 'react-qr-code';
+
+
 import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 import { calculateAge, formatDate } from '../../util/dateFormat';
 import { MdOutlineFileDownload, MdOutlineVerifiedUser, MdPhone, MdShare, MdVerified, MdVerifiedUser, MdWhatsapp } from 'react-icons/md';
@@ -356,22 +358,20 @@ export default function MatrimonyBioData() {
 
 
           {/* Personal Info Section */}
-          <div className="flex flex-row gap-2 mt-6 py-2   px-4">
+          <div className=" grid grid-cols-12 py-8 px-2 md:px-4">
             
             {/* Left Column - Info */}
-            <div className="flex-1 space-y-4 ">
+            <div className="flex-1 space-y-4 col-span-8 sm:col-span-7 ">
               
              
               {/* <Heading className=' ' text="Personal Info" /> */}
               <div className="grid grid-cols-4 p-0 m-0    ">
 
-
-               
                 <Info className="col-span-4 text-start" label={labels.fullName} value={profile.personalDetails.fullName} />
                 <Info className={'col-span-4'} label={labels.age} value={`${calculateAge(profile.personalDetails.dateOfBirth)}`} />
                 <Info className={'col-span-4 text-start'} label={labels.dob} value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
                 <Info className={'col-span-4'} label={labels.maritalStatus} value={options.personalDetails.maritalStatus[profile.personalDetails.maritalStatus]} />
-                <Info className={'col-span-2'} label={labels.complexion} value={options.personalDetails.complexion[profile.personalDetails?.Complexion]} />
+                <Info className={'col-span-2'} label={labels.complexion} value={options.personalDetails.complexion[profile.personalDetails?.complexion]} />
 
                 <Info className={'col-span-2'} label={labels.weight} value={options.personalDetails.weight[profile.personalDetails.weight]} />
                 <Info className={'col-span-4'} label={labels.height} value={options.personalDetails.height[profile.personalDetails.height]} />
@@ -389,23 +389,28 @@ export default function MatrimonyBioData() {
                 <Info className={'col-span-4'} label={labels.occupation} value={options.professionalDetails.occupation[profile.professionalDetails.occupation]} />
                 <Info className={'col-span-4 md:col-span-2'} label={labels.jobType} value={options.professionalDetails.jobType[profile.professionalDetails.jobType]} />
                 <Info className={'col-span-2'} label={labels.income} value={formatCurrency(profile.professionalDetails.income)} />
+                <Info className={'col-span-4'} label={labels.phone} value={`${profile?.contactDetails?.
+                  mobileNo}, ${profile?.contactDetails?.whatsappNo}`} />
+
 
                 {/* <Info className={'col-span-2'} label="City" value={profile.contactDetails.presentAddress.city} />
                 <Info className={'col-span-2'} label="State" value={profile.contactDetails.presentAddress.state} /> */}
-                <Info className={' col-span-4'} label={labels.presentAddress} value={formatAddress(profile.contactDetails.presentAddress)} />
+                <Info className={' col-span-4 '} label={labels.presentAddress} value={formatAddress(profile.contactDetails.presentAddress)} />
+
+                <Info className={' col-span-4 '} label={labels.permanentAddress} value={formatAddress(profile.contactDetails.permanentAddress)} />
               </div>
 
             </div>
 
             {/* Right Column - Profile Photo */}
-            <div className="flex  justify-center md:justify-end ">
+            <div className="flex col-span-4 sm:col-span-5   justify-center md:justify-end ">
               <div className=' flex flex-col items-center gap-2 relative'>
                 
                 <b className='text-primary'>MAT:{profile?.matId}</b>
                 <img
                   src={profile?.profilePhotos?.[0]}
                   alt="Profile"
-                  className="w-28 min-h-[150px]  md:w-[240px] md:h-[320px] object-cover rounded-md border-2 border-pink-600 shadow-md"
+                  className="w-28 min-h-[150px]  md:w-[100%] md:h-[480px] object-cover rounded-md border-2 border-pink-600 shadow-md"
                 />
                 <div className="qr-code  gap-2   flex items-center text-center">
                   <div className=''>
@@ -413,7 +418,6 @@ export default function MatrimonyBioData() {
                     value={biodataUrl}
                     className="!m-0 !p-0 "
                   />
-                  {/* <small className="text-xs leading-3 my-2">Scan this QR code to view your profile</small> */}
                   </div>
                  
                 </div>
@@ -425,7 +429,7 @@ export default function MatrimonyBioData() {
 
 
         {/* Page 2 */}
-        <div className="bg-white w-full py-6  rounded-lg shadow-md border ">
+        {/* <div className="bg-white w-full py-6  rounded-lg shadow-md border ">
           <h2 className="text-2xl font-bold text-center text-pink-700 mb-5">
             {t('guide.title')}
           </h2>
@@ -445,8 +449,23 @@ export default function MatrimonyBioData() {
           <div className="text-center text-xs text-gray-400 mt-8">
             {t('guide.generated')} {formatDate(new Date().toLocaleString())} | {t('guide.poweredBy')}
           </div>
-        </div>
+        </div> */}
 
+        <footer
+          className="text-xs text-gray-700 font-medium leading-5 mt-3  border-t border-gray-200"
+          aria-label="Disclaimer for bio-data download"
+        >
+          <div className="max-w-7xl mx-auto px-2">
+            <p className="mb-2">
+              <strong>{t('bioDataFooter.disclaimerTitle', 'Disclaimer')}:</strong>{' '}
+              {t('bioDataFooter.disclaimer')}
+            </p>
+          </div>
+        </footer>
+
+        <div className="text-center text-xs mb-2 text-gray-400 ">
+          {t('guide.generated')} {formatDate(new Date())} | {t('guide.poweredBy')}
+        </div>
 
       </div>
        <Drawer

@@ -5,9 +5,12 @@ import { Link } from 'react-router-dom';
 import { useLocalization, usePwaPrompt } from '../../../hooks';
 import { FullFirework } from '../Fireworks';
 import { ShareButton } from '../../../view/bioData/BioDownload';
+import { AppDownloading } from '../../Pupups';
+import Drawer from '../Drawer';
 
 export default function SpeedDial() {
     const [isOpen, setIsOpen] = useState(false);
+    const [isInstalling , setIsInstalling] = useState(false);
     const { installApp, isInstallable, canInstall } = usePwaPrompt();
     const shareText = `भोंई समाज मैट्रिमोनी ऐप — सिर्फ अपने समाज के लिए!
 
@@ -25,15 +28,20 @@ export default function SpeedDial() {
 
 
     const handleAppInstall = async () => {
-        try {
+        try {            
             const success = await installApp();
+            setIsInstalling(true)
             if (success) {
                 setTimeout(() => {
+                    setIsInstalling(false);
                     FullFirework();
                 }, 4000);
             }
         } catch (error) {
+            setIsInstalling(false);
             console.error('Installation error:', error);
+        }finally {
+            setIsInstalling(false);
         }
     };
 
@@ -73,8 +81,16 @@ export default function SpeedDial() {
     ];
 
     return (
+        <>
+            <div className=''>
+                
+            </div>
+
         <div className="fixed end-6 bottom-20 group z-50">
             {/* Speed Dial Menu */}
+           
+            {/* <AppDownloading />; */}
+            
             <div
                 className={`flex flex-col items-center mb-4 space-y-2 transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
                     }`}
@@ -138,5 +154,17 @@ export default function SpeedDial() {
                 <span className="sr-only">Open actions menu</span>
             </button>
         </div>
+
+        <Drawer
+                isOpen={isInstalling}
+                onClose={() => setIsInstalling(false)}
+            position="bottom"
+                padding="p-0"
+                widthClass="w-100"
+                className="rounded-t-lg"
+        >
+                <AppDownloading />
+        </Drawer>
+        </>
     );
 }

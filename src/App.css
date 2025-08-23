@@ -244,8 +244,12 @@ border: 2px #111213 solid;
 }
 
 [data-download="true"] .qr-code svg {
-  width: 90px !important;
-  height: 90px !important;
+  width: 100px !important;
+  height: 100px !important;
+}
+[data-sharing="true"] .qr-code svg {
+  width: 100px !important;
+  height: 100px !important;
 }
 
 [data-download="true"] .Verified-icon svg {

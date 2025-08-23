@@ -38,20 +38,26 @@ export const shareElementAsImage = async (
 ) => {
     const element = document.getElementById(elementId);
     if (!element) return alert('❌ Element not found');
+    element.setAttribute('data-sharing', 'true');
+
+    console.log('Element found:', element);
 
     try {
         onStart?.();
 
         const canvas = await html2canvas(element, {
-            scale: 3,
+            scale: 4,
             useCORS: true,
             backgroundColor: '#fff',
-            ...(isWidemode && { windowWidth: 794 }),
+            windowWidth: 794
+            // ...(isWidemode && { windowWidth: 794 }),
         });
 
         const dataUrl = canvas.toDataURL('image/png');
         const blob = await (await fetch(dataUrl)).blob();
         const file = new File([blob], filename, { type: blob.type });
+
+        element.setAttribute('data-sharing', 'false');
 
         // Build complete share text with all promotional content
         const textParts = [];
