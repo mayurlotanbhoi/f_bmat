@@ -166,13 +166,18 @@ export default function SinginSignUp() {
                     mobile: values.mobile, // Assuming `mobile` is used as email/username
                     password: values.password,
                 }).unwrap(), {
-                    loadingHtml: "<b>Account Creting...</b>",
+                    loadingHtml: "<b>Account Creating...</b>",
                     successHtml: "<b>Account Created! Now Login</b>",
-                    errorHtml: "<b>Upload failed. Please try again.</b>",
+                    errorHtml: "<b>Account Creating failed. Please try again.</b>",
                 });
 
-                if (res.status === 201) {
-                    setSingUp(false);
+
+                if (res.statusCode === 201) {
+                    // setSingUp(false);
+                    dispatch(setUser({ user: res?.data?.user, token: res?.data?.accessToken }));
+                    setTimeout(() => {
+                        navigate('/initial-info');
+                    }, 1000)
                 }
 
 

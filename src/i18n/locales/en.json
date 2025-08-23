@@ -1,12 +1,26 @@
 
 {
   "welcome": "Welcome",
+  "createProfile": {
+    "alt": "Create Profile",
+    "title": "Create Your Matrimony Profile",
+    "description": "Build a detailed profile to get the best matches tailored for you.",
+    "steps": {
+      "basicDetails": "Enter your basic details",
+      "familyDetails": "Add family information",
+      "educationCareer": "Fill in education & career",
+      "photos": "Upload your photos",
+      "previewSubmit": "Preview & submit profile"
+    },
+    "button": "Start Creating Profile"
+  },
   "promotionText": "Bhoi Community Matrimony App — Exclusively for our community!\n✅ Safe and reliable service\n✅ Create a free profile\n✅ Download biodata anytime\n✅ View matches, share, and connect\n\nI am a member of the Bhoi community myself and help find the right life partner within our community. Download now and start your journey to find your life partner today!",
   "notFound": {
     "title": "We are working on this page 🚧",
     "description": "The page you are looking for is under development or not available right now. Our team is working hard to bring it live soon!",
     "button": "Go Back Home"
   },
+
   "verifyProfile": {
     
     "alt": "Verified badge",
