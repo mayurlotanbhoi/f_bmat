@@ -1,7 +1,7 @@
 type DrawerPosition = "left" | "right" | "top" | "bottom";
 
 export interface DrawerProps {
-    isOpen: boolean;
+    isOpen: boolean | any;
     onClose: () => void;
     children: React.ReactNode;
     position?: DrawerPosition;

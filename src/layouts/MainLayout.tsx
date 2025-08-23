@@ -591,10 +591,6 @@ const MainLayout: React.FC = () => {
     }
   }
 
-  console.log("Drawer Content:", drawerContent ? "Exists" : "None");
-
-
-
   return (
     <div className="">
       <ScrollToTop />
