@@ -371,18 +371,20 @@ export default function MatrimonyBioData() {
                 <Info className={'col-span-4'} label={labels.age} value={`${calculateAge(profile.personalDetails.dateOfBirth)}`} />
                 <Info className={'col-span-4 text-start'} label={labels.dob} value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
                 <Info className={'col-span-4'} label={labels.maritalStatus} value={options.personalDetails.maritalStatus[profile.personalDetails.maritalStatus]} />
+                <Info className={'col-span-4'} label={labels.height} value={options.personalDetails.height[profile.personalDetails.height]} />
                 <Info className={'col-span-2'} label={labels.complexion} value={options.personalDetails.complexion[profile.personalDetails?.complexion]} />
 
                 <Info className={'col-span-2'} label={labels.weight} value={options.personalDetails.weight[profile.personalDetails.weight]} />
-                <Info className={'col-span-4'} label={labels.height} value={options.personalDetails.height[profile.personalDetails.height]} />
                 <Info className={'col-span-2'} label={labels.brothers} value={profile.familyDetails?.brothers} />
                 <Info className={'col-span-2'} label={labels.marriedBrothers} value={profile.familyDetails?.marriedBrothers} />
                 <Info className={'col-span-2'} label={labels.sisters} value={profile.familyDetails?.sisters} />
                 <Info className={'col-span-2'} label={labels.marriedSisters} value={profile.familyDetails?.marriedSisters} />
 
                 <Info className={'col-span-4'} label={labels.father} value={profile.familyDetails?.fatherName} />
+                <Info className={'col-span-4'} label={labels.fatherOccupation} value={options.familyDetails.fatherOccupation[profile.familyDetails.fatherOccupation]} />
                 {/* <Info label="Weight" value={profile.personalDetails.weight} /> */}
                 <Info className={'col-span-4'} label={labels.mother} value={profile.familyDetails?.motherName} />
+                <Info className={'col-span-4'} label={labels.motherOccupation} value={options.familyDetails.motherOccupation[profile.familyDetails.motherOccupation]} />
                 {/* <Info className={'col-span-2'} label="Caste" value={profile.religiousDetails.caste} /> */}
                 <Info className={'col-span-4'} label={labels.caste} value={profile.religiousDetails.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'} />
                 {/* <Info className={'col-span-2'} label="Religion" value={profile.religiousDetails.religion} /> */}
@@ -410,7 +412,7 @@ export default function MatrimonyBioData() {
                 <img
                   src={profile?.profilePhotos?.[0]}
                   alt="Profile"
-                  className="w-28 min-h-[150px]  md:w-[100%] md:h-[480px] object-cover rounded-md border-2 border-pink-600 shadow-md"
+                  className=" min-h-[150px]  w-[100%] md:h-[480px] object-cover rounded-md border-2 border-pink-600 shadow-md"
                 />
                 <div className="qr-code  gap-2   flex items-center text-center">
                   <div className=''>
@@ -452,10 +454,10 @@ export default function MatrimonyBioData() {
         </div> */}
 
         <footer
-          className="text-xs text-gray-700 font-medium leading-5 mt-3  border-t border-gray-200"
+          className="text-[10px]  text-gray-700 font-medium leading-4 mt-3  border-t border-gray-200"
           aria-label="Disclaimer for bio-data download"
         >
-          <div className="max-w-7xl mx-auto px-2">
+          <div className="max-w-7xl mx-auto px-4">
             <p className="mb-2">
               <strong>{t('bioDataFooter.disclaimerTitle', 'Disclaimer')}:</strong>{' '}
               {t('bioDataFooter.disclaimer')}

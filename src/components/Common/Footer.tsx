@@ -5,6 +5,7 @@ import { FaHome, FaQrcode, FaUserCircle } from 'react-icons/fa';
 import { IoMdHeartDislike } from 'react-icons/io';
 import { Link, useLocation } from 'react-router-dom';
 import { useLocalization } from '../../hooks';
+import { appData } from '../../data/appData';
 
 const Footer = () => {
     const location = useLocation()?.pathname
@@ -56,7 +57,7 @@ const Footer = () => {
 
             {/* Web Footer (Desktop) */}
             <div className="hidden md:flex justify-between items-center bg-gray-100 py-6 px-10 text-gray-600">
-                <div className="font-semibold text-lg">© 2025 VaishyaParinay</div>
+                <div className="font-semibold text-lg">© {new Date().getFullYear()} {appData?.domain}</div>
                 <div className="flex gap-6 text-sm">
                     <Link to="/about" className="hover:text-black">About</Link>
                     <Link to="/terms" className="hover:text-black">Terms</Link>

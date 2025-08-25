@@ -410,8 +410,6 @@ const MainLayout: React.FC = () => {
   const [open, setOpen] = useState(false);
 
   const { isInstalled, hasUpdate, isMobile } = usePwaStatus();
-
-  console.log("isInstalled, hasUpdate, isMobile", isInstalled, hasUpdate, isMobile)
   const { installApp, isInstallable, canInstall } = usePwaPrompt();
   const { user } = useAuth();
   const Padding = ["profile", "chat", "user", "complet-profile", "initial-info"];
@@ -432,7 +430,6 @@ const MainLayout: React.FC = () => {
     useFirebaseMessaging(user?._id);
   }
 
-  console.log("User ID:", user?._id);
 
   const handleAppInstall = async () => {
     setClickOnInstall(true);

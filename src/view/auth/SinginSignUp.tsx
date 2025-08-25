@@ -47,15 +47,24 @@ export const LoginForm = ({
             .min(6, 'Password must be at least 6 characters')
             .required('Password is required'),
     });
+
+    
     
 
-    useEffect(() => {
-        if (termsAccepted) {
-            setShowTerms(true);
-        }else{
-            setShowTerms(false)
-        }
-    }, [termsAccepted]);
+    // useEffect(() => {
+    //     if (termsAccepted) {
+    //         setShowTerms(true);
+    //     }else{
+    //         setShowTerms(false)
+    //     }
+    // }, [termsAccepted]);
+
+
+    const handleTermAndCondition = (e) => {
+
+        setTermsAccepted(e.target.checked)
+        setShowTerms(e.target.checked);
+    };
 
     return (
         <>
@@ -90,7 +99,7 @@ export const LoginForm = ({
                     )}
 
                         <div className="flex items-center w-full mt-4 ">
-                        <input onChange={(e) => setTermsAccepted(e.target.checked)} id="link-checkbox" type="checkbox"
+                            <input onChange={(e) => handleTermAndCondition(e)} id="link-checkbox" type="checkbox"
                                 value='' checked={termsAccepted} className="w-4 h-4 accent-pink-500 bg-gray-100 border-gray-300 rounded-sm focus:bg-pink-500 " />
                         <label htmlFor="link-checkbox" className="ms-2 text-sm font-medium text-black ">I agree with the <span className=" text-primary hover:underline ">terms and conditions</span>.</label>
                     </div>

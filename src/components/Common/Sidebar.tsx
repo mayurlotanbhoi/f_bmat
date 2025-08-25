@@ -21,6 +21,7 @@ import { useAuth } from "../../hooks/useAuth";
 import { MdOutlineSupportAgent } from "react-icons/md";
 import { ShareButton } from "../../view/bioData/BioDownload";
 import { sendWhatsAppMessage } from "../../util";
+import { appData } from "../../data/appData";
 const persistor = persistStore(store);
 
 const Sidebar: React.FC = () => {
@@ -138,7 +139,7 @@ const Sidebar: React.FC = () => {
                 </ul>
             </nav>
             <div className="p-4 text-sm text-gray-400 text-center border-t border-gray-200">
-                © 2025 Vaishya Parinay
+                © {new Date().getFullYear()} {appData?.domain}
             </div>
         </aside>
     );

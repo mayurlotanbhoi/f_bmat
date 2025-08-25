@@ -8,15 +8,26 @@ export function usePwaStatus() {
     useEffect(() => {
         // Reliable mobile detection
         const ua = navigator.userAgent || navigator.vendor || (window as any).opera || '';
-        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua) &&
-            !/Macintosh|Windows|Linux/i.test(ua); // Exclude desktop OS
-        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-        setIsMobile(isMobileDevice && isTouchDevice);
+        const isMobileDevice = /Android|iPhone|iPad|iPod/i.test(ua);
 
-        if (!isMobileDevice) {
-            return; // Skip PWA checks on non-mobile devices
+        const isInStandaloneMode =
+            (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+            (navigator as any).standalone === true;
+
+        if (isMobileDevice && isInStandaloneMode) {
+            console.log("Running as PWA on mobile ✅");
+        } else if (isMobileDevice) {
+            console.log("Running in mobile browser 🌐");
+        } else {
+            console.log("Running on desktop 💻");
         }
+
+        
+
+        // if (!isMobileDevice) {
+        //     return; // Skip PWA checks on non-mobile devices
+        // }
 
         // Detect standalone mode
         const checkStandalone = () =>

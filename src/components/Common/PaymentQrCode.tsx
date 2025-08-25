@@ -31,7 +31,7 @@ const PaymentQrCode = ({ profile }) => {
             </h2>
 
             <p className="text-center text-gray-600 text-base mb-6">
-                {t('donation.subtitle', { count: 1000 })}
+                {t('donation.subtitle', { count: 101 })}
                 <br />
                 {t('donation.cta')}
             </p>
