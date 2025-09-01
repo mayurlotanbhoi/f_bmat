@@ -16,10 +16,13 @@ export function usePwaStatus() {
             (navigator as any).standalone === true;
 
         if (isMobileDevice && isInStandaloneMode) {
+            setIsMobile(true);
             console.log("Running as PWA on mobile ✅");
         } else if (isMobileDevice) {
+            setIsMobile(true);
             console.log("Running in mobile browser 🌐");
         } else {
+            setIsMobile(false);
             console.log("Running on desktop 💻");
         }
 
