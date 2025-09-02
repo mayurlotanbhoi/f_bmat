@@ -407,7 +407,7 @@ const MainLayout: React.FC = () => {
   const hasProfile = !!profile?._id;
   const isVerified = profile?.isVerified ?? false;
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const { isInstalled, hasUpdate, isMobile } = usePwaStatus();
   const { installApp, isInstallable, canInstall } = usePwaPrompt();
@@ -458,13 +458,6 @@ const MainLayout: React.FC = () => {
     setShowInstallDrawer(false);
   };
 
-  useEffect(() => {
-    if (hasUpdate || (showInstallDrawer && !isInstalled)) {
-      setOpen(true);
-    } else {
-      setOpen(false);
-    }
-  }, [hasUpdate, showInstallDrawer, isInstalled]);
 
   // Popup type
   const getPopupType = () => {
@@ -562,7 +555,7 @@ const MainLayout: React.FC = () => {
         </div>
       );
     } else if (isMobile) {  if (hasUpdate ) {
-      // ✅ Third priority: Update available
+      //  Third priority: Update available
       drawerContent = (
         <AppInstall
           installApp={handleUpdateApp}
@@ -571,7 +564,7 @@ const MainLayout: React.FC = () => {
         />
       );
     } else if (isClickOnInstall) {
-      // ✅ Fourth priority: App is downloading
+      //  Fourth priority: App is downloading
       drawerContent = <AppDownloading />;
     } else {
       // ✅ Last fallback: Install prompt
@@ -606,14 +599,15 @@ const MainLayout: React.FC = () => {
 
       {/* ✅ Single Drawer only */}
       <Drawer
-        isOpen={drawerContent}
+        isOpen={drawerContent && open}
         position="bottom"
         padding="p-0"
         widthClass="w-100"
         className="rounded-t-lg"
         showCloseBtn={true}
         onClose={() => {
-          if (popupType) {
+          setOpen(false)
+          if (getPopupType()) {
             setIsProfileCreated(null);
           } else {
             handleCloseDrawer();

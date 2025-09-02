@@ -25,9 +25,10 @@ export default function AppInstall({ installApp, title, description }: AppInstal
       tabIndex={-1}
       aria-modal="true"
       role="dialog"
-      className="w-full max-w-md mx-auto bg-white rounded-t-3xl shadow-2xl animate-slideUp fixed bottom-0 left-1/2 -translate-x-1/2 z-50 p-0 overflow-hidden border-t border-gray-200"
+      className="w-full max-w-md mx-auto bg-white rounded-t-3xl shadow-2xl animate-slideUp   z-50 p-0  border-t border-gray-200"
       style={{ boxShadow: '0 -8px 32px 0 rgba(0,0,0,0.18)' }}
     >
+      
       <div className="flex flex-col gap-4 p-6">
         {/* Drag handle */}
         <div className="mx-auto w-12 h-1.5 rounded-full bg-gray-300 mb-2" />

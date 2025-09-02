@@ -53,7 +53,7 @@ export const ProfileCard = ({ profile }) => {
       {/* Verified Badge */}
       {profile?.isVerified && (
         <div className="flex items-center gap-1 absolute top-2 right-2 px-2 py-1  text-white text-[10px] font-semibold rounded-full backdrop-blur-sm z-10">
-          <img className="w-20 h-auto" src={verified} alt="Verified" />
+          <img className="w-20 h-auto" src={verified} alt="Verified" loading='lazy' />
         </div>
       )}
 
@@ -65,6 +65,7 @@ export const ProfileCard = ({ profile }) => {
             alt={fullName}
             crossOrigin="anonymous"
             className="w-full h-full object-fill"
+            loading='lazy'
           />
         </div>
         <span className="text-xs   rounded font-semibold">
@@ -344,7 +345,7 @@ export default function MatrimonyBioData() {
               whiteSpace: "nowrap"
             }}
           >
-            <img className="w-20 h-auto" src={verified} alt="Verified" />
+            <img className="w-20 h-auto" src={verified} alt="Verified" loading='lazy' />
           </div>
         )}
 
@@ -412,6 +413,8 @@ export default function MatrimonyBioData() {
                 <img
                   src={profile?.profilePhotos?.[0]}
                   alt="Profile"
+                  loading='lazy'
+                  
                   className=" min-h-[150px]  w-[100%] md:h-[480px] object-cover rounded-md border-2 border-pink-600 shadow-md"
                 />
                 <div className="qr-code  gap-2   flex items-center text-center">

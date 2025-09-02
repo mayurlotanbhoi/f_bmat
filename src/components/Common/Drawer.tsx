@@ -56,6 +56,7 @@ const Drawer: React.FC<DrawerProps> = ({
             break;
     }
 
+    console.log("showclosw", showCloseBtn)
     return createPortal(
         <>
             {/* Backdrop */}
@@ -68,7 +69,8 @@ const Drawer: React.FC<DrawerProps> = ({
             {/* Drawer */}
             <div className={`${baseStyles} ${className}   ${positionStyles} ${animationClass}`}>
                 {/* Close button */}
-                {showCloseBtn && <div className="flex fixed right-0 z-50  justify-end p-4">
+                
+                {showCloseBtn && <div className="flex fixed top-0 right-0 z-50  justify-end p-4">
                     <button
                         onClick={onClose}
                         className="text-xl font-bold  "
@@ -79,6 +81,7 @@ const Drawer: React.FC<DrawerProps> = ({
                 </div>}
 
                 {/* Content */}
+                
                 <div className={`flex-1 overflow-auto ${padding}`} >{children}</div>
             </div>
         </>,

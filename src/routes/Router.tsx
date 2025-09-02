@@ -11,6 +11,7 @@ import {ScanQrPage} from '../view/scanQr';
 import LunchScreen from '../view/lunchScren';
 import Home from '../view/home/Home';
 import { NotFoundpage } from '../view/notFound';
+import Matche from '../view/matches';
 // import { ViewBioData } from '../view/viewBioData';
 
 // import BioForm from '../view/bioForm';
@@ -26,7 +27,7 @@ const SinginSignUp = lazy(() => import('../view/auth'));
 const Profile = lazy(() => import('../view/profiles/Profile'));
 
 const LanguageScreen = lazy(() => import('../view/language'));
-const Matche = lazy(() => import('../view/matches'));
+// const Matche = lazy(() => import('../view/matches'));
 const ChatBox = lazy(() => import('../view/chat'));
 const UserProfile = lazy(() => import('../view/user'));
 const BioForm = lazy(() => import('../view/bioForm'));
