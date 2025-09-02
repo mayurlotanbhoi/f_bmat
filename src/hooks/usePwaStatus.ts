@@ -52,7 +52,7 @@ export function usePwaStatus() {
                         if (newWorker) {
                             newWorker.addEventListener('statechange', () => {
                                 if (newWorker.state === 'installed' && reg.waiting) {
-                                    setHasUpdate(true);
+                                    setHasUpdate(false);
                                 }
                             });
                         }
@@ -60,7 +60,7 @@ export function usePwaStatus() {
 
                     // Check if there's a waiting worker (update available)
                     if (reg.waiting) {
-                        setHasUpdate(true);
+                        setHasUpdate(false);
                     }
                 });
             });
