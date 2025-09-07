@@ -11,6 +11,9 @@ import './App.css'
 
 function App() {
   useUiTheme();
+  if (process.env.NODE_ENV === 'production') {
+    console.log = function () { };
+  }
 
   // console.log("clientId", clientId)
   // console.log("token", token, error, permission)

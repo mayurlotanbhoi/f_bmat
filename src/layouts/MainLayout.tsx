@@ -599,7 +599,7 @@ const MainLayout: React.FC = () => {
 
       {/* ✅ Single Drawer only */}
       <Drawer
-        isOpen={drawerContent && open}
+        isOpen={(drawerContent && open)}
         position="bottom"
         padding="p-0"
         widthClass="w-100"
