@@ -44,6 +44,8 @@
     "profile": "Profile",
     "settings": "Settings"
   },
+  "months": "Months",
+  "years": "Years",
   "loading": "Loading...",
   "expected": "Expected",
   "sidebar": {
@@ -99,6 +101,8 @@
     "contact": "Contact"
   },
   "labels": {
+    "fullBiodata": "Full Biodata & Details",
+    "searching": "Searching for a suitable match...",
     "otherExpect": "Other Expectations",
     "scan": "Scan the code to view the full profile",
     "fullName": "Full Name",

@@ -18,13 +18,15 @@ import { getShearedBio } from '../../features/biodata/shearedSlice';
 import { t } from 'i18next';
 import { makeCall, sendWhatsAppMessage } from '../../util';
 import { qrScanLink } from '../../constant';
-import { loader, verified } from '../../util/images.util';
+import { langicom, loader, verified } from '../../util/images.util';
 import { Loading } from '../../components/loaders/Loading';
 import { PiCampfireLight } from 'react-icons/pi';
 import { formatCurrency } from '../../util/formatCurrency';
 import { useAuth } from '../../hooks/useAuth';
 import NoData from '../../components/Common/notFound';
 import { getMatrimony } from '../../features/matrimony/matrimonySlice';
+import { LanguageSwitcher } from '../../components/Common/Header';
+import Drawer from '../../components/Common/Drawer';
 // import {  }  from "../../util/images.util";
 
 export default function ViewBio({ biodata }: { biodata?: any }) {
@@ -38,6 +40,7 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
     const [isProfileFound, setProfileFound] = useState(false);
     const [vieViewLikes] = useLazyViewLikesQuery();
      const [shearBioData] = useShareBioDataMutation();
+    const [switchLang, setSwitchLang] = useState(false);
 
     const [isLoading, setIsLoadoding] = useState(false);
     const label = useLocalization('labels')
@@ -186,6 +189,7 @@ const isLiked =  useCallback((id: string) => {
     };
 
     return (
+        <>
         <div className=" mx-auto  space-y-6 bg-white pb-10">
             <div className="max-w-md min-h-[80vh]   relative  rounded-xl shadow-lg bg-white">
                 {bio?.isVerified && (
@@ -218,7 +222,20 @@ const isLiked =  useCallback((id: string) => {
 
             <div className=' my-5 px-2 '>
                 <div className=' my-5 px-2 '>
-                    <strong className='text-xl capitalize'>{bio?.personalDetails?.fullName}</strong>
+                        <div className="flex justify-between items-center">
+                            <strong className="text-xl capitalize">
+                                {bio?.personalDetails?.fullName}
+                            </strong>
+
+                            <p onClick={() => setSwitchLang(!switchLang)}>
+                                A-अ
+                                </p>
+                        </div>
+
+
+                        <Drawer className="bg-gradient-to-tr w-screen from-pink-500 via-pink-500 to-pink-500" isOpen={switchLang} position='left' onClose={() => setSwitchLang(false)}>
+                            <LanguageSwitcher />
+                        </Drawer>
                     <div className=' flex justify-between my-4'>
                         <button onClick={() => makeCall(bio?.contactDetails?.mobileNo)} className='btn   secondary-btn'> <FaLock size={15} /> <p>{label.callNow}</p> </button>
                         <button onClick={() => sendWhatsAppMessage({
@@ -331,5 +348,10 @@ const isLiked =  useCallback((id: string) => {
                 </button>
             </ConfettiButton>}
         </div>
+        
+        <Drawer className="bg-gradient-to-tr w-screen from-pink-500 via-pink-500 to-pink-500" isOpen={switchLang} position='left' onClose={() => setSwitchLang(false)}>
+          <LanguageSwitcher />
+        </Drawer>
+        </>
     );
 }

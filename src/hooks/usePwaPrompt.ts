@@ -30,26 +30,28 @@ export default function usePwaPrompt(): UsePwaPromptReturn {
       (window.navigator as any).standalone === true;
   }, []);
 
+  const handleBeforeInstallPrompt = (e: Event) => {
+    e.preventDefault();
+    console.log('PWA install prompt captured', (e as BeforeInstallPromptEvent).platforms);
+    const event = e as BeforeInstallPromptEvent;
+    setDeferredPrompt(event);
+    setIsInstallable(!checkStandalone());
+  };
+
+  const handleAppInstalled = () => {
+    console.log('PWA was installed successfully');
+    setDeferredPrompt(null);
+    setIsInstallable(false);
+    setIsInstalling(false);
+  };
+
   useEffect(() => {
     const isIOSDevice = /iPhone|iPad|iPod/i.test(navigator.userAgent) && !(window as any).MSStream;
     setIsIOS(false);
 
     console.log("isIOSDevice", isIOSDevice);
 
-    const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault();
-      console.log('PWA install prompt captured', (e as BeforeInstallPromptEvent).platforms);
-      const event = e as BeforeInstallPromptEvent;
-      setDeferredPrompt(event);
-      setIsInstallable(!checkStandalone());
-    };
-
-    const handleAppInstalled = () => {
-      console.log('PWA was installed successfully');
-      setDeferredPrompt(null);
-      setIsInstallable(false);
-      setIsInstalling(false);
-    };
+    
 
   
       window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -86,6 +88,9 @@ export default function usePwaPrompt(): UsePwaPromptReturn {
       console.warn('No install prompt available');
       return false;
     }
+
+     window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+        window.removeEventListener('appinstalled', handleAppInstalled);
 
     try {
       setIsInstalling(true);

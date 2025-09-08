@@ -24,10 +24,10 @@ export const BioDataHeader = () => {
                     <p className="text-[12px] text-white mt-1">
                         {t('bioHeader.tagline2', 'Empowering Bhoi Community for Meaningful Marriages')}
                     </p>
-                    <p className="text-xs hidden sm:block text-gray-500 mt-1">
+                    <p className="text-xs hidden sm:block text-gray-800 mt-1">
                         {t('bioHeader.tagline3')}
                     </p>
-                    <p className="text-xs hidden sm:block text-gray-500 mt-1">
+                    <p className="text-xs hidden sm:block text-gray-800 mt-1">
                         {t('bioHeader.tagline4')}
                     </p>
                 </div>

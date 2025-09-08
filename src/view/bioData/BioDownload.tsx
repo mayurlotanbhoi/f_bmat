@@ -217,23 +217,33 @@ export function ShareBiodata({ biodataUrl, profile }) {
 
         {/* Share Button */}
         <ShareButton
-          shareMessage={`📜 Biodata of ${profile?.personalDetails?.fullName}
+          shareMessage={`🕉️ || ॐ श्री गणेशाय नमः ||
 
-👤 ${labels.fullName}: ${profile?.personalDetails?.fullName || "N/A"}
+📛 ${labels.fullName}: ${profile?.personalDetails?.fullName || "N/A"}
 🎂 ${labels.age}: ${calculateAge(profile?.personalDetails?.dateOfBirth) || "N/A"} years
-🕉️ ${labels.caste}: ${profile?.religiousDetails?.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'}
-📍 ${labels.presentAddress}: ${profile?.contactDetails?.presentAddress?.city || "N/A"}, ${profile?.contactDetails?.presentAddress?.state || ""}
-💼 ${labels.occupation}: ${options?.professionalDetails?.occupation[profile?.professionalDetails?.occupation] || "N/A"}
-🎓 ${labels.qualification}: ${options?.educationDetails?.highestQualification[profile?.educationDetails?.highestQualification] || "N/A"}
+🕉️ ${labels.caste}: ${profile?.religiousDetails?.subCaste || "N/A"} (${options?.religiousDetails?.caste?.[profile?.religiousDetails?.caste] || "N/A"})
+🤵 ${labels.father}: ${profile?.familyDetails?.fatherName || "N/A"}
+👨‍💼 ${labels.mother}: ${profile?.familyDetails?.motherName || "N/A"}
 
-🔗 View Full Biodata: ${biodataUrl}
+🏡 ${labels.presentAddress}: ${profile?.contactDetails?.presentAddress?.city || "N/A"}, ${profile?.contactDetails?.presentAddress?.state || ""}
+🎓 ${labels.qualification}: ${options?.educationDetails?.highestQualification?.[profile?.educationDetails?.highestQualification] || "N/A"}
+🛠 ${labels.jobType}: ${options?.professionalDetails?.jobType?.[profile?.professionalDetails?.jobType] || "N/A"}
+💼 ${labels.occupation}: ${options?.professionalDetails?.occupation?.[profile?.professionalDetails?.occupation] || "N/A"}
+💰 ${labels.income}: ${formatCurrency(profile?.professionalDetails?.income) || "N/A"}
 
-💖 Find your perfect match on Our Matrimony Platform!`}
+
+📜 ${labels.fullBiodata}:
+🔗 ${biodataUrl}
+
+
+
+✨ *${labels.searching} ✨`}
           title={`Biodata of ${profile?.personalDetails?.fullName}`}
           url={biodataUrl}
           className="flex items-center text-sm justify-center gap-2 px-5 py-2 bg_primary text-white font-bold rounded-lg"
           image="https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"
         />
+
 
       </div>
 
@@ -371,10 +381,14 @@ export default function MatrimonyBioData() {
                 <Info className="col-span-4 text-start" label={labels.fullName} value={profile.personalDetails.fullName} />
                 <Info className={'col-span-4'} label={labels.age} value={`${calculateAge(profile.personalDetails.dateOfBirth)}`} />
                 <Info className={'col-span-4 text-start'} label={labels.dob} value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
-                <Info className={'col-span-4'} label={labels.maritalStatus} value={options.personalDetails.maritalStatus[profile.personalDetails.maritalStatus]} />
-                <Info className={'col-span-4'} label={labels.height} value={options.personalDetails.height[profile.personalDetails.height]} />
-                <Info className={'col-span-2'} label={labels.complexion} value={options.personalDetails.complexion[profile.personalDetails?.complexion]} />
+                <Info className={'col-span-2'} label={labels.maritalStatus} value={options.personalDetails.maritalStatus[profile.personalDetails.maritalStatus]} />
+                <Info className={'col-span-4 sm:col-span-2'} label={labels.caste} value={profile.religiousDetails.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'} />
+                <Info className={'col-span-4'} label={labels.occupation} value={options.professionalDetails.occupation[profile.professionalDetails.occupation]} />
+                <Info className={'col-span-4 md:col-span-2'} label={labels.jobType} value={options.professionalDetails.jobType[profile.professionalDetails.jobType]} />
+                <Info className={'col-span-2 '} label={labels.income} value={formatCurrency(profile.professionalDetails.income)} />
+                <Info className={'col-span-4 '} label={labels.height} value={options.personalDetails.height[profile.personalDetails.height]} />
 
+                <Info className={'col-span-2 '} label={labels.complexion} value={options.personalDetails.complexion[profile.personalDetails?.complexion]} />
                 <Info className={'col-span-2'} label={labels.weight} value={options.personalDetails.weight[profile.personalDetails.weight]} />
                 <Info className={'col-span-2'} label={labels.brothers} value={profile.familyDetails?.brothers} />
                 <Info className={'col-span-2'} label={labels.marriedBrothers} value={profile.familyDetails?.marriedBrothers} />
@@ -387,11 +401,7 @@ export default function MatrimonyBioData() {
                 <Info className={'col-span-4'} label={labels.mother} value={profile.familyDetails?.motherName} />
                 <Info className={'col-span-4'} label={labels.motherOccupation} value={options.familyDetails.motherOccupation[profile.familyDetails.motherOccupation]} />
                 {/* <Info className={'col-span-2'} label="Caste" value={profile.religiousDetails.caste} /> */}
-                <Info className={'col-span-4'} label={labels.caste} value={profile.religiousDetails.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'} />
                 {/* <Info className={'col-span-2'} label="Religion" value={profile.religiousDetails.religion} /> */}
-                <Info className={'col-span-4'} label={labels.occupation} value={options.professionalDetails.occupation[profile.professionalDetails.occupation]} />
-                <Info className={'col-span-4 md:col-span-2'} label={labels.jobType} value={options.professionalDetails.jobType[profile.professionalDetails.jobType]} />
-                <Info className={'col-span-2'} label={labels.income} value={formatCurrency(profile.professionalDetails.income)} />
                 <Info className={'col-span-4'} label={labels.phone} value={`${profile?.contactDetails?.
                   mobileNo}, ${profile?.contactDetails?.whatsappNo}`} />
 

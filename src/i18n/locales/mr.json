@@ -40,14 +40,16 @@
   "home": {
     "category": "श्रेणी",
     "matches": "परिवार",
-    "profile": "प्रोफाइल",
+    "profile": "स्थळ",
     "settings": "सेटिंग्ज"
   },
+  "months": "महिने",
+  "years": "वर्षे",
   "loading": "लोड करत आहे...",
   "expected": "अपेक्षित",
   "sidebar": {
   "home": "मुख्यपृष्ठ",
-  "myProfile": "प्रोफाइल",
+  "myProfile": "स्थळ",
   "matches": "जुळण्या",
   "requests": "विनंत्या",
   "search": "शोधा",
@@ -100,7 +102,9 @@
     "contact": "संपर्क"
   },
   "labels": {
-     "otherExpect": "इतर अपेक्षा",
+      "fullBiodata": "पूर्ण बायोडाटा आणि तपशील",
+      "searching": "तुमचा बायोडाटा बनवा आणि स्थळ शोधा free मध्ये ",
+      "otherExpect": "इतर अपेक्षा",
     "scan" : "पूर्ण प्रोफाइल पाहण्यासाठी कोड स्कॅन करा",
     "fullName": "पूर्ण नाव",
     "callNow": "कॉल करा",

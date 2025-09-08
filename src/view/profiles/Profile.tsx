@@ -26,6 +26,9 @@ import { filterValidationSchema } from '../../validations/matrimony.validations'
 import { object } from 'yup';
 import NoData from '../../components/Common/notFound';
 import { useLocalization } from '../../hooks';
+import { Loading } from '../../components/loaders/Loading';
+import { useTranslation } from 'react-i18next';
+import InfiniteScollLoading from '../../components/Common/Loading/InfiniteScollLoading';
 
 interface TypeOfBio {
     [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
@@ -493,6 +496,7 @@ export default function Profile() {
     const [modelKey, setModelKey] = useState("");
     const { filter: filterKey } = useParams();
     const [onSave, setOnSave] = useState(1);
+    const { t } = useTranslation();
 
     const [filter, setFilter] = useState({
         ageRange: "",
@@ -591,7 +595,7 @@ export default function Profile() {
                     </div>
                     </>
                 ))}
-                {loading && <InfiniteLoading />}
+                {loading && <InfiniteScollLoading text={t('loading')} />}
             </div>
 
             <div ref={bottomRef} className="h-10" />

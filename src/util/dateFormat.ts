@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 export const calculateAge = (dateOfBirth: any): string => {
+    const { t } = useTranslation();
     // Convert input to Date object
     if (dateOfBirth == null || dateOfBirth === 'N/A') return '';
     const birthDate = new Date(dateOfBirth);
@@ -50,8 +51,8 @@ export const calculateAge = (dateOfBirth: any): string => {
     }
 
     // Format the output
-    const yearText = years === 1 ? 'year' : 'years';
-    const monthText = months === 1 ? 'month' : 'months';
+    const yearText = years === 1 ? t('years') : t('years');
+    const monthText = months === 1 ? t('months') : t('months');
 
     if (years > 0 && months > 0) {
         return `${years} ${yearText} ${months} ${monthText}`;

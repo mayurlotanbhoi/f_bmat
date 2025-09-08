@@ -975,10 +975,10 @@ const MultiStepForm: React.FC = () => {
 
     return (
         <>
-            <div className=" min-h-screen   grid grid-rows-[auto_1fr]  mx-auto   rounded-xl shadow-md">
+            <div className="min-h-screen relative mx-auto rounded-xl shadow-md grid grid-rows-[auto_1fr]">
                 {/* <div className="fixed top-0  left-0"> */}
-                <div className="flex flex-col   grid-cols-2 justify-between mb-2   px-4 bg-white">
-                    <button onClick={handleBack} className="  mt-2 mb-[-0.8rem] " >
+                <div className="fixed top-0 left-0 right-0 z-50 bg-white px-4  shadow-sm ">
+                    <button onClick={handleBack} className="text-gray-700 h-1 font-bold hover:text-black" >
                         <GoArrowLeft  className="cursor-pointer" size={30} />
                     </button>
                     <FormProgess current={step + 1} total={steps.length} live={steps[step]?.label || ""} prev={steps[step - 1]?.label || ""} next={isLastStep ? 'Last ' : steps[step + 1]?.label} />
@@ -1036,7 +1036,7 @@ const MultiStepForm: React.FC = () => {
 
                     }}
                 >
-                    <Form className="space-y-4  grid-cols-12 bg-white relative flex flex-col justify-between">
+                    <Form className="space-y-4 mt-[8.5rem]  grid-cols-12 bg-white relative flex flex-col justify-between">
                         <div className="space-y-4  px-4 py-2  mb-16 md:grid md:grid-cols-2 gap-2">
                             <h2 className="text-lg font-semibold  col-span-full ">{steps[step].label}</h2>
 

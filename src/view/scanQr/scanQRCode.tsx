@@ -1,6 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Scanner } from "@yudiel/react-qr-scanner";
 import { FaQrcode } from "react-icons/fa";
+import Drawer from "../../components/Common/Drawer";
+import { LanguageSwitcher } from "../../components/Common/Header";
 
 export default function ScanQrPage() {
   const [scanResult, setScanResult] = useState("");
@@ -8,6 +10,7 @@ export default function ScanQrPage() {
   const [scanning, setScanning] = useState(false);
   const [hasPermission, setHasPermission] = useState(false);
   const qrRef = useRef(null);
+  
 
   const requestCameraPermission = async () => {
     try {
@@ -59,6 +62,7 @@ export default function ScanQrPage() {
   };
 
   return (
+    <>
     <div className="flex flex-col items-center justify-center bg-gradient-to-br from-pink-100 to-blue-100">
       <div className="bg-white rounded-2xl shadow-lg p-2 h-[85vh] w-full max-w-md flex flex-col items-center">
         <h1 className="text-2xl font-bold text-pink-700 mb-2 flex items-center gap-2">
@@ -136,5 +140,7 @@ export default function ScanQrPage() {
         )}
       </div>
     </div>
+
+    </>
   );
 }

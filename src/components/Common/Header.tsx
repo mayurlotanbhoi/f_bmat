@@ -99,7 +99,7 @@ const variants = {
     animate: { opacity: 1, y: 0 }
 };
 
-const LanguageSwitcher: React.FC = () => {
+export const LanguageSwitcher: React.FC = () => {
     const { i18n } = useTranslation();
     const currentLang = i18n.language;
 
