@@ -27,6 +27,7 @@ import NoData from '../../components/Common/notFound';
 import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 import { LanguageSwitcher } from '../../components/Common/Header';
 import Drawer from '../../components/Common/Drawer';
+import { useTranslation } from 'react-i18next';
 // import {  }  from "../../util/images.util";
 
 export default function ViewBio({ biodata }: { biodata?: any }) {
@@ -41,6 +42,7 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
     const [vieViewLikes] = useLazyViewLikesQuery();
      const [shearBioData] = useShareBioDataMutation();
     const [switchLang, setSwitchLang] = useState(false);
+     const { t } = useTranslation();
 
     const [isLoading, setIsLoadoding] = useState(false);
     const label = useLocalization('labels')
@@ -99,7 +101,7 @@ const isLiked =  useCallback((id: string) => {
         Personal: [
             { label: label.gender, value: opinions?.personalDetails.gender[personalDetails?.gender] },
             { label: label.dob, value: new Date(personalDetails?.dateOfBirth).toLocaleDateString() },
-            { label: label.age, value: calculateAge(personalDetails?.dateOfBirth) },
+            { label: label.age, value: calculateAge(personalDetails?.dateOfBirth, t) },
             { label: label.maritalStatus, value: opinions?.personalDetails.maritalStatus[personalDetails?.maritalStatus] },
             { label: label.height, value: opinions?.personalDetails.height[personalDetails?.height] },
             { label: label.weight, value: opinions?.personalDetails.weight[personalDetails?.weight] },

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
-export const calculateAge = (dateOfBirth: any): string => {
-    const { t } = useTranslation();
+export const calculateAge = (dateOfBirth: any, t: (key: string) => string): string => {
+
     // Convert input to Date object
     if (dateOfBirth == null || dateOfBirth === 'N/A') return '';
     const birthDate = new Date(dateOfBirth);

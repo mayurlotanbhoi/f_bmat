@@ -29,12 +29,13 @@ import { CiEdit } from 'react-icons/ci';
 
 
 export const ProfileCard = ({ profile }) => {
+  const { t } = useTranslation();
   const cardRef = useRef(null);
   const labels = useLocalization('labels');
   const options = useLocalization('options');
   const fullName = profile?.personalDetails?.fullName || 'N/A';
   const photo = profile?.profilePhotos?.[0] || '/placeholder.jpg';
-  const age = calculateAge(profile?.personalDetails?.dateOfBirth);
+  const age = calculateAge(profile?.personalDetails?.dateOfBirth, t);
   const dob = formatDate(profile?.personalDetails?.dateOfBirth)
   const caste = profile?.religiousDetails?.caste;
   const subCaste = profile?.religiousDetails?.subCaste;
@@ -178,6 +179,7 @@ export function ShareBiodata({ biodataUrl, profile }) {
   const [copied, setCopied] = useState(false);
   const options = useLocalization('options');
   const labels = useLocalization('labels');
+   const { t } = useTranslation();
 
 
 
@@ -220,7 +222,7 @@ export function ShareBiodata({ biodataUrl, profile }) {
           shareMessage={`🕉️ || ॐ श्री गणेशाय नमः ||
 
 📛 ${labels.fullName}: ${profile?.personalDetails?.fullName || "N/A"}
-🎂 ${labels.age}: ${calculateAge(profile?.personalDetails?.dateOfBirth) || "N/A"} years
+🎂 ${labels.age}: ${calculateAge(profile?.personalDetails?.dateOfBirth, t) || "N/A"} 
 🕉️ ${labels.caste}: ${profile?.religiousDetails?.subCaste || "N/A"} (${options?.religiousDetails?.caste?.[profile?.religiousDetails?.caste] || "N/A"})
 🤵 ${labels.father}: ${profile?.familyDetails?.fatherName || "N/A"}
 👨‍💼 ${labels.mother}: ${profile?.familyDetails?.motherName || "N/A"}
@@ -379,7 +381,7 @@ export default function MatrimonyBioData() {
               <div className="grid grid-cols-4 p-0 m-0    ">
 
                 <Info className="col-span-4 text-start" label={labels.fullName} value={profile.personalDetails.fullName} />
-                <Info className={'col-span-4'} label={labels.age} value={`${calculateAge(profile.personalDetails.dateOfBirth)}`} />
+                <Info className={'col-span-4'} label={labels.age} value={`${calculateAge(profile.personalDetails.dateOfBirth, t)}`} />
                 <Info className={'col-span-4 text-start'} label={labels.dob} value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
                 <Info className={'col-span-2'} label={labels.maritalStatus} value={options.personalDetails.maritalStatus[profile.personalDetails.maritalStatus]} />
                 <Info className={'col-span-4 sm:col-span-2'} label={labels.caste} value={profile.religiousDetails.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'} />

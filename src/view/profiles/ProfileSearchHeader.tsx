@@ -9,6 +9,8 @@ import { searchbanner } from '../../util/images.util';
 import { useLazyGlobalSearchProfilesQuery } from '../../features/matrimony/matrimonyApi';
 import { calculateAge } from '../../util/dateFormat';
 import { Link } from 'react-router-dom';
+import { useLocalization } from '../../hooks';
+import { useTranslation } from 'react-i18next';
 export default function ProfileSearchHeader() {
     const placeholders = ['Search by ID...', 'Search by name...', 'Search by mobile number...'];
     const [placeholderIndex, setPlaceholderIndex] = useState(0);
@@ -17,6 +19,7 @@ export default function ProfileSearchHeader() {
     const [isLoading, setIsloading] = useState(false)
     const [searchHistory, setSearchHistory] = useState<string[]>([]);
     const [triggerSearch, { data, error }] = useLazyGlobalSearchProfilesQuery();
+     const { t } = useTranslation();
 
     // useEffect(() => {
     //     const interval = setInterval(() => {
@@ -161,7 +164,7 @@ export default function ProfileSearchHeader() {
                                                     <TfiLocationPin /> {profiles?.contactDetails?.presentAddress?.city}
                                                 </>
                                                 <>
-                                                    <PiCalendarPlusLight /> {calculateAge(profiles?.personalDetails?.dateOfBirth)}
+                                                    <PiCalendarPlusLight /> {calculateAge(profiles?.personalDetails?.dateOfBirth, t)} yrs
                                                 </>
                                             </div>
                                         </div>

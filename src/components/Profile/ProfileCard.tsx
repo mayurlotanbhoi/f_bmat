@@ -6,6 +6,7 @@ import { useLazySendProfileViewedNotificationQuery } from '../../features/notifi
 import { useLocalization } from '../../hooks';
 import { formatCurrency } from '../../util/formatCurrency';
 import { verified } from '../../util/images.util';
+import { useTranslation } from 'react-i18next';
 interface TypeOfBio {
     [key: string]: any; // or use a specific structure like: name: string, age: number, etc.
 }
@@ -24,6 +25,8 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ bio, setViewBio }) => {
     const profileLang = useLocalization('profile');
     const viewBio = useLocalization('viewBio');
     const opinions = useLocalization('options');
+    const { t } = useTranslation();
+
 
     const handleViewProfile = useCallback((bio) => {
         setViewBio(bio);
@@ -64,7 +67,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ bio, setViewBio }) => {
             <div className=' w-full absolute bottom-0 px-4  pb-2 text-white '>
                 <div className="text-lg font-semibold mb-1">{bio?.personalDetails?.fullName}</div>
                 <div className="text-sm  ">{profileLang?.caste}: {bio?.religiousDetails?.subCaste},{opinions?.religiousDetails?.caste[bio?.religiousDetails?.caste]}, </div>
-                <div className="text-sm  mb-1">{profileLang?.age}: {calculateAge(bio?.personalDetails?.dateOfBirth)}</div>
+                <div className="text-sm  mb-1">{profileLang?.age}: {calculateAge(bio?.personalDetails?.dateOfBirth, t)}</div>
                 <div className="text-sm  mb-3">{profileLang?.income}: {formatCurrency(bio?.professionalDetails?.income)}, </div>
 
                 {/* Action Buttons */}

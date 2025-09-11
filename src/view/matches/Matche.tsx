@@ -13,6 +13,7 @@ import { useShareBioDataMutation } from '../../features/biodata/biodataApi';
 import { isGenerator } from 'framer-motion';
 import NoData from '../../components/Common/notFound';
 import { verified } from '../../util/images.util';
+import { useTranslation } from 'react-i18next';
 
 interface Bio {
     [key: string]: any;
@@ -22,6 +23,7 @@ const Matche = () => {
     const { data,  isError } = useGetMatchQuery('');
      const [shearBioData] = useShareBioDataMutation();
      const location = useLocation()
+      const { t } = useTranslation();
     
         const [isLoading, setIsLoadoding] = useState(false);
     const likes = useSelector(getShearedBio);
@@ -120,7 +122,7 @@ const Matche = () => {
                                     <img className='w-16 h-16 rounded-md object-cover bg-green-600 flex items-center justify-center text-white font-bold text-xl ' src={photo} loading='lazy' alt={name} />
                                 </div>
                                 <div className="ms-3 text-sm font-normal">
-                                    <div className="text-sm font-normal">{calculateAge(dob)},  {subCaste}, {caste}</div>
+                                    <div className="text-sm font-normal">{calculateAge(dob, t)},  {subCaste}, {caste}</div>
                                     <div className="text-sm font-semibold text-primary">
                                         {education}, {occupation} ,{JobType}, {formatAmount(income)}
                                     </div>
