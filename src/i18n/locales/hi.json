@@ -1,6 +1,7 @@
 
 {
   "welcome": "स्वागत है",
+  "noResults": ["क्षमा करें, हम आपकी रिक्वेस्ट से मेल खाने वाले कोई परिणाम नहीं ढूंढ सके।", "अपने फ़िल्टर या खोज शब्दों को समायोजित करने का प्रयास करें।"],
    "createProfile": {
     "alt": "Profile Banao",
     "title": "Apna Matrimony Profile Banao",

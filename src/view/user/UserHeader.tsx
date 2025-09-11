@@ -24,12 +24,12 @@ export default function UserHeader() {
 
     return (
         <>
-            <div className="min-h-screen bg-gray-50">
+            <div className="min-h-screen mt-[4rem] bg-gray-50">
                 {/* Cover Image */}
                 <div className="relative">
                     <img
                         className="h-40 w-full object-cover"
-                        src="https://images.unsplash.com/photo-1605379399642-870262d3d051?auto=format&fit=crop&w=2000&q=80"
+                        src="https://i.pinimg.com/736x/a3/57/09/a357099fc55a89151fe1951cb18e1866.jpg"
                         alt="Cover"
                     />
                     {/* Profile Image */}

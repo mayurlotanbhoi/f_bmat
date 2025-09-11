@@ -10,7 +10,7 @@ const steps = ['location', 'relation', 'details'];
 const languages = [
     { code: 'en', label: 'English', icon: 'E' },
     { code: 'hi', label: 'हिन्दी', icon: 'हि' },
-    { code: 'mr', label: 'Marathi', icon: 'म' },
+    { code: 'mr', label: 'मराठी', icon: 'म' },
 ];
 const relationOptions = ['Myself', 'Son', 'Daughter', 'Brother', 'Sister', 'Relative', 'Friend'];
 

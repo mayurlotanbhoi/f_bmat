@@ -991,7 +991,7 @@ const MultiStepForm: React.FC = () => {
                 </div>
                 {/* </div> */}
 
-
+<div className=" mt-[8.5rem]">
 
                 <Formik
                     initialValues={!isProfilePresent ? initialValues : oldInitialValues}
@@ -1036,8 +1036,8 @@ const MultiStepForm: React.FC = () => {
 
                     }}
                 >
-                    <Form className="space-y-4 mt-[8.5rem]  grid-cols-12 bg-white relative flex flex-col justify-between">
-                        <div className="space-y-4  px-4 py-2  mb-16 md:grid md:grid-cols-2 gap-2">
+                    <Form className="space-y-4  min-h-[80vh]    grid-cols-12 bg-white relative flex flex-col justify-between">
+                        <div className="space-y-4   px-4 py-2  mb-16 md:grid md:grid-cols-2 gap-2">
                             <h2 className="text-lg font-semibold  col-span-full ">{steps[step].label}</h2>
 
                             {steps[step]?.fields?.map((field) => {
@@ -1159,7 +1159,7 @@ const MultiStepForm: React.FC = () => {
                                 }
                             })}
 
-                            <div className={` ${isLastStep ? "" : "hidden"} w-full flex justify-between items-center flex-wrap gap-3`}>
+                                <div className={` ${isLastStep ? "" : "hidden"} w-full col-span-full flex justify-between items-center flex-wrap gap-3`}>
                                 {steps[step]?.fields.map((field, index) => {
                                     if (!field) return <></>;
                                     switch (field.type) {
@@ -1238,7 +1238,7 @@ const MultiStepForm: React.FC = () => {
                     </Form>
                 </Formik>
 
-
+                </div>
             </div>
 
             <Modal

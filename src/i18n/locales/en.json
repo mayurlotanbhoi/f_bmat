@@ -1,6 +1,8 @@
 
 {
   "welcome": "Welcome",
+    "noResults": ["Sorry, we couldn't find any results matching your request.", "Try adjusting your filters or search terms."],
+
   "createProfile": {
     "alt": "Create Profile",
     "title": "Create Your Matrimony Profile",
