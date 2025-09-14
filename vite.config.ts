@@ -32,8 +32,8 @@
 //         type: 'module',
 //       },
 //       manifest: {
-//         name: 'Bhoi Joodidar',
-//         short_name: 'Bhoi Joodidar',
+//         name: 'Bhoi Joodi',
+//         short_name: 'Bhoi Joodi',
 //         description: "एक विश्वासार्ह व सुरक्षित विवाह जुळवणी मंच — Empowering Bhoi Community for Meaningful Marriages.",
 //         theme_color: '#DB2777',
 //         background_color: '#DB2777',
@@ -133,8 +133,8 @@ export default defineConfig({
         type: 'module',
       },
       manifest: {
-        name: 'Bhoi Joodidar',
-        short_name: 'Bhoi Joodidar',
+        name: 'Bhoi Joodi',
+        short_name: 'Bhoi Joodi',
         description: 'एक विश्वासार्ह व सुरक्षित विवाह जुळवणी मंच — Empowering Bhoi Community for Meaningful Marriages.',
         theme_color: '#DB2777',
         background_color: '#FFFFFF', // Changed to white for better contrast
@@ -142,7 +142,7 @@ export default defineConfig({
         orientation: 'portrait',
         scope: '/',
         start_url: '/', // Corrected to root or update to your intended route
-        id: '/bhoi-joodidar', // Meaningful and unique ID
+        id: '/bhoi-joodi', // Meaningful and unique ID
         icons: [
           {
             src: '/icons/icon-192x192.png', // Ensure this file exists in public/icons/

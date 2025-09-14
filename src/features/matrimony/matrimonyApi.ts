@@ -43,7 +43,7 @@ export const matrimonyApi = baseApi.injectEndpoints({
 
         // ✅ Get all profiles
         filterAllProfiles: builder.query<any, { filterValue: any, page?: number, limit?: number }>({
-            query: ({ filterValue, page = 1, limit = 10 }) => {
+            query: ({ filterValue, page = 1, limit = 20 }) => {
                 return {
                     url: `/matrimony/filter`,
                     method: 'POST',

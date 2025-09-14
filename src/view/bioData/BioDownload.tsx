@@ -23,7 +23,7 @@ import {  MdInsertDriveFile } from 'react-icons/md';
 import { shareElementAsImage } from '../../util';
 import { useTranslation } from 'react-i18next';
 import { BioDataHeader } from './BioDataHeader';
-import { qrScanLink } from '../../constant';
+import { client, qrScanLink } from '../../constant';
 import { Link } from 'react-router-dom';
 import { CiEdit } from 'react-icons/ci';
 
@@ -241,7 +241,7 @@ export function ShareBiodata({ biodataUrl, profile }) {
 
 ✨ *${labels.searching} ✨`}
           title={`Biodata of ${profile?.personalDetails?.fullName}`}
-          url={biodataUrl}
+          url={client}
           className="flex items-center text-sm justify-center gap-2 px-5 py-2 bg_primary text-white font-bold rounded-lg"
           image="https://miro.medium.com/v2/1*SdXRP8f2Lhin89Tht_GRIA.jpeg"
         />
@@ -283,7 +283,7 @@ export default function MatrimonyBioData() {
         id: 'biodataPage'
       });
      
-    }, 5000);
+    }, 3000);
   };
 
 

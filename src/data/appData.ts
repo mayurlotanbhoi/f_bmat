@@ -5,5 +5,5 @@ export const appData = {
     author: "Bhoi Matrimony Team",
     email: "support@bhoimatrimony.com",
     phone: "+91 123 456 7890",
-    domain : "bhoi joodidar"
+    domain : "bhoi joodi"
 };

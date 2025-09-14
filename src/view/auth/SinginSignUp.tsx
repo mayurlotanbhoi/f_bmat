@@ -17,6 +17,7 @@ import './SinginSignUp.css'
 import Drawer from '../../components/Common/Drawer';
 import TermsAndPrivacy from '../termAndPryacy';
 import { t } from 'i18next';
+import { appName } from '../../constant';
 
 type FormValues = {
     mobile: string;
@@ -230,7 +231,7 @@ export default function SinginSignUp() {
             <div className="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex flex-col-reverse sm:flex-row justify-center flex-1">
                 <div className="lg:w-1/2 rounded-t-2xl xl:w-5/12 p-6 sm:p-12">
                     {/* <div> */}
-                        <h1 className='logo text-4xl text-primary font-extrabold text-center italic'>भोई जोडीदार </h1>
+                    <h1 className='logo text-4xl text-primary font-extrabold text-center italic'>{appName} </h1>
                         {/* <img
                             src="https://drive.google.com/uc?export=view&id=1MFiKAExRFF0-2YNpAZzIu1Sh52J8r16v"
                             className="w-mx-auto"

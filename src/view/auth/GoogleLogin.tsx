@@ -8,7 +8,7 @@ import { setUser } from '../../features/user/userSlice';
 const BASE_URL =
   import.meta.env.PROD
     ? import.meta.env.VITE_BASE_URL
-    : 'https://api.inviteqr.in/api/v1';
+    : 'https://bhoi.joodi.in/api/v1';
 // import { useGetProfileByUserIdMutation } from '../../features/matrimony/matrimonyApi';
 const clientId = import.meta.env.VITE_CLIENT_ID;
 

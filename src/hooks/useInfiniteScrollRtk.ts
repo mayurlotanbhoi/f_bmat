@@ -12,7 +12,7 @@ type PaginatedResponse<T> = {
 export function useInfiniteScrollRtk<T>(
     fetcher: (params: { page: number; limit: number }) => Promise<PaginatedResponse<T>>,
     deps: unknown[] = [],
-    limit = 10
+    limit = 20
 ) {
     const [data, setData] = useState<T[]>([]);
     const [page, setPage] = useState(1);

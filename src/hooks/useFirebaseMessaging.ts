@@ -5,7 +5,7 @@ import { initializeApp } from 'firebase/app';
 const BASE_URL =
     import.meta.env.PROD
         ? import.meta.env.VITE_BASE_URL
-        : 'https://api.inviteqr.in/api/v1';
+        : 'https://bhoi.joodi.in/api/v1';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAzeRY7RYox42t6Cpy33TQRmzTmlxt8lKo",

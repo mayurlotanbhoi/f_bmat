@@ -538,12 +538,13 @@ export default function Profile() {
         fetchMore,
         hasMore,
     } = useInfiniteScrollRtk(
-        async ({ page, limit }) => {
+        async ({ page, limit=25 }) => {
             const payload = {
                 filterValue: sanitizeFilter(),
                 page,
                 limit,
             };
+            payload['limit'] = 25
             const res = await trigger(payload).unwrap();
             return {
                 data: res?.data?.data || [],
@@ -590,7 +591,7 @@ export default function Profile() {
             />
             <div className="w-[100%] h-full flex flex-wrap py-10 pb-14 mt-8 md:gap-4">
                 {profileData.map((bio, index, arr) => (
-                    <><div ref={arr.length - 1 === index ? bottomRef : null} key={index} className="w-full sm:w-1/2 md:w-1/2 lg:w-[32%] ">
+                    <><div ref={arr.length - 4 === index ? bottomRef : null} key={index} className="w-full sm:w-1/2 md:w-1/2 lg:w-[32%] ">
                         <ProfileCard bio={bio} setViewBio={setViewBio} />
                     </div>
                     </>

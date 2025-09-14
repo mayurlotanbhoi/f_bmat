@@ -22,6 +22,7 @@ import { MdOutlineSupportAgent } from "react-icons/md";
 import { ShareButton } from "../../view/bioData/BioDownload";
 import { sendWhatsAppMessage } from "../../util";
 import { appData } from "../../data/appData";
+import { appName } from "../../constant";
 const persistor = persistStore(store);
 
 const Sidebar: React.FC = () => {
@@ -76,7 +77,7 @@ const Sidebar: React.FC = () => {
     return (
         <aside className="fixed top-0 left-0 h-full w-full sm:w-80 bg-white  flex flex-col ">
             <div className="px-6 py-4 text-2xl font-bold text-pink-600 border-b ">
-                <h1 className='logo text-4xl text-primary font-extrabold  italic text-start '>भोई जोडीदार </h1>
+                <h1 className='w-full text-center logo text-4xl text-primary font-extrabold  italic  '>{appName}</h1>
             </div>
             <div className="flex justify-center px-5  ">
                 <img
