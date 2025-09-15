@@ -1,6 +1,6 @@
 export const profilesData = [
     {
-        "name": "Priya Sharma",
+        "name": "Priya More",
         "gender": "Female",
         "age": 25,
         "height": "5'4\"",
@@ -252,7 +252,7 @@ export const profilesData = [
         }
     },
     {
-        "name": "Amit Sharma",
+        "name": "Amit More",
         "gender": "Male",
         "age": 29,
         "height": "6'0\"",

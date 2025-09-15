@@ -26,7 +26,7 @@ const steps = [
     {
         label: t("steps.basicDetails"),
         fields: [
-            { name: "personalDetails.fullName", label: t("fields.fullName"), placeholder: "Rahul Sharma", type: "text", required: true },
+            { name: "personalDetails.fullName", label: t("fields.fullName"), placeholder: "Rahul More", type: "text", required: true },
             { name: "personalDetails.gender", label: t("fields.gender"), placeholder: "Male", type: "select", required: true },
             { name: "personalDetails.dateOfBirth", label: t("fields.dateOfBirth"), placeholder: "YYYY-MM-DD", type: "date", required: true },
             { name: "personalDetails.maritalStatus", label: t("fields.maritalStatus"), placeholder: "Unmarried", type: "select", required: true },
@@ -51,9 +51,9 @@ const steps = [
     {
         label: t("steps.familyDetails"),
         fields: [
-            { name: "familyDetails.fatherName", label: t("fields.fatherName"), placeholder: "Mr. Suresh Sharma", type: "text", required: true },
+            { name: "familyDetails.fatherName", label: t("fields.fatherName"), placeholder: "Mr. Suresh More", type: "text", required: true },
             { name: "familyDetails.fatherOccupation", label: t("fields.fatherOccupation"), placeholder: "Retired Govt Officer", type: "select", required: false },
-            { name: "familyDetails.motherName", label: t("fields.motherName"), placeholder: "Mrs. Sunita Sharma", type: "text", required: true },
+            { name: "familyDetails.motherName", label: t("fields.motherName"), placeholder: "Mrs. Sunita More", type: "text", required: true },
             { name: "familyDetails.motherOccupation", label: t("fields.motherOccupation"), placeholder: "Homemaker", type: "select", required: false },
             { name: "familyDetails.brothers", label: t("fields.brothers"), placeholder: "2", type: "number", required: false },
             { name: "familyDetails.sisters", label: t("fields.sisters"), placeholder: "1", type: "number", required: false },
@@ -84,7 +84,7 @@ const steps = [
         fields: [
             { name: "contactDetails.mobileNo", label: t("fields.mobileNo"), placeholder: "+91-9876543210", type: "tel", required: true },
             { name: "contactDetails.whatsappNo", label: t("fields.whatsappNo"), placeholder: "+91-9876543210", type: "tel", required: true },
-            { name: "contactDetails.email", label: t("fields.email"), placeholder: "rahul.sharma@example.com", type: "email", required: false },
+            { name: "contactDetails.email", label: t("fields.email"), placeholder: "rahul.More@example.com", type: "email", required: false },
             { name: "contactDetails.presentAddress.area", label: t("fields.presentAddress.area"), placeholder: "South Delhi", type: "text", required: true },
             { name: "contactDetails.presentAddress.city", label: t("fields.presentAddress.city"), placeholder: "New Delhi", type: "text", required: true },
             { name: "contactDetails.presentAddress.state", label: t("fields.presentAddress.state"), placeholder: "Delhi", type: "select", required: true },
@@ -276,13 +276,13 @@ const validationSchemas = [
     Yup.object({
         expectation: Yup.object({
             ageRange: Yup.string()
-                    .matches(/^(\d{1,2})-(\d{1,2})$/, "Format should be like 24-29")
-                    .test("min-max", "Min age must be less than max age", value => {
-                        if (!value) return true;
-                        const [min, max] = value.split("-").map(Number);
-                        return min < max;
-                    })
-                    .notRequired(),
+                .matches(/^(\d{1,2})-(\d{1,2})$/, "Format should be like 24-29")
+                .test("min-max", "Min age must be less than max age", value => {
+                    if (!value) return true;
+                    const [min, max] = value.split("-").map(Number);
+                    return min < max;
+                })
+                .notRequired(),
             heightRange: Yup.string().nullable(),
             income: Yup.string().nullable(),
             religion: Yup.string().nullable(),
@@ -883,21 +883,21 @@ const MultiStepForm: React.FC = () => {
             formData.append('personalDetails.dateOfBirth', values?.personalDetails?.dateOfBirth);
         }
 
-     
-           
-            let res;
-            if (isProfilePresent) {
-                res = await updateMatrimonyProfile({ id: profile._id, formData }).unwrap();
-            } else {
-                res = await createProfile(formData).unwrap();
-            }
-            if(res?.success){
-                seIsFormComplet(true);
-                ConfettiFireworks();
-            }
-            
+
+
+        let res;
+        if (isProfilePresent) {
+            res = await updateMatrimonyProfile({ id: profile._id, formData }).unwrap();
+        } else {
+            res = await createProfile(formData).unwrap();
+        }
+        if (res?.success) {
+            seIsFormComplet(true);
+            ConfettiFireworks();
+        }
+
         return res;
-        
+
     };
 
     function getChangedFields(initial: any, current: any): any {
@@ -979,7 +979,7 @@ const MultiStepForm: React.FC = () => {
                 {/* <div className="fixed top-0  left-0"> */}
                 <div className="fixed top-0 left-0 right-0 z-50 bg-white px-4  shadow-sm ">
                     <button onClick={handleBack} className="text-gray-700 h-1 font-bold hover:text-black" >
-                        <GoArrowLeft  className="cursor-pointer" size={30} />
+                        <GoArrowLeft className="cursor-pointer" size={30} />
                     </button>
                     <FormProgess current={step + 1} total={steps.length} live={steps[step]?.label || ""} prev={steps[step - 1]?.label || ""} next={isLastStep ? 'Last ' : steps[step + 1]?.label} />
                     {/* <div className="text-sm text-gray-500">
@@ -991,252 +991,252 @@ const MultiStepForm: React.FC = () => {
                 </div>
                 {/* </div> */}
 
-<div className=" mt-[8.5rem]">
+                <div className=" mt-[8.5rem]">
 
-                <Formik
-                    initialValues={!isProfilePresent ? initialValues : oldInitialValues}
-                    validationSchema={validationSchemas[step]}
-                    validateOnBlur={true}
-                    validateOnChange={true}
-                    onSubmit={async (values, actions) => {
+                    <Formik
+                        initialValues={!isProfilePresent ? initialValues : oldInitialValues}
+                        validationSchema={validationSchemas[step]}
+                        validateOnBlur={true}
+                        validateOnChange={true}
+                        onSubmit={async (values, actions) => {
 
-                        const errors = await actions.validateForm();
-                        console.log("Validation Errors:", errors); // 🛑 log this
+                            const errors = await actions.validateForm();
+                            console.log("Validation Errors:", errors); // 🛑 log this
 
-                        if (Object.keys(errors).length > 0) {
-                            //@ts-ignore
-                            actions.setTouched(errors); // show errors on UI
-                            return; // block submission
-                        }
-                        console.log("values", values);
+                            if (Object.keys(errors).length > 0) {
+                                //@ts-ignore
+                                actions.setTouched(errors); // show errors on UI
+                                return; // block submission
+                            }
+                            console.log("values", values);
 
-                        if (!isLastStep) {
-                            handleNext(); // move to next step
-                            actions.setTouched({});
-                        } else {
+                            if (!isLastStep) {
+                                handleNext(); // move to next step
+                                actions.setTouched({});
+                            } else {
 
-                            console.log("Final submit:", values);
-                            const changes = getChangedFields(!isProfilePresent ? initialValues : oldInitialValues, values);
-                            // handleSubmit(values);
-                            setIsSubmitting(true)
-                            try {
-                                await asyncHandlerWithSwal(() => handleSubmit(changes), {
-                                    loadingHtml: "<b>Uploading your file...</b>",
-                                    successHtml: "<b>successful!</b>",
-                                errorHtml: "<b>Upload failed. Please try again.</b>",
-                            });
+                                console.log("Final submit:", values);
+                                const changes = getChangedFields(!isProfilePresent ? initialValues : oldInitialValues, values);
+                                // handleSubmit(values);
+                                setIsSubmitting(true)
+                                try {
+                                    await asyncHandlerWithSwal(() => handleSubmit(changes), {
+                                        loadingHtml: "<b>Uploading your file...</b>",
+                                        successHtml: "<b>successful!</b>",
+                                        errorHtml: "<b>Upload failed. Please try again.</b>",
+                                    });
 
-                            } catch (error) {
-                                console.error("Error uploading file:", error);
-                            }finally {
-                                setIsSubmitting(false)
+                                } catch (error) {
+                                    console.error("Error uploading file:", error);
+                                } finally {
+                                    setIsSubmitting(false)
+                                }
+
                             }
 
-                        }
+                        }}
+                    >
+                        <Form className="space-y-4  min-h-[80vh]    grid-cols-12 bg-white relative flex flex-col justify-between">
+                            <div className="space-y-4   px-4 py-2  mb-16 md:grid md:grid-cols-2 gap-2">
+                                <h2 className="text-lg font-semibold  col-span-full ">{steps[step].label}</h2>
 
-                    }}
-                >
-                    <Form className="space-y-4  min-h-[80vh]    grid-cols-12 bg-white relative flex flex-col justify-between">
-                        <div className="space-y-4   px-4 py-2  mb-16 md:grid md:grid-cols-2 gap-2">
-                            <h2 className="text-lg font-semibold  col-span-full ">{steps[step].label}</h2>
-
-                            {steps[step]?.fields?.map((field) => {
-                                switch (field.type) {
-                                    case "select":
-                                        return (
-                                            <Select
-                                                key={field.name}
-                                                name={field.name}
-                                                label={field.label}
-                                                // @ts-ignore
-                                                placeholder={field.placeholder}
-                                                required={field.required}
-                                                options={getOptionsForField(field.name)}
-                                            />
-                                        );
-                                    case "multiselect":
-                                        return (
-                                            <MultiSelect
-                                                key={field.name}
-                                                name={field.name}
-                                                label={field.label}
-                                                options={getOptionsForField(field.name)}
-                                            />
-                                        );
-
-                                    case "date":
-                                        return (
-                                            <DateTimeInput
-                                                key={field.name}
-                                                label={field.label}
-                                                name={field.name}
-                                                type="datetime"
-                                                placeholder={field.placeholder}
-                                                required={field.required}
-                                                minDate={new Date(1900, 0, 1)}
-                                                maxDate={eighteenYearsAgo}
-                                            />
-                                        )
-
-                                    case "file":
-                                        return (
-
-                                            <></>
-                                            // <FileInput
-                                            //     key={field.name}
-
-                                            //     name={field.name}
-                                            //     label={field.label}
-                                            //     required={field.required}
-
-                                            // />
-
-                                            // <input
-                                            //     key={field.name}
-                                            //     type="file"
-                                            //     name={field.name}
-                                            //     required={field.required}
-                                            //     className="w-full border p-2 rounded"
-                                            // />
-                                        );
-
-                                    // case "date":
-                                    //     return (
-                                    //         <Input
-                                    //             key={field.name}
-                                    //             type="date"
-                                    //             name={field.name}
-                                    //             label={field.label}
-                                    //             placeholder={field.placeholder}
-                                    //             required={field.required}
-                                    //         />
-                                    //     );
-
-                                    case "radio":
-                                        return (
-                                            <RadioGroup
-                                                key={field.name}
-                                                name={field.name}
-                                                label={field.label}
-                                                // @ts-ignore
-                                                options={field.options}
-                                                required={field.required}
-                                            />
-                                        );
-
-                                    case "textarea":
-                                        return (
-                                            <Textarea
-                                                key={field.name}
-                                                name={field.name}
-                                                label={field.label}
-                                                placeholder={field.placeholder}
-                                                required={field.required}
-                                            />
-                                        );
-
-                                    case "checkbox":
-                                        return (
-                                            <Checkbox
-                                                key={field.name}
-                                                name={field.name}
-                                                label={field.label}
-                                                required={field.required}
-                                            />
-                                        );
-
-                                    default:
-                                        return (
-                                            <Input
-                                                key={field.name}
-                                                type={field.type}
-                                                name={field.name}
-                                                label={field.label}
-                                                placeholder={field.placeholder}
-                                                required={field.required}
-                                            />
-                                        );
-                                }
-                            })}
-
-                                <div className={` ${isLastStep ? "" : "hidden"} w-full col-span-full flex justify-between items-center flex-wrap gap-3`}>
-                                {steps[step]?.fields.map((field, index) => {
-                                    if (!field) return <></>;
+                                {steps[step]?.fields?.map((field) => {
                                     switch (field.type) {
-                                        case "file":
-                                            if (field.name === "documents.verificationImage") {
-                                                return (
-                                                    <FileInput
-                                                        key={field.name}
-                                                        old={isProfilePresent ? profile?.verificationImage : ""}
-                                                        name={field.name}
-                                                        label={field.label}
-                                                        required={field.required}
-                                                    />
-                                                );
-                                            } else {
-                                                return (
-                                                    <FileInput
-                                                        key={field.name + index}
-                                                        old={isProfilePresent ? profile?.profilePhotos?.[index - 1] : ""}
-                                                        name={field.name}
-                                                        label={field.label}
-                                                        required={field.required}
-                                                    />
-                                                );
-                                            }
+                                        case "select":
+                                            return (
+                                                <Select
+                                                    key={field.name}
+                                                    name={field.name}
+                                                    label={field.label}
+                                                    // @ts-ignore
+                                                    placeholder={field.placeholder}
+                                                    required={field.required}
+                                                    options={getOptionsForField(field.name)}
+                                                />
+                                            );
+                                        case "multiselect":
+                                            return (
+                                                <MultiSelect
+                                                    key={field.name}
+                                                    name={field.name}
+                                                    label={field.label}
+                                                    options={getOptionsForField(field.name)}
+                                                />
+                                            );
 
-                                        // You can add more field types here if needed
+                                        case "date":
+                                            return (
+                                                <DateTimeInput
+                                                    key={field.name}
+                                                    label={field.label}
+                                                    name={field.name}
+                                                    type="datetime"
+                                                    placeholder={field.placeholder}
+                                                    required={field.required}
+                                                    minDate={new Date(1900, 0, 1)}
+                                                    maxDate={eighteenYearsAgo}
+                                                />
+                                            )
+
+                                        case "file":
+                                            return (
+
+                                                <></>
+                                                // <FileInput
+                                                //     key={field.name}
+
+                                                //     name={field.name}
+                                                //     label={field.label}
+                                                //     required={field.required}
+
+                                                // />
+
+                                                // <input
+                                                //     key={field.name}
+                                                //     type="file"
+                                                //     name={field.name}
+                                                //     required={field.required}
+                                                //     className="w-full border p-2 rounded"
+                                                // />
+                                            );
+
+                                        // case "date":
+                                        //     return (
+                                        //         <Input
+                                        //             key={field.name}
+                                        //             type="date"
+                                        //             name={field.name}
+                                        //             label={field.label}
+                                        //             placeholder={field.placeholder}
+                                        //             required={field.required}
+                                        //         />
+                                        //     );
+
+                                        case "radio":
+                                            return (
+                                                <RadioGroup
+                                                    key={field.name}
+                                                    name={field.name}
+                                                    label={field.label}
+                                                    // @ts-ignore
+                                                    options={field.options}
+                                                    required={field.required}
+                                                />
+                                            );
+
+                                        case "textarea":
+                                            return (
+                                                <Textarea
+                                                    key={field.name}
+                                                    name={field.name}
+                                                    label={field.label}
+                                                    placeholder={field.placeholder}
+                                                    required={field.required}
+                                                />
+                                            );
+
+                                        case "checkbox":
+                                            return (
+                                                <Checkbox
+                                                    key={field.name}
+                                                    name={field.name}
+                                                    label={field.label}
+                                                    required={field.required}
+                                                />
+                                            );
 
                                         default:
-                                            return <></>;
+                                            return (
+                                                <Input
+                                                    key={field.name}
+                                                    type={field.type}
+                                                    name={field.name}
+                                                    label={field.label}
+                                                    placeholder={field.placeholder}
+                                                    required={field.required}
+                                                />
+                                            );
                                     }
                                 })}
+
+                                <div className={` ${isLastStep ? "" : "hidden"} w-full col-span-full flex justify-between items-center flex-wrap gap-3`}>
+                                    {steps[step]?.fields.map((field, index) => {
+                                        if (!field) return <></>;
+                                        switch (field.type) {
+                                            case "file":
+                                                if (field.name === "documents.verificationImage") {
+                                                    return (
+                                                        <FileInput
+                                                            key={field.name}
+                                                            old={isProfilePresent ? profile?.verificationImage : ""}
+                                                            name={field.name}
+                                                            label={field.label}
+                                                            required={field.required}
+                                                        />
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <FileInput
+                                                            key={field.name + index}
+                                                            old={isProfilePresent ? profile?.profilePhotos?.[index - 1] : ""}
+                                                            name={field.name}
+                                                            label={field.label}
+                                                            required={field.required}
+                                                        />
+                                                    );
+                                                }
+
+                                            // You can add more field types here if needed
+
+                                            default:
+                                                return <></>;
+                                        }
+                                    })}
+                                </div>
+
+
+                            </div>
+
+                            <div className="fixed bottom-0 left-0 right-0 bg-white py-3 px-2 shadow-[0_-8px_15px_-4px_rgba(0,0,0,0.1)]">
+                                <button
+                                    type="submit"
+                                    disabled={isLastStep && isSubmitting}
+                                    className={`w-full bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLastStep && isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+                                        }`}
+                                >
+                                    {isLastStep && isSubmitting ? (
+                                        <>
+                                            <svg
+                                                className="animate-spin h-5 w-5 text-white mr-2"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <circle
+                                                    className="opacity-25"
+                                                    cx="12"
+                                                    cy="12"
+                                                    r="10"
+                                                    stroke="currentColor"
+                                                    strokeWidth="4"
+                                                />
+                                                <path
+                                                    className="opacity-75"
+                                                    fill="currentColor"
+                                                    d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
+                                                />
+                                            </svg>
+                                            <span>Completing...</span>
+                                        </>
+                                    ) : (
+                                        <span>{isLastStep ? 'Complete Registration' : 'Continue'}</span>
+                                    )}
+                                </button>
                             </div>
 
 
-                        </div>
-
-                        <div className="fixed bottom-0 left-0 right-0 bg-white py-3 px-2 shadow-[0_-8px_15px_-4px_rgba(0,0,0,0.1)]">
-                            <button
-                                type="submit"
-                                disabled={isLastStep && isSubmitting}
-                                className={`w-full bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLastStep && isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
-                                    }`}
-                            >
-                                {isLastStep && isSubmitting ? (
-                                    <>
-                                        <svg
-                                            className="animate-spin h-5 w-5 text-white mr-2"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <circle
-                                                className="opacity-25"
-                                                cx="12"
-                                                cy="12"
-                                                r="10"
-                                                stroke="currentColor"
-                                                strokeWidth="4"
-                                            />
-                                            <path
-                                                className="opacity-75"
-                                                fill="currentColor"
-                                                d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
-                                            />
-                                        </svg>
-                                        <span>Completing...</span>
-                                    </>
-                                ) : (
-                                    <span>{isLastStep ? 'Complete Registration' : 'Continue'}</span>
-                                )}
-                            </button>
-                        </div>
-
-
-                    </Form>
-                </Formik>
+                        </Form>
+                    </Formik>
 
                 </div>
             </div>

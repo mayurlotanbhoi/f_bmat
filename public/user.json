@@ -1,6 +1,6 @@
 {
   "personalDetails": {
-    "fullName": "Rahul Sharma",
+    "fullName": "Rahul More",
     "gender": "Male",
     "dateOfBirth": "1992-07-15",
     "height": "5'9\"",
@@ -13,8 +13,8 @@
   },
   "religiousDetails": {
     "religion": "Hindu",
-    "caste": "Brahmin",
-    "subCaste": "Gaur",
+    "caste": "Bhoi",
+    "subCaste": "More",
     "gotra": "Vashishtha",
     "manglik": "Non-Manglik",
     "nakshatra": "Rohini",
@@ -23,40 +23,40 @@
   "contactDetails": {
     "mobileNo": "+91-9876543210",
     "whatsappNo": "+91-9876543210",
-    "email": "rahul.sharma@example.com",
+    "email": "rahul.More@example.com",
     "presentAddress": {
       "addressLine": "C-12, Green Park",
-      "area": "South Delhi",
-      "city": "New Delhi",
-      "state": "Delhi",
+      "area": "South Pune",
+      "city": "Pune",
+      "state": "Maharashtra",
       "country": "India",
       "pinCode": "110016"
     },
     "permanentAddress": {
       "addressLine": "Village Goyla, Near Dwarka",
-      "area": "Najafgarh",
-      "city": "New Delhi",
-      "state": "Delhi",
+      "area": "moshinagar",
+      "city": "Pune",
+      "state": "Maharashtra",
       "country": "India",
       "pinCode": "110043"
     }
   },
   "familyDetails": {
-    "fatherName": "Mr. Suresh Sharma",
+    "fatherName": "Mr. Suresh More",
     "fatherOccupation": "Retired Govt Officer",
-    "motherName": "Mrs. Sunita Sharma",
+    "motherName": "Mrs. Sunita More",
     "motherOccupation": "Homemaker",
     "siblings": {
       "brothers": [
         {
-          "name": "Amit Sharma",
+          "name": "Amit More",
           "married": true,
           "occupation": "Software Engineer"
         }
       ],
       "sisters": [
         {
-          "name": "Pooja Sharma",
+          "name": "Pooja More",
           "married": false,
           "occupation": "Teacher"
         }
@@ -91,11 +91,11 @@
     "locationPreference": "Delhi NCR, Bangalore"
   },
   "documents": {
-    "govermentId": "https://govermentId.com/images/rahul_sharma.jpg",
+    "govermentId": "https://govermentId.com/images/rahul_More.jpg",
   },
   "isVerified": true,
-  "profilePicture": ["https://example.com/images/rahul_sharma.jpg",
-    "https://example.com/images/rahul_sharma2.jpg"
+  "profilePicture": ["https://example.com/images/rahul_More.jpg",
+    "https://example.com/images/rahul_More2.jpg"
   ],
 
   "profileStatus": "Active",
