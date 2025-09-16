@@ -4,7 +4,7 @@ import QRCode from 'react-qr-code';
 
 import { getMatrimony } from '../../features/matrimony/matrimonySlice';
 import { calculateAge, formatDate } from '../../util/dateFormat';
-import { MdOutlineFileDownload, MdOutlineVerifiedUser, MdPhone, MdShare, MdVerified, MdVerifiedUser, MdWhatsapp } from 'react-icons/md';
+import { MdOutlineFileDownload, MdOutlineVerified, MdOutlineVerifiedUser, MdPhone, MdShare, MdVerified, MdVerifiedUser, MdWhatsapp } from 'react-icons/md';
 import { BioHeader, couple, ganpati, logo_xl, verified } from '../../util/images.util';
 import { FaEdit, FaLevelUpAlt, FaSpinner } from 'react-icons/fa';
 import { GoLink } from 'react-icons/go';
@@ -24,7 +24,7 @@ import { shareElementAsImage } from '../../util';
 import { useTranslation } from 'react-i18next';
 import { BioDataHeader } from './BioDataHeader';
 import { client, qrScanLink } from '../../constant';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CiEdit } from 'react-icons/ci';
 
 
@@ -272,7 +272,86 @@ export default function MatrimonyBioData() {
   const [showPaymentQr, setShowPaymentQr] = useState(false);
   const profile = getMatrimony();
   const biodataUrl = `${qrScanLink}/${profile?._id}`;
+  const [isProfileAvailable, setIsProfileAvailable] = useState(!profile?._id);
+  const navigate = useNavigate();
 
+
+  if (profile?._id == null) {
+    return (
+      <>
+      <div>
+          <div className="p-6 w-full max-w-sm text-center">
+            <div className="flex justify-center w-full">
+              <img className="w-32 h-auto" src={couple} alt={t("createProfile.alt")} />
+            </div>
+            <h2 className="text-xl font-bold mb-3 mt-4">{t("createProfile.title")}</h2>
+            <p className="text-gray-600 mb-6">{t("createProfile.description")}</p>
+
+            <div className="space-y-3 text-left">
+              {[
+                "steps.basicDetails",
+                "steps.familyDetails",
+                "steps.educationCareer",
+                "steps.photos",
+                "steps.previewSubmit",
+              ].map((step, idx) => (
+                <p key={idx} className="flex items-center gap-2 text-gray-600 text-base">
+                  <MdOutlineVerified className="text-green-600 text-xl" />
+                  <span>{t(`createProfile.${step}`)}</span>
+                </p>
+              ))}
+            </div>
+
+            <button
+              onClick={() => navigate('/complet-profile')}
+              className="mt-4 px-5 w-full py-2.5 primary-button font-medium rounded-lg shadow hover:bg-primary/90 transition text-base"
+            >
+              {t("createProfile.button")}
+            </button>
+          </div>
+      </div>
+      <Drawer
+        isOpen={isProfileAvailable}
+        position="bottom"
+        padding="p-0"
+        widthClass="w-100"
+        className="rounded-t-lg h-[80vh]"
+        showCloseBtn={true}
+        onClose={() => setIsProfileAvailable(false)}
+      >
+        <div className="p-6 w-full max-w-sm text-center">
+          <div className="flex justify-center w-full">
+            <img className="w-32 h-auto" src={couple} alt={t("createProfile.alt")} />
+          </div>
+          <h2 className="text-xl font-bold mb-3 mt-4">{t("createProfile.title")}</h2>
+          <p className="text-gray-600 mb-6">{t("createProfile.description")}</p>
+
+          <div className="space-y-3 text-left">
+            {[
+              "steps.basicDetails",
+              "steps.familyDetails",
+              "steps.educationCareer",
+              "steps.photos",
+              "steps.previewSubmit",
+            ].map((step, idx) => (
+              <p key={idx} className="flex items-center gap-2 text-gray-600 text-base">
+                <MdOutlineVerified className="text-green-600 text-xl" />
+                <span>{t(`createProfile.${step}`)}</span>
+              </p>
+            ))}
+          </div>
+
+          <button
+            onClick={() => navigate('/complet-profile')}
+            className="mt-4 px-5 w-full py-2.5 primary-button font-medium rounded-lg shadow hover:bg-primary/90 transition text-base"
+          >
+            {t("createProfile.button")}
+          </button>
+        </div>
+      </Drawer>
+      </>
+      )  ;
+  }
 
   const handleDownload = () => {
     setShowPaymentQr(true);
@@ -380,28 +459,28 @@ export default function MatrimonyBioData() {
               {/* <Heading className=' ' text="Personal Info" /> */}
               <div className="grid grid-cols-4 p-0 m-0    ">
 
-                <Info className="col-span-4 text-start" label={labels.fullName} value={profile.personalDetails.fullName} />
-                <Info className={'col-span-4'} label={labels.age} value={`${calculateAge(profile.personalDetails.dateOfBirth, t)}`} />
+                <Info className="col-span-4 text-start" label={labels.fullName} value={profile?.personalDetails?.fullName} />
+                <Info className={'col-span-4'} label={labels.age} value={`${calculateAge(profile?.personalDetails?.dateOfBirth, t)}`} />
                 <Info className={'col-span-4 text-start'} label={labels.dob} value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
-                <Info className={'col-span-2'} label={labels.maritalStatus} value={options.personalDetails.maritalStatus[profile.personalDetails.maritalStatus]} />
-                <Info className={'col-span-4 sm:col-span-2'} label={labels.caste} value={profile.religiousDetails.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'} />
-                <Info className={'col-span-4'} label={labels.occupation} value={options.professionalDetails.occupation[profile.professionalDetails.occupation]} />
-                <Info className={'col-span-4 md:col-span-2'} label={labels.jobType} value={options.professionalDetails.jobType[profile.professionalDetails.jobType]} />
-                <Info className={'col-span-2 '} label={labels.income} value={formatCurrency(profile.professionalDetails.income)} />
-                <Info className={'col-span-4 '} label={labels.height} value={options.personalDetails.height[profile.personalDetails.height]} />
+                <Info className={'col-span-2'} label={labels.maritalStatus} value={options.personalDetails.maritalStatus[profile?.personalDetails?.maritalStatus]} />
+                <Info className={'col-span-4 sm:col-span-2'} label={labels.caste} value={profile?.religiousDetails?.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'} />
+                <Info className={'col-span-4'} label={labels.occupation} value={options?.professionalDetails?.occupation[profile?.professionalDetails?.occupation]} />
+                <Info className={'col-span-4 md:col-span-2'} label={labels.jobType} value={options?.professionalDetails?.jobType[profile?.professionalDetails?.jobType]} />
+                <Info className={'col-span-2 '} label={labels.income} value={formatCurrency(profile?.professionalDetails?.income)} />
+                <Info className={'col-span-4 '} label={labels.height} value={options?.personalDetails?.height[profile?.personalDetails?.height]} />
 
-                <Info className={'col-span-2 '} label={labels.complexion} value={options.personalDetails.complexion[profile.personalDetails?.complexion]} />
-                <Info className={'col-span-2'} label={labels.weight} value={options.personalDetails.weight[profile.personalDetails.weight]} />
-                <Info className={'col-span-2'} label={labels.brothers} value={profile.familyDetails?.brothers} />
-                <Info className={'col-span-2'} label={labels.marriedBrothers} value={profile.familyDetails?.marriedBrothers} />
+                <Info className={'col-span-2 '} label={labels.complexion} value={options?.personalDetails?.complexion[profile?.personalDetails?.complexion]} />
+                <Info className={'col-span-2'} label={labels.weight} value={options?.personalDetails?.weight[profile?.personalDetails?.weight]} />
+                <Info className={'col-span-2'} label={labels.brothers} value={profile?.familyDetails?.brothers} />
+                <Info className={'col-span-2'} label={labels.marriedBrothers} value={profile?.familyDetails?.marriedBrothers} />
                 <Info className={'col-span-2'} label={labels.sisters} value={profile.familyDetails?.sisters} />
                 <Info className={'col-span-2'} label={labels.marriedSisters} value={profile.familyDetails?.marriedSisters} />
 
-                <Info className={'col-span-4'} label={labels.father} value={profile.familyDetails?.fatherName} />
-                <Info className={'col-span-4'} label={labels.fatherOccupation} value={options.familyDetails.fatherOccupation[profile.familyDetails.fatherOccupation]} />
+                <Info className={'col-span-4'} label={labels.father} value={profile?.familyDetails?.fatherName} />
+                <Info className={'col-span-4'} label={labels.fatherOccupation} value={options?.familyDetails?.fatherOccupation[profile?.familyDetails?.fatherOccupation]} />
                 {/* <Info label="Weight" value={profile.personalDetails.weight} /> */}
-                <Info className={'col-span-4'} label={labels.mother} value={profile.familyDetails?.motherName} />
-                <Info className={'col-span-4'} label={labels.motherOccupation} value={options.familyDetails.motherOccupation[profile.familyDetails.motherOccupation]} />
+                <Info className={'col-span-4'} label={labels.mother} value={profile?.familyDetails?.motherName} />
+                <Info className={'col-span-4'} label={labels.motherOccupation} value={options?.familyDetails?.motherOccupation[profile?.familyDetails?.motherOccupation]} />
                 {/* <Info className={'col-span-2'} label="Caste" value={profile.religiousDetails.caste} /> */}
                 {/* <Info className={'col-span-2'} label="Religion" value={profile.religiousDetails.religion} /> */}
                 <Info className={'col-span-4'} label={labels.phone} value={`${profile?.contactDetails?.
@@ -527,6 +606,11 @@ export default function MatrimonyBioData() {
           }
         />
       </Modal>
+
+     
+
+
+
       
     </>
   );

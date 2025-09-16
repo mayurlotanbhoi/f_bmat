@@ -91,7 +91,7 @@ import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
                 >
                     <CompletProfile profile={{
                         complition: profile?.profileCompletion ?? 0,
-                        avatar: profile?.profilePhotos?.[0] ?? '/default-avatar.png',
+                        avatar: profile?.profilePhotos?.[0] ?? 'https://t3.ftcdn.net/jpg/13/45/61/20/240_F_1345612077_SYqbSjMOJGnFH1cWKlq2ldhqO2f2NrNs.jpg',
                         name: profile?.personalDetails?.fullName ?? 'Guest User',
                     }} />
                 </motion.div>
