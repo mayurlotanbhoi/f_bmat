@@ -26,7 +26,7 @@ const steps = [
     {
         label: t("steps.basicDetails"),
         fields: [
-            { name: "personalDetails.fullName", label: t("fields.fullName"), placeholder: "Rahul More", type: "text", required: true },
+            { name: "personalDetails.fullName", label: t("fields.fullName"), placeholder: "Mayur More", type: "text", required: true },
             { name: "personalDetails.gender", label: t("fields.gender"), placeholder: "Male", type: "select", required: true },
             { name: "personalDetails.dateOfBirth", label: t("fields.dateOfBirth"), placeholder: "YYYY-MM-DD", type: "date", required: true },
             { name: "personalDetails.maritalStatus", label: t("fields.maritalStatus"), placeholder: "Unmarried", type: "select", required: true },
@@ -82,16 +82,16 @@ const steps = [
     {
         label: t("steps.contactDetails"),
         fields: [
-            { name: "contactDetails.mobileNo", label: t("fields.mobileNo"), placeholder: "+91-9876543210", type: "tel", required: true },
-            { name: "contactDetails.whatsappNo", label: t("fields.whatsappNo"), placeholder: "+91-9876543210", type: "tel", required: true },
-            { name: "contactDetails.email", label: t("fields.email"), placeholder: "rahul.More@example.com", type: "email", required: false },
+            { name: "contactDetails.mobileNo", label: t("fields.mobileNo"), placeholder: "9876543210", type: "tel", required: true },
+            { name: "contactDetails.whatsappNo", label: t("fields.whatsappNo"), placeholder: "9876543210", type: "tel", required: true },
+            { name: "contactDetails.email", label: t("fields.email"), placeholder: "mayur.More@example.com", type: "email", required: false },
             { name: "contactDetails.presentAddress.area", label: t("fields.presentAddress.area"), placeholder: "South Delhi", type: "text", required: true },
-            { name: "contactDetails.presentAddress.city", label: t("fields.presentAddress.city"), placeholder: "New Delhi", type: "text", required: true },
-            { name: "contactDetails.presentAddress.state", label: t("fields.presentAddress.state"), placeholder: "Delhi", type: "select", required: true },
+            { name: "contactDetails.presentAddress.city", label: t("fields.presentAddress.city"), placeholder: "Nashik", type: "text", required: true },
+            { name: "contactDetails.presentAddress.state", label: t("fields.presentAddress.state"), placeholder: "Maharashtra", type: "select", required: true },
             { name: "contactDetails.presentAddress.pinCode", label: t("fields.presentAddress.pinCode"), placeholder: "110016", type: "text", required: true },
-            { name: "contactDetails.permanentAddress.area", label: t("fields.permanentAddress.area"), placeholder: "Najafgarh", type: "text", required: true },
-            { name: "contactDetails.permanentAddress.city", label: t("fields.permanentAddress.city"), placeholder: "New Delhi", type: "text", required: true },
-            { name: "contactDetails.permanentAddress.state", label: t("fields.permanentAddress.state"), placeholder: "Delhi", type: "select", required: true },
+            { name: "contactDetails.permanentAddress.area", label: t("fields.permanentAddress.area"), placeholder: "At.post. nashik", type: "text", required: true },
+            { name: "contactDetails.permanentAddress.city", label: t("fields.permanentAddress.city"), placeholder: "Nashik", type: "text", required: true },
+            { name: "contactDetails.permanentAddress.state", label: t("fields.permanentAddress.state"), placeholder: "Maharashtra", type: "select", required: true },
             { name: "contactDetails.permanentAddress.pinCode", label: t("fields.permanentAddress.pinCode"), placeholder: "110043", type: "text", required: true },
         ],
     },
@@ -175,11 +175,11 @@ const validationSchemas = [
                 // .oneOf(["Male", "Female", "Other"], t("validation.invalidGender"))
                 .required(t("validation.genderRequired")),
             dateOfBirth: Yup.date().required(t("validation.dobRequired")),
-            height: Yup.string().nullable(),
-            weight: Yup.string().nullable(),
+            height: Yup.string().required(t("validation.heightRequired")),
+            weight: Yup.string().required(t("validation.weightRequired")),
             bloodGroup: Yup.string().nullable(),
             complexion: Yup.string().nullable(),
-            disability: Yup.string().nullable(),
+            disability: Yup.string().required(t("validation.disabilityRequired")),
             maritalStatus: Yup
                 .string()
                 .oneOf(["unmarried", "divorced", "widow", "widower", "separated", "remarriage"], t("validation.invalidMaritalStatus"))
@@ -231,7 +231,7 @@ const validationSchemas = [
             occupation: Yup.string().required(t("validation.occupationRequired")),
             companyName: Yup.string().nullable(),
             income: Yup.string().nullable(),
-            workingCity: Yup.string().nullable(),
+            workingCity: Yup.string().required(t("validation.workingCityRequired")),
             jobType: Yup.string().required(t("validation.jobTypeRequired")),
             workFromHome: Yup.string().nullable().default("No"),
         }),
@@ -267,9 +267,9 @@ const validationSchemas = [
 
     Yup.object({
         lifestyleDetails: Yup.object({
-            smoking: Yup.string().nullable(),
-            drinking: Yup.string().nullable(),
-            eatingHabits: Yup.string().nullable(),
+            smoking: Yup.string().required(t("validation.smokingRequired")),
+            drinking: Yup.string().required(t("validation.drinkingRequired")),
+            eatingHabits: Yup.string().required(t("validation.eatingHabitsRequired")),
         }),
     }),
 
@@ -398,7 +398,7 @@ const initialValues = {
 };
 const getOptionsForField = (name: string): { label: string; value: string }[] => {
     const optionsMap = {
-        "personalDetails.gender": ["Male", "Female", "Other"],
+        "personalDetails.gender": ["Male", "Female"],
         "personalDetails.bloodGroup": ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
         "personalDetails.maritalStatus": ["Unmarried", "Divorced", "Widow", "Widower", "Separated", "Remarriage",],
         "personalDetails.complexion": ["Very Fair", "Fair", "Wheatish", "Wheatish Brown", "Dark",],
@@ -788,8 +788,6 @@ const MultiStepForm: React.FC = () => {
     ] = useUpdateMatrimonyProfileMutation();
     const { t } = useTranslation();
 
-
-    // const profile = getMatrimony();
     const today = new Date();
     const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
     const isProfilePresent = Object.entries(profile).length !== 0
@@ -842,7 +840,7 @@ const MultiStepForm: React.FC = () => {
             if (data && typeof data === "object" && !(data instanceof File)) {
                 if (Array.isArray(data)) {
                     data.forEach((item, index) => {
-                        // ✅ Use dot notation for nested arrays
+                        //  Use dot notation for nested arrays
                         appendFormData(item, `${parentKey}.${index}`);
                     });
                 } else {
@@ -864,7 +862,7 @@ const MultiStepForm: React.FC = () => {
         appendFormData(dataCopy);
 
         // const chnagedImageIndex = []
-        // ✅ Add images
+        // Add images
         if (Array.isArray(values.documents?.profilePhotos)) {
             values.documents.profilePhotos.forEach((file, index) => {
                 if (file instanceof File) {
@@ -874,7 +872,7 @@ const MultiStepForm: React.FC = () => {
             });
         }
 
-        // ✅ Add verification image
+        // Add verification image
         if (values.documents?.verificationImage instanceof File) {
             formData.append("verificationImage", values.documents.verificationImage); // Must match multer.fields()
         }

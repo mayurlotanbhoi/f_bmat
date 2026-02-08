@@ -35,7 +35,7 @@ export const Select: React.FC<SelectProps> = ({
                 disabled={disabled}
                 required={required}
                 className={cn(
-                    "w-full rounded-xl border px-3 py-2 text-sm text-gray-700 shadow-sm",
+                    "w-full rounded-md border px-3 py-2 text-sm text-gray-700 shadow-sm",
                     hasError ? "border-red-500" : "border-gray-300",
                     disabled ? "bg-gray-100 cursor-not-allowed opacity-75" : "",
                     className

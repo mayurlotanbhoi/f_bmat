@@ -1,8 +1,10 @@
-
 {
   "welcome": "स्वागत है",
-  "noResults": ["क्षमा करें, हम आपकी रिक्वेस्ट से मेल खाने वाले कोई परिणाम नहीं ढूंढ सके।", "अपने फ़िल्टर या खोज शब्दों को समायोजित करने का प्रयास करें।"],
-   "createProfile": {
+  "noResults": [
+    "क्षमा करें, हम आपकी रिक्वेस्ट से मेल खाने वाले कोई परिणाम नहीं ढूंढ सके।",
+    "अपने फ़िल्टर या खोज शब्दों को समायोजित करने का प्रयास करें।"
+  ],
+  "createProfile": {
     "alt": "Profile Banao",
     "title": "Apna Matrimony Profile Banao",
     "description": "Apna detailed profile banao taki best matches tumhe milein.",
@@ -24,9 +26,6 @@
     "description": "आप जिस पेज को खोज रहे हैं वह अभी निर्माणाधीन है या उपलब्ध नहीं है। हमारी टीम इसे जल्द ही लाइव करने के लिए काम कर रही है!",
     "button": "मुख्य पृष्ठ पर जाएं"
   },
-
-  
-
   "verifyProfile": {
     "alt": "वेरीफाई बैज",
     "title": "अपनी प्रोफ़ाइल वेरीफाई करें",
@@ -45,7 +44,7 @@
     "profile": "प्रोफाइल",
     "settings": "सेटिंग्स"
   },
-   "months": "महिने",
+  "months": "महिने",
   "years": "वर्षे",
   "loading": "लोड हो रहा है...",
   "expected": "अपेक्षित",
@@ -127,8 +126,8 @@
     "rashi": "राशि",
     "qualification": "शिक्षा",
     "specialization": "विशेषज्ञता",
-    "occupation": "व्यवसाय",
-    "jobType": "नौकरी का प्रकार",
+    "occupation": "नौकरीचा/व्यवसाय",
+    "jobType": "व्यवसाय/नौकरी प्रकार",
     "income": "मासिक आय",
     "companyName": "कंपनी का नाम",
     "workingCity": "कार्य शहर",
@@ -188,11 +187,18 @@
     "invalidGender": "अमान्य लिंग चयन",
     "genderRequired": "लिंग आवश्यक है",
     "dobRequired": "जन्म तिथि आवश्यक है",
+    "heightRequired": "ऊंचाई आवश्यक है",
+    "disabilityRequired": "विकलांगता आवश्यक है",
+    "weightRequired": "वजन आवश्यक है",
     "invalidMaritalStatus": "अमान्य वैवाहिक स्थिति",
     "maritalStatusRequired": "वैवाहिक स्थिति आवश्यक है",
     "casteRequired": "जाति आवश्यक है",
     "qualificationRequired": "शैक्षिक योग्यता आवश्यक है",
     "occupationRequired": "व्यवसाय आवश्यक है",
+    "smokingRequired": "धूम्रपान स्थिति आवश्यक है",
+    "drinkingRequired": "शराब स्थिति आवश्यक है",
+    "eatingHabitsRequired": "खाने की आदतें आवश्यक हैं",
+    "workingCityRequired": "कार्य शहर आवश्यक है",
     "jobTypeRequired": "नौकरी का प्रकार आवश्यक है",
     "mobileRequired": "मोबाइल नंबर आवश्यक है",
     "mobileInvalid": "वैध भारतीय मोबाइल नंबर दर्ज करें",
@@ -251,8 +257,8 @@
     "marriedSisters": "विवाहित बहनें",
     "highestQualification": "उच्चतम योग्यता",
     "specialization": "विशेषज्ञता",
-    "jobType": "नौकरी का प्रकार",
-    "occupation": "व्यवसाय",
+    "jobType": "व्यवसाय/नौकरी प्रकार",
+    "occupation": "नौकरी/व्यवसाय",
     "companyName": "कंपनी का नाम",
     "income": "मासिक आय",
     "workingCity": "कार्य शहर",
@@ -308,13 +314,12 @@
     "whyTitle": "हमें आपके समर्थन की आवश्यकता क्यों है?",
     "whyText": "पंजीकरण, प्रोफाइल देखना, मैसेज करना — यह सब हम पूरी तरह मुफ्त प्रदान करते हैं। लेकिन सर्वर, OTP और हमारी टीम का खर्च आपके छोटे-छोटे योगदान पर निर्भर करता है।",
     "payWith": "{{name}} के माध्यम से भुगतान करें"
-},
+  },
   "options": {
     "personalDetails": {
       "gender": {
         "male": "पुरुष",
-        "female": "महिला",
-        "other": "अन्य"
+        "female": "महिला"
       },
       "bloodGroup": {
         "A+": "A+",
@@ -367,7 +372,6 @@
       }
     },
     "religiousDetails": {
-
       "manglik": {
         "manglik": "मांगलिक",
         "nonManglik": "गैर-मांगलिक",

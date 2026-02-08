@@ -229,7 +229,7 @@ export const profilesData = [
         }
     },
     {
-        "name": "Rahul Mehta",
+        "name": "Mayur More",
         "gender": "Male",
         "age": 28,
         "height": "5'10\"",

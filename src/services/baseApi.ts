@@ -4,10 +4,12 @@ import { logout, setCredentials } from '../features/auth/authSlice';
 import type { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import type { FetchArgs, BaseQueryFn } from '@reduxjs/toolkit/query/react';
 import { setUser } from '../features/user/userSlice';
-const BASE_URL =
-    import.meta.env.PROD
-        ? import.meta.env.VITE_BASE_URL
-        : 'https://api.joodi.in/api/v1';
+// const BASE_URL =
+//     import.meta.env.PROD
+//         ? import.meta.env.VITE_BASE_URL
+//         : 'https://api.joodi.in/api/v1';
+
+const BASE_URL = 'http://localhost:5000/api/v1';
 
 const baseQuery = fetchBaseQuery({
     // baseUrl: 'http://localhost:5000/api/v1',

@@ -40,7 +40,7 @@ export const Textarea: React.FC<TextareaProps> = ({
                 required={required}
                 disabled={disabled}
                 className={cn(
-                    "input-parent w-full rounded-xl border px-3 py-2 text-sm shadow-sm resize-none",
+                    "input-parent w-full rounded-md border px-3 py-2 text-sm shadow-sm resize-none",
                     hasError ? "border-red-500" : "border-gray-300",
                     disabled ? "bg-gray-100 cursor-not-allowed opacity-75" : "",
                     className

@@ -1,6 +1,6 @@
 {
   "personalDetails": {
-    "fullName": "Rahul More",
+    "fullName": "Mayur More",
     "gender": "Male",
     "dateOfBirth": "1992-07-15",
     "height": "5'9\"",
@@ -94,10 +94,10 @@
     "govermentId": "https://govermentId.com/images/rahul_More.jpg",
   },
   "isVerified": true,
-  "profilePicture": ["https://example.com/images/rahul_More.jpg",
+  "profilePicture": [
+    "https://example.com/images/rahul_More.jpg",
     "https://example.com/images/rahul_More2.jpg"
   ],
-
   "profileStatus": "Active",
   "organization": "Matrimony.com",
   "organizationId": "mongodb123",

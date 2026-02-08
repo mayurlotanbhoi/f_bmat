@@ -50,7 +50,7 @@ const DateTimeInput: React.FC<InputProps> = ({
             )}
             <div
                 className={cn(
-                    "flex items-center rounded-xl border bg-white px-3 py-2 shadow-sm transition-all",
+                    "flex items-center rounded-md border bg-white px-3 py-2 shadow-sm transition-all",
                     hasError ? "border-red-500" : "border-gray-300",
                     props.disabled ? "bg-gray-100 cursor-not-allowed opacity-75" : "",
                     className
@@ -62,7 +62,6 @@ const DateTimeInput: React.FC<InputProps> = ({
                     value={field.value ? new Date(field.value) : null}
                     onChange={(date: Date[]) => {
                         setFieldValue(props.name, date[0] || null);
-                        helpers.setTouched(true); // mark as touched on change
                     }}
                     options={{
                         enableTime: type === "datetime",

@@ -1,8 +1,9 @@
-
 {
   "welcome": "Welcome",
-    "noResults": ["Sorry, we couldn't find any results matching your request.", "Try adjusting your filters or search terms."],
-
+  "noResults": [
+    "Sorry, we couldn't find any results matching your request.",
+    "Try adjusting your filters or search terms."
+  ],
   "createProfile": {
     "alt": "Create Profile",
     "title": "Create Your Matrimony Profile",
@@ -16,7 +17,7 @@
     },
     "button": "Start Creating Profile"
   },
-   "bioDataFooter": {
+  "bioDataFooter": {
     "disclaimer": "Bhoi Joodi is not responsible for any false information provided by candidates, candidate safety, or verifying partner details and information. Users are advised to exercise caution and verify all details independently before making any decisions."
   },
   "promotionText": "Bhoi Community Matrimony App — Exclusively for our community!\n✅ Safe and reliable service\n✅ Create a free profile\n✅ Download biodata anytime\n✅ View matches, share, and connect\n\nI am a member of the Bhoi community myself and help find the right life partner within our community. Download now and start your journey to find your life partner today!",
@@ -25,9 +26,7 @@
     "description": "The page you are looking for is under development or not available right now. Our team is working hard to bring it live soon!",
     "button": "Go Back Home"
   },
-
   "verifyProfile": {
-    
     "alt": "Verified badge",
     "title": "Verify Your Profile",
     "description": "A verified profile builds trust and improves your chances of meaningful connections.",
@@ -38,7 +37,6 @@
       "done": "Verification complete!"
     },
     "button": "Verify Now"
-    
   },
   "home": {
     "category": "Category",
@@ -129,7 +127,7 @@
     "qualification": "Education",
     "specialization": "Specialization",
     "occupation": "Occupation",
-    "jobType": "Job Type",
+    "jobType": "job/bussines Type",
     "income": "Monthly Income",
     "companyName": "Company Name",
     "workingCity": "Work City",
@@ -189,11 +187,18 @@
     "invalidGender": "Invalid gender selection",
     "genderRequired": "Gender is required",
     "dobRequired": "Date of Birth is required",
+    "heightRequired": "Height is required",
+    "disabilityRequired": "Disability is required",
+    "weightRequired": "Weight is required",
     "invalidMaritalStatus": "Invalid marital status",
     "maritalStatusRequired": "Marital status is required",
     "casteRequired": "Caste is required",
     "qualificationRequired": "Educational qualification is required",
     "occupationRequired": "Occupation is required",
+    "drinkingRequired": "Drinking status is required",
+    "smokingRequired": "Smoking status is required",
+    "eatingHabitsRequired": "Eating habits are required",
+    "workingCityRequired": "Working city is required",
     "jobTypeRequired": "Job type is required",
     "mobileRequired": "Mobile number is required",
     "mobileInvalid": "Enter a valid Indian mobile number",
@@ -252,7 +257,7 @@
     "marriedSisters": "Married Sisters",
     "highestQualification": "Highest Qualification",
     "specialization": "Specialization",
-    "jobType": "Job Type",
+    "jobType": "job/bussines Type",
     "occupation": "Occupation",
     "companyName": "Company Name",
     "income": "Monthly Income",
@@ -309,13 +314,12 @@
     "whyTitle": "Why do we need your support?",
     "whyText": "Registration, profile viewing, messaging — we offer all of this completely free. But server costs, OTP services, and our team’s expenses rely on your small contributions.",
     "payWith": "Pay via {{name}}"
-},
+  },
   "options": {
     "personalDetails": {
       "gender": {
         "male": "Male",
-        "female": "Female",
-        "other": "Other"
+        "female": "Female"
       },
       "bloodGroup": {
         "A+": "A+",
