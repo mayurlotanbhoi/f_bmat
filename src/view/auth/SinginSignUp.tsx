@@ -18,6 +18,7 @@ import Drawer from '../../components/Common/Drawer';
 import TermsAndPrivacy from '../termAndPryacy';
 import { t } from 'i18next';
 import { appName } from '../../constant';
+import { Input } from '../../components/forms/Inputs';
 
 type FormValues = {
     mobile: string;
@@ -40,6 +41,11 @@ export const LoginForm = ({
     const [termsAccepted, setTermsAccepted] = useState(true);
     const [showTerms, setShowTerms] = useState(false);
 
+    const loginForm = [
+        { name: "mobile", label: t("fields.mobileNo"), placeholder: "778525789", type: "text", required: true },
+        { name: "password", label: t("fields.password"), placeholder: "********", type: "password", required: true },
+    ]
+
     const validationSchema = Yup.object({
         mobile: Yup.string()
             .matches(/^[0-9]{10}$/, 'Mobile number must be 10 digits')
@@ -49,8 +55,8 @@ export const LoginForm = ({
             .required('Password is required'),
     });
 
-    
-    
+
+
 
     // useEffect(() => {
     //     if (termsAccepted) {
@@ -69,84 +75,94 @@ export const LoginForm = ({
 
     return (
         <>
-        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-            {({ submitForm }) => (
-                <>
-                    <Form className="space-y-2" id="login-form">
-                        <div>
-                            <Field
-                                name="mobile"
-                                type="text"
-                                placeholder="Mobile Number"
-                                className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                            />
-                            <ErrorMessage name="mobile" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
+            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+                {({ submitForm }) => (
+                    <>
+                        <Form className="space-y-2" id="login-form">
+                            {loginForm.map((field) => (
+                                <Input
+                                    key={field.name}
+                                    type={field.type}
+                                    name={field.name}
+                                    label={field.label}
+                                    placeholder={field.placeholder}
+                                    required={field.required}
+                                />
+                            ))}
+                            {/* <div>
+                                <Field
+                                    name="mobile"
+                                    type="text"
+                                    placeholder="Mobile Number"
+                                    className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                />
+                                <ErrorMessage name="mobile" component="div" className="text-red-500 text-sm mt-1" />
+                            </div>
 
-                        <div>
-                            <Field
-                                name="password"
-                                type="password"
-                                placeholder="Password"
-                                className="w-full mt-5 px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                            />
-                            <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
-                        </div>
-                    </Form>
-                    {!isSingUp && (
-                        <a className="text-indigo-700 my-2 hover:text-pink-700 text-sm float-right " href="#">
-                            Forgot Password ?
-                        </a>
-                    )}
+                            <div>
+                                <Field
+                                    name="password"
+                                    type="password"
+                                    placeholder="Password"
+                                    className="w-full mt-5 px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                                />
+                                <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
+                            </div> */}
+                        </Form>
+                        {!isSingUp && (
+                            <a className="text-indigo-700 my-2 hover:text-pink-700 text-sm float-right " href="#">
+                                Forgot Password ?
+                            </a>
+                        )}
 
                         <div className="flex items-center w-full mt-4 ">
                             <input onChange={(e) => handleTermAndCondition(e)} id="link-checkbox" type="checkbox"
                                 value='' checked={termsAccepted} className="w-4 h-4 accent-pink-500 bg-gray-100 border-gray-300 rounded-sm focus:bg-pink-500 " />
-                        <label htmlFor="link-checkbox" className="ms-2 text-sm font-medium text-black ">I agree with the <span className=" text-primary hover:underline ">terms and conditions</span>.</label>
-                    </div>
+                            <label htmlFor="link-checkbox" className="ms-2 text-sm font-medium text-black ">I agree with the <span className=" text-primary hover:underline ">terms and conditions</span>.</label>
+                        </div>
 
-                    <button
-                        type="button"
-                        disabled={isLoading || !termsAccepted}
-                        onClick={submitForm}
-                        className={`mt-5 tracking-wide font-semibold primary-button text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none ${isLoading || !termsAccepted ? 'opacity-70 cursor-not-allowed' : ''
-                            }`}
-                    >
-                        {isLoading ? (
-                            <>
-                                <svg
-                                    className="animate-spin h-5 w-5 text-white mr-2"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <circle
-                                        className="opacity-25"
-                                        cx="12"
-                                        cy="12"
-                                        r="10"
-                                        stroke="currentColor"
-                                        strokeWidth="4"
-                                    />
-                                    <path
-                                        className="opacity-75"
-                                        fill="currentColor"
-                                        d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
-                                    />
-                                </svg>
-                                <span>Processing...</span>
-                            </>
-                        ) : (
-                            <>
-                                <span>{isSingUp ? 'Sign Up' : 'Sign In'}</span>
-                                <FaArrowRight className="mx-2" size={20} />
-                            </>
-                        )}
-                    </button>
+                        <button
+                            type="button"
+                            disabled={isLoading || !termsAccepted}
+                            onClick={submitForm}
+                            className={`mt-5 tracking-wide font-semibold primary-button text-white w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none ${isLoading || !termsAccepted ? 'opacity-70 cursor-not-allowed' : ''
+                                }`}
+                        >
+                            {isLoading ? (
+                                <>
+                                    <svg
+                                        className="animate-spin h-5 w-5 text-white mr-2"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <circle
+                                            className="opacity-25"
+                                            cx="12"
+                                            cy="12"
+                                            r="10"
+                                            stroke="currentColor"
+                                            strokeWidth="4"
+                                        />
+                                        <path
+                                            className="opacity-75"
+                                            fill="currentColor"
+                                            d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
+                                        />
+                                    </svg>
+                                    <span>Processing...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span>{isSingUp ? 'Sign Up' : 'Sign In'}</span>
+                                    <FaArrowRight className="mx-2" size={20} />
+                                </>
+                            )}
+                        </button>
 
-                </>
-            )}
-        </Formik>
+                    </>
+                )}
+            </Formik>
             <Drawer isOpen={showTerms} position='left' widthClass='w-screen' onClose={() => setShowTerms(false)}>
                 <TermsAndPrivacy />
             </Drawer>
@@ -232,12 +248,6 @@ export default function SinginSignUp() {
                 <div className="lg:w-1/2 rounded-t-2xl xl:w-5/12 p-6 sm:p-12">
                     {/* <div> */}
                     <h1 className='logo text-4xl text-primary font-extrabold text-center italic'>{appName} </h1>
-                        {/* <img
-                            src="https://drive.google.com/uc?export=view&id=1MFiKAExRFF0-2YNpAZzIu1Sh52J8r16v"
-                            className="w-mx-auto"
-                            alt="logo"
-                        /> */}
-                    {/* </div> */}
                     <div className="md:mt-12 flex flex-col items-center">
                         <div className="w-full flex-1 mt-8">
                             {/* <div className="flex flex-col items-center">
@@ -251,7 +261,6 @@ export default function SinginSignUp() {
                             </div> */}
 
                             <div className="mx-auto max-w-xs">
-
                                 <LoginForm onSubmit={onSubmit} isSingUp={singUp} isLoading={isLoading} />
 
 

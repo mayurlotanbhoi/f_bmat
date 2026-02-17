@@ -60,7 +60,7 @@ const SuspenseWrapper = ({
 //   const hasProfile = !!profile?._id;
 //   const isVerified = profile?.isVerified ?? false;
 
- 
+
 
 //   const [open, setOpen] = useState(false);
 
@@ -482,7 +482,7 @@ const MainLayout: React.FC = () => {
 
   // ✅ Drawer content priority logic
 
-  if ( pathname !== "/initial-info") {
+  if (pathname !== "/initial-info") {
     if (popupType === "create" && isProfileCreated !== null) {
       // ✅ Highest priority: Create Profile
       drawerContent = (
@@ -554,29 +554,31 @@ const MainLayout: React.FC = () => {
           </button>
         </div>
       );
-    } else if (isMobile) {  if (hasUpdate ) {
-      //  Third priority: Update available
-      drawerContent = (
-        <AppInstall
-          installApp={handleUpdateApp}
-          title="Update Available"
-          description="A new version of the app is available. Update now for the latest features!"
-        />
-      );
-    } else if (isClickOnInstall) {
-      //  Fourth priority: App is downloading
-      drawerContent = <AppDownloading />;
-    } else {
-      // ✅ Last fallback: Install prompt
-      drawerContent = (
-        <AppInstall
-          installApp={handleAppInstall}
-          title="Install App"
-          description="Install our app for a better experience!"
-        />
-      );
-    }}
-     else {
+    } else if (isMobile) {
+      if (hasUpdate) {
+        //  Third priority: Update available
+        drawerContent = (
+          <AppInstall
+            installApp={handleUpdateApp}
+            title="Update Available"
+            description="A new version of the app is available. Update now for the latest features!"
+          />
+        );
+      } else if (isClickOnInstall) {
+        //  Fourth priority: App is downloading
+        drawerContent = <AppDownloading />;
+      } else {
+        // ✅ Last fallback: Install prompt
+        drawerContent = (
+          <AppInstall
+            installApp={handleAppInstall}
+            title="Install App"
+            description="Install our app for a better experience!"
+          />
+        );
+      }
+    }
+    else {
       drawerContent = null; // No drawer content on non-mobile if no profile actions are needed
     }
   }
@@ -588,7 +590,7 @@ const MainLayout: React.FC = () => {
 
       {!removeHeader && <Header />}
       <main
-        className={`w-full  ${removePadding ? "" : "px-0 md:px-5 mt-20"}  sm:px-6  max-w-screen-lg mx-auto `}
+        className={`w-full  ${removePadding ? "" : "px-0 md:px-5 mt-20"}    mx-auto `}
       >
         <SuspenseWrapper fallback={fallbackSkeleton}>
           <Outlet />

@@ -1,5 +1,6 @@
 {
   "welcome": "Welcome",
+  "languageSelection": "Language Selection",
   "noResults": [
     "Sorry, we couldn't find any results matching your request.",
     "Try adjusting your filters or search terms."
@@ -265,6 +266,7 @@
     "workFromHome": "Work From Home",
     "mobileNo": "Mobile Number",
     "whatsappNo": "WhatsApp Number",
+    "password": "पासवर्ड",
     "email": "Email ID",
     "presentAddress": {
       "area": "Current Area",

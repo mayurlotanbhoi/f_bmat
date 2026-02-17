@@ -15,16 +15,16 @@ interface ProfileProps {
 
 export default function CompletProfile({ profile }: ProfileProps) {
     const { complition, name, avatar } = profile;
-    const profleSMS = useLocalization(complition !< 80 ? "completeProfileSMS" : "completeProfileSMS1")
+    const profleSMS = useLocalization(complition! < 80 ? "completeProfileSMS" : "completeProfileSMS1")
 
     return (
         <Link to={'/complet-profile'} className="flex items-center gap-6 px-6 py-4 my-4 w-full  bg-[#FFF2E5] rounded-2xl shadow-md">
             <img
-                className="w-14 h-14 rounded-full object-fill aspect-square"
+                className="w-12 h-12 rounded-full object-fill aspect-square"
                 src={avatar || 'https://via.placeholder.com/150'}
                 alt="User avatar"
             />
-         
+
             <div className="flex-1">
                 <p className="text-center text-gray-700 text-sm md:text-base md:font-semibold mb-2">
                     {profleSMS[0]} <span className="italic text-primary">{profleSMS[1]}</span>.
@@ -41,27 +41,27 @@ export default function CompletProfile({ profile }: ProfileProps) {
                     >
                         {complition}%
                     </div>
-                </div>:
-                 <div className="w-full flex justify-between gap-1   sticky bottom-0">
-                                        <Link
-                                        to={'/complet-profile'}
-                                           
-                                            type="button"
+                </div> :
+                    <div className="w-full flex justify-between gap-1   sticky bottom-0">
+                        <Link
+                            to={'/complet-profile'}
+
+                            type="button"
                             className="flex items-center justify-center text-sm gap-2 px-5 py-1 border-2 border-black text-black font-bold rounded-lg w-full"
-                                        >
+                        >
                             <MdEditDocument />
-                                            Edit
+                            Edit
                         </Link>
-                
+
                         <Link
                             to={'/bio-download'}
-                                            type="submit"
-                                            className="flex items-center text-sm justify-center gap-2 px-5 py-1 bg_primary text-white font-bold rounded-lg w-full"
-                                        >
+                            type="submit"
+                            className="flex items-center text-sm justify-center gap-2 px-3 py-1 bg_primary text-white font-bold rounded-lg w-full"
+                        >
                             <MdOutlineFileDownload size={20} />
-                                            Download
+                            Download
                         </Link>
-                                    </div>}
+                    </div>}
             </div>
         </Link>
 
