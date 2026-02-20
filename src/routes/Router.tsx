@@ -67,8 +67,6 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) =
     // const { isAuthenticated } = useAuth();
     const { isLoggedIn } = useAuth();
 
-    console.log('isLoggedIn', isLoggedIn);
-
 
     // const isAuthenticated = true
     return isLoggedIn ? <>{children}</> : <Navigate to="/auth" replace />;

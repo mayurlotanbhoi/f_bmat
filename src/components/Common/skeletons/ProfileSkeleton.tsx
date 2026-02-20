@@ -3,11 +3,11 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 const ProfileSkeleton = () => {
     return (
-        <div className="mt-20 grid sm:grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="mt-20 md:mx-32  grid sm:grid-cols-1 md:grid-cols-3 gap-6">
             {Array.from({ length: 4 }).map((_, index) => (
                 <div
                     key={index}
-                    className="max-w-[350px] min-h-[80vh] relative rounded-2xl shadow-lg   overflow-hidden  "
+                    className=" min-h-[80vh] relative rounded-2xl shadow-lg   overflow-hidden  "
                 >
                     {/* Verified Badge Placeholder */}
                     <div className="flex items-center gap-2 absolute top-3 left-3 px-3 py-1  rounded-full z-10">

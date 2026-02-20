@@ -3,6 +3,7 @@ import { Formik, Form } from "formik";
 import * as Yup from 'yup';
 
 import { DateTimeInput, FileInput, Input, MultiSelect, Select } from "../../components/forms/Inputs";
+import mainImage from "../../assets/images/login.png";
 import FormProgess from "./FormProgess";
 import { GoArrowLeft } from "react-icons/go";
 import ConfettiFireworks from "../../components/Common/Fireworks/FullFireworks";
@@ -52,9 +53,9 @@ const steps = [
         label: t("steps.familyDetails"),
         fields: [
             { name: "familyDetails.fatherName", label: t("fields.fatherName"), placeholder: "Mr. Suresh More", type: "text", required: true },
-            { name: "familyDetails.fatherOccupation", label: t("fields.fatherOccupation"), placeholder: "Retired Govt Officer", type: "select", required: false },
+            { name: "familyDetails.fatherOccupation", label: t("fields.occupation"), placeholder: "Retired Govt Officer", type: "text", required: false },
             { name: "familyDetails.motherName", label: t("fields.motherName"), placeholder: "Mrs. Sunita More", type: "text", required: true },
-            { name: "familyDetails.motherOccupation", label: t("fields.motherOccupation"), placeholder: "Homemaker", type: "select", required: false },
+            { name: "familyDetails.motherOccupation", label: t("fields.occupation"), placeholder: "Housewife", type: "text", required: false },
             { name: "familyDetails.brothers", label: t("fields.brothers"), placeholder: "2", type: "number", required: false },
             { name: "familyDetails.sisters", label: t("fields.sisters"), placeholder: "1", type: "number", required: false },
             { name: "familyDetails.marriedBrothers", label: t("fields.marriedBrothers"), placeholder: "1", type: "number", required: false },
@@ -72,7 +73,7 @@ const steps = [
         label: t("steps.professionalDetails"),
         fields: [
             { name: "professionalDetails.jobType", label: t("fields.jobType"), placeholder: "Private", type: "select", required: true },
-            { name: "professionalDetails.occupation", label: t("fields.occupation"), placeholder: "Software Developer", type: "select", required: true },
+            { name: "professionalDetails.occupation", label: t("fields.occupation"), placeholder: "Software Developer", type: "text", required: true },
             { name: "professionalDetails.companyName", label: t("fields.companyName"), placeholder: "Infosys Ltd.", type: "text", required: false },
             { name: "professionalDetails.income", label: t("fields.income"), placeholder: "₹15,00,000", type: "select", required: true },
             { name: "professionalDetails.workingCity", label: t("fields.workingCity"), placeholder: "Bangalore", type: "text", required: true },
@@ -973,23 +974,25 @@ const MultiStepForm: React.FC = () => {
 
     return (
         <>
-            <div className="min-h-screen relative mx-auto rounded-xl shadow-md grid grid-rows-[auto_1fr]">
+            <div className="min-h-screen md:mx-32  relative mx-auto rounded-xl shadow-md grid grid-rows-[auto_1fr]">
                 {/* <div className="fixed top-0  left-0"> */}
                 <div className="fixed top-0 left-0 right-0 z-50 bg-white px-4  shadow-sm ">
                     <button onClick={handleBack} className="text-gray-700 h-1 font-bold hover:text-black" >
                         <GoArrowLeft className="cursor-pointer" size={30} />
                     </button>
                     <FormProgess current={step + 1} total={steps.length} live={steps[step]?.label || ""} prev={steps[step - 1]?.label || ""} next={isLastStep ? 'Last ' : steps[step + 1]?.label} />
-                    {/* <div className="text-sm text-gray-500">
-                    Step {step + 1} of {steps.length}
-                </div>
-                <div className="w-8 h-8 rounded-full border-4  border-green-500 flex items-center justify-center">
-                    {step + 1}
-                </div> */}
                 </div>
                 {/* </div> */}
 
-                <div className=" mt-[8.5rem]">
+
+                <div className="  mt-[8.5rem] md:mt-[7.2rem]">
+                    {/* <div>
+                        <ima
+                        src={mainImage}
+                            className="  bg-cover bg-center rounded-lg border mb-4"
+                            style={{ backgroundImage: `url(${mainImage})` }}
+                        />
+                    </div> */}
 
                     <Formik
                         initialValues={!isProfilePresent ? initialValues : oldInitialValues}

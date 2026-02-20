@@ -412,7 +412,7 @@ const MainLayout: React.FC = () => {
   const { isInstalled, hasUpdate, isMobile } = usePwaStatus();
   const { installApp, isInstallable, canInstall } = usePwaPrompt();
   const { user } = useAuth();
-  const Padding = ["profile", "chat", "user", "complet-profile", "initial-info"];
+  const Padding = ["/", "profile", 'bio-download', "chat", "user", "complet - profile", "initial - info"];
   const header = ["profile", "chat", "initial-info"];
   const fullScrren = ["chat", "complet-profile", "initial-info"];
   const speedDial = ["profile", "initial-info", "user"];
@@ -480,11 +480,11 @@ const MainLayout: React.FC = () => {
     navigate("/complet-profile");
   }
 
-  // ✅ Drawer content priority logic
+  // Drawer content priority logic
 
   if (pathname !== "/initial-info") {
     if (popupType === "create" && isProfileCreated !== null) {
-      // ✅ Highest priority: Create Profile
+      // Highest priority: Create Profile
       drawerContent = (
         <div className="p-6 w-full max-w-sm text-center">
           <div className="flex justify-center w-full">
@@ -568,7 +568,7 @@ const MainLayout: React.FC = () => {
         //  Fourth priority: App is downloading
         drawerContent = <AppDownloading />;
       } else {
-        // ✅ Last fallback: Install prompt
+        //  Last fallback: Install prompt
         drawerContent = (
           <AppInstall
             installApp={handleAppInstall}
@@ -589,9 +589,20 @@ const MainLayout: React.FC = () => {
       <AppLoader />
 
       {!removeHeader && <Header />}
+      {/* <main
+        className={`  ${removePadding ? "" : "px-0 md:px-5 mt-20 max-w-screen-lg  sm:px-6 mx-auto"}     `}
+      > */}
       <main
-        className={`w-full  ${removePadding ? "" : "px-0 md:px-5 mt-20"}    mx-auto `}
+        className={`
+    
+    mx-auto
+    ${removePadding
+            ? ""
+            : " mt-20 px-4 sm:px-6 lg:px-8 max-w-7xl"
+          }
+  `}
       >
+
         <SuspenseWrapper fallback={fallbackSkeleton}>
           <Outlet />
         </SuspenseWrapper>
@@ -599,7 +610,7 @@ const MainLayout: React.FC = () => {
       {!fullScreeenRemove && <Footer />}
       {!hiddeSpeedDail && <SpeedDail />}
 
-      {/* ✅ Single Drawer only */}
+      {/*  Single Drawer only */}
       <Drawer
         isOpen={(drawerContent && open)}
         position="bottom"

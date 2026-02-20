@@ -15,9 +15,6 @@ export const formatCurrency = (
         minimumFractionDigits = 0,
         maximumFractionDigits = 2,
     } = options;
-
-    console.log("amount", amount)
-
     return new Intl.NumberFormat(locale, {
         style: 'currency',
         currency,

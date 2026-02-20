@@ -18,7 +18,6 @@ const AppLoader = () => {
             try {
                 // First, get user data (must succeed)
                 const userData = await triggerGetUser('').unwrap();
-                console.log("userData AppLoader", userData)
                 if (userData?.statusCode !== 200) throw new Error('User ID missing');
 
                 // Call profile API in parallel, but don’t crash on failure
@@ -26,15 +25,15 @@ const AppLoader = () => {
                     triggerGetProfileByUserId(userData._id).unwrap(),
                 ]);
 
-                if (profileResult.status === 'rejected') {
-                    if (profileResult.reason?.status === 404) {
-                        console.warn('Profile not found, continuing...');
-                    } else {
-                        console.warn('Other profile fetch error:', profileResult.reason);
-                    }
-                }
+                // if (profileResult.status === 'rejected') {
+                //     if (profileResult.reason?.status === 404) {
+                //         console.warn('Profile not found, continuing...');
+                //     } else {
+                //         console.warn('Other profile fetch error:', profileResult.reason);
+                //     }
+                // }
 
-                // ✅ Continue
+                // Continue
                 // navigate('/lang');
             } catch (error) {
                 console.error('App loading failed:', error);

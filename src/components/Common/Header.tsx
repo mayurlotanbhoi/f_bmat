@@ -6,13 +6,12 @@ import ProfileStatus from "./ProfileStatus";
 import { IoMdMenu } from "react-icons/io";
 import { CgMenuMotion } from "react-icons/cg";
 import { useAuth } from "../../hooks/useAuth";
-import {logo_xl}from "../../util/images.util";
+import { logo_xl } from "../../util/images.util";
 
 const Header: React.FC = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [switchLang, setSwitchLang] = useState(false);
     const { user } = useAuth();
-    console.log(user?.profilePicture);
 
     return (
         <>

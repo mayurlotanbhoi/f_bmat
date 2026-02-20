@@ -74,7 +74,7 @@ export default function InitialInfo() {
     };
 
     return (
-        <div className="h-[100vh] w-screen   bg_primary shadow  flex flex-col-reverse sm:flex-row justify-center flex-1">
+        <div className="h-screen w-screen   bg_primary shadow  flex flex-col-reverse sm:flex-row justify-center flex-1">
             <div className=" m-0 sm:m-10  bg-white shadow sm:rounded-lg flex flex-col-reverse sm:flex-row justify-center flex-1">
                 <div className=" rounded-t-2xl  p-6 sm:p-12">
                     {/* <div> */}

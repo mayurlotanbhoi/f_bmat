@@ -11,6 +11,7 @@ import { calculateAge } from '../../util/dateFormat';
 import { Link } from 'react-router-dom';
 import { useLocalization } from '../../hooks';
 import { useTranslation } from 'react-i18next';
+import { SearchProfileSkeleton } from '../../components/Common/skeletons';
 export default function ProfileSearchHeader() {
     const placeholders = ['Search by ID...', 'Search by name...', 'Search by mobile number...'];
     const [placeholderIndex, setPlaceholderIndex] = useState(0);
@@ -19,7 +20,7 @@ export default function ProfileSearchHeader() {
     const [isLoading, setIsloading] = useState(false)
     const [searchHistory, setSearchHistory] = useState<string[]>([]);
     const [triggerSearch, { data, error }] = useLazyGlobalSearchProfilesQuery();
-     const { t } = useTranslation();
+    const { t } = useTranslation();
 
     // useEffect(() => {
     //     const interval = setInterval(() => {
@@ -185,11 +186,12 @@ export default function ProfileSearchHeader() {
 
                         {/* Banner */}
                         <div className=" mb-20 bg-white">
-                            <img
+                            <SearchProfileSkeleton />
+                            {/* <img
                                 src={searchbanner}
                                 alt="Search Banner"
                                 className="rounded-lg w-full object-cover max-h-[180px] shadow-md"
-                            />
+                            /> */}
                         </div>
                     </div>
                 </motion.div >

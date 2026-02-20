@@ -270,14 +270,14 @@ const Filter: React.FC<FilterProps> = ({ onSave, filterKey, setFilter, setModelK
     const expected = useLocalization('expected')
 
     const fields = [
-        { name: "ageRange", label: expected+" "+ labels.ageRange, placeholder: "24-29", type: "text", required: false },
-        { name: "heightRange", label: expected + " " +  labels.heightRange, placeholder: "5'2\" - 5'8\"", type: "select", required: false },
+        { name: "ageRange", label: expected + " " + labels.ageRange, placeholder: "24-29", type: "text", required: false },
+        { name: "heightRange", label: expected + " " + labels.heightRange, placeholder: "5'2\" - 5'8\"", type: "select", required: false },
         { name: "income", label: labels.income, placeholder: "₹1,00,000", type: "text", required: false },
-        { name: "subCaste", label: expected + " " +  labels.subCaste, placeholder: "More", type: "text", required: false },
-        { name: "education", label: expected + " " +  labels.qualification, placeholder: "Graduate or above", type: "multiselect", required: false },
-        { name: "occupation", label: expected + " " +  labels.occupation, placeholder: "Working professional", type: "multiselect", required: false },
-        { name: "jobType", label: expected + " " +  labels.jobType, placeholder: "Private / Government", type: "multiselect", required: false },
-        { name: "city", label: expected + " " +  labels.city, placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
+        { name: "subCaste", label: expected + " " + labels.subCaste, placeholder: "More", type: "text", required: false },
+        { name: "education", label: expected + " " + labels.qualification, placeholder: "Graduate or above", type: "multiselect", required: false },
+        { name: "occupation", label: expected + " " + labels.occupation, placeholder: "Working professional", type: "multiselect", required: false },
+        { name: "jobType", label: expected + " " + labels.jobType, placeholder: "Private / Government", type: "multiselect", required: false },
+        { name: "city", label: expected + " " + labels.city, placeholder: "Delhi NCR, Bangalore", type: "text", required: false },
     ];
 
     const getOptionsForField = (name: string): { label: string; value: string }[] => {
@@ -538,7 +538,7 @@ export default function Profile() {
         fetchMore,
         hasMore,
     } = useInfiniteScrollRtk(
-        async ({ page, limit=25 }) => {
+        async ({ page, limit = 25 }) => {
             const payload = {
                 filterValue: sanitizeFilter(),
                 page,
@@ -560,11 +560,10 @@ export default function Profile() {
     );
 
     const toggleDrawerHeight = () => {
-        setDrawerHeight((prev) =>
-        {
-            if (prev === "h-80"){
+        setDrawerHeight((prev) => {
+            if (prev === "h-80") {
                 return "h-[100vh]";
-            }else{
+            } else {
                 setViewBio(false);
                 return "h-80";
             }
@@ -589,7 +588,7 @@ export default function Profile() {
                 onClick={() => setShowFilter(true)}
                 text="FILTER"
             />
-            <div className="w-[100%] h-full flex flex-wrap py-10 pb-14 mt-8 md:gap-4">
+            <div className=" md:mx-32 h-full flex flex-wrap py-10 pb-14 mt-8 md:gap-4">
                 {profileData.map((bio, index, arr) => (
                     <><div ref={arr.length - 4 === index ? bottomRef : null} key={index} className="w-full sm:w-1/2 md:w-1/2 lg:w-[32%] ">
                         <ProfileCard bio={bio} setViewBio={setViewBio} />

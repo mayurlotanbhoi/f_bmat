@@ -97,8 +97,6 @@ export const formatDate = (
         fullMonth = true,
     } = options;
 
-    console.log("date", date)
-
     if (!date) return 'Invalid Date';
 
     const dateObj = new Date(date);

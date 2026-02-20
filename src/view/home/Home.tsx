@@ -15,12 +15,12 @@ import Drawer from "../../components/Common/Drawer";
 import { usePwaStatus } from "../../hooks/usePwaStatus";
 import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
 
- function Home() {
+function Home() {
     const [isClickOnInstall, setClickOnInstall] = useState<boolean>(false);
     const [getLikes, { data, isLoading }] = useLazyGetLikesQuery();
     const [showInstallDrawer, setShowInstallDrawer] = useState(false);
     const [open, setOpen] = useState(false);
-     const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const { isInstalled, hasUpdate } = usePwaStatus();
     const { installApp, isInstallable, canInstall } = usePwaPrompt();
@@ -74,12 +74,12 @@ import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
         setShowInstallDrawer(false);
     };
 
-     useEffect(() => {
-         import("../profiles/Profile"); // path to the route’s component
-     }, []);
+    useEffect(() => {
+        import("../profiles/Profile"); // path to the route’s component
+    }, []);
 
     return (
-        <div className="pb-20 md:pb-10">
+        <div className="pb-20 md:pb-10 md:mx-32  mt-20">
             <div className="px-2 w-100">
                 <BannerCarouselWrapper />
                 <Category />
@@ -133,7 +133,7 @@ import { useLazyGetLikesQuery } from "../../features/biodata/biodataApi";
             <Matche />
 
             {/* Install/Update Drawer */}
-            
+
         </div>
     );
 }

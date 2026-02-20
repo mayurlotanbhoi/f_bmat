@@ -11,6 +11,7 @@ export const downloadAsImage = async ({
 }) => {
     const element = document.getElementById(id);
 
+
     if (!element) {
         console.error(`Element with ID "${id}" not found.`);
         return { success: false, fileName };
