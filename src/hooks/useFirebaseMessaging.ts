@@ -7,14 +7,24 @@ const BASE_URL =
         ? import.meta.env.VITE_BASE_URL
         : 'https://bhoi.joodi.in/api/v1';
 
+// const firebaseConfig = {
+//     apiKey: "AIzaSyAzeRY7RYox42t6Cpy33TQRmzTmlxt8lKo",
+//     authDomain: "push-notification-ea1fa.firebaseapp.com",
+//     projectId: "push-notification-ea1fa",
+//     storageBucket: "push-notification-ea1fa.firebasestorage.app",
+//     messagingSenderId: "545562261821",
+//     appId: "1:545562261821:web:26691e6028aad5e4dbed54",
+//     measurementId: "G-B02Q5ZDQV4",
+// };
+
 const firebaseConfig = {
     apiKey: "AIzaSyAzeRY7RYox42t6Cpy33TQRmzTmlxt8lKo",
     authDomain: "push-notification-ea1fa.firebaseapp.com",
     projectId: "push-notification-ea1fa",
     storageBucket: "push-notification-ea1fa.firebasestorage.app",
     messagingSenderId: "545562261821",
-    appId: "1:545562261821:web:26691e6028aad5e4dbed54",
-    measurementId: "G-B02Q5ZDQV4",
+    appId: "1:545562261821:web:63863ee025e54e85dbed54",
+    measurementId: "G-4DVDG9V0B0"
 };
 
 const app = initializeApp(firebaseConfig);
