@@ -378,10 +378,9 @@ export default function MatrimonyBioData() {
 
 
   return (
-    <div className=' w-full flex justify-center'>
-      <div className="pt-20 max-w-8xl">
+    <div className=' max-w-8xl mt-20 flex flex-col items-center   min-h-screen text-lg relative'>
 
-
+      <div className='w-full  max-w-4xl px-2 '>
         <div className='  flex justify-center md:justify-end gap-2 my-2'>
 
           <Link
@@ -417,106 +416,108 @@ export default function MatrimonyBioData() {
 
         <ShareBiodata biodataUrl={biodataUrl} profile={profile} />
 
-        {/* <div id="biodata-card" className="">
+      </div>
+
+      {/* <div id="biodata-card" className="">
         <ProfileCard profile={profile} />
 
       </div> */}
 
 
-        <div id='biodataPage' className="flex border-2 mt-10 border-dashed border-red-500  md-w-full flex-col items-center  bg-white min-h-screen text-lg relative">
+      <div id='biodataPage' className="flex border-2 mt-10 border-dashed border-red-500  md-w-full flex-col items-center  bg-white min-h-screen text-lg relative">
 
-          {profile?.isVerified && (
-            <div
-              className="scale-75 md:scale-100 flex items-center  absolute top-[6.5rem] md:top-[11rem] left-0 px-2 py-[2px]  font-semibold rounded-full"
-              style={{
-                lineHeight: "1.2",
-                whiteSpace: "nowrap"
-              }}
-            >
-              <img className="w-20 h-auto" src={verified} alt="Verified" loading='lazy' />
-            </div>
-          )}
+        {profile?.isVerified && (
+          <div
+            className="scale-75 md:scale-100 flex items-center  absolute top-[6.5rem] md:top-[11rem] left-0 px-2 py-[2px]  font-semibold rounded-full"
+            style={{
+              lineHeight: "1.2",
+              whiteSpace: "nowrap"
+            }}
+          >
+            <img className="w-20 h-auto" src={verified} alt="Verified" loading='lazy' />
+          </div>
+        )}
 
-          {/* Page 1 */}
-          {/* Download Button */}
+        {/* Page 1 */}
+        {/* Download Button */}
 
-          <div className="bg-white  w-full     ">
-            {/* Header Image */}
-            <BioDataHeader />
-            {/* Personal Info Section */}
-            <div className=" grid grid-cols-12 py-8 px-2 md:px-4">
-              {/* Left Column - Info */}
-              <div className="flex-1 space-y-4 col-span-8 sm:col-span-7 ">
-                {/* <Heading className=' ' text="Personal Info" /> */}
-                <div className="grid grid-cols-4 p-0 m-0    ">
+        <div className="bg-white  w-full     ">
+          {/* Header Image */}
+          <BioDataHeader />
+          {/* Personal Info Section */}
+          <div className=" grid grid-cols-12 py-8 px-2 md:px-4">
+            {/* Left Column - Info */}
+            <div className="flex-1 space-y-4 col-span-8 sm:col-span-7 ">
+              {/* <Heading className=' ' text="Personal Info" /> */}
+              <div className="grid grid-cols-4 p-0 m-0    ">
 
-                  <Info className="col-span-4 text-start" label={labels.fullName} value={profile?.personalDetails?.fullName} />
-                  <Info className={'col-span-4'} label={labels.age} value={`${calculateAge(profile?.personalDetails?.dateOfBirth, t)}`} />
-                  <Info className={'col-span-4 text-start'} label={labels.dob} value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
-                  <Info className={'col-span-2'} label={labels.maritalStatus} value={options.personalDetails.maritalStatus[profile?.personalDetails?.maritalStatus]} />
-                  <Info className={'col-span-4 sm:col-span-2'} label={labels.caste} value={profile?.religiousDetails?.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'} />
-                  <Info className={'col-span-2'} label={labels.occupation} value={options?.professionalDetails?.occupation[profile?.professionalDetails?.occupation]} />
-                  <Info className={'col-span-4 '} label={labels.jobType} value={options?.professionalDetails?.jobType[profile?.professionalDetails?.jobType]} />
-                  <Info className={'col-span-2 '} label={labels.income} value={formatCurrency(profile?.professionalDetails?.income)} />
-                  <Info className={'col-span-4 '} label={labels.height} value={options?.personalDetails?.height[profile?.personalDetails?.height]} />
+                <Info className="col-span-4 text-start" label={labels.fullName} value={profile?.personalDetails?.fullName} />
+                <Info className={'col-span-4'} label={labels.age} value={`${calculateAge(profile?.personalDetails?.dateOfBirth, t)}`} />
+                <Info className={'col-span-4 text-start'} label={labels.dob} value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
+                <Info className={'col-span-2'} label={labels.maritalStatus} value={options.personalDetails.maritalStatus[profile?.personalDetails?.maritalStatus]} />
+                <Info className={'col-span-4 sm:col-span-2'} label={labels.caste} value={profile?.religiousDetails?.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'} />
+                <Info className={'col-span-2'} label={labels.occupation} value={options?.professionalDetails?.occupation[profile?.professionalDetails?.occupation]} />
+                <Info className={'col-span-4 '} label={labels.jobType} value={options?.professionalDetails?.jobType[profile?.professionalDetails?.jobType]} />
+                <Info className={'col-span-2 '} label={labels.income} value={formatCurrency(profile?.professionalDetails?.income)} />
+                <Info className={'col-span-4 '} label={labels.height} value={options?.personalDetails?.height[profile?.personalDetails?.height]} />
 
-                  <Info className={'col-span-2 '} label={labels.complexion} value={options?.personalDetails?.complexion[profile?.personalDetails?.complexion]} />
-                  <Info className={'col-span-2'} label={labels.weight} value={options?.personalDetails?.weight[profile?.personalDetails?.weight]} />
-                  <Info className={'col-span-2'} label={labels.brothers} value={profile?.familyDetails?.brothers} />
-                  <Info className={'col-span-2'} label={labels.marriedBrothers} value={profile?.familyDetails?.marriedBrothers} />
-                  <Info className={'col-span-2'} label={labels.sisters} value={profile.familyDetails?.sisters} />
-                  <Info className={'col-span-2'} label={labels.marriedSisters} value={profile.familyDetails?.marriedSisters} />
+                <Info className={'col-span-2 '} label={labels.complexion} value={options?.personalDetails?.complexion[profile?.personalDetails?.complexion]} />
+                <Info className={'col-span-2'} label={labels.weight} value={options?.personalDetails?.weight[profile?.personalDetails?.weight]} />
+                <Info className={'col-span-2'} label={labels.brothers} value={profile?.familyDetails?.brothers} />
+                <Info className={'col-span-2'} label={labels.marriedBrothers} value={profile?.familyDetails?.marriedBrothers} />
+                <Info className={'col-span-2'} label={labels.sisters} value={profile.familyDetails?.sisters} />
+                <Info className={'col-span-2'} label={labels.marriedSisters} value={profile.familyDetails?.marriedSisters} />
 
-                  <Info className={'col-span-4'} label={labels.father} value={profile?.familyDetails?.fatherName} />
-                  <Info className={'col-span-4'} label={labels.fatherOccupation} value={options?.familyDetails?.fatherOccupation[profile?.familyDetails?.fatherOccupation]} />
-                  {/* <Info label="Weight" value={profile.personalDetails.weight} /> */}
-                  <Info className={'col-span-4'} label={labels.mother} value={profile?.familyDetails?.motherName} />
-                  <Info className={'col-span-4'} label={labels.motherOccupation} value={options?.familyDetails?.motherOccupation[profile?.familyDetails?.motherOccupation]} />
-                  {/* <Info className={'col-span-2'} label="Caste" value={profile.religiousDetails.caste} /> */}
-                  {/* <Info className={'col-span-2'} label="Religion" value={profile.religiousDetails.religion} /> */}
-                  <Info className={'col-span-4'} label={labels.phone} value={`${profile?.contactDetails?.
-                    mobileNo}, ${profile?.contactDetails?.whatsappNo}`} />
+                <Info className={'col-span-4'} label={labels.father} value={profile?.familyDetails?.fatherName} />
+                <Info className={'col-span-4'} label={labels.fatherOccupation} value={options?.familyDetails?.fatherOccupation[profile?.familyDetails?.fatherOccupation]} />
+                {/* <Info label="Weight" value={profile.personalDetails.weight} /> */}
+                <Info className={'col-span-4'} label={labels.mother} value={profile?.familyDetails?.motherName} />
+                <Info className={'col-span-4'} label={labels.motherOccupation} value={options?.familyDetails?.motherOccupation[profile?.familyDetails?.motherOccupation]} />
+                {/* <Info className={'col-span-2'} label="Caste" value={profile.religiousDetails.caste} /> */}
+                {/* <Info className={'col-span-2'} label="Religion" value={profile.religiousDetails.religion} /> */}
+                <Info className={'col-span-4'} label={labels.phone} value={`${profile?.contactDetails?.
+                  mobileNo}, ${profile?.contactDetails?.whatsappNo}`} />
 
 
-                  {/* <Info className={'col-span-2'} label="City" value={profile.contactDetails.presentAddress.city} />
+                {/* <Info className={'col-span-2'} label="City" value={profile.contactDetails.presentAddress.city} />
                 <Info className={'col-span-2'} label="State" value={profile.contactDetails.presentAddress.state} /> */}
-                  <Info className={' col-span-4 '} label={labels.presentAddress} value={formatAddress(profile.contactDetails.presentAddress)} />
+                <Info className={' col-span-4 '} label={labels.presentAddress} value={formatAddress(profile.contactDetails.presentAddress)} />
 
-                  <Info className={' col-span-4 '} label={labels.permanentAddress} value={formatAddress(profile.contactDetails.permanentAddress)} />
-                </div>
-
+                <Info className={' col-span-4 '} label={labels.permanentAddress} value={formatAddress(profile.contactDetails.permanentAddress)} />
               </div>
 
-              {/* Right Column - Profile Photo */}
-              <div className="flex col-span-4 sm:col-span-5   justify-center md:justify-end ">
-                <div className=' flex flex-col items-center gap-2 relative'>
+            </div>
 
-                  <b className='text-primary'>MAT:{profile?.matId}</b>
-                  <img
-                    src={profile?.profilePhotos?.[0]}
-                    alt="Profile"
-                    loading='lazy'
+            {/* Right Column - Profile Photo */}
+            <div className="flex col-span-4 sm:col-span-5   justify-center md:justify-end ">
+              <div className=' flex flex-col items-center gap-2 relative'>
 
-                    className=" min-h-[150px]  w-[100%] md:h-[480px] object-cover rounded-md border-2 border-pink-600 shadow-md"
-                  />
-                  <div className="qr-code  gap-2   flex items-center text-center">
-                    <div className=''>
-                      <QRCode
-                        value={biodataUrl}
-                        className="!m-0 !p-0 "
-                      />
-                    </div>
+                <b className='text-primary'>MAT:{profile?.matId}</b>
+                <img
+                  src={profile?.profilePhotos?.[0]}
+                  alt="Profile"
+                  loading='lazy'
 
+                  className=" min-h-[150px]  w-[100%] md:h-[480px] object-cover rounded-md border-2 border-pink-600 shadow-md"
+                />
+                <div className="qr-code  gap-2   flex items-center text-center">
+                  <div className=''>
+                    <QRCode
+                      value={biodataUrl}
+                      className="!m-0 !p-0 "
+                    />
                   </div>
-                  <small className="col-span-1 max-w-20 md:max-w-full  flex flex-col items-center text-[10px] text-center leading-3">{labels.scan}</small>
+
                 </div>
+                <small className="col-span-1 max-w-20 md:max-w-full  flex flex-col items-center text-[10px] text-center leading-3">{labels.scan}</small>
               </div>
             </div>
           </div>
+        </div>
 
 
-          {/* Page 2 */}
-          {/* <div className="bg-white w-full py-6  rounded-lg shadow-md border ">
+        {/* Page 2 */}
+        {/* <div className="bg-white w-full py-6  rounded-lg shadow-md border ">
           <h2 className="text-2xl font-bold text-center text-pink-700 mb-5">
             {t('guide.title')}
           </h2>
@@ -538,66 +539,65 @@ export default function MatrimonyBioData() {
           </div>
         </div> */}
 
-          <footer
-            className="text-[10px]  text-gray-700 font-medium leading-4 mt-3  border-t border-gray-200"
-            aria-label="Disclaimer for bio-data download"
-          >
-            <div className="max-w-7xl mx-auto px-4">
-              <p className="mb-2">
-                <strong>{t('bioDataFooter.disclaimerTitle', 'Disclaimer')}:</strong>{' '}
-                {t('bioDataFooter.disclaimer')}
-              </p>
-            </div>
-          </footer>
-
-          <div className="text-center text-xs mb-2 text-gray-400 ">
-            {t('guide.generated')} {formatDate(new Date())} | {t('guide.poweredBy')}
-          </div>
-
-        </div>
-        <Drawer
-          isOpen={showPaymentQr}
-          position="bottom"
-          padding="p-0"
-          widthClass="w-100"
-          className="rounded-t-lg h-[100vh]"
-          showCloseBtn={true}
-          onClose={() => setShowPaymentQr(false)}
+        <footer
+          className="text-[10px]  text-gray-700 font-medium leading-4 mt-3  border-t border-gray-200"
+          aria-label="Disclaimer for bio-data download"
         >
-          <PaymentQrCode profile={profile} />
-        </Drawer>
+          <div className="max-w-7xl mx-auto px-4">
+            <p className="mb-2">
+              <strong>{t('bioDataFooter.disclaimerTitle', 'Disclaimer')}:</strong>{' '}
+              {t('bioDataFooter.disclaimer')}
+            </p>
+          </div>
+        </footer>
 
-        <Modal isOpen={showShareModal} onClose={() => setShowShareModal(false)} >
-          <ShareModalContent
-            onClose={() => setShowShareModal(false)}
-            onShareCard={() =>
-              // For WhatsApp - shorter text mode
-              shareElementAsImage('biodata-card', {
-                filename: 'matrimony-card.png',
-                shareTitle: `${profile?.personalDetails?.fullName}'s Profile`,
-                shareText: `👤 ${profile?.personalDetails?.fullName}\n📍 ${profile?.contactDetails?.presentAddress?.city}\n💌 Interested families welcome!`,
-                promotionUrl: biodataUrl,
-                shortTextMode: true, // This makes it WhatsApp friendly
-                onComplete: () => {
-                  setShowShareModal(false);
-                  setShowPaymentQr(true);
-                },
-                isWidemode: true
-              })
+        <div className="text-center text-xs mb-2 text-gray-400 ">
+          {t('guide.generated')} {formatDate(new Date())} | {t('guide.poweredBy')}
+        </div>
 
-
-            }
-            onShareFull={() =>
-              shareElementAsImage('biodataPage', {
-                filename: `${profile?.personalDetails?.fullName}-Biodata.png`,
-                shareTitle: `${profile?.personalDetails?.fullName}'s Full Biodata`,
-                shareText: `🧾 Full Matrimony Biodata of ${profile?.personalDetails?.fullName}`,
-                onComplete: () => { setShowShareModal(false); setShowPaymentQr(true) }, promotionUrl: biodataUrl,
-              })
-            }
-          />
-        </Modal>
       </div>
+      <Drawer
+        isOpen={showPaymentQr}
+        position="bottom"
+        padding="p-0"
+        widthClass="w-100"
+        className="rounded-t-lg h-[100vh]"
+        showCloseBtn={true}
+        onClose={() => setShowPaymentQr(false)}
+      >
+        <PaymentQrCode profile={profile} />
+      </Drawer>
+
+      <Modal isOpen={showShareModal} onClose={() => setShowShareModal(false)} >
+        <ShareModalContent
+          onClose={() => setShowShareModal(false)}
+          onShareCard={() =>
+            // For WhatsApp - shorter text mode
+            shareElementAsImage('biodata-card', {
+              filename: 'matrimony-card.png',
+              shareTitle: `${profile?.personalDetails?.fullName}'s Profile`,
+              shareText: `👤 ${profile?.personalDetails?.fullName}\n📍 ${profile?.contactDetails?.presentAddress?.city}\n💌 Interested families welcome!`,
+              promotionUrl: biodataUrl,
+              shortTextMode: true, // This makes it WhatsApp friendly
+              onComplete: () => {
+                setShowShareModal(false);
+                setShowPaymentQr(true);
+              },
+              isWidemode: true
+            })
+
+
+          }
+          onShareFull={() =>
+            shareElementAsImage('biodataPage', {
+              filename: `${profile?.personalDetails?.fullName}-Biodata.png`,
+              shareTitle: `${profile?.personalDetails?.fullName}'s Full Biodata`,
+              shareText: `🧾 Full Matrimony Biodata of ${profile?.personalDetails?.fullName}`,
+              onComplete: () => { setShowShareModal(false); setShowPaymentQr(true) }, promotionUrl: biodataUrl,
+            })
+          }
+        />
+      </Modal>
     </div>
   );
 
