@@ -15,7 +15,7 @@ export const BioDataHeader = () => {
 
                 {/* Center Info */}
                 <div className="flex flex-col leading-4  sm:leading-7 items-center justify-center text-center">
-                    <h1 className=" md:text-3xl font-bold text-gray-900 tracking-wide">
+                    <h1 className=" text-[20px] md:text-3xl font-bold text-gray-900 tracking-wide">
                         {t('bioHeader.title', 'Bhoi Samaj Vivah Munch')}
                     </h1>
                     <p className="text-[10px] md:text-base text-white mt-1">

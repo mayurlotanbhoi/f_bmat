@@ -274,6 +274,8 @@ export default function MatrimonyBioData() {
   const [isProfileAvailable, setIsProfileAvailable] = useState(!profile?._id);
   const navigate = useNavigate();
 
+  console.log(profile)
+
 
   if (profile?._id == null) {
     return (
@@ -380,12 +382,12 @@ export default function MatrimonyBioData() {
   return (
     <div className=' max-w-8xl mt-20 flex flex-col items-center   min-h-screen text-lg relative'>
 
-      <div className='w-full  max-w-4xl px-2 '>
+      <div className='w-full text-sm  max-w-4xl '>
         <div className='  flex justify-center md:justify-end gap-2 my-2'>
 
           <Link
             to='/complet-profile'
-            className="bg-white text-primary transition flex justify-center items-center rounded-md gap-2 px-4 py-2"
+            className="bg-white text-primary transition flex justify-center items-center rounded-md gap-2 px-2 py-2"
           >
             {/* <HiExternalLink size={20} /> */}
             {/* <FaLevelUpAlt size={20} /> */}
@@ -394,7 +396,7 @@ export default function MatrimonyBioData() {
             <span>Edit</span>
           </Link>
           <button
-            className="bg-white text-primary transition flex justify-center items-center rounded-md gap-2 px-4 py-2"
+            className="bg-white  text-primary transition flex justify-center items-center rounded-md gap-2 px-2 py-2"
             onClick={() => setShowShareModal(true)}
           >
             {/* <HiExternalLink size={20} /> */}
@@ -404,7 +406,7 @@ export default function MatrimonyBioData() {
           </button>
           <button
             disabled={loading}
-            className="bg-white text-primary transition flex justify-center items-center rounded-md gap-2 px-4 py-2"
+            className="bg-white text-primary transition flex justify-center items-center rounded-md gap-2 px-2 py-2"
             onClick={handleDownload}
           >
             {!loading ? <MdOutlineFileDownload size={20} /> : <span className=' animate-spin'><FaSpinner size={20} /></span>}
@@ -456,7 +458,7 @@ export default function MatrimonyBioData() {
                 <Info className={'col-span-4 text-start'} label={labels.dob} value={formatDate(profile?.personalDetails?.dateOfBirth, { withTime: true })} />
                 <Info className={'col-span-2'} label={labels.maritalStatus} value={options.personalDetails.maritalStatus[profile?.personalDetails?.maritalStatus]} />
                 <Info className={'col-span-4 sm:col-span-2'} label={labels.caste} value={profile?.religiousDetails?.subCaste + ' (' + options?.religiousDetails?.caste[profile?.religiousDetails?.caste] + ')'} />
-                <Info className={'col-span-2'} label={labels.occupation} value={options?.professionalDetails?.occupation[profile?.professionalDetails?.occupation]} />
+                <Info className={'col-span-4'} label={labels.occupation} value={profile?.professionalDetails?.occupation} />
                 <Info className={'col-span-4 '} label={labels.jobType} value={options?.professionalDetails?.jobType[profile?.professionalDetails?.jobType]} />
                 <Info className={'col-span-2 '} label={labels.income} value={formatCurrency(profile?.professionalDetails?.income)} />
                 <Info className={'col-span-4 '} label={labels.height} value={options?.personalDetails?.height[profile?.personalDetails?.height]} />

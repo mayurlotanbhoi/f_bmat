@@ -40,26 +40,26 @@ export default function ViewBio({ biodata }: { biodata?: any }) {
     const [getBiodata] = useLazyGetBiodataQuery();
     const [isProfileFound, setProfileFound] = useState(false);
     const [vieViewLikes] = useLazyViewLikesQuery();
-     const [shearBioData] = useShareBioDataMutation();
+    const [shearBioData] = useShareBioDataMutation();
     const [switchLang, setSwitchLang] = useState(false);
-     const { t } = useTranslation();
+    const { t } = useTranslation();
 
     const [isLoading, setIsLoadoding] = useState(false);
     const label = useLocalization('labels')
     const sectionTitles = useLocalization('sectionTitles')
     const opinions = useLocalization('options');
     const [currectSection, setCurrectSection] = useState(sectionTitles.personalDetails);
- const likes = useSelector(getShearedBio);
-const isLiked =  useCallback((id: string) => {
-    console.log("id", id, likes)
-    // @ts-ignore
-    const like = likes?.map((like) => like?.toUser?._id);
-    console.log("ids", like, id)
-    console.log("likes", like.includes(id))
-    if (!like) return false;
+    const likes = useSelector(getShearedBio);
+    const isLiked = useCallback((id: string) => {
+        console.log("id", id, likes)
+        // @ts-ignore
+        const like = likes?.map((like) => like?.toUser?._id);
+        console.log("ids", like, id)
+        console.log("likes", like.includes(id))
+        if (!like) return false;
         return like.includes(id);
     }, [likes]);
-    
+
     const getBiodatacall = async (id: any) => {
         try {
             const response = await getBiodata(id);
@@ -71,7 +71,7 @@ const isLiked =  useCallback((id: string) => {
             }
             setBio(response?.data?.data);
             setMainImage(response?.data?.data?.profilePhotos?.[0])
-            
+
         } catch (error) {
             console.error('Error fetching biodata:', error);
         }
@@ -112,7 +112,7 @@ const isLiked =  useCallback((id: string) => {
         Education: [
             { label: label.qualification, value: opinions?.educationDetails.highestQualification[educationDetails?.highestQualification] },
             { label: label.specialization, value: educationDetails?.specialization },
-            { label: label.occupation, value: opinions.professionalDetails.occupation[professionalDetails?.occupation] },
+            { label: label.occupation, value: professionalDetails?.occupation },
             { label: label.companyName, value: professionalDetails?.companyName },
             { label: label.jobType, value: opinions.professionalDetails.jobType[professionalDetails?.jobType] },
             { label: label.income, value: opinions.expectation.income[professionalDetails?.income] },
@@ -192,38 +192,38 @@ const isLiked =  useCallback((id: string) => {
 
     return (
         <>
-        <div className=" mx-auto  space-y-6 bg-white pb-10">
-            <div className="max-w-md min-h-[80vh]   relative  rounded-xl shadow-lg bg-white">
-                {bio?.isVerified && (
-                    <div className='flex items-center gap-2 absolute top-3 left-3 px-3 py-1  rounded-full'>
-                        <img className="w-20 h-auto" src={verified} alt="Verified" />
+            <div className=" mx-auto  space-y-6 bg-white pb-10">
+                <div className="max-w-md min-h-[80vh]   relative  rounded-xl shadow-lg bg-white">
+                    {bio?.isVerified && (
+                        <div className='flex items-center gap-2 absolute top-3 left-3 px-3 py-1  rounded-full'>
+                            <img className="w-20 h-auto" src={verified} alt="Verified" />
+                        </div>
+                    )}
+
+                    {/* Main Image */}
+
+                    <div
+                        className=" min-h-[80vh] w-full bg-cover bg-center rounded-lg border mb-4"
+                        style={{ backgroundImage: `url(${mainImage})` }}
+                    ></div>
+
+                    {/* Thumbnails */}
+                    <div className=" flex flex-col justify-between right-2 absolute top-4 gap-2 overflow-x-auto mb-4">
+                        {bio?.profilePhotos?.map((img: string, index: number) => (
+                            <img
+                                key={index}
+                                src={img}
+                                alt={`Thumbnail ${index}`}
+                                onClick={() => setMainImage(img)}
+                                className={` w-14 h-14 object-cover rounded-md cursor-pointer border-2 ${mainImage === img ? 'border-blue-500' : 'border-gray-300'
+                                    }`}
+                            />
+                        ))}
                     </div>
-                )}
-
-                {/* Main Image */}
-                
-                <div
-                    className=" min-h-[80vh] w-full bg-cover bg-center rounded-lg border mb-4"
-                    style={{ backgroundImage: `url(${mainImage})` }}
-                ></div>
-
-                {/* Thumbnails */}
-                <div className=" flex flex-col justify-between right-2 absolute top-4 gap-2 overflow-x-auto mb-4">
-                    {bio?.profilePhotos?.map((img: string, index: number) => (
-                        <img
-                            key={index}
-                            src={img}
-                            alt={`Thumbnail ${index}`}
-                            onClick={() => setMainImage(img)}
-                            className={` w-14 h-14 object-cover rounded-md cursor-pointer border-2 ${mainImage === img ? 'border-blue-500' : 'border-gray-300'
-                                }`}
-                        />
-                    ))}
                 </div>
-            </div>
 
-            <div className=' my-5 px-2 '>
                 <div className=' my-5 px-2 '>
+                    <div className=' my-5 px-2 '>
                         <div className="flex justify-between items-center">
                             <strong className="text-xl capitalize">
                                 {bio?.personalDetails?.fullName}
@@ -231,129 +231,130 @@ const isLiked =  useCallback((id: string) => {
 
                             <p onClick={() => setSwitchLang(!switchLang)}>
                                 A-अ
-                                </p>
+                            </p>
                         </div>
 
 
                         <Drawer className="bg-gradient-to-tr w-screen from-pink-500 via-pink-500 to-pink-500" isOpen={switchLang} position='left' onClose={() => setSwitchLang(false)}>
                             <LanguageSwitcher />
                         </Drawer>
-                    <div className=' flex justify-between my-4'>
-                        <button onClick={() => makeCall(bio?.contactDetails?.mobileNo)} className='btn   secondary-btn'> <FaLock size={15} /> <p>{label.callNow}</p> </button>
-                        <button onClick={() => sendWhatsAppMessage({
-                            phoneNumber: bio?.contactDetails?.whatsappNo, message: 'like', biodataUrl: `${qrScanLink}/${bio?._id}`})} className='btn   therd-btn'> <IoLogoWhatsapp size={15} /> <p>{label.whatsappNow}</p> </button>
+                        <div className=' flex justify-between my-4'>
+                            <button onClick={() => makeCall(bio?.contactDetails?.mobileNo)} className='btn   secondary-btn'> <FaLock size={15} /> <p>{label.callNow}</p> </button>
+                            <button onClick={() => sendWhatsAppMessage({
+                                phoneNumber: bio?.contactDetails?.whatsappNo, message: 'like', biodataUrl: `${qrScanLink}/${bio?._id}`
+                            })} className='btn   therd-btn'> <IoLogoWhatsapp size={15} /> <p>{label.whatsappNow}</p> </button>
+                        </div>
+                        <div className='flex justify-start items-center gap-1 capitalize'><CiLocationOn size={20} /> <small className='text-[16px] '>{formatShortAddress(contactDetails?.presentAddress)}</small></div>
                     </div>
-                    <div className='flex justify-start items-center gap-1 capitalize'><CiLocationOn size={20} /> <small className='text-[16px] '>{formatShortAddress(contactDetails?.presentAddress)}</small></div>
+                    <hr className="w-full h-[1px] bg-[gray] border-none my-2" />
+                    <Heading className={'text-black text-xl font-semibold py-2'} text={sectionTitles.mainInformation} />
+                    <div className=' flex justify-center items-center flex-wrap gap-4'>
+                        <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>{label.caste}</small> <strong className='text-[18px] text-center flex items-center text-primary'> {opinions?.religiousDetails?.caste[bio?.religiousDetails?.caste || '-']} </strong></p>
+                        <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg'> <small className=' text-[14px] '>{label.subCaste}</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.religiousDetails?.subCaste}</strong></p>
+                        <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg   '> <small className=' text-[14px] '>{label?.occupation}</small> <strong className='text-[18px] text-center  flex items-center text-primary '> {bio?.professionalDetails?.occupation}</strong></p>
+                        <p className='flex flex-col justify-center items-center bg-goldan w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>{label.income}</small> <strong className='text-[18px] text-center flex items-center'>{formatAmount(bio?.professionalDetails?.income)}</strong></p>
+                    </div>
                 </div>
-                <hr className="w-full h-[1px] bg-[gray] border-none my-2" />
-                <Heading className={'text-black text-xl font-semibold py-2'} text={sectionTitles.mainInformation} />
-                <div className=' flex justify-center items-center flex-wrap gap-4'>
-                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>{label.caste}</small> <strong className='text-[18px] text-center flex items-center text-primary'> {opinions?.religiousDetails?.caste[bio?.religiousDetails?.caste || '-']} </strong></p>
-                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg'> <small className=' text-[14px] '>{label.subCaste}</small> <strong className='text-[18px] text-center flex items-center text-primary'> {bio?.religiousDetails?.subCaste}</strong></p>
-                    <p className='flex flex-col justify-center items-center bg-gray w-[10rem] h-[5rem] rounded-lg   '> <small className=' text-[14px] '>{label?.occupation}</small> <strong className='text-[18px] text-center  flex items-center text-primary '> {bio?.professionalDetails?.occupation}</strong></p>
-                    <p className='flex flex-col justify-center items-center bg-goldan w-[10rem] h-[5rem] rounded-lg  '> <small className=' text-[14px] '>{label.income}</small> <strong className='text-[18px] text-center flex items-center'>{formatAmount(bio?.professionalDetails?.income)}</strong></p>
-                </div>
-            </div>
 
-            <div className="border-b bg-white mt-10 dark:border-gray-700 flex overflow-x-auto no-scrollbar space-x-3  px-1 ">
-                <ul className="flex space-x-2 px-2  w-max min-w-full ">
-                    {tabConfig.map(({ key, text, icon: Icon }) => (
-                        <li key={key} className="flex-shrink-0 font-bold  ">
-                            <button
-                                onClick={() => onTabClick(key, text)}
-                                className={`inline-flex items-center px-4 py-4 text-sm  transition-all border-b-2 rounded-t-lg group
+                <div className="border-b bg-white mt-10 dark:border-gray-700 flex overflow-x-auto no-scrollbar space-x-3  px-1 ">
+                    <ul className="flex space-x-2 px-2  w-max min-w-full ">
+                        {tabConfig.map(({ key, text, icon: Icon }) => (
+                            <li key={key} className="flex-shrink-0 font-bold  ">
+                                <button
+                                    onClick={() => onTabClick(key, text)}
+                                    className={`inline-flex items-center px-4 py-4 text-sm  transition-all border-b-2 rounded-t-lg group
             ${activeTab === key
-                                        ? 'text-pink-600 border-pink-600 bg-white shadow-sm'
-                                        : 'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300'
-                                    }`}
-                            >
-                                <Icon
-                                    className={`mr-2 text-base transition-colors duration-200 ${activeTab === key
-                                        ? 'text-pink-600'
-                                        : 'text-gray-800 group-hover:text-gray-500'
+                                            ? 'text-pink-600 border-pink-600 bg-white shadow-sm'
+                                            : 'text-gray-500 border-transparent hover:text-gray-700 hover:border-gray-300'
                                         }`}
-                                />
-                                {text}
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+                                >
+                                    <Icon
+                                        className={`mr-2 text-base transition-colors duration-200 ${activeTab === key
+                                            ? 'text-pink-600'
+                                            : 'text-gray-800 group-hover:text-gray-500'
+                                            }`}
+                                    />
+                                    {text}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
 
 
-            {/* Tabs */}
-            <div className="">
-                <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-4 sm:p-6">
-                    {/* <h2 className="text-lg font-semibold text-pink-600 mb-4">
+                {/* Tabs */}
+                <div className="">
+                    <div className="bg-white rounded-2xl shadow-md border border-gray-100 p-4 sm:p-6">
+                        {/* <h2 className="text-lg font-semibold text-pink-600 mb-4">
                         {currectSection}
                     </h2> */}
 
-                    <div className="divide-y divide-gray-100">
-                        {tabs[activeTab].map((item, idx) => (
-                            <div
-                                key={idx}
-                                className={`flex justify-between py-3 px-2 sm:px-3 text-sm ${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'
-                                    } rounded-lg`}
-                            >
-                                <span className="text-black font-medium me-2">{item.label}</span>
-                                <span className="text-gray-800 text-right">{item.value || 'N/A'}</span>
-                            </div>
-                        ))}
+                        <div className="divide-y divide-gray-100">
+                            {tabs[activeTab].map((item, idx) => (
+                                <div
+                                    key={idx}
+                                    className={`flex justify-between py-3 px-2 sm:px-3 text-sm ${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'
+                                        } rounded-lg`}
+                                >
+                                    <span className="text-black font-medium me-2">{item.label}</span>
+                                    <span className="text-gray-800 text-right">{item.value || 'N/A'}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
-            <div className="text-center text-xs text-gray-400">
-                Last Updated: {new Date(bio?.updatedAt).toLocaleDateString()}
-            </div>
-            {profile?._id && <ConfettiButton>
+                <div className="text-center text-xs text-gray-400">
+                    Last Updated: {new Date(bio?.updatedAt).toLocaleDateString()}
+                </div>
+                {profile?._id && <ConfettiButton>
 
-                <button
-                    onClick={() => handleShearClick(bio?.userId, bio?._id)}
-                    disabled={isLoading || isLiked(bio?. userId?.toString())}
-                    className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLoading || isLiked(bio?. userId?.toString()) ? 'opacity-70 cursor-not-allowed' : ''
-                        }`}
-                >
-                    {isLoading  ? (
-                        <>
-                            <svg
-                                className="animate-spin h-5 w-5 text-white mr-2"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <circle
-                                    className="opacity-25"
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                    stroke="currentColor"
-                                    strokeWidth="4"
-                                />
-                                <path
-                                    className="opacity-75"
-                                    fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
-                                />
-                            </svg>
-                            <span>Shearing...</span>
-                        </>
-                    ) : (<>
-                            { isLiked(bio?.userId?.toString()) ? (
+                    <button
+                        onClick={() => handleShearClick(bio?.userId, bio?._id)}
+                        disabled={isLoading || isLiked(bio?.userId?.toString())}
+                        className={`fixed bottom-2 left-2 right-2 bg_primary text-white py-2 rounded-lg transition flex items-center justify-center ${isLoading || isLiked(bio?.userId?.toString()) ? 'opacity-70 cursor-not-allowed' : ''
+                            }`}
+                    >
+                        {isLoading ? (
+                            <>
+                                <svg
+                                    className="animate-spin h-5 w-5 text-white mr-2"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    />
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.372 0 0 5.372 0 12h4z"
+                                    />
+                                </svg>
+                                <span>Shearing...</span>
+                            </>
+                        ) : (<>
+                            {isLiked(bio?.userId?.toString()) ? (
                                 <span>{label.biosended}</span>
                             ) : (
-                                  <span>{isLoading ? 'Shearing' : label.sendBio}</span>
+                                <span>{isLoading ? 'Shearing' : label.sendBio}</span>
                             )}
                         </>
-                    )}
-                </button>
-            </ConfettiButton>}
-        </div>
-        
-        <Drawer className="bg-gradient-to-tr w-screen from-pink-500 via-pink-500 to-pink-500" isOpen={switchLang} position='left' onClose={() => setSwitchLang(false)}>
-          <LanguageSwitcher />
-        </Drawer>
+                        )}
+                    </button>
+                </ConfettiButton>}
+            </div>
+
+            <Drawer className="bg-gradient-to-tr w-screen from-pink-500 via-pink-500 to-pink-500" isOpen={switchLang} position='left' onClose={() => setSwitchLang(false)}>
+                <LanguageSwitcher />
+            </Drawer>
         </>
     );
 }
